@@ -1,0 +1,45 @@
+{
+  "config": {
+    "mode": "dynamic",
+    "arrival": "irregular",
+    "size": "small",
+    "vehicles": 4,
+    "layout": "bottleneck",
+    "task_count": 12
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "policies": [
+    "distance"
+  ],
+  "note": "均值及样本标准差仅统计成功运行；成功率和完成率包含失败运行。环境执行耗时包含调度和路径规划，不是纯算法耗时。",
+  "sources": {
+    "audit_examples.py": "aff8114f5ec142fc5bafe9d6a8e1d4bdd3900e28a98a67117a7d325067c649cf",
+    "baseline.py": "058d352da67251f43613274a98bb595f9986f541883f11c3bfa567eeb0ea3958",
+    "batch_experiments.py": "aded1a6281b37ecee964fcb2b2501e597190b3205581e72dafef0caed8cc36e2",
+    "diagnostics.py": "bf1983fa08fc89f25c30404230e6879171ffee5f9295f2b7dcf7c53d8bf93589",
+    "environment.py": "3ab6d73f1eec4f9a0824bef145e6cde2a32d6f3793f8bd79305087b88c927303",
+    "export_metrics.py": "4f995a614e2368960de7b809f0bbec69a72848fa44798519108c772971c82a85",
+    "metrics.py": "7dcfa637f760df3f82e60d22a66ac0bc0b5ee860fc64b6308834995f6c5a7748",
+    "model.py": "77ddbd68d7fffe60c7524b8b67cb38b7e3c7ff4b1c7ef976a2efb9669c9df45a",
+    "pickup_planning.py": "bfb68cf220d6e4bc95e32a908b80a01ee97e5b3e450d93dbdf1d24d281ab4d71",
+    "routing.py": "403b7facf0cd3ad85ad53b89cb4e82de8091fd93850c3e11914c40c237f6d4ee",
+    "run_dynamic_examples.py": "2d2e2e2786b1b9bcfe8c25de3e2cb68cc16409716dff087860672522065febde",
+    "run_examples.py": "2c04a34da16a0aec1c93b38816607ea6d9a7e4ac6689bd407fa9904edf2ebacc",
+    "scenario_io.py": "5f2dbbc72acadbe634e4858d6cbc6ef365ad0e8e354d35dcdf7cbddbc4d5d3c2",
+    "show_warehouse.py": "04358c0452ff950ce10c9d429b50703fff54d2ddbf985a134f18746a8c5a5fbe",
+    "test_metrics.py": "fc356793a26766a64d092bc025e813add16cda44e5226f08c2792ac6ced6e56f",
+    "test_model.py": "271d6d630885ffa5f9e86e582eafcde521866bf6270b5c18436c053550c6eaa8",
+    "test_repro.py": "048c9753de781b49b58df7c5cf464fee76a94733bcfaa7864814919d3caef6cf",
+    "test_shelf.py": "97fa0098d10baf4762090aba097144d5ca3aab128c71b54c59109bad35af52f6",
+    "test_viewer.py": "3154471784a2b655d3709d6675b68d0f02d5cb3056fa93a91a37f808750d94c5",
+    "test_yield.py": "94b74dac78208beadedd50faa6d9d0833fd8fd3923163ce3b396c8f33d8a9fe1",
+    "validation.py": "d28475183a83618876072f4787bd87c70f6f3b2988415e0ae7b2ab1fd3b54846",
+    "yield_demo.py": "a2a2cf3deeb0955b229c005cd312aa87b804a5d2af1674dd14ba66e33efb4e70"
+  }
+}

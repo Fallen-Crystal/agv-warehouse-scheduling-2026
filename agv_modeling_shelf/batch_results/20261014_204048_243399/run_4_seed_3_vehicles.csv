@@ -1,0 +1,5 @@
+﻿vehicle,assigned_tasks,completed_tasks,moves,empty_moves,loaded_moves,task_busy_steps,task_utilization,service_steps,idle_steps,traffic_wait_steps
+0,3,3,66,43,23,49,0.5051546391752577,6,24,1
+1,3,3,76,48,28,51,0.5257731958762887,6,14,1
+2,3,3,68,41,27,49,0.5051546391752577,6,23,0
+3,3,3,58,40,18,37,0.38144329896907214,6,32,1

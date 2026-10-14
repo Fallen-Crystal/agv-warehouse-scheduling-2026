@@ -1,0 +1,2877 @@
+{
+  "config": {
+    "mode": "dynamic",
+    "arrival": "burst",
+    "demand": "balanced",
+    "seed": 0
+  },
+  "scenario": {
+    "width": 13,
+    "height": 11,
+    "blocked": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        3,
+        8
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        6,
+        9
+      ],
+      [
+        6,
+        10
+      ],
+      [
+        7,
+        0
+      ],
+      [
+        9,
+        0
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        9,
+        8
+      ],
+      [
+        11,
+        0
+      ],
+      [
+        12,
+        0
+      ]
+    ],
+    "shelves": [
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        3,
+        8
+      ],
+      [
+        9,
+        3
+      ],
+      [
+        9,
+        4
+      ],
+      [
+        9,
+        5
+      ],
+      [
+        9,
+        6
+      ],
+      [
+        9,
+        7
+      ],
+      [
+        9,
+        8
+      ]
+    ],
+    "homes": [
+      [
+        2,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        8,
+        0
+      ],
+      [
+        10,
+        0
+      ]
+    ],
+    "horizon": 600,
+    "tasks": [
+      {
+        "id": 0,
+        "pickup": null,
+        "delivery": [
+          11,
+          9
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          9,
+          3
+        ]
+      },
+      {
+        "id": 1,
+        "pickup": null,
+        "delivery": [
+          11,
+          2
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          9,
+          6
+        ]
+      },
+      {
+        "id": 2,
+        "pickup": null,
+        "delivery": [
+          1,
+          9
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": 3,
+        "pickup": null,
+        "delivery": [
+          1,
+          9
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          3
+        ]
+      },
+      {
+        "id": 4,
+        "pickup": null,
+        "delivery": [
+          11,
+          9
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          9,
+          5
+        ]
+      },
+      {
+        "id": 5,
+        "pickup": null,
+        "delivery": [
+          11,
+          2
+        ],
+        "release": 0,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          6
+        ]
+      },
+      {
+        "id": 6,
+        "pickup": null,
+        "delivery": [
+          11,
+          2
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          8
+        ]
+      },
+      {
+        "id": 7,
+        "pickup": null,
+        "delivery": [
+          11,
+          2
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          9,
+          4
+        ]
+      },
+      {
+        "id": 8,
+        "pickup": null,
+        "delivery": [
+          1,
+          9
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          4
+        ]
+      },
+      {
+        "id": 9,
+        "pickup": null,
+        "delivery": [
+          11,
+          2
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          5
+        ]
+      },
+      {
+        "id": 10,
+        "pickup": null,
+        "delivery": [
+          1,
+          9
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          9,
+          8
+        ]
+      },
+      {
+        "id": 11,
+        "pickup": null,
+        "delivery": [
+          1,
+          9
+        ],
+        "release": 30,
+        "pickup_service": 1,
+        "delivery_service": 1,
+        "shelf": [
+          3,
+          6
+        ]
+      }
+    ]
+  },
+  "result": {
+    "feasible": true,
+    "reason": null,
+    "time": 83,
+    "completed": 12,
+    "total_tasks": 12,
+    "makespan": 67,
+    "mean_completion": 35.416666666666664,
+    "mean_flow_time": 20.416666666666668,
+    "moves": 264,
+    "service_steps": 24,
+    "idle_steps": 43,
+    "traffic_wait_steps": 1,
+    "paths": [
+      [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      [
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          8
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          8
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      [
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          10,
+          5
+        ],
+        [
+          10,
+          5
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          10,
+          7
+        ],
+        [
+          10,
+          8
+        ],
+        [
+          11,
+          8
+        ],
+        [
+          11,
+          9
+        ],
+        [
+          11,
+          9
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          8,
+          9
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ],
+        [
+          8,
+          0
+        ]
+      ],
+      [
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          10,
+          5
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          10,
+          7
+        ],
+        [
+          10,
+          8
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          11,
+          9
+        ],
+        [
+          11,
+          9
+        ],
+        [
+          10,
+          9
+        ],
+        [
+          10,
+          8
+        ],
+        [
+          10,
+          7
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          10,
+          6
+        ],
+        [
+          10,
+          5
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          10,
+          4
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          11,
+          2
+        ],
+        [
+          10,
+          2
+        ],
+        [
+          9,
+          2
+        ],
+        [
+          8,
+          2
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          8,
+          5
+        ],
+        [
+          8,
+          6
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          5,
+          6
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          4,
+          9
+        ],
+        [
+          4,
+          8
+        ],
+        [
+          4,
+          7
+        ],
+        [
+          4,
+          6
+        ],
+        [
+          4,
+          5
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          5
+        ],
+        [
+          7,
+          4
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          1
+        ],
+        [
+          8,
+          1
+        ],
+        [
+          9,
+          1
+        ],
+        [
+          10,
+          1
+        ],
+        [
+          10,
+          0
+        ],
+        [
+          10,
+          0
+        ]
+      ]
+    ],
+    "interval_states": [
+      [
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle"
+      ],
+      [
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning"
+      ],
+      [
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "idle"
+      ],
+      [
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "idle",
+        "idle",
+        "idle",
+        "idle",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "to_pickup",
+        "loading",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "to_delivery",
+        "unloading",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "returning",
+        "idle"
+      ]
+    ],
+    "events": [
+      {
+        "vehicle": 3,
+        "task_id": 0,
+        "assigned_at": 0,
+        "pickup_point": [
+          10,
+          3
+        ],
+        "shelf": [
+          9,
+          3
+        ],
+        "candidate_count": 3,
+        "pickup_end": 4,
+        "pickup_arrival": 3,
+        "delivery_end": 12,
+        "delivery_arrival": 11,
+        "return_end": 22,
+        "return_arrival": 22,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 0,
+        "task_id": 2,
+        "assigned_at": 0,
+        "pickup_point": [
+          2,
+          4
+        ],
+        "shelf": [
+          3,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 5,
+        "pickup_arrival": 4,
+        "delivery_end": 12,
+        "delivery_arrival": 11,
+        "return_end": 22,
+        "return_arrival": 22,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 1,
+        "task_id": 3,
+        "assigned_at": 0,
+        "pickup_point": [
+          2,
+          3
+        ],
+        "shelf": [
+          3,
+          3
+        ],
+        "candidate_count": 3,
+        "pickup_end": 6,
+        "pickup_arrival": 5,
+        "delivery_end": 14,
+        "delivery_arrival": 13,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 2,
+        "task_id": 4,
+        "assigned_at": 0,
+        "pickup_point": [
+          10,
+          5
+        ],
+        "shelf": [
+          9,
+          5
+        ],
+        "candidate_count": 2,
+        "pickup_end": 8,
+        "pickup_arrival": 7,
+        "delivery_end": 14,
+        "delivery_arrival": 13,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 1,
+        "assigned_at": 12,
+        "pickup_point": [
+          10,
+          6
+        ],
+        "shelf": [
+          9,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 17,
+        "pickup_arrival": 16,
+        "delivery_end": 23,
+        "delivery_arrival": 22,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 0,
+        "task_id": 5,
+        "assigned_at": 12,
+        "pickup_point": [
+          4,
+          6
+        ],
+        "shelf": [
+          3,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 21,
+        "pickup_arrival": 20,
+        "delivery_end": 33,
+        "delivery_arrival": 32,
+        "return_end": 50,
+        "return_arrival": 50,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 7,
+        "assigned_at": 30,
+        "pickup_point": [
+          10,
+          4
+        ],
+        "shelf": [
+          9,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 35,
+        "pickup_arrival": 34,
+        "delivery_end": 39,
+        "delivery_arrival": 38,
+        "return_end": 42,
+        "return_arrival": 42,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 1,
+        "task_id": 8,
+        "assigned_at": 30,
+        "pickup_point": [
+          2,
+          4
+        ],
+        "shelf": [
+          3,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 37,
+        "pickup_arrival": 36,
+        "delivery_end": 44,
+        "delivery_arrival": 43,
+        "return_end": 56,
+        "return_arrival": 56,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 2,
+        "task_id": 11,
+        "assigned_at": 30,
+        "pickup_point": [
+          4,
+          6
+        ],
+        "shelf": [
+          3,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 41,
+        "pickup_arrival": 40,
+        "delivery_end": 48,
+        "delivery_arrival": 47,
+        "return_end": 64,
+        "return_arrival": 64,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 0,
+        "task_id": 9,
+        "assigned_at": 33,
+        "pickup_point": [
+          4,
+          5
+        ],
+        "shelf": [
+          3,
+          5
+        ],
+        "candidate_count": 2,
+        "pickup_end": 44,
+        "pickup_arrival": 43,
+        "delivery_end": 55,
+        "delivery_arrival": 54,
+        "return_end": 72,
+        "return_arrival": 72,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 10,
+        "assigned_at": 39,
+        "pickup_point": [
+          8,
+          8
+        ],
+        "shelf": [
+          9,
+          8
+        ],
+        "candidate_count": 3,
+        "pickup_end": 49,
+        "pickup_arrival": 48,
+        "delivery_end": 64,
+        "delivery_arrival": 63,
+        "return_end": 82,
+        "return_arrival": 82,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 1,
+        "task_id": 6,
+        "assigned_at": 44,
+        "pickup_point": [
+          2,
+          8
+        ],
+        "shelf": [
+          3,
+          8
+        ],
+        "candidate_count": 3,
+        "pickup_end": 47,
+        "pickup_arrival": 46,
+        "delivery_end": 67,
+        "delivery_arrival": 66,
+        "return_end": 83,
+        "return_arrival": 83,
+        "feasible_candidate_count": 3
+      }
+    ],
+    "assignments": [
+      {
+        "vehicle": 3,
+        "task_id": 0,
+        "assigned_at": 0,
+        "pickup_point": [
+          10,
+          3
+        ],
+        "shelf": [
+          9,
+          3
+        ],
+        "candidate_count": 3,
+        "pickup_end": 4,
+        "pickup_arrival": 3,
+        "delivery_end": 12,
+        "delivery_arrival": 11,
+        "return_end": 22,
+        "return_arrival": 22,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 0,
+        "task_id": 2,
+        "assigned_at": 0,
+        "pickup_point": [
+          2,
+          4
+        ],
+        "shelf": [
+          3,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 5,
+        "pickup_arrival": 4,
+        "delivery_end": 12,
+        "delivery_arrival": 11,
+        "return_end": 22,
+        "return_arrival": 22,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 1,
+        "task_id": 3,
+        "assigned_at": 0,
+        "pickup_point": [
+          2,
+          3
+        ],
+        "shelf": [
+          3,
+          3
+        ],
+        "candidate_count": 3,
+        "pickup_end": 6,
+        "pickup_arrival": 5,
+        "delivery_end": 14,
+        "delivery_arrival": 13,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 2,
+        "task_id": 4,
+        "assigned_at": 0,
+        "pickup_point": [
+          10,
+          5
+        ],
+        "shelf": [
+          9,
+          5
+        ],
+        "candidate_count": 2,
+        "pickup_end": 8,
+        "pickup_arrival": 7,
+        "delivery_end": 14,
+        "delivery_arrival": 13,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 1,
+        "assigned_at": 12,
+        "pickup_point": [
+          10,
+          6
+        ],
+        "shelf": [
+          9,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 17,
+        "pickup_arrival": 16,
+        "delivery_end": 23,
+        "delivery_arrival": 22,
+        "return_end": 26,
+        "return_arrival": 26,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 0,
+        "task_id": 5,
+        "assigned_at": 12,
+        "pickup_point": [
+          4,
+          6
+        ],
+        "shelf": [
+          3,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 21,
+        "pickup_arrival": 20,
+        "delivery_end": 33,
+        "delivery_arrival": 32,
+        "return_end": 50,
+        "return_arrival": 50,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 7,
+        "assigned_at": 30,
+        "pickup_point": [
+          10,
+          4
+        ],
+        "shelf": [
+          9,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 35,
+        "pickup_arrival": 34,
+        "delivery_end": 39,
+        "delivery_arrival": 38,
+        "return_end": 42,
+        "return_arrival": 42,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 1,
+        "task_id": 8,
+        "assigned_at": 30,
+        "pickup_point": [
+          2,
+          4
+        ],
+        "shelf": [
+          3,
+          4
+        ],
+        "candidate_count": 2,
+        "pickup_end": 37,
+        "pickup_arrival": 36,
+        "delivery_end": 44,
+        "delivery_arrival": 43,
+        "return_end": 56,
+        "return_arrival": 56,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 2,
+        "task_id": 11,
+        "assigned_at": 30,
+        "pickup_point": [
+          4,
+          6
+        ],
+        "shelf": [
+          3,
+          6
+        ],
+        "candidate_count": 2,
+        "pickup_end": 41,
+        "pickup_arrival": 40,
+        "delivery_end": 48,
+        "delivery_arrival": 47,
+        "return_end": 64,
+        "return_arrival": 64,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 0,
+        "task_id": 9,
+        "assigned_at": 33,
+        "pickup_point": [
+          4,
+          5
+        ],
+        "shelf": [
+          3,
+          5
+        ],
+        "candidate_count": 2,
+        "pickup_end": 44,
+        "pickup_arrival": 43,
+        "delivery_end": 55,
+        "delivery_arrival": 54,
+        "return_end": 72,
+        "return_arrival": 72,
+        "feasible_candidate_count": 2
+      },
+      {
+        "vehicle": 3,
+        "task_id": 10,
+        "assigned_at": 39,
+        "pickup_point": [
+          8,
+          8
+        ],
+        "shelf": [
+          9,
+          8
+        ],
+        "candidate_count": 3,
+        "pickup_end": 49,
+        "pickup_arrival": 48,
+        "delivery_end": 64,
+        "delivery_arrival": 63,
+        "return_end": 82,
+        "return_arrival": 82,
+        "feasible_candidate_count": 3
+      },
+      {
+        "vehicle": 1,
+        "task_id": 6,
+        "assigned_at": 44,
+        "pickup_point": [
+          2,
+          8
+        ],
+        "shelf": [
+          3,
+          8
+        ],
+        "candidate_count": 3,
+        "pickup_end": 47,
+        "pickup_arrival": 46,
+        "delivery_end": 67,
+        "delivery_arrival": 66,
+        "return_end": 83,
+        "return_arrival": 83,
+        "feasible_candidate_count": 3
+      }
+    ],
+    "comparison_valid": true,
+    "metrics_scope": "all_tasks",
+    "response_sample_count": 12,
+    "completion_rate": 1.0,
+    "max_flow_time": 37,
+    "p90_flow_time": 34,
+    "mean_dispatch_wait": 4.166666666666667,
+    "mean_pickup_duration": 6.0,
+    "mean_loaded_duration": 8.25,
+    "mean_service_duration": 2.0,
+    "empty_moves": 165,
+    "loaded_moves": 99,
+    "workload_cv": 0.2032607300780145,
+    "per_vehicle": [
+      {
+        "vehicle": 0,
+        "assigned_tasks": 3,
+        "completed_tasks": 3,
+        "moves": 66,
+        "empty_moves": 39,
+        "loaded_moves": 27,
+        "service_steps": 6,
+        "idle_steps": 11,
+        "traffic_wait_steps": 0,
+        "task_busy_steps": 55,
+        "task_utilization": 0.6626506024096386
+      },
+      {
+        "vehicle": 1,
+        "assigned_tasks": 3,
+        "completed_tasks": 3,
+        "moves": 72,
+        "empty_moves": 40,
+        "loaded_moves": 32,
+        "service_steps": 6,
+        "idle_steps": 4,
+        "traffic_wait_steps": 1,
+        "task_busy_steps": 51,
+        "task_utilization": 0.6144578313253012
+      },
+      {
+        "vehicle": 2,
+        "assigned_tasks": 2,
+        "completed_tasks": 2,
+        "moves": 56,
+        "empty_moves": 45,
+        "loaded_moves": 11,
+        "service_steps": 4,
+        "idle_steps": 23,
+        "traffic_wait_steps": 0,
+        "task_busy_steps": 32,
+        "task_utilization": 0.3855421686746988
+      },
+      {
+        "vehicle": 3,
+        "assigned_tasks": 4,
+        "completed_tasks": 4,
+        "moves": 70,
+        "empty_moves": 41,
+        "loaded_moves": 29,
+        "service_steps": 8,
+        "idle_steps": 5,
+        "traffic_wait_steps": 0,
+        "task_busy_steps": 57,
+        "task_utilization": 0.6867469879518072
+      }
+    ],
+    "task_metrics": [
+      {
+        "task_id": 0,
+        "vehicle": 3,
+        "release": 0,
+        "assigned_at": 0,
+        "completed_at": 12,
+        "flow_time": 12,
+        "dispatch_wait": 0,
+        "pickup_duration": 3,
+        "loaded_duration": 7,
+        "service_duration": 2,
+        "pickup_x": 10,
+        "pickup_y": 3,
+        "shelf_x": 9,
+        "shelf_y": 3
+      },
+      {
+        "task_id": 2,
+        "vehicle": 0,
+        "release": 0,
+        "assigned_at": 0,
+        "completed_at": 12,
+        "flow_time": 12,
+        "dispatch_wait": 0,
+        "pickup_duration": 4,
+        "loaded_duration": 6,
+        "service_duration": 2,
+        "pickup_x": 2,
+        "pickup_y": 4,
+        "shelf_x": 3,
+        "shelf_y": 4
+      },
+      {
+        "task_id": 3,
+        "vehicle": 1,
+        "release": 0,
+        "assigned_at": 0,
+        "completed_at": 14,
+        "flow_time": 14,
+        "dispatch_wait": 0,
+        "pickup_duration": 5,
+        "loaded_duration": 7,
+        "service_duration": 2,
+        "pickup_x": 2,
+        "pickup_y": 3,
+        "shelf_x": 3,
+        "shelf_y": 3
+      },
+      {
+        "task_id": 4,
+        "vehicle": 2,
+        "release": 0,
+        "assigned_at": 0,
+        "completed_at": 14,
+        "flow_time": 14,
+        "dispatch_wait": 0,
+        "pickup_duration": 7,
+        "loaded_duration": 5,
+        "service_duration": 2,
+        "pickup_x": 10,
+        "pickup_y": 5,
+        "shelf_x": 9,
+        "shelf_y": 5
+      },
+      {
+        "task_id": 1,
+        "vehicle": 3,
+        "release": 0,
+        "assigned_at": 12,
+        "completed_at": 23,
+        "flow_time": 23,
+        "dispatch_wait": 12,
+        "pickup_duration": 4,
+        "loaded_duration": 5,
+        "service_duration": 2,
+        "pickup_x": 10,
+        "pickup_y": 6,
+        "shelf_x": 9,
+        "shelf_y": 6
+      },
+      {
+        "task_id": 5,
+        "vehicle": 0,
+        "release": 0,
+        "assigned_at": 12,
+        "completed_at": 33,
+        "flow_time": 33,
+        "dispatch_wait": 12,
+        "pickup_duration": 8,
+        "loaded_duration": 11,
+        "service_duration": 2,
+        "pickup_x": 4,
+        "pickup_y": 6,
+        "shelf_x": 3,
+        "shelf_y": 6
+      },
+      {
+        "task_id": 7,
+        "vehicle": 3,
+        "release": 30,
+        "assigned_at": 30,
+        "completed_at": 39,
+        "flow_time": 9,
+        "dispatch_wait": 0,
+        "pickup_duration": 4,
+        "loaded_duration": 3,
+        "service_duration": 2,
+        "pickup_x": 10,
+        "pickup_y": 4,
+        "shelf_x": 9,
+        "shelf_y": 4
+      },
+      {
+        "task_id": 8,
+        "vehicle": 1,
+        "release": 30,
+        "assigned_at": 30,
+        "completed_at": 44,
+        "flow_time": 14,
+        "dispatch_wait": 0,
+        "pickup_duration": 6,
+        "loaded_duration": 6,
+        "service_duration": 2,
+        "pickup_x": 2,
+        "pickup_y": 4,
+        "shelf_x": 3,
+        "shelf_y": 4
+      },
+      {
+        "task_id": 11,
+        "vehicle": 2,
+        "release": 30,
+        "assigned_at": 30,
+        "completed_at": 48,
+        "flow_time": 18,
+        "dispatch_wait": 0,
+        "pickup_duration": 10,
+        "loaded_duration": 6,
+        "service_duration": 2,
+        "pickup_x": 4,
+        "pickup_y": 6,
+        "shelf_x": 3,
+        "shelf_y": 6
+      },
+      {
+        "task_id": 9,
+        "vehicle": 0,
+        "release": 30,
+        "assigned_at": 33,
+        "completed_at": 55,
+        "flow_time": 25,
+        "dispatch_wait": 3,
+        "pickup_duration": 10,
+        "loaded_duration": 10,
+        "service_duration": 2,
+        "pickup_x": 4,
+        "pickup_y": 5,
+        "shelf_x": 3,
+        "shelf_y": 5
+      },
+      {
+        "task_id": 10,
+        "vehicle": 3,
+        "release": 30,
+        "assigned_at": 39,
+        "completed_at": 64,
+        "flow_time": 34,
+        "dispatch_wait": 9,
+        "pickup_duration": 9,
+        "loaded_duration": 14,
+        "service_duration": 2,
+        "pickup_x": 8,
+        "pickup_y": 8,
+        "shelf_x": 9,
+        "shelf_y": 8
+      },
+      {
+        "task_id": 6,
+        "vehicle": 1,
+        "release": 30,
+        "assigned_at": 44,
+        "completed_at": 67,
+        "flow_time": 37,
+        "dispatch_wait": 14,
+        "pickup_duration": 2,
+        "loaded_duration": 19,
+        "service_duration": 2,
+        "pickup_x": 2,
+        "pickup_y": 8,
+        "shelf_x": 3,
+        "shelf_y": 8
+      }
+    ],
+    "diagnostics": {
+      "planning_failure_count": 0,
+      "planning_failure_by_leg": {
+        "pickup": 0,
+        "delivery": 0,
+        "return": 0
+      },
+      "planning_failures": [],
+      "unfinished_tasks": [],
+      "vehicles_away_from_home": [],
+      "execution_error": null,
+      "note": "规划失败指当前预约和时限下该次尝试失败，不证明问题无解；等待派单不自动等于死锁。"
+    }
+  }
+}
