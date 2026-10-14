@@ -30,20 +30,22 @@ def aggregate(rows):
     return summaries
 
 
-def run_batch(config,seeds,policies=None,output_dir=None):
+def run_batch(config,seeds,policies=None,output_dir=None,runners=None):
     seeds=list(seeds)
     if not seeds or len(seeds)>20 or len(set(seeds))!=len(seeds) or any(type(s) is not int or not 0<=s<=999999 for s in seeds):
         raise ValueError('任务种子需为1到20个不重复的非负整数，最大999999')
     policies={'distance':greedy_action} if policies is None else policies
     if not policies or any(not isinstance(name,str) or not callable(fn) for name,fn in policies.items()):
         raise ValueError('策略需为名称到可调用函数的映射')
+    if runners is not None and (set(runners)!=set(policies) or any(not callable(fn) for fn in runners.values())):
+        raise ValueError('运行器需与策略名称一致')
     rows=[];entries=[]
     if output_dir is not None:Path(output_dir).mkdir(parents=True,exist_ok=False)
     for seed in seeds:
         options={**config,'seed':seed};scenario=example(**options)
         digest=scenario_id(scenario)
         for name,policy in policies.items():
-            start=time.perf_counter();result=run(scenario,policy);elapsed=time.perf_counter()-start
+            start=time.perf_counter();result=runners[name](scenario) if runners else run(scenario,policy);elapsed=time.perf_counter()-start
             validate(scenario,result)
             row=dict(policy=name,seed=seed,scenario_sha256=digest,runtime_seconds=elapsed,
                 reason=result['reason'],planning_failure_count=result['diagnostics']['planning_failure_count'],

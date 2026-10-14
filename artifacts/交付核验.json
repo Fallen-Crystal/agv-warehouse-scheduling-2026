@@ -1,0 +1,23 @@
+{
+  "original_file_count": 222,
+  "original_files_changed": 0,
+  "original_files_missing_from_delivery": 0,
+  "baseline_tests_passed": 55,
+  "final_tests_passed": 62,
+  "formal_runs_validated": 240,
+  "core_benchmark_sources_match": true,
+  "largest_scenario_seed0_replayed_full_trace_match": [
+    "baseline",
+    "matching_joint"
+  ],
+  "browser_checks": [
+    "baseline step playback",
+    "optimized joint_only completed30/30",
+    "explanation slider t120 to132"
+  ],
+  "publication_excludes": [
+    ".git internals",
+    "Python bytecode/cache",
+    "converted course PPT"
+  ]
+}

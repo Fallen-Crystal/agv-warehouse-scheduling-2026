@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 from threading import Lock
 from model import example
 from baseline import run
+from optimized import run as optimized_run
 from validation import validate
 from model import Scenario
 from scenario_io import unpack_scene, pack_scene, scenario_id
@@ -22,7 +23,7 @@ TEMPLATE = r'''<!doctype html>
 <div class="controls"><label>场景 <select id="scene"></select></label><button id="play">播放</button><button id="step">下一步</button><button id="reset">回到开始</button><label><input id="trails" type="checkbox" checked> 显示已走轨迹</label></div>
 <div class="stage"><section class="map"><canvas id="map" width="1040" height="800" aria-label="仓库货架、通道、车辆及任务位置"></canvas><div class="timeline"><span>时刻</span><input id="time" type="range" min="0" value="0"><output id="timeLabel" class="numbers"></output></div><p id="description" class="note"></p></section>
 <aside><h2>看图说明</h2><div class="legend"><div><i class="swatch" style="background:#dfb57a"></i>货架，不可进入</div><div><i class="swatch" style="background:#536576"></i>墙体或边界障碍</div><div><i class="swatch" style="background:#dae9f5"></i>专属停车位 H</div><div><i class="swatch" style="background:#d3eddd"></i>本场景的取货点 P</div><div><i class="swatch" style="background:#ffe7b0"></i>本场景的交付点 D</div><div><i class="swatch" style="background:#fff"></i>可通行地面</div></div><p id="progress"></p><div id="vehicles"></div><p id="cell">点击地图中的格子，查看上下左右能走到哪里。绿色边框只表示地图相邻可通行，不代表当时没有其他车辆占用。</p></aside></div>
-<p class="note">这是设定的教学仿真仓库。播放使用环境实际执行的轨迹；策略为简单贪心，未使用 DQN 或匈牙利算法。动态任务只在释放后显示；未来订单不展示。动画按离散步跳转，未模拟实际车身尺寸。</p></main>
+<p class="note">这是设定的教学仿真仓库。播放使用环境实际执行的轨迹；可选择距离贪心、最小代价匹配与联合后缀重规划；重规划保留已执行路线和已开始的装卸服务。动态任务只在释放后显示；未来订单不展示。动画按离散步跳转，未模拟实际车身尺寸。</p></main>
 <script>
 const datasets=__DATA__;
 const $=id=>document.getElementById(id), canvas=$('map'), ctx=canvas.getContext('2d');
@@ -76,7 +77,7 @@ load();
 
 DEFAULTS = dict(size='small', vehicles=4, layout='bottleneck', mode='static',
                 arrival='batch', demand='balanced', delivery_pattern='distributed',
-                task_count=12, seed=0, horizon=600)
+                task_count=12, seed=0, horizon=600, algorithm='baseline')
 
 
 def calculate(options):
@@ -86,8 +87,11 @@ def calculate(options):
     for name, minimum, maximum in [('vehicles',1,8),('task_count',0,60),('seed',0,999999),('horizon',60,1800)]:
         if type(options[name]) is not int or not minimum <= options[name] <= maximum:
             raise ValueError(f'{name} 必须是 {minimum} 到 {maximum} 的整数')
-    s = example(**options)
-    r = run(s)
+    algorithm=options['algorithm']
+    if algorithm not in ('baseline','matching_only','joint_only','matching_joint'):
+        raise ValueError('未知算法')
+    s = example(**{k:v for k,v in options.items() if k!='algorithm'})
+    r = run(s) if algorithm=='baseline' else optimized_run(s,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
     validate(s, r)
     return dict(name='自选场景', config=options, scenario=s.to_dict(), result=r,scenario_sha256=scenario_id(s))
 
@@ -98,7 +102,10 @@ def calculate_loaded(data):
         raise ValueError('新版页面只接受指定货架格的订单；旧固定取货点文件请使用旧版打开。')
     if s.width>30 or s.height>30 or len(s.homes)>8 or len(s.tasks)>60 or s.horizon>1800:
         raise ValueError('页面导入限制：地图不超过30×30、8辆车、60单、1800步')
-    r=run(s);validate(s,r)
+    algorithm=data.get('config',{}).get('algorithm','baseline') if isinstance(data.get('config'),dict) else 'baseline'
+    if algorithm not in ('baseline','matching_only','joint_only','matching_joint'):raise ValueError('未知算法')
+    r=run(s) if algorithm=='baseline' else optimized_run(s,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
+    validate(s,r)
     return dict(name='导入的固定场景',config=None,scenario=s.to_dict(),result=r,scenario_sha256=scenario_id(s))
 
 
@@ -110,12 +117,17 @@ def calculate_batch(data):
     config={**DEFAULTS,**data['config']}
     if set(config)!=set(DEFAULTS):raise ValueError('未知场景参数')
     calculate(config)  # 用单场景入口检查网页参数范围
-    return run_batch(config,range(start,start+count))
+    algorithm=config.pop('algorithm')
+    from optimized import matching_action
+    if algorithm=='baseline':return run_batch(config,range(start,start+count))
+    solver=lambda scenario: optimized_run(scenario,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
+    return run_batch(config,range(start,start+count),policies={algorithm:matching_action},runners={algorithm:solver})
 
 
 def make_html(initial=None):
     html = TEMPLATE
     controls = '''<div class="controls">
+<label>调度算法 <select id="algorithm"><option value="baseline">队友原版：距离贪心</option><option value="matching_only">仅最小代价匹配</option><option value="joint_only">仅联合重规划</option><option value="matching_joint">匹配 + 联合重规划</option></select></label>
 <label>仓库大小 <select id="size"><option value="small">小：13×11格</option><option value="medium">中：19×15格</option><option value="large">大：25×19格</option></select></label>
 <label>车辆数 <select id="vehiclesCount">'''+''.join(f'<option value="{k}"'+(' selected' if k==4 else '')+f'>{k}辆</option>' for k in range(1,9))+'''</select></label>
 <label>通道 <select id="layout"><option value="bottleneck">窄：1个通行口</option><option value="wide">宽：3个通行口</option></select></label>
@@ -137,7 +149,7 @@ def make_html(initial=None):
     html = html.replace("selected=Number($('scene').value)", 'selected=0')
     html = html.replace("$('scene').onchange=load;", '')
     html = html.replace('</main>', '''<section class="map" style="margin-top:20px">
-<h2>本次运行结果</h2><p class="note">这是生成后整次运行的统计，不随动画时间条变化。时间单位为步，距离单位为格。</p>
+<h2>本次运行结果</h2><p id="replanSummary"></p><p class="note">这是生成后整次运行的统计，不随动画时间条变化。时间单位为步，距离单位为格。</p>
 <p id="metricScope" role="status"></p><div id="metricSummary"></div>
 <h2 style="margin-top:24px">每辆车的工作量</h2><div style="overflow-x:auto"><table id="vehicleMetrics"></table></div>
 <p class="note">任务利用率＝执行取送任务的时间占比，不包括空闲返程。工作量不均衡不必然意味着总效率差，应结合响应时间和距离判断。</p>
@@ -156,7 +168,7 @@ const vehicleColumns=[['vehicle','车辆'],['assigned_tasks','已指派订单'],
 const taskColumns=[['task_id','任务'],['vehicle','车辆'],['shelf_x','目标货架横坐标'],['shelf_y','目标货架纵坐标'],['pickup_x','实际装货停靠横坐标'],['pickup_y','实际装货停靠纵坐标'],['release','出现时刻'],['assigned_at','指派时刻'],['completed_at','完成时刻'],['flow_time','订单完成耗时'],['dispatch_wait','等车接单时间'],['pickup_duration','前往取货'],['loaded_duration','载货运输'],['service_duration','装卸服务']];
 function formatMetric(value){return value===null||value===undefined?'—':typeof value==='number'?(Number.isInteger(value)?String(value):value.toFixed(2)):String(value)}
 function renderMetrics(){
- const r=datasets[selected].result;$('metricScope').textContent=r.comparison_valid?'全部订单完成且车辆已返回，可用于完整场景比较。':`此场景未成功结束。响应时间仅覆盖已完成的 ${r.completed}/${r.total_tasks} 单；不能与成功场景直接比较。`;
+ const r=datasets[selected].result;$('replanSummary').textContent=r.algorithm?`联合重规划调用 ${r.algorithm.replan_calls} 次，接受 ${r.algorithm.accepted_replans} 次。日志随完整结果 JSON 保存。`:'队友原版：接单后保持既定路线。';$('metricScope').textContent=r.comparison_valid?'全部订单完成且车辆已返回，可用于完整场景比较。':`此场景未成功结束。响应时间仅覆盖已完成的 ${r.completed}/${r.total_tasks} 单；不能与成功场景直接比较。`;
  $('metricScope').style.color=r.comparison_valid?'#16816c':'#a44a12';$('metricSummary').replaceChildren();
  const cards=[['完成订单',`${r.completed}/${r.total_tasks}`],['平均响应时间',r.response_sample_count?r.mean_flow_time:(r.total_tasks?null:0)],['最长响应时间',r.max_flow_time],['90%分位响应时间',r.p90_flow_time],['平均等派单时间',r.mean_dispatch_wait],['平均前往取货时间',r.mean_pickup_duration],['平均载货运输时间',r.mean_loaded_duration],['平均装卸时间',r.mean_service_duration],['空驶 / 载货距离',`${r.empty_moves} / ${r.loaded_moves}`],['行驶阶段等待',r.traffic_wait_steps],['工作量变异系数',r.workload_cv]];
  cards.forEach(([label,value])=>{const card=document.createElement('div');card.className='metric';const name=document.createElement('span');name.textContent=label;const number=document.createElement('strong');number.textContent=formatMetric(value);card.appendChild(name);card.appendChild(number);$('metricSummary').appendChild(card)});
@@ -176,14 +188,14 @@ $('exportTasks').onclick=()=>downloadCSV('每单响应时间.csv',taskColumns,da
     html = html.replace('load();\n</script>', r'''
 function controls(){return {size:$('size').value,vehicles:Number($('vehiclesCount').value),layout:$('layout').value,
  mode:$('mode').value,arrival:$('arrival').value,demand:$('demand').value,delivery_pattern:$('delivery').value,
- task_count:Number($('taskCount').value),seed:Number($('seed').value),horizon:Number($('horizon').value)}}
+ task_count:Number($('taskCount').value),seed:Number($('seed').value),horizon:Number($('horizon').value),algorithm:$('algorithm').value}}
 function updateMode(){$('arrival').disabled=$('mode').value==='static'}
 function markChanged(){updateMode();$('status').textContent='参数已修改。点击“生成并运行”应用新设置；当前地图仍是上次结果。'}
-['size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon'].forEach(id=>$(id).onchange=markChanged);
+['algorithm','size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon'].forEach(id=>$(id).onchange=markChanged);
 $('generate').onclick=async()=>{
  if(location.protocol==='file:'){$('status').textContent='自由组合需要先在 PyCharm 运行 show_warehouse.py，再使用自动打开的页面。这个离线文件只能查看保存的默认结果。';return}
  stop();$('generate').disabled=true;
- const settings=['size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon'];
+ const settings=['algorithm','size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon'];
  settings.forEach(id=>$(id).disabled=true);$('status').textContent='正在生成任务并计算车辆路线…';
  try{
   const response=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(controls())});
@@ -210,7 +222,7 @@ $('status').textContent=location.protocol==='file:'?'当前是保存的默认结
 <button id="runBatch">按当前参数批量运行</button><button id="downloadBatch" disabled>下载批量完整结果 JSON</button><button id="downloadBatchCSV" disabled>下载批量统计 CSV</button>
 <p id="batchStatus" role="status"></p><div id="batchSummary"></div></section>'''
     html=html.replace('<div class="stage">',tools+'<div class="stage">')
-    html=html.replace('<h2>本次运行结果</h2>','<h2>本次运行结果</h2><h3>失败与未完成记录</h3><div id="failureSummary"></div><button id="exportFailures">下载失败记录 JSON</button>')
+    html=html.replace('<h2>本次运行结果</h2><p id="replanSummary"></p>','<h2>本次运行结果</h2><p id="replanSummary"></p><h3>失败与未完成记录</h3><div id="failureSummary"></div><button id="exportFailures">下载失败记录 JSON</button>')
     html=html.replace('function renderMetrics(){','function renderMetrics(){\n renderFailures();')
     js=r'''
 let batchReport=null;
@@ -224,7 +236,7 @@ function renderFailures(){const r=datasets[selected].result,d=r.diagnostics;$('f
 }
 function online(){if(location.protocol==='file:')throw new Error('请先在PyCharm运行 show_warehouse.py，使用自动打开的本机页面')}
 async function send(path,data){online();const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw new Error(result.error||'请求失败');return result}
-function locked(value){['generate','loadScene','runBatch','sceneFile','size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon','batchSeed','batchCount'].forEach(id=>$(id).disabled=value);if(!value)updateMode()}
+function locked(value){['algorithm','generate','loadScene','runBatch','sceneFile','size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon','batchSeed','batchCount'].forEach(id=>$(id).disabled=value);if(!value)updateMode()}
 $('saveScene').onclick=()=>{const e=datasets[selected];downloadJSON('完整仓库场景.json',{format:'agv-scene-v1',scenario:e.scenario,scenario_sha256:e.scenario_sha256,config:e.config,result:e.result})};
 $('exportFailures').onclick=()=>downloadJSON('失败与未完成记录.json',datasets[selected].result.diagnostics);
 $('loadScene').onclick=async()=>{try{const file=$('sceneFile').files[0];if(!file)throw new Error('请先选择JSON文件');if(file.size>10*1024*1024)throw new Error('文件不能超过10MB');online();stop();locked(true);$('status').textContent='正在读取并重新运行固定场景…';const payload=await send('/api/load',JSON.parse(await file.text()));datasets=[payload];load();$('status').textContent='已按文件中的实际地图和任务重新运行。场景校验值：'+payload.scenario_sha256.slice(0,12)+'。当前下拉选项不代表导入文件。'}catch(error){$('status').textContent=error.message}finally{locked(false)}};

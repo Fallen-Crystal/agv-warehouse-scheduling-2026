@@ -1,0 +1,11 @@
+test_atomic_rejects_collision_and_interrupted_service (test_optimized.OptimizerTests.test_atomic_rejects_collision_and_interrupted_service) ... ok
+test_exact_matching_on_known_counterexample_to_greedy (test_optimized.OptimizerTests.test_exact_matching_on_known_counterexample_to_greedy) ... ok
+test_failure_and_ablation_traces_are_valid (test_optimized.OptimizerTests.test_failure_and_ablation_traces_are_valid) ... ok
+test_joint_busy_routes_really_change_and_cost_decreases (test_optimized.OptimizerTests.test_joint_busy_routes_really_change_and_cost_decreases) ... ok
+test_no_future_tasks_in_extended_observation (test_optimized.OptimizerTests.test_no_future_tasks_in_extended_observation) ... ok
+test_service_and_midroute_stages_keep_executed_prefix (test_optimized.OptimizerTests.test_service_and_midroute_stages_keep_executed_prefix) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 5.024s
+
+OK

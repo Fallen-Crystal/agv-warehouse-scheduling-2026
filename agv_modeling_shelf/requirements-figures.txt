@@ -1,0 +1,2 @@
+# Optional: main simulation and tests use Python standard library only.
+matplotlib>=3.8,<4
