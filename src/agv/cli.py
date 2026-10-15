@@ -19,7 +19,7 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="Generate or load a scene and save validated results")
     run.add_argument("--input", type=Path)
-    run.add_argument("--algorithm", choices=SOLVERS, default="sipp_conflict")
+    run.add_argument("--algorithm", choices=SOLVERS, default="sipp_budget")
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
     run.add_argument("--tasks", type=int, default=12)

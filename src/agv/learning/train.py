@@ -6,7 +6,7 @@ from pathlib import Path
 
 from agv.dispatch.optimized import run
 from agv.evaluation.validation import validate
-from agv.io.movingai import LICENSE_URL, MAP_URL, REGIONS, derived_scene
+from agv.io.movingai import REGIONS, derived_scene, map_provenance
 from agv.io.scenes import scenario_id
 from agv.io.storage import write_json
 from agv.learning.ranker import fit
@@ -17,6 +17,7 @@ TEST_SEEDS = tuple(range(200, 206))
 
 
 def train(map_path, output):
+    provenance = map_provenance(map_path)
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
     partitions = {}
@@ -63,8 +64,9 @@ def train(map_path, output):
     write_json(
         output / "training-report.json",
         dict(
-            source_url=MAP_URL,
-            license=LICENSE_URL,
+            source_url=provenance["source_url"],
+            license=provenance["license"],
+            origin=provenance["origin"],
             source_map_sha256=hashlib.sha256(Path(map_path).read_bytes()).hexdigest(),
             regions=REGIONS,
             train_seeds=TRAIN_SEEDS,

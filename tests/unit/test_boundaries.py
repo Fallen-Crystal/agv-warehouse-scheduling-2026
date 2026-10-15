@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 from agv.domain import Scenario, example
-from agv.io.movingai import parse_map
+from agv.io.movingai import map_provenance, parse_map
 from agv.io.storage import write_json
 from agv.learning.ranker import FEATURES, CandidateRanker, fit
 from agv.planning.reservations import VertexReservations
@@ -66,6 +66,21 @@ class BoundaryTests(unittest.TestCase):
             calculate_batch({"config": [], "start_seed": 0, "count": 1})
         with self.assertRaises(ValueError):
             calculate_loaded({"width": 10000000, "height": 1000000})
+
+    def test_public_map_headers_and_provenance_are_explicit(self):
+        with self.assertRaises(ValueError):
+            parse_map("type octile\n2\n2\nmap\n..\n..")
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder) / "custom.map"
+            p.write_text("type octile\nheight 2\nwidth 2\nmap\n..\n..")
+            self.assertEqual(map_provenance(p)["origin"], "user-supplied")
+            self.assertIsNone(map_provenance(p)["source_url"])
+            write_json(
+                p.with_suffix(".source.json"),
+                {"sha256": "incorrect", "source_url": "url", "license": "url"},
+            )
+            with self.assertRaises(ValueError):
+                map_provenance(p)
 
     def test_ranker_fit_and_model_parameter_validation(self):
         samples = [dict(features=[i] + [0] * (len(FEATURES) - 1), target=2 * i) for i in range(10)]

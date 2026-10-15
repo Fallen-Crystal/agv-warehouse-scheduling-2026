@@ -11,6 +11,7 @@ test_static_ignores_arrival_and_failure_is_explicit (tests.integration.test_view
 test_atomic_json_preserves_existing_file_and_cleans_temporary (tests.unit.test_boundaries.BoundaryTests.test_atomic_json_preserves_existing_file_and_cleans_temporary) ... ok
 test_map_and_request_limits_fail_before_running_simulation (tests.unit.test_boundaries.BoundaryTests.test_map_and_request_limits_fail_before_running_simulation) ... ok
 test_mutating_reservations_invalidates_cached_index (tests.unit.test_boundaries.BoundaryTests.test_mutating_reservations_invalidates_cached_index) ... ok
+test_public_map_headers_and_provenance_are_explicit (tests.unit.test_boundaries.BoundaryTests.test_public_map_headers_and_provenance_are_explicit) ... ok
 test_ranker_fit_and_model_parameter_validation (tests.unit.test_boundaries.BoundaryTests.test_ranker_fit_and_model_parameter_validation) ... ok
 test_scenario_json_types_have_clear_rejection (tests.unit.test_boundaries.BoundaryTests.test_scenario_json_types_have_clear_rejection) ... ok
 test_completed_tasks_but_return_unfinished (tests.unit.test_metrics.MetricsTests.test_completed_tasks_but_return_unfinished) ... ok
@@ -74,6 +75,6 @@ test_side_bay_yield_and_rejoin (tests.unit.test_yield.YieldTests.test_side_bay_y
 test_wait_outside_entrance (tests.unit.test_yield.YieldTests.test_wait_outside_entrance) ... ok
 
 ----------------------------------------------------------------------
-Ran 74 tests in 9.146s
+Ran 75 tests in 9.178s
 
 OK

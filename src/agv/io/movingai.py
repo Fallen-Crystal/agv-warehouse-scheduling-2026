@@ -1,6 +1,7 @@
 """MovingAI map ingestion and explicitly derived online pickup/delivery scenes."""
 
 import hashlib
+import json
 import random
 import zipfile
 from collections import deque
@@ -56,6 +57,8 @@ def parse_map(text):
     lines = text.splitlines()
     if len(lines) < 4 or lines[0] != "type octile" or lines[3] != "map":
         raise ValueError("Expected MovingAI octile map header")
+    if not lines[1].startswith("height ") or not lines[2].startswith("width "):
+        raise ValueError("Expected explicit height/width map headers")
     try:
         height = int(lines[1].removeprefix("height "))
         width = int(lines[2].removeprefix("width "))
@@ -139,3 +142,24 @@ def derived_scene(map_path, split, seed, task_count=20, vehicles=4, horizon=600)
         for j in range(task_count)
     ]
     return Scenario(width, height + 1, blocked, shelves, homes, tasks, horizon).check()
+
+
+def map_provenance(path):
+    """Do not attribute an arbitrary user-supplied map to the public dataset."""
+    path = Path(path)
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    sidecar = path.with_suffix(".source.json")
+    if not sidecar.exists():
+        return dict(sha256=digest, source_url=None, license=None, origin="user-supplied")
+    metadata = json.loads(sidecar.read_text(encoding="utf-8"))
+    if not isinstance(metadata, dict) or metadata.get("sha256") != digest:
+        raise ValueError("Map source metadata/hash mismatch")
+    for field in ("source_url", "license"):
+        if not isinstance(metadata.get(field), str) or not metadata[field]:
+            raise ValueError(f"Map source {field} is missing")
+    return dict(
+        sha256=digest,
+        source_url=metadata["source_url"],
+        license=metadata["license"],
+        origin="sidecar-attributed",
+    )

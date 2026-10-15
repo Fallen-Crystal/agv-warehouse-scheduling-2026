@@ -123,5 +123,6 @@
   "platform": "macOS-26.6.2-arm64-arm-64bit",
   "timing_repetitions": 1,
   "notes": "Paired costs require both full task completion AND return. Public scores are derived MAPD, not official MAPF.",
-  "validated_runs": 396
+  "validated_runs": 396,
+  "measurement_commit": "29d86e780e3f7e445248dee3b43b3882b6eb6a1a"
 }

@@ -1,3 +1,5 @@
+> 历史版本说明：本文记录v1（提交d79aa07）的代码和成绩，旧目录路径不代表当前结构。当前说明见[新版报告](../v2-results.md)。
+
 # 算法实现与实验报告
 
 日期：2026-10-14。选题：任务 1——仓库穿梭无人车智能调度。
@@ -23,7 +25,7 @@
 
 ## 2. 论文选择与本项目改造
 
-调研 6 篇原始论文，完整标题、作者、年份和原文链接见 [论文调研与算法选择](论文调研与算法选择.md)。最终保留现有时空 A*，融合两项思想：
+调研 6 篇原始论文，完整标题、作者、年份和原文链接见 [论文调研与算法选择](../research/mapf-background.md)。最终保留现有时空 A*，融合两项思想：
 
 1. [RHCR，AAAI 2021](https://ojs.aaai.org/index.php/AAAI/article/view/17344)：执行与重新协调持续交替，接入途中重规划。
 2. [MAPF-LNS，IJCAI 2021](https://www.ijcai.org/proceedings/2021/568)：从当前可行解出发，联合修复车辆子集，只接受改善。
@@ -111,7 +113,7 @@ min_p(distance(vehicle,p) + distance(p,delivery))
 | 大型动态集中交付 | 63.665 | 63.840 | 61.742 | 61.822 | 3.02% | 2.89% |
 | 小型动态热点切换 | 22.270 | 22.397 | 22.213 | 21.977 | 0.25% | 1.32% |
 
-![正式配对与消融图](algorithm_results/comparison.png)
+![正式配对与消融图](https://raw.githubusercontent.com/Fallen-Crystal/agv-warehouse-scheduling-2026/d79aa07/agv_modeling_shelf/algorithm_results/comparison.png)
 
 只有10个种子，以上是已测试样例的描述性结论，不是对所有仓库或订单分布的保证。每个种子的成败都在 `runs.csv`，聚合指标在 `summary.json`/`summary.csv`。
 
@@ -150,7 +152,7 @@ min_p(distance(vehicle,p) + distance(p,delivery))
 
 ## 6. 一次真实途中改路的解释
 
-打开 [途中联合重规划解释.html](途中联合重规划解释.html)，或读取 `algorithm_results/explanation_event.json`。数据来自中型动态突发、种子0、仅重规划的正式轨迹。
+打开 [途中联合重规划解释.html](https://github.com/Fallen-Crystal/agv-warehouse-scheduling-2026/blob/d79aa07/agv_modeling_shelf/%E9%80%94%E4%B8%AD%E8%81%94%E5%90%88%E9%87%8D%E8%A7%84%E5%88%92%E8%A7%A3%E9%87%8A.html)，或读取 `algorithm_results/explanation_event.json`。数据来自中型动态突发、种子0、仅重规划的正式轨迹。
 
 时刻120已在执行订单；三元目标从 `(154,184,262)` 变成 `(146,181,254)`：当前固定任务的预计剩余送达总耗时少8步，最晚回程完成少3步，剩余移动少8格。
 
