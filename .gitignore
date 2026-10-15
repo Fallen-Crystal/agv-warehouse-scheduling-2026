@@ -2,4 +2,9 @@
 __pycache__/
 *.py[cod]
 .venv/
-artifacts/*.pptx
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+.coverage
+runs/

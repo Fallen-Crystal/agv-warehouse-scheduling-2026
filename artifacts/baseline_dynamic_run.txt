@@ -1,1 +1,0 @@
-PASS: 16 dynamic scenarios generated and independently reloaded; /Users/fallen/Documents/ChatGPT/Ai基础大作业（11-30截止）/agv_modeling_shelf/dynamic_examples

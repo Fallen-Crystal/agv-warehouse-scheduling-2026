@@ -1,0 +1,32 @@
+{
+  "regions": {
+    "train": [
+      32,
+      1,
+      32,
+      24
+    ],
+    "validation": [
+      64,
+      1,
+      32,
+      24
+    ],
+    "test": [
+      96,
+      34,
+      32,
+      24
+    ]
+  },
+  "task_count": 16,
+  "vehicles": 4,
+  "services": [
+    1,
+    3
+  ],
+  "releases": "four tasks every 20 steps",
+  "parking": "four appended top-row dedicated pockets",
+  "meaning": "largest connected crop component; adjacent blocked cells modeled as shelves",
+  "source_notice": "data/NOTICE.md"
+}

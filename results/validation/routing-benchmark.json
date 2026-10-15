@@ -1,0 +1,1358 @@
+{
+  "cases": 75,
+  "repetitions": 5,
+  "timing": "median per case; includes reverse BFS heuristic construction",
+  "all_completion_lengths_equal": true,
+  "rows": [
+    {
+      "family": "long_wait",
+      "solver": "astar",
+      "seconds": 0.00029212504159659147,
+      "calls": 1,
+      "expanded": 403,
+      "generated": 406,
+      "completion_length": 405
+    },
+    {
+      "family": "long_wait",
+      "solver": "sipp",
+      "seconds": 1.7332960851490498e-05,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 3,
+      "completion_length": 405
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014420796651393175,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 19,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015562493354082108,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 17,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015145796351134777,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 41,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016066699754446745,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 24,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015220895875245333,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 41,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016679090913385153,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 26,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014308409299701452,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 9,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015479198191314936,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 10,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015304097905755043,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 30,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001724999165162444,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 23,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00017962499987334013,
+      "calls": 1,
+      "expanded": 28,
+      "generated": 80,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001935840118676424,
+      "calls": 1,
+      "expanded": 17,
+      "generated": 40,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014662498142570257,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 26,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015712494496256113,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 19,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015174993313848972,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 29,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016779196448624134,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 25,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00016883399803191423,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 60,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001729999203234911,
+      "calls": 1,
+      "expanded": 12,
+      "generated": 28,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00019183300901204348,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 110,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00021929200738668442,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 50,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014337501488626003,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 10,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015750003512948751,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 11,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015279196668416262,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 35,
+      "completion_length": 11
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016837497241795063,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 26,
+      "completion_length": 11
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014037499204277992,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 8,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015120801981538534,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 13,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015083409380167723,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 33,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016183301340788603,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 23,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014466699212789536,
+      "calls": 1,
+      "expanded": 5,
+      "generated": 15,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001559159718453884,
+      "calls": 1,
+      "expanded": 5,
+      "generated": 16,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015895802062004805,
+      "calls": 1,
+      "expanded": 13,
+      "generated": 45,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00017529202159494162,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 27,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00017137511167675257,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 52,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00018470804207026958,
+      "calls": 1,
+      "expanded": 15,
+      "generated": 27,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015400000847876072,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 34,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016437505837529898,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 20,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00019287504255771637,
+      "calls": 1,
+      "expanded": 32,
+      "generated": 107,
+      "completion_length": 17
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00024095899425446987,
+      "calls": 1,
+      "expanded": 32,
+      "generated": 60,
+      "completion_length": 17
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00020412495359778404,
+      "calls": 1,
+      "expanded": 37,
+      "generated": 124,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00026883301325142384,
+      "calls": 1,
+      "expanded": 37,
+      "generated": 97,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.000280959066003561,
+      "calls": 1,
+      "expanded": 91,
+      "generated": 227,
+      "completion_length": 24
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0003400000277906656,
+      "calls": 1,
+      "expanded": 55,
+      "generated": 127,
+      "completion_length": 24
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015725009143352509,
+      "calls": 1,
+      "expanded": 14,
+      "generated": 48,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001705000177025795,
+      "calls": 1,
+      "expanded": 14,
+      "generated": 26,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.000149125000461936,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 34,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016404199413955212,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 23,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014866702258586884,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 33,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016733398661017418,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 25,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00019050005357712507,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 110,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00024087494239211082,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 73,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001448750263080001,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 13,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015424995217472315,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 14,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0002121669240295887,
+      "calls": 1,
+      "expanded": 38,
+      "generated": 133,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002660839818418026,
+      "calls": 1,
+      "expanded": 38,
+      "generated": 88,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014183297753334045,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 11,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001520420191809535,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 10,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001479580532759428,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 21,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015933404210954905,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 19,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014012493193149567,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 8,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001515829935669899,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 12,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00016158295329660177,
+      "calls": 1,
+      "expanded": 15,
+      "generated": 47,
+      "completion_length": 13
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00018466601613909006,
+      "calls": 1,
+      "expanded": 14,
+      "generated": 41,
+      "completion_length": 13
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014591601211577654,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 26,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001587909646332264,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 25,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015533401165157557,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 36,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00017258303705602884,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 27,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00016212498303502798,
+      "calls": 1,
+      "expanded": 18,
+      "generated": 61,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00018729199655354023,
+      "calls": 1,
+      "expanded": 18,
+      "generated": 42,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015137495938688517,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 34,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016166700515896082,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 20,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00018500001169741154,
+      "calls": 1,
+      "expanded": 31,
+      "generated": 97,
+      "completion_length": 16
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00024337507784366608,
+      "calls": 1,
+      "expanded": 31,
+      "generated": 82,
+      "completion_length": 16
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00013854203280061483,
+      "calls": 1,
+      "expanded": 2,
+      "generated": 5,
+      "completion_length": 3
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00014095904771238565,
+      "calls": 1,
+      "expanded": 2,
+      "generated": 6,
+      "completion_length": 3
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014937506057322025,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 24,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016675004735589027,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 20,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00019108294509351254,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 106,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00023120897822082043,
+      "calls": 1,
+      "expanded": 33,
+      "generated": 59,
+      "completion_length": 14
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014575000386685133,
+      "calls": 1,
+      "expanded": 5,
+      "generated": 17,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015516707208007574,
+      "calls": 1,
+      "expanded": 5,
+      "generated": 16,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015095900744199753,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 31,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016566598787903786,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 22,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00020925002172589302,
+      "calls": 1,
+      "expanded": 42,
+      "generated": 145,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002631669631227851,
+      "calls": 1,
+      "expanded": 42,
+      "generated": 90,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015412492211908102,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 33,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016741605941206217,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 23,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015370897017419338,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 35,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001699170097708702,
+      "calls": 1,
+      "expanded": 9,
+      "generated": 24,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00013795902486890554,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 10,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00014345906674861908,
+      "calls": 1,
+      "expanded": 3,
+      "generated": 10,
+      "completion_length": 4
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014825002290308475,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 27,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001600409159436822,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 18,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015674997121095657,
+      "calls": 1,
+      "expanded": 13,
+      "generated": 49,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00017620797734707594,
+      "calls": 1,
+      "expanded": 13,
+      "generated": 39,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015645800158381462,
+      "calls": 1,
+      "expanded": 12,
+      "generated": 40,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00017116591334342957,
+      "calls": 1,
+      "expanded": 12,
+      "generated": 25,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001494159223511815,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 21,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016029190737754107,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 19,
+      "completion_length": 6
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001402910565957427,
+      "calls": 1,
+      "expanded": 2,
+      "generated": 6,
+      "completion_length": 3
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00014875002671033144,
+      "calls": 1,
+      "expanded": 2,
+      "generated": 8,
+      "completion_length": 3
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.000218207947909832,
+      "calls": 1,
+      "expanded": 49,
+      "generated": 167,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002738749608397484,
+      "calls": 1,
+      "expanded": 49,
+      "generated": 94,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014187500346451998,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 16,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00014787493273615837,
+      "calls": 1,
+      "expanded": 4,
+      "generated": 14,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00017450004816055298,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 77,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002199159935116768,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 59,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00014483300037682056,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 21,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015658303163945675,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 15,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015470804646611214,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 20,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001627500168979168,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 18,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015774997882544994,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 34,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00017362507060170174,
+      "calls": 1,
+      "expanded": 10,
+      "generated": 30,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001462079817429185,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 20,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015187496319413185,
+      "calls": 1,
+      "expanded": 6,
+      "generated": 13,
+      "completion_length": 5
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00016858300659805536,
+      "calls": 1,
+      "expanded": 20,
+      "generated": 68,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002156250411644578,
+      "calls": 1,
+      "expanded": 20,
+      "generated": 67,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0002401659730821848,
+      "calls": 1,
+      "expanded": 64,
+      "generated": 178,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0003102909540757537,
+      "calls": 1,
+      "expanded": 50,
+      "generated": 110,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.000200208043679595,
+      "calls": 1,
+      "expanded": 37,
+      "generated": 123,
+      "completion_length": 19
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00028112507425248623,
+      "calls": 1,
+      "expanded": 37,
+      "generated": 93,
+      "completion_length": 19
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0005065409932285547,
+      "calls": 1,
+      "expanded": 270,
+      "generated": 456,
+      "completion_length": 27
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00045837508514523506,
+      "calls": 1,
+      "expanded": 96,
+      "generated": 178,
+      "completion_length": 27
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0005155829712748528,
+      "calls": 1,
+      "expanded": 264,
+      "generated": 459,
+      "completion_length": 30
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00046004203613847494,
+      "calls": 1,
+      "expanded": 99,
+      "generated": 174,
+      "completion_length": 30
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0007044579833745956,
+      "calls": 1,
+      "expanded": 428,
+      "generated": 631,
+      "completion_length": 32
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0005405830452218652,
+      "calls": 1,
+      "expanded": 117,
+      "generated": 225,
+      "completion_length": 32
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001764169428497553,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 79,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00021004199516028166,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 52,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015062489546835423,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 31,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00016604200936853886,
+      "calls": 1,
+      "expanded": 8,
+      "generated": 24,
+      "completion_length": 9
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00029616698157042265,
+      "calls": 1,
+      "expanded": 118,
+      "generated": 218,
+      "completion_length": 17
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00029674998950213194,
+      "calls": 1,
+      "expanded": 54,
+      "generated": 91,
+      "completion_length": 17
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0002671250840649009,
+      "calls": 1,
+      "expanded": 88,
+      "generated": 210,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00031949998810887337,
+      "calls": 1,
+      "expanded": 59,
+      "generated": 110,
+      "completion_length": 20
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00024824996944516897,
+      "calls": 1,
+      "expanded": 72,
+      "generated": 181,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0003014160320162773,
+      "calls": 1,
+      "expanded": 50,
+      "generated": 113,
+      "completion_length": 22
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00015520898159593344,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 32,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0001675420207902789,
+      "calls": 1,
+      "expanded": 11,
+      "generated": 20,
+      "completion_length": 7
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00017979100812226534,
+      "calls": 1,
+      "expanded": 25,
+      "generated": 80,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002049580216407776,
+      "calls": 1,
+      "expanded": 25,
+      "generated": 41,
+      "completion_length": 10
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00017708295490592718,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 79,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00020933302585035563,
+      "calls": 1,
+      "expanded": 23,
+      "generated": 57,
+      "completion_length": 12
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0004344169283285737,
+      "calls": 1,
+      "expanded": 206,
+      "generated": 386,
+      "completion_length": 28
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0003548749955371022,
+      "calls": 1,
+      "expanded": 84,
+      "generated": 109,
+      "completion_length": 28
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.00020412507001310587,
+      "calls": 1,
+      "expanded": 39,
+      "generated": 129,
+      "completion_length": 18
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.0002430829918012023,
+      "calls": 1,
+      "expanded": 39,
+      "generated": 61,
+      "completion_length": 18
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "astar",
+      "seconds": 0.0001462079817429185,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 27,
+      "completion_length": 8
+    },
+    {
+      "family": "warehouse_reservations",
+      "solver": "sipp",
+      "seconds": 0.00015537510626018047,
+      "calls": 1,
+      "expanded": 7,
+      "generated": 19,
+      "completion_length": 8
+    }
+  ]
+}

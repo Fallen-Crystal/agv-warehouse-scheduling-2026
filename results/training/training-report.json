@@ -1,0 +1,136 @@
+{
+  "source_url": "https://movingai.com/benchmarks/mapf/warehouse-10-20-10-2-1.map.zip",
+  "license": "https://opendatacommons.org/licenses/by/1-0/",
+  "source_map_sha256": "c8d1b2f24788ed6bd1ccf45065b96b4ce82d65f88c72de750e03e2758637bff0",
+  "regions": {
+    "train": [
+      32,
+      1,
+      32,
+      24
+    ],
+    "validation": [
+      64,
+      1,
+      32,
+      24
+    ],
+    "test": [
+      96,
+      34,
+      32,
+      24
+    ]
+  },
+  "train_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "validation_seeds": [
+    100,
+    101,
+    102
+  ],
+  "heldout_test_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205
+  ],
+  "samples": {
+    "train": 3828,
+    "validation": 1542
+  },
+  "scenes": [
+    {
+      "split": "train",
+      "seed": 0,
+      "scenario_sha256": "b0fb1b84e3d4de421c28d0a286dd5fdcd3954c0d7db28af681fed2d8f707048a",
+      "feasible": true,
+      "samples": 530
+    },
+    {
+      "split": "train",
+      "seed": 1,
+      "scenario_sha256": "fe0b4b14f731023fcdaf6b1c340d0ab6266f01a2aebf6e7dcf7380463286a46a",
+      "feasible": true,
+      "samples": 426
+    },
+    {
+      "split": "train",
+      "seed": 2,
+      "scenario_sha256": "d736a7d138802a886096ec6b3c5527b121bb03165ee431789121d5a094654c14",
+      "feasible": true,
+      "samples": 514
+    },
+    {
+      "split": "train",
+      "seed": 3,
+      "scenario_sha256": "5ab648c1f818bc9e72bfbf2148e80ff553e732234226b00506144e29fb63008e",
+      "feasible": true,
+      "samples": 572
+    },
+    {
+      "split": "train",
+      "seed": 4,
+      "scenario_sha256": "66b3a3e674bd28b12d2602e9d1cf204766ef5cc9d4a7cfc914be66237749b86e",
+      "feasible": true,
+      "samples": 520
+    },
+    {
+      "split": "train",
+      "seed": 5,
+      "scenario_sha256": "7b9d96426490762044efd618e0f1927f698f8391397198b9a26f188aa057f318",
+      "feasible": true,
+      "samples": 358
+    },
+    {
+      "split": "train",
+      "seed": 6,
+      "scenario_sha256": "ed23afd86d63a563271ecb76d9af860067ab3c1e4716cf470548a9480e77e5fa",
+      "feasible": true,
+      "samples": 422
+    },
+    {
+      "split": "train",
+      "seed": 7,
+      "scenario_sha256": "32ac24252dfa1aaa3e638fcb738599ba2dec16fe9dfe4e51a81bc25c10eade35",
+      "feasible": true,
+      "samples": 486
+    },
+    {
+      "split": "validation",
+      "seed": 100,
+      "scenario_sha256": "70d0dd36af2f0ee0320e53e7b59efc518a0f412d7ea59260b044851d0e760e3d",
+      "feasible": true,
+      "samples": 556
+    },
+    {
+      "split": "validation",
+      "seed": 101,
+      "scenario_sha256": "53e848ac7eb9bdf962f310a263a88f4eb0b28a6d45324f1ad876c8b69d8847c2",
+      "feasible": true,
+      "samples": 568
+    },
+    {
+      "split": "validation",
+      "seed": 102,
+      "scenario_sha256": "129f04e90e1d4997b3d56db6479ec96c254ba0d4e9d8d9c260d3c5634278355c",
+      "feasible": true,
+      "samples": 418
+    }
+  ],
+  "selected_regularization": 1.0,
+  "validation_mse": 0.5631462943117208,
+  "validation_constant_mse": 0.5776772306967853,
+  "target": "clipped primary remaining-flow gain of a candidate; infeasible=-1, range[-5,10]",
+  "scope": "MovingAI geometry-derived MAPD, disjoint regions/seeds of ONE warehouse; not official MAPF scores"
+}

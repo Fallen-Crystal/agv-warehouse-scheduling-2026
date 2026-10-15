@@ -1,0 +1,127 @@
+{
+  "status": "complete",
+  "configs": {
+    "static_small_wide": {
+      "mode": "static",
+      "size": "small",
+      "vehicles": 4,
+      "layout": "wide",
+      "task_count": 12
+    },
+    "static_small_bottleneck": {
+      "mode": "static",
+      "size": "small",
+      "vehicles": 4,
+      "layout": "bottleneck",
+      "task_count": 12
+    },
+    "dynamic_medium_burst": {
+      "mode": "dynamic",
+      "size": "medium",
+      "vehicles": 6,
+      "layout": "bottleneck",
+      "task_count": 30,
+      "arrival": "burst"
+    },
+    "dynamic_large_shared": {
+      "mode": "dynamic",
+      "size": "large",
+      "vehicles": 8,
+      "layout": "bottleneck",
+      "task_count": 40,
+      "arrival": "irregular",
+      "delivery_pattern": "shared"
+    },
+    "dynamic_small_switching": {
+      "mode": "dynamic",
+      "size": "small",
+      "vehicles": 4,
+      "layout": "bottleneck",
+      "task_count": 30,
+      "arrival": "irregular",
+      "demand": "switching"
+    },
+    "short_horizon_stress": {
+      "mode": "static",
+      "size": "medium",
+      "vehicles": 6,
+      "layout": "bottleneck",
+      "task_count": 30,
+      "horizon": 100
+    }
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "solvers": [
+    "baseline",
+    "joint_only",
+    "sipp_joint",
+    "sipp_conflict",
+    "sipp_budget",
+    "sipp_learned"
+  ],
+  "public_map_sha256": "c8d1b2f24788ed6bd1ccf45065b96b4ce82d65f88c72de750e03e2758637bff0",
+  "public_test_seeds": [
+    200,
+    201,
+    202,
+    203,
+    204,
+    205
+  ],
+  "sources": {
+    "__init__.py": "8d58eaea35b384869674fb0241a3f0aa83516ba7ee6824072c97b690ea512de4",
+    "__main__.py": "e7d30120ec4887445dd712ed8600765e0a3d6c475f162a327d8433f883d5b84d",
+    "cli.py": "cd86d64a43d64f6c24519dd6f21f219efad4a5677585119c7b6a157882c65d22",
+    "dispatch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dispatch/greedy.py": "585a1a8a33bcb8ec0fa3bf3aa9a9d824399cc82ff138534fbe540cf2e3865912",
+    "dispatch/optimized.py": "0463d6ffb2c605625c0a5eabfa7d87a398d042fbb42542b5f15a248f91599cc6",
+    "dispatch/registry.py": "4d0ef9315a26549c090372a68bcdd4c7d2aeaf0ab23047f109434697557077fe",
+    "domain.py": "6504813c7bcb4617d67496ded86aafa33cd9abfaf74eddc184b01562510e0e8d",
+    "evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evaluation/diagnostics.py": "ce60cff899424edbc4ce001f58281be598dd57bdeb0c5c6d3ac16c1c546528e2",
+    "evaluation/metrics.py": "20d368559eb0fee6cf239734add1ccf650f898fb43c9cb9b83d59d26fbb22efe",
+    "evaluation/validation.py": "839eb02af4c09529d837d67447da54c241af4793b976e35718973414dd5d5933",
+    "experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "experiments/batch.py": "40e3f66cb095efee9c861f74fdb1fa1fd9f845676e0c5bddc8b59a2875bfc3e3",
+    "experiments/benchmark.py": "fb470470a68dcae402bbaa07282d734bd1606d80950922c784c3f079ae45a414",
+    "experiments/routing_benchmark.py": "543dd39df013ce8f7262c4e8617a3be5fad98c532ba0a91cfbf6f92e42da6a56",
+    "io/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "io/exports.py": "65ea2743078889ec2f6e9edbc7c8165d004e1277f126ef3545a584cc35db01c8",
+    "io/movingai.py": "05ccde5c3b33956f1c8e275c827017cc462200d9c44da50e5595387dd9f8029a",
+    "io/scenes.py": "226b991b4481cfaba0e2e2a8dfa9ec3591a7680d40853eb91f88378108e23ba1",
+    "io/storage.py": "079b6e7ca6e5504cae410181a6cb450a7e55ded6ab5ba17e1cc2c53bf98dd965",
+    "learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "learning/ranker.py": "3b92d5feb265091ade7a32d6f5d16c97c5de62152eb049c66655f81d7bf28961",
+    "learning/train.py": "5ccf1fb421f6704b09860bb81af268e4a3ddd50f7ec38410507c76a20591545c",
+    "models/candidate-ranker.json": "3778d7857681aa9e5bb190c511282e4fb70afdbeb3e1ffdc424f7150ff5107f8",
+    "planning/__init__.py": "db86414d3646a6bbd7e82ee3819a6a2cb4d2b114dcc3aa33965832faffd456a0",
+    "planning/astar.py": "0e155470c0dfc77bec3a5ded2f70656b93d39079dd71245b1392036b9f85d5a2",
+    "planning/demo_cases.py": "795345382719d64a09df53d8f34bc9fce0f6b523d729c27096163ed83a12b39b",
+    "planning/joint.py": "e436da29d62ab62b88b34e1d2f7cd664264bd792222faf398d46515388c1628d",
+    "planning/pickup.py": "52d1bda020e5bdf63f00aa758b0b58be30d5d2e1a70fd2f9cce3215ae1b9b46e",
+    "planning/reservations.py": "c597563240c58b7e61f9f70819dfc3b6f5e7144d7d18b51828c41d307c9e0ea5",
+    "planning/sipp.py": "31f01daffb2c0bf32e94b4df818c80ee40f704ba00b970c24d2bcbe8ed5c7441",
+    "simulation.py": "6ba4fb2439143b3b5a90f5340aeaeb826029bf1d240bcaa3a19eca2b56bc1395",
+    "web/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "web/app.py": "a71d1dd8342b9f6141a4d8841b5f9a1f00bf248df22b83fb207e06e87e09802b",
+    "web/static/app.js": "913ab8e7a244e73181e537c92929dd1beae829b08bc264ead865a35c7127dc25",
+    "web/static/style.css": "09121fe5232617bc090279fcb82f396bf0dbb7a3a41daa1463559591c5e0cd77",
+    "web/templates/index.html": "e0db75171f9c8e00488343f7b0d2a2835ef405bc1419889b2fffb8ad76f00980"
+  },
+  "python": "3.12.13",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "timing_repetitions": 1,
+  "notes": "Paired costs require both full task completion AND return. Public scores are derived MAPD, not official MAPF.",
+  "validated_runs": 396
+}

@@ -1,0 +1,8 @@
+{
+  "source_url": "https://movingai.com/benchmarks/mapf/warehouse-10-20-10-2-1.map.zip",
+  "source_page": "https://movingai.com/benchmarks/mapf.html",
+  "license": "https://opendatacommons.org/licenses/by/1-0/",
+  "attribution": "Moving AI Lab benchmark collection; warehouse map credited by its benchmark authors",
+  "sha256": "c8d1b2f24788ed6bd1ccf45065b96b4ce82d65f88c72de750e03e2758637bff0",
+  "derived_task_rule": "Cropped map geometry + generated shelf pickup/delivery tasks; not official MAPF scenarios"
+}

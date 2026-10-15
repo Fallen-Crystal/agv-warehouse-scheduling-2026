@@ -1,5 +1,0 @@
-﻿mode,layout,feasible,completed,total_tasks,completion_rate,comparison_valid,metrics_scope,makespan,time,mean_flow_time,max_flow_time,p90_flow_time,mean_dispatch_wait,mean_pickup_duration,mean_loaded_duration,mean_service_duration,moves,empty_moves,loaded_moves,traffic_wait_steps,workload_cv
-static,wide,True,12,12,1.0,True,all_tasks,51,62,26.75,51,49,12.0,4.666666666666667,8.083333333333334,2.0,202,105,97,1,0.1368818241761098
-static,bottleneck,True,12,12,1.0,True,all_tasks,52,67,27.333333333333332,52,50,12.0,4.916666666666667,8.416666666666666,2.0,212,115,97,5,0.11084825029549532
-dynamic,wide,True,12,12,1.0,True,all_tasks,67,85,14.666666666666666,27,22,0.0,4.833333333333333,7.833333333333333,2.0,228,137,91,3,0.08503766788122594
-dynamic,bottleneck,True,12,12,1.0,True,all_tasks,71,89,14.666666666666666,27,26,0.0,4.5,8.166666666666666,2.0,232,137,95,3,0.14728956132745138
