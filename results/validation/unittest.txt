@@ -75,6 +75,6 @@ test_side_bay_yield_and_rejoin (tests.unit.test_yield.YieldTests.test_side_bay_y
 test_wait_outside_entrance (tests.unit.test_yield.YieldTests.test_wait_outside_entrance) ... ok
 
 ----------------------------------------------------------------------
-Ran 75 tests in 9.178s
+Ran 75 tests in 9.157s
 
 OK

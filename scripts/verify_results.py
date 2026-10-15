@@ -17,7 +17,7 @@ MEASURED_COMMIT = "29d86e780e3f7e445248dee3b43b3882b6eb6a1a"
 
 def main():
     root = Path("results/v2")
-    manifest = json.loads((root / "manifest.json").read_text())
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["status"] == "complete"
     rows = list(csv.DictReader((root / "runs.csv").open(encoding="utf-8-sig")))
     assert len(rows) == manifest["validated_runs"] == 396
@@ -39,7 +39,7 @@ def main():
         assert scenario_id(scenes[key]) == row["sha256"], key
     traces = 0
     for p in (root / "traces").glob("*.json"):
-        entry = json.loads(p.read_text())
+        entry = json.loads(p.read_text(encoding="utf-8"))
         scene = unpack_scene(entry)
         validate(scene, entry["result"])
         traces += 1

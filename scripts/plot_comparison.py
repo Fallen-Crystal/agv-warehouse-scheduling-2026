@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 def main():
     root = Path("results/v2")
-    rows = json.loads((root / "summary.json").read_text())
+    rows = json.loads((root / "summary.json").read_text(encoding="utf-8"))
     names = [
         "static_small_wide",
         "static_small_bottleneck",

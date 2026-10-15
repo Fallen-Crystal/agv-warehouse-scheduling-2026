@@ -229,7 +229,7 @@ def run_benchmark(output, seeds=10, solver_names=DEFAULT_SOLVERS, public_map=Non
         writer.writerows(summary)
     if sources != source_hashes():
         raise RuntimeError("Source changed during benchmark; discard timing/summary and rerun")
-    manifest = json.loads((root / "manifest.json").read_text())
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     manifest.update(status="complete", validated_runs=len(rows))
     write_json(root / "manifest.json", manifest, overwrite=True)
     return rows, summary

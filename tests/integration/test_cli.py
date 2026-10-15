@@ -23,11 +23,13 @@ class CliTests(unittest.TestCase):
             ]
             first = subprocess.run(command, cwd=folder, capture_output=True, text=True)
             self.assertEqual(first.returncode, 0, first.stderr)
-            saved = json.loads((Path(folder) / "result.json").read_text())
+            saved = json.loads((Path(folder) / "result.json").read_text(encoding="utf-8"))
             self.assertTrue(saved["result"]["feasible"])
             second = subprocess.run(command, cwd=folder, capture_output=True, text=True)
             self.assertEqual(second.returncode, 2)
-            self.assertEqual(json.loads((Path(folder) / "result.json").read_text()), saved)
+            self.assertEqual(
+                json.loads((Path(folder) / "result.json").read_text(encoding="utf-8")), saved
+            )
 
     def test_cli_bad_arguments_return_nonzero(self):
         with tempfile.TemporaryDirectory() as folder:

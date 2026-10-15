@@ -33,14 +33,18 @@ class BoundaryTests(unittest.TestCase):
     def test_atomic_json_preserves_existing_file_and_cleans_temporary(self):
         with tempfile.TemporaryDirectory() as folder:
             file = Path(folder) / "result.json"
-            write_json(file, {"ok": 1})
+            write_json(file, {"ok": 1, "消息": "取货完成"})
             with self.assertRaises(FileExistsError):
                 write_json(file, {"ok": 2})
-            self.assertEqual(json.loads(file.read_text()), {"ok": 1})
+            self.assertEqual(
+                json.loads(file.read_text(encoding="utf-8")), {"ok": 1, "消息": "取货完成"}
+            )
             with self.assertRaises(ValueError):
                 write_json(file, {"bad": float("nan")}, overwrite=True)
             self.assertEqual(list(Path(folder).iterdir()), [file])
-            self.assertEqual(json.loads(file.read_text()), {"ok": 1})
+            self.assertEqual(
+                json.loads(file.read_text(encoding="utf-8")), {"ok": 1, "消息": "取货完成"}
+            )
 
     def test_mutating_reservations_invalidates_cached_index(self):
         r = VertexReservations({(1, (0, 0))})
@@ -72,7 +76,7 @@ class BoundaryTests(unittest.TestCase):
             parse_map("type octile\n2\n2\nmap\n..\n..")
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder) / "custom.map"
-            p.write_text("type octile\nheight 2\nwidth 2\nmap\n..\n..")
+            p.write_text("type octile\nheight 2\nwidth 2\nmap\n..\n..", encoding="utf-8")
             self.assertEqual(map_provenance(p)["origin"], "user-supplied")
             self.assertIsNone(map_provenance(p)["source_url"])
             write_json(
