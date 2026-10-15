@@ -52,13 +52,22 @@ TASK_FIELDS = (
     "service_duration",
 )
 TASK_FIELDS += ("shelf_x", "shelf_y", "pickup_x", "pickup_y")
+V4_TASK_FIELDS = TASK_FIELDS + ("shelf_level", "rack_bay", "storage_id")
+
+
+def task_fields(result):
+    return (
+        V4_TASK_FIELDS
+        if result.get("model_version") or any("storage_id" in row for row in result["task_metrics"])
+        else TASK_FIELDS
+    )
 
 
 def export_details(result, directory, name):
     directory = Path(directory)
     for suffix, fields, rows in [
         ("vehicles", VEHICLE_FIELDS, result["per_vehicle"]),
-        ("tasks", TASK_FIELDS, result["task_metrics"]),
+        ("tasks", task_fields(result), result["task_metrics"]),
     ]:
         with (directory / (name + "_" + suffix + ".csv")).open(
             "w", encoding="utf-8-sig", newline=""
@@ -71,7 +80,7 @@ def export_details(result, directory, name):
 def audit_details(result, directory, name):
     for suffix, fields, expected in [
         ("vehicles", VEHICLE_FIELDS, result["per_vehicle"]),
-        ("tasks", TASK_FIELDS, result["task_metrics"]),
+        ("tasks", task_fields(result), result["task_metrics"]),
     ]:
         with (Path(directory) / (name + "_" + suffix + ".csv")).open(
             encoding="utf-8-sig", newline=""
@@ -84,6 +93,10 @@ def audit_details(result, directory, name):
             raise ValueError("Detail CSV row count mismatch")
         for row, target in zip(actual, expected):
             for field in fields:
+                if isinstance(target[field], str):
+                    if row[field] != target[field]:
+                        raise ValueError("Detail CSV value mismatch: " + field)
+                    continue
                 if not (
                     row[field] == ""
                     if target[field] is None

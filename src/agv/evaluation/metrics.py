@@ -28,6 +28,15 @@ def summarize(scenario, result):
                 shelf_y=j.shelf[1] if j.shelf else None,
             )
         )
+        if scenario.is_v4:
+            rack = next(
+                v for v in scenario.map_info["rack_catalog"] if tuple(v["position"]) == j.shelf
+            )
+            task_metrics[-1].update(
+                shelf_level=j.shelf_level,
+                rack_bay=rack["bay_id"],
+                storage_id=f"{rack['bay_id']}-L{j.shelf_level:02d}",
+            )
     flows = sorted(j["flow_time"] for j in task_metrics)
     empty_value = 0 if not jobs else None
 

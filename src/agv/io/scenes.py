@@ -14,7 +14,7 @@ def scenario_id(scenario):
 
 def pack_scene(scenario, config=None, result=None):
     data = dict(
-        format="agv-scene-v2",
+        format="agv-scene-v4" if scenario.is_v4 else "agv-scene-v2",
         scenario=scenario.to_dict(),
         scenario_sha256=scenario_id(scenario),
         config=config,
@@ -27,10 +27,17 @@ def pack_scene(scenario, config=None, result=None):
 def unpack_scene(data):
     if not isinstance(data, dict):
         raise ValueError("场景文件必须是JSON对象")
-    if "format" in data and data["format"] not in ("agv-scene-v1", "agv-scene-v2"):
+    if "format" in data and data["format"] not in (
+        "agv-scene-v1",
+        "agv-scene-v2",
+        "agv-scene-v3",
+        "agv-scene-v4",
+    ):
         raise ValueError("不支持的场景格式")
     raw = data.get("scenario", data)
     s = Scenario.from_dict(raw)
+    if data.get("format") == "agv-scene-v4" and not s.is_v4:
+        raise ValueError("V4 archive must preserve its explicit model profile")
     raw_id = hashlib.sha256(
         json.dumps(raw, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()

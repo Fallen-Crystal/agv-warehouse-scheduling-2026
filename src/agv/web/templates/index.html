@@ -2,12 +2,16 @@
 <html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>仓库地图与车辆轨迹</title>
 __STYLE__
-<main><header><h1>货架取货版：车辆选择停靠侧</h1><p>每个货架小格是一处储货位置。S标出订单要取货的货架格，车辆从旁边合法格停靠取货。大仓库有四列货架。车辆每步走一格或停留；点击方格查看坐标和可通行的四邻接位置。</p></header>
+<main><header><h1>仓库 AGV：传统场景与 V4 规则模型</h1><p>传统模型由车辆选择停靠侧；V4使用背靠背货架与固定外侧取货，装货时间随层号变化。S标出已出现订单的目标货架，D为交付点。车辆每步走一格或停留；点击方格查看坐标和通行限制。</p></header>
 <div class="controls">
-<label>调度算法 <select id="algorithm"><option value="baseline">队友原版：距离贪心</option><option value="matching_only">仅最小代价匹配</option><option value="joint_only">仅联合重规划</option><option value="matching_joint">匹配 + 联合重规划</option><option value="sipp_joint">SIPP + 原联合重规划</option><option value="sipp_conflict">SIPP + 拥堵关联修复</option><option value="sipp_budget">SIPP + 小预算规则排序</option><option value="sipp_learned">SIPP + 训练后候选排序</option></select></label>
-<label>仓库大小 <select id="size"><option value="small">小：13×11格</option><option value="medium">中：19×15格</option><option value="large">大：25×19格</option></select></label>
-<label>车辆数 <select id="vehiclesCount"><option value="1">1辆</option><option value="2">2辆</option><option value="3">3辆</option><option value="4" selected>4辆</option><option value="5">5辆</option><option value="6">6辆</option><option value="7">7辆</option><option value="8">8辆</option></select></label>
+<label>仓库模型 <select id="profile"><option value="legacy">传统四邻格取货</option><option value="v4">V4：背靠背货架与分层取货</option></select></label>
+<label>调度算法 <select id="algorithm"><option value="baseline">队友原版：距离贪心</option><option value="matching_only">仅最小代价匹配</option><option value="joint_only">仅联合重规划</option><option value="matching_joint">匹配 + 联合重规划</option><option value="sipp_joint">SIPP + 原联合重规划</option><option value="sipp_conflict">SIPP + 拥堵关联修复</option><option value="sipp_budget">SIPP + 小预算规则排序</option><option value="sipp_matching">SIPP + 小预算匹配派单</option><option value="sipp_learned">SIPP + 训练后候选排序</option></select></label>
+<label>仓库大小 <select id="size"><option value="small">小型</option><option value="medium">中型</option><option value="large">大型</option><option value="xlarge">超大型（V4）</option><option value="xxlarge">特大型（V4）</option></select></label>
+<label>车辆数 <select id="vehiclesCount"><option value="1">1辆</option><option value="2">2辆</option><option value="3">3辆</option><option value="4" selected>4辆</option><option value="5">5辆</option><option value="6">6辆</option><option value="7">7辆</option><option value="8">8辆</option><option value="9">9辆（V4）</option><option value="10">10辆（V4）</option></select></label>
 <label>通道 <select id="layout"><option value="bottleneck">窄：1个通行口</option><option value="wide">宽：3个通行口</option></select></label>
+<label>货架层数（V4） <input id="shelfLayers" type="number" min="1" max="5" value="3" style="width:65px"></label>
+<label>作业通道宽（V4） <select id="workWidth"><option>2</option><option>3</option><option>4</option></select></label>
+<label>建筑障碍（V4） <select id="obstacles"><option value="none">无附加障碍</option><option value="columns">立柱</option><option value="columns_equipment">立柱与两侧设备</option></select></label>
 <label>任务模式 <select id="mode"><option value="static">静态</option><option value="dynamic">动态</option></select></label>
 <label>动态订单到达 <select id="arrival"><option value="batch">每15步3单</option><option value="uniform">每5步1单</option><option value="irregular">不规则间隔1～9步</option><option value="burst">每30步6单</option></select></label>
 <label>取货位置分布 <select id="demand"><option value="balanced">左、右侧取货概率各50%</option><option value="left_hotspot">每单有80%概率从左侧取货</option><option value="right_hotspot">每单有80%概率从右侧取货</option><option value="switching">前半订单偏左取货，后半偏右</option></select></label>
@@ -16,7 +20,7 @@ __STYLE__
 <label>任务种子 <input id="seed" type="number" min="0" max="999999" value="0" style="width:90px"></label>
 <label>整次仿真允许运行的最长时间（步） <input id="horizon" type="number" min="60" max="1800" value="600" style="width:90px"></label>
 <button id="generate">生成并运行</button></div>
-<p class="note">取货位置分布决定订单来自哪一侧货架。80%是每单的生成概率，不保证一小批订单恰好占80%；前半偏左、后半偏右分别使用80%的左侧、右侧取货概率。</p><p id="status" role="status" aria-live="polite"></p>
+<p class="note">取货位置分布决定订单来自哪一侧货架。80%是每单的生成概率，不保证一小批订单恰好占80%；前半偏左、后半偏右分别使用80%的左侧、右侧取货概率。</p><p class="note">V4：同面货位只派已出现的最高层订单；装货2×层号、卸货1步；D只用于指定卸货，不能借道或等候。50/30/20综合分数使用同场景离线参考，权重为项目偏好。页面使用有限运行预算；不设截止的V4文件请使用CLI。</p><p id="status" role="status" aria-live="polite"></p>
 <div class="controls"><button id="play">播放</button><button id="step">下一步</button><button id="reset">回到开始</button><label><input id="trails" type="checkbox" checked> 显示已走轨迹</label></div>
 <section class="map" style="margin-top:20px"><h2>保存和重跑同一个场景</h2>
 <button id="saveScene">下载完整场景与结果 JSON</button>
@@ -26,7 +30,7 @@ __STYLE__
 <label>运行数量 <input id="batchCount" type="number" min="1" max="20" value="5" style="width:75px"></label>
 <button id="runBatch">按当前参数批量运行</button><button id="downloadBatch" disabled>下载批量完整结果 JSON</button><button id="downloadBatchCSV" disabled>下载批量统计 CSV</button>
 <p id="batchStatus" role="status"></p><div id="batchSummary"></div></section><div class="stage"><section class="map"><canvas id="map" width="1040" height="800" aria-label="仓库货架、通道、车辆及任务位置"></canvas><div class="timeline"><span>时刻</span><input id="time" type="range" min="0" value="0"><output id="timeLabel" class="numbers"></output></div><p id="description" class="note"></p></section>
-<aside><h2>看图说明</h2><div class="legend"><div><i class="swatch" style="background:#dfb57a"></i>货架，不可进入</div><div><i class="swatch" style="background:#536576"></i>墙体或边界障碍</div><div><i class="swatch" style="background:#dae9f5"></i>专属停车位 H</div><div><i class="swatch" style="background:#dfb57a"></i>当前待取货的货架格 S</div><div><i class="swatch" style="background:white;border:3px solid #176ca7"></i>车辆计划装货停靠格</div><div><i class="swatch" style="background:#ffe7b0"></i>本场景的交付点 D</div><div><i class="swatch" style="background:#fff"></i>可通行地面</div></div><p id="progress"></p><div id="vehicles"></div><p id="cell">点击地图中的格子，查看上下左右能走到哪里。绿色边框只表示地图相邻可通行，不代表当时没有其他车辆占用。</p></aside></div>
+<aside><h2>看图说明</h2><div class="legend"><div><i class="swatch" style="background:#dfb57a"></i>货架，不可进入</div><div><i class="swatch" style="background:#536576"></i>墙体或边界障碍</div><div><i class="swatch" style="background:#dae9f5"></i>专属停车位 H</div><div><i class="swatch" style="background:#dfb57a"></i>当前待取货的货架格 S</div><div><i class="swatch" style="background:white;border:3px solid #176ca7"></i>车辆计划装货停靠格</div><div><i class="swatch" style="background:#ffe7b0"></i>本场景的交付点 D</div><div><i class="swatch" style="background:#fff"></i>可通行地面</div></div><p id="progress"></p><div id="vehicles"></div><h3>当前待派订单</h3><div id="pendingOrders"></div><p id="cell">点击地图中的格子，查看上下左右能走到哪里。绿色边框只表示地图相邻可通行，不代表当时没有其他车辆占用。</p></aside></div>
 <p class="note">这是设定的教学仿真仓库。播放使用环境实际执行的轨迹；可选择距离贪心、最小代价匹配与联合后缀重规划；重规划保留已执行路线和已开始的装卸服务。动态任务只在释放后显示；未来订单不展示。每个货架小格都可成为订单目标，单个订单的目标不会移动。S只标记已出现且尚未装货完成的订单目标；该格对应订单全部取完后取消标记。车辆颜色边框标记当前计划装货的停靠格。动画按离散步跳转，未模拟实际车身尺寸。</p><section class="map" style="margin-top:20px">
 <h2>本次运行结果</h2><p id="replanSummary"></p><h3>失败与未完成记录</h3><div id="failureSummary"></div><button id="exportFailures">下载失败记录 JSON</button><p class="note">这是生成后整次运行的统计，不随动画时间条变化。时间单位为步，距离单位为格。</p>
 <p id="metricScope" role="status"></p><div id="metricSummary"></div><p class="note">90%订单的耗时上限：本次已完成订单中，至少90%的订单从出现到完成不超过这个时长。途中等待总步数：车辆在取送或返回途中原地停留，排除装卸和停车空闲；多车等待步数相加。车辆工作量差异：各车任务执行时间的不均衡程度，0表示一样多，数值越大越不均衡。</p>

@@ -63,7 +63,16 @@ def repair_vehicle(s, router, v, now, vertices, edges):
     if any((now + i, p) in vertices for i, p in enumerate(path)):
         return None
     for name, goal, service in legs:
-        leg = router.leg(path[-1], goal, now + len(path) - 1, k, vertices, edges, service)
+        leg = router.leg(
+            path[-1],
+            goal,
+            now + len(path) - 1,
+            k,
+            vertices,
+            edges,
+            service,
+            delivery_station=job.delivery if name == "delivery" else None,
+        )
         if leg is None:
             return None
         path.extend(leg[1:])
@@ -184,15 +193,7 @@ class JointPlanner:
 
     def propose(self, observation):
         m, now = observation["map"], observation["time"]
-        s = Scenario(
-            m["width"],
-            m["height"],
-            set(map(tuple, m["blocked"])),
-            set(map(tuple, m["shelves"])),
-            list(map(tuple, m["homes"])),
-            [],
-            observation["horizon"],
-        )
+        s = Scenario.from_observation_map(m, observation["horizon"])
         if self.router is None or self.router.s.to_dict() != s.to_dict():
             self.router = create_router(self.router_kind, s)
         vehicles = observation["vehicles"]

@@ -23,6 +23,22 @@ def main(argv=None):
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
     run.add_argument("--tasks", type=int, default=12)
+    run.add_argument("--profile", choices=("legacy", "v4"), default="legacy")
+    run.add_argument("--mode", choices=("static", "dynamic"), default="static")
+    run.add_argument(
+        "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default="small"
+    )
+    run.add_argument("--vehicles", type=int, default=4)
+    run.add_argument("--layers", type=int, default=3)
+    run.add_argument("--work-width", type=int, default=2)
+    run.add_argument(
+        "--obstacles", choices=("none", "columns", "columns_equipment"), default="none"
+    )
+    run.add_argument(
+        "--horizon",
+        type=int,
+        help="Optional finite cutoff; V4 defaults to completion/stall termination",
+    )
     run.add_argument("--overwrite", action="store_true")
     serve = sub.add_parser("serve", help="Start the local-only browser interface")
     serve.add_argument("--port", type=int, default=0)
@@ -31,6 +47,11 @@ def main(argv=None):
     benchmark.add_argument("--seeds", type=int, default=10)
     benchmark.add_argument("--map", type=Path, help="Include heldout MovingAI-derived MAPD scenes")
     benchmark.add_argument("--output", type=Path, required=True)
+    benchmark_v4 = sub.add_parser(
+        "benchmark-v4", help="Paired V4 profile comparison with fixed offline reference"
+    )
+    benchmark_v4.add_argument("--seeds", type=int, default=6)
+    benchmark_v4.add_argument("--output", type=Path, required=True)
     data = sub.add_parser("fetch-data", help="Fetch the attributed public MovingAI warehouse map")
     data.add_argument("--output", type=Path, required=True)
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
@@ -39,11 +60,31 @@ def main(argv=None):
     args = parser.parse_args(argv)
     try:
         if args.command == "run":
-            scenario = (
-                load_scene(args.input)
-                if args.input
-                else example(seed=args.seed, task_count=args.tasks)
-            )
+            if args.input:
+                scenario = load_scene(args.input)
+            elif args.profile == "v4":
+                from agv.warehouse.layout import generate
+
+                scenario = generate(
+                    seed=args.seed,
+                    task_count=args.tasks,
+                    mode=args.mode,
+                    size=args.size,
+                    vehicles=args.vehicles,
+                    shelf_layers=args.layers,
+                    work_width=args.work_width,
+                    obstacle_layout=args.obstacles,
+                    horizon=args.horizon,
+                )
+            else:
+                scenario = example(
+                    seed=args.seed,
+                    task_count=args.tasks,
+                    mode=args.mode,
+                    size=args.size,
+                    vehicles=args.vehicles,
+                    horizon=args.horizon if args.horizon is not None else 600,
+                )
             result = run_named(args.algorithm, scenario)
             validate(scenario, result)
             write_json(
@@ -77,6 +118,10 @@ def main(argv=None):
             from agv.experiments.benchmark import run_benchmark
 
             run_benchmark(args.output, seeds=args.seeds, public_map=args.map)
+        elif args.command == "benchmark-v4":
+            from agv.experiments.v4 import run_benchmark
+
+            run_benchmark(args.output, args.seeds)
         elif args.command == "fetch-data":
             from agv.io.movingai import download_map
 

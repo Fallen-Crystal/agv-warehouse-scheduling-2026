@@ -10,7 +10,12 @@ def validate(scenario, result):
 
     paths = result["paths"]
     horizon = result["time"]
-    require(0 <= horizon <= scenario.horizon, "Invalid executed time")
+    require(
+        type(horizon) is int
+        and 0 <= horizon
+        and (scenario.horizon is None or horizon <= scenario.horizon),
+        "Invalid executed time",
+    )
     require(len(paths) == len(scenario.homes), "Missing vehicle")
     for k, path in enumerate(paths):
         require(
@@ -40,6 +45,16 @@ def validate(scenario, result):
                     )
     jobs = {j.id: j for j in scenario.tasks}
     assignments = result["assignments"]
+    require(
+        all(
+            type(r.get("vehicle")) is int
+            and 0 <= r["vehicle"] < len(paths)
+            and type(r.get("task_id")) is int
+            and r["task_id"] in jobs
+            for r in assignments
+        ),
+        "Unknown vehicle or task",
+    )
     require(len({r["task_id"] for r in assignments}) == len(assignments), "Duplicate assignment")
     service_intervals = {k: set() for k in range(len(paths))}
     for k in range(len(paths)):
@@ -58,7 +73,7 @@ def validate(scenario, result):
                 <= r["delivery_arrival"]
                 <= r["delivery_end"]
                 <= r["return_end"]
-                <= scenario.horizon,
+                and (scenario.horizon is None or r["return_end"] <= scenario.horizon),
                 "Invalid task timing",
             )
             raw_point = r.get("pickup_point", j.pickup)
@@ -88,6 +103,37 @@ def validate(scenario, result):
         all(type(r["vehicle"]) is int and 0 <= r["vehicle"] < len(paths) for r in assignments),
         "Unknown vehicle",
     )
+    if scenario.is_v4:
+        assigned, previous = set(), []
+        for r in assignments:
+            job, now = jobs[r["task_id"]], r["assigned_at"]
+            # Immutable job identity is authoritative; shelf is optional event metadata.
+            same = [old for old in previous if jobs[old["task_id"]].shelf == job.shelf]
+            require(
+                all(old["pickup_end"] <= now for old in same),
+                "Dispatched before previous face pickup finished",
+            )
+            contenders = [
+                j
+                for j in scenario.tasks
+                if j.shelf == job.shelf and j.release <= now and j.id not in assigned
+            ]
+            first = min(contenders, key=lambda j: (-j.shelf_level, j.release, j.id))
+            require(first.id == job.id, "Wrong per-face layer dispatch order")
+            assigned.add(job.id)
+            previous.append(r)
+        for k, path in enumerate(paths):
+            permits = [
+                (jobs[r["task_id"]].delivery, r["delivery_arrival"], r["delivery_end"])
+                for r in assignments
+                if r["vehicle"] == k
+            ]
+            for t, p in enumerate(path):
+                if tuple(p) in scenario.stations:
+                    require(
+                        any(tuple(p) == station and a <= t <= b for station, a, b in permits),
+                        "Delivery station occupied outside unload service",
+                    )
     # 同货架不同侧可同时装货；地面停靠格互斥已由逐时刻碰撞检查保证。
     expected_events = [r for r in assignments if r["delivery_end"] <= horizon]
     require(result["events"] == expected_events, "Wrong completion events")
@@ -156,7 +202,8 @@ def validate(scenario, result):
             )
             require(
                 a["failed_leg"] in ("pickup", "delivery", "return")
-                and a["reason"] == "no_route_within_horizon",
+                and a["reason"]
+                in ("no_route_within_horizon", "no_route_with_current_reservations"),
                 "Invalid failure type",
             )
             require(a["time"] >= jobs[a["task_id"]].release, "Failure for unreleased task")
@@ -201,6 +248,10 @@ def validate(scenario, result):
             == [k for k, p in enumerate(paths) if tuple(p[-1]) != scenario.homes[k]],
             "Wrong return status",
         )
+    if "weighted_score" in result or "score_valid" in result:
+        from agv.evaluation.objective import validate_score
+
+        validate_score(scenario, result, execution_validated=True)
     return True
 
 
@@ -265,6 +316,16 @@ def validate_metrics(scenario, result):
             shelf_x=shelf[0] if shelf else None,
             shelf_y=shelf[1] if shelf else None,
         )
+        if scenario.is_v4:
+            job = jobs[r["task_id"]]
+            rack = next(
+                v for v in scenario.map_info["rack_catalog"] if tuple(v["position"]) == job.shelf
+            )
+            row.update(
+                shelf_level=job.shelf_level,
+                rack_bay=rack["bay_id"],
+                storage_id=f"{rack['bay_id']}-L{job.shelf_level:02d}",
+            )
     require(result["task_metrics"] == expected_tasks, "Wrong task metric rows")
     for name in ("dispatch_wait", "pickup_duration", "loaded_duration", "service_duration"):
         expected = sum(r[name] for r in expected_tasks) / len(events) if events else none_or_zero

@@ -26,6 +26,9 @@ SOLVERS = {
     "sipp_joint": SolverConfig(router_kind="sipp"),
     "sipp_conflict": SolverConfig(router_kind="sipp", neighborhoods="conflict"),
     "sipp_budget": SolverConfig(router_kind="sipp", neighborhoods="conflict", trial_budget=6),
+    "sipp_matching": SolverConfig(
+        assignment="matching", router_kind="sipp", neighborhoods="conflict", trial_budget=6
+    ),
     "sipp_learned": SolverConfig(
         router_kind="sipp", neighborhoods="conflict", trial_budget=6, learned=True
     ),
@@ -37,17 +40,23 @@ def run_named(name, scenario):
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
     config = SOLVERS[name]
     if config is None:
-        return run_baseline(scenario)
-    return run_optimized(
-        scenario,
-        assignment=config.assignment,
-        joint=config.joint,
-        router_kind=config.router_kind,
-        neighborhoods=config.neighborhoods,
-        trial_budget=config.trial_budget,
-        ranker=CandidateRanker.load(
-            Path(__file__).resolve().parents[1] / "models/candidate-ranker.json"
+        result = run_baseline(scenario)
+    else:
+        result = run_optimized(
+            scenario,
+            assignment=config.assignment,
+            joint=config.joint,
+            router_kind=config.router_kind,
+            neighborhoods=config.neighborhoods,
+            trial_budget=config.trial_budget,
+            ranker=CandidateRanker.load(
+                Path(__file__).resolve().parents[1] / "models/candidate-ranker.json"
+            )
+            if config.learned
+            else None,
         )
-        if config.learned
-        else None,
-    )
+    if scenario.is_v4:
+        from agv.evaluation.objective import score_result
+
+        result = score_result(scenario, result)
+    return result

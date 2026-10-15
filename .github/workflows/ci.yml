@@ -33,4 +33,5 @@ jobs:
           /tmp/agv-wheel/bin/pip install dist/*.whl
           cd /tmp
           /tmp/agv-wheel/bin/agv run --tasks 2 --algorithm sipp_learned --output smoke.json
+          /tmp/agv-wheel/bin/agv run --profile v4 --tasks 2 --vehicles 10 --algorithm sipp_budget --output v4-smoke.json
           /tmp/agv-wheel/bin/python -c "from agv.web.app import create_server; s=create_server(); s.server_close()"

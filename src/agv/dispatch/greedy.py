@@ -6,20 +6,14 @@ from agv.simulation import Environment
 
 
 def greedy_action(observation):
-    m = observation["map"]
-    geometry = Scenario(
-        m["width"],
-        m["height"],
-        set(map(tuple, m["blocked"])),
-        set(map(tuple, m["shelves"])),
-        list(map(tuple, m["homes"])),
-        [],
-    )
+    geometry = Scenario.from_observation_map(observation["map"], observation["horizon"])
     router = Router(geometry)
     candidates = []
     for v in observation["vehicles"]:
         if v["available"]:
             for j in observation["pending"]:
+                if not j.get("dispatchable", True):
+                    continue
                 job = Task(
                     j["id"],
                     tuple(j["pickup"]) if j["pickup"] is not None else None,
@@ -51,7 +45,7 @@ def greedy_action(observation):
 
 def run(scenario, policy=greedy_action):
     env = Environment(scenario)
-    while not env.done and env.time < scenario.horizon:
+    while not env.done and (scenario.horizon is None or env.time < scenario.horizon):
         try:
             action = policy(env.observe())
         except Exception as error:
@@ -60,11 +54,13 @@ def run(scenario, policy=greedy_action):
             )
             break
         try:
-            env.assign(action)
+            feedback = env.assign(action)
         except ValueError as error:
             env._execution_error = dict(
                 kind="invalid_action", type="ValueError", message=str(error), time=env.time
             )
             break
-        env.advance()
+        if env.stop_if_stalled(feedback):
+            break
+        env.advance(observe=False)
     return env.result()

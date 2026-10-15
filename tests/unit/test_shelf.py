@@ -138,7 +138,8 @@ class ShelfTests(unittest.TestCase):
         self.assertIn("targets=targetShelves(s,r,t)", html)
         self.assertIn("当前待取货的货架格 S", html)
         self.assertNotIn("固定取货点 P", html)
-        self.assertIn("大仓库有四列货架", html)
+        self.assertIn('id="profile"', html)
+        self.assertIn("V4使用背靠背货架", html)
         self.assertIn("agv-scene-v2", html)
 
     def test_page_rejects_old_fixed_pickup_orders(self):

@@ -15,6 +15,7 @@ from agv.io.scenes import scenario_id, unpack_scene
 _LOG = logging.getLogger(__name__)
 _ASSETS = Path(__file__).resolve().parent
 DEFAULTS = dict(
+    profile="legacy",
     size="small",
     vehicles=4,
     layout="bottleneck",
@@ -26,6 +27,10 @@ DEFAULTS = dict(
     seed=0,
     horizon=600,
     algorithm="baseline",
+    shelf_layers=3,
+    work_width=2,
+    obstacle_layout="none",
+    layout_variant=0,
 )
 
 
@@ -33,22 +38,30 @@ def validate_options(options):
     if not isinstance(options, dict) or set(options) - set(DEFAULTS):
         raise ValueError("参数必须是包含已知字段的对象")
     options = {**DEFAULTS, **options}
+    if options["profile"] not in ("legacy", "v4"):
+        raise ValueError("Invalid scene profile")
     for name, minimum, maximum in [
-        ("vehicles", 1, 8),
+        ("vehicles", 1, 10 if options["profile"] == "v4" else 8),
         ("task_count", 0, 60),
         ("seed", 0, 999999),
         ("horizon", 60, 1800),
+        ("shelf_layers", 1, 5),
+        ("work_width", 2, 4),
+        ("layout_variant", 0, 2),
     ]:
         if type(options[name]) is not int or not minimum <= options[name] <= maximum:
             raise ValueError(f"{name} 必须是 {minimum} 到 {maximum} 的整数")
     choices = dict(
-        size=("small", "medium", "large"),
+        size=("small", "medium", "large", "xlarge", "xxlarge")
+        if options["profile"] == "v4"
+        else ("small", "medium", "large"),
         layout=("wide", "bottleneck"),
         mode=("static", "dynamic"),
         arrival=("batch", "uniform", "irregular", "burst"),
         demand=("balanced", "left_hotspot", "right_hotspot", "switching"),
         delivery_pattern=("distributed", "shared"),
         algorithm=tuple(SOLVERS),
+        obstacle_layout=("none", "columns", "columns_equipment"),
     )
     for name, allowed in choices.items():
         if options[name] not in allowed:
@@ -58,7 +71,7 @@ def validate_options(options):
 
 def calculate(options):
     options = validate_options(options)
-    scenario = example(**{k: v for k, v in options.items() if k != "algorithm"})
+    scenario = build_scene(options)
     result = run_named(options["algorithm"], scenario)
     validate(scenario, result)
     return dict(
@@ -70,6 +83,31 @@ def calculate(options):
     )
 
 
+def build_scene(options):
+    """One explicit scene profile; never reinterpret the legacy wall control."""
+    if options["profile"] == "v4":
+        from agv.warehouse.layout import generate
+
+        return generate(
+            **{k: v for k, v in options.items() if k not in ("profile", "algorithm", "layout")}
+        )
+    return example(
+        **{
+            k: v
+            for k, v in options.items()
+            if k
+            not in (
+                "profile",
+                "algorithm",
+                "shelf_layers",
+                "work_width",
+                "obstacle_layout",
+                "layout_variant",
+            )
+        }
+    )
+
+
 def calculate_loaded(data):
     if not isinstance(data, dict):
         raise ValueError("场景必须是JSON对象")
@@ -77,17 +115,19 @@ def calculate_loaded(data):
     if not isinstance(raw, dict):
         raise ValueError("scenario必须是对象")
     # Resource limits are checked before expensive reachability/route checks.
-    for field, limit in [("width", 64), ("height", 64), ("horizon", 1800)]:
+    for field, limit in [("width", 96), ("height", 96), ("horizon", 1800)]:
         value = raw.get(field, 600 if field == "horizon" else None)
         if type(value) is not int or not 1 <= value <= limit:
-            raise ValueError("页面导入限制：地图不超过64×64、8辆车、60单、1800步")
+            raise ValueError(
+                "页面导入限制：地图不超过96×96、10辆车、60单、1800步；无截止场景请使用CLI"
+            )
     if (
         not isinstance(raw.get("tasks"), list)
         or len(raw["tasks"]) > 60
         or not isinstance(raw.get("homes"), list)
-        or len(raw["homes"]) > 8
+        or len(raw["homes"]) > 10
     ):
-        raise ValueError("页面导入限制：地图不超过64×64、8辆车、60单、1800步")
+        raise ValueError("页面导入限制：地图不超过96×96、10辆车、60单、1800步")
     scenario = unpack_scene(data)
     if any(j.shelf is None for j in scenario.tasks):
         raise ValueError("新版页面只接受指定货架格的订单；旧固定取货点文件请使用旧版打开。")
@@ -119,6 +159,15 @@ def calculate_batch(data):
         raise ValueError("批量数量1～20，起始种子需保证全部种子不超过999999")
     config = validate_options(data["config"])
     name = config.pop("algorithm")
+    if config["profile"] == "v4":
+        from agv.experiments.v4 import run_web_batch
+
+        return run_web_batch(config, range(start, start + count), name)
+    config = {
+        k: v
+        for k, v in config.items()
+        if k not in ("profile", "shelf_layers", "work_width", "obstacle_layout", "layout_variant")
+    }
     from agv.dispatch.greedy import greedy_action
 
     return run_batch(

@@ -9,6 +9,7 @@ from agv.evaluation.metrics import summarize
 from agv.planning import create_router
 from agv.planning.pickup import plan_task
 from agv.planning.reservations import VertexReservations
+from agv.warehouse.rules import dispatch_status
 
 
 class Environment:
@@ -54,13 +55,7 @@ class Environment:
             dict(
                 time=self.time,
                 horizon=s.horizon,
-                map=dict(
-                    width=s.width,
-                    height=s.height,
-                    blocked=sorted(s.blocked),
-                    shelves=sorted(s.shelves),
-                    homes=s.homes,
-                ),
+                map=s.observation_map(),
                 vehicles=[
                     dict(
                         id=k,
@@ -81,7 +76,15 @@ class Environment:
                     for k, p in enumerate(self._plans)
                 ],
                 pending=[
-                    asdict(j)
+                    dict(
+                        **asdict(j),
+                        dispatchable=dispatch_status(
+                            s, j, self._records, self._assigned, self.time
+                        )[0],
+                        dispatch_block_reason=dispatch_status(
+                            s, j, self._records, self._assigned, self.time
+                        )[1],
+                    )
                     for j in s.tasks
                     if j.release <= self.time and j.id not in self._assigned
                 ],
@@ -95,7 +98,12 @@ class Environment:
         每辆车/任务每批最多出现一次。合法批次按输入顺序预约，先提交者优先。
         已取货任务不可取消；本版本从指派成功开始锁定到卸货结束。
         """
-        pairs = list(pairs)
+        if isinstance(pairs, (str, bytes, dict)):
+            raise ValueError("Actions must be an iterable of vehicle/task pairs")
+        try:
+            pairs = list(pairs)
+        except TypeError as error:
+            raise ValueError("Actions must be an iterable of vehicle/task pairs") from error
         ks, js = [], []
         for pair in pairs:
             if not isinstance(pair, (list, tuple)) or len(pair) != 2:
@@ -110,10 +118,16 @@ class Environment:
                 or self._jobs[j].release > self.time
             ):
                 raise ValueError("Unknown, assigned or unreleased task")
+            if not dispatch_status(
+                self._scenario, self._jobs[j], self._records, self._assigned, self.time
+            )[0]:
+                raise ValueError("Task blocked by same-face layer order or active pickup")
             ks.append(k)
             js.append(j)
         if len(set(ks)) != len(ks) or len(set(js)) != len(js):
             raise ValueError("Duplicate vehicle or task in batch")
+        if self._scenario.is_v4 and len({self._jobs[j].shelf for j in js}) != len(js):
+            raise ValueError("Only one order per shelf face per dispatch batch")
         responses = []
         for k, j in pairs:
             vertices, edges = VertexReservations(), set()
@@ -183,7 +197,10 @@ class Environment:
         for k, (path, new) in enumerate(zip(plans, records)):
             if not path or path[0] != self._plans[k][0] or path[-1] != self._scenario.homes[k]:
                 raise ValueError("Invalid suffix endpoints")
-            if self.time + len(path) - 1 > self._scenario.horizon:
+            if (
+                self._scenario.horizon is not None
+                and self.time + len(path) - 1 > self._scenario.horizon
+            ):
                 raise ValueError("Suffix exceeds horizon")
             if any(
                 not self._scenario.free(q)
@@ -274,7 +291,11 @@ class Environment:
         return True
 
     def advance(self, steps=1, *, observe=True):
-        if type(steps) is not int or steps < 1 or self.time + steps > self._scenario.horizon:
+        if (
+            type(steps) is not int
+            or steps < 1
+            or (self._scenario.horizon is not None and self.time + steps > self._scenario.horizon)
+        ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
             for k, plan in enumerate(self._plans):
@@ -287,6 +308,22 @@ class Environment:
                 if r is not None and r["delivery_end"] <= self.time:
                     self._active[k] = None
         return self.observe() if observe else None
+
+    def stop_if_stalled(self, feedback):
+        """Termination bookkeeping only; unreleased jobs never reach a policy."""
+        if self._scenario.horizon is not None or self.done:
+            return False
+        if any(f["accepted"] for f in feedback) or any(len(p) > 1 for p in self._plans):
+            return False
+        if any(j.release > self.time for j in self._jobs.values()):
+            return False
+        self._execution_error = dict(
+            kind="solver_stalled" if feedback else "policy_stalled",
+            type="NoProgress",
+            time=self.time,
+            message="No active route, future release or accepted assignment; not proof of infeasibility",
+        )
+        return True
 
     @property
     def done(self):

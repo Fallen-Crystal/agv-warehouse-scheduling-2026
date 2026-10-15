@@ -8,27 +8,25 @@ from agv.simulation import Environment
 
 
 def matching_action(observation, age_weight=0.25):
-    """Max-cardinality min-cost batch matching, DP over <=8 vehicle bits.
+    """Max-cardinality min-cost batch matching, DP over <=10 vehicle bits.
 
     Objective: static pickup+delivery+service - weight*visible order age.
     Exact for this matrix only, not for future routes or global schedules.
     """
-    m = observation["map"]
-    s = Scenario(
-        m["width"],
-        m["height"],
-        set(map(tuple, m["blocked"])),
-        set(map(tuple, m["shelves"])),
-        list(map(tuple, m["homes"])),
-        [],
-    )
+    s = Scenario.from_observation_map(observation["map"], observation["horizon"])
     router = Router(s)
     vehicles = [v for v in observation["vehicles"] if v["available"]]
     dp = {0: (0.0, [])}
     for data in observation["pending"]:
+        if not data.get("dispatchable", True):
+            continue
         j = Task(
             **{
-                **data,
+                **{
+                    k: v
+                    for k, v in data.items()
+                    if k not in ("dispatchable", "dispatch_block_reason")
+                },
                 "pickup": tuple(data["pickup"]) if data["pickup"] else None,
                 "shelf": tuple(data["shelf"]) if data["shelf"] else None,
                 "delivery": tuple(data["delivery"]),
@@ -86,13 +84,15 @@ def run(
     )
     action = matching_action if assignment == "matching" else greedy_action
     calls = 0
-    while not env.done and env.time < scenario.horizon:
+    while not env.done and (scenario.horizon is None or env.time < scenario.horizon):
         feedback = env.assign(action(env.observe()))
         if joint and (env.time % interval == 0 or any(f["accepted"] for f in feedback)):
             calls += 1
             proposal = planner.propose(env.observe())
             if proposal:
                 env.apply_replan(proposal)
+        if env.stop_if_stalled(feedback):
+            break
         env.advance(observe=False)
     result = env.result()
     result["joint_routing_stats"] = (

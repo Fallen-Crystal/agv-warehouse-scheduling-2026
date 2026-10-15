@@ -16,9 +16,33 @@ from agv.planning.astar import Router
 class SafeIntervalRouter(Router):
     """Exact earliest-finish single-leg planner; no multi-agent optimality claim."""
 
-    def leg(self, start, goal, time, vehicle, vertices, edges, service=0, service_blocked=None):
+    def leg(
+        self,
+        start,
+        goal,
+        time,
+        vehicle,
+        vertices,
+        edges,
+        service=0,
+        service_blocked=None,
+        delivery_station=None,
+        not_before=None,
+    ):
         self.stats["calls"] += 1
-        horizon = self.s.horizon
+        service_blocked = set() if service_blocked is None else service_blocked
+        strict = self.s.map_info.get("station_access") == "delivery_only"
+        terminal = strict and goal in self.s.stations
+        if terminal and delivery_station != goal:
+            return None
+        distances = self.distances(goal, vehicle)
+        if start not in distances or (time, start) in vertices:
+            return None
+        horizon = self.search_limit(
+            max(time, not_before or time), distances, vertices, edges, service, service_blocked
+        )
+        if terminal and start == goal and not_before is not None and time < not_before:
+            return None
         if hasattr(vertices, "timeline"):
             blocked = vertices.timeline()
         else:
@@ -43,9 +67,6 @@ class SafeIntervalRouter(Router):
                 intervals[p] = result
             return intervals[p]
 
-        distances = self.distances(goal, vehicle)
-        if start not in distances or (time, start) in vertices:
-            return None
         forbidden = set(self.s.homes) - {self.s.homes[vehicle]}
         root_index = next(
             (i for i, (a, b) in enumerate(safe_intervals(start)) if a <= time <= b), None
@@ -56,7 +77,6 @@ class SafeIntervalRouter(Router):
         arrivals, parents = {root: time}, {root: None}
         queue = [(time + distances[start], time, start, root_index)]
         self.stats["generated"] += 1
-        service_blocked = set() if service_blocked is None else service_blocked
         best_goal = None
         best_finish = float("inf")
         while queue:
@@ -69,7 +89,7 @@ class SafeIntervalRouter(Router):
             self.stats["expanded"] += 1
             _, upper = safe_intervals(p)[index]
             if p == goal:
-                begin = arrival
+                begin = max(arrival, not_before or arrival)
                 while begin + service <= upper:
                     bad = next(
                         (t for t in range(begin, begin + service) if t in service_blocked), None
@@ -79,16 +99,34 @@ class SafeIntervalRouter(Router):
                             best_finish = begin + service
                             best_goal = (state, begin)
                         break
+                    if terminal:
+                        break
                     begin = bad + 1
+            if terminal and p == goal:
+                continue
             # Moving out of a goal and returning via a later safe interval may
             # be necessary if its current interval cannot fit the service.
             for q in self.s.neighbors(p):
+                if strict and q in self.s.stations and (q != goal or delivery_station != goal):
+                    continue
                 if q in forbidden or q not in distances:
                     continue
                 for j, (lower, end) in enumerate(safe_intervals(q)):
                     enter = max(arrival + 1, lower)
                     latest = min(end, upper + 1, horizon - distances[q] - service)
-                    while enter <= latest and (enter - 1, q, p) in edges:
+                    if terminal and q == goal:
+                        enter = max(enter, not_before or enter)
+                        latest = min(latest, end - service)
+                    if strict and p in self.s.stations:
+                        latest = min(latest, arrival + 1)
+                    while enter <= latest:
+                        bad_service = (
+                            terminal
+                            and q == goal
+                            and any(t in service_blocked for t in range(enter, enter + service))
+                        )
+                        if (enter - 1, q, p) not in edges and not bad_service:
+                            break
                         enter += 1
                     if enter > latest:
                         continue

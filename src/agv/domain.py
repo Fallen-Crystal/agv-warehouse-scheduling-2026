@@ -2,7 +2,9 @@
 
 import random
 from collections import deque
+from copy import deepcopy
 from dataclasses import asdict, dataclass
+from dataclasses import field as dataclass_field
 
 Point = tuple[int, int]
 
@@ -16,6 +18,7 @@ class Task:
     pickup_service: int = 1
     delivery_service: int = 1
     shelf: Point | None = None
+    shelf_level: int = 1
 
 
 @dataclass
@@ -26,7 +29,16 @@ class Scenario:
     shelves: set[Point]
     homes: list[Point]
     tasks: list[Task]
-    horizon: int = 600
+    horizon: int | None = 600
+    service_axis: str = "any"
+    pickup_zones: set[Point] = dataclass_field(default_factory=set)
+    transit_only: set[Point] = dataclass_field(default_factory=set)
+    stations: list[Point] = dataclass_field(default_factory=list)
+    map_info: dict = dataclass_field(default_factory=dict)
+
+    @property
+    def is_v4(self):
+        return self.map_info.get("model_version") == "math-v4-integrated"
 
     def free(self, p):
         return 0 <= p[0] < self.width and 0 <= p[1] < self.height and p not in self.blocked
@@ -37,10 +49,22 @@ class Scenario:
             if self.free(q):
                 yield q
 
+    def travel_neighbors(self, p, delivery_goal=None):
+        """A V4 delivery station may be entered only for its designated delivery."""
+        for q in self.neighbors(p):
+            if self.is_v4 and q in self.stations and q != delivery_goal:
+                continue
+            yield q
+
     def pickup_candidates(self, job):
         if job.shelf is None:
             return [job.pickup]
-        return sorted(p for p in self.neighbors(job.shelf) if p not in self.homes)
+        return sorted(
+            p
+            for p in self.neighbors(job.shelf)
+            if p not in self.homes
+            and (not self.is_v4 or (p[0] == job.shelf[0] and p in self.pickup_zones))
+        )
 
     def check(self):
         def require(ok, message):
@@ -57,7 +81,13 @@ class Scenario:
             integer(self.width) and integer(self.height) and self.width > 0 and self.height > 0,
             "Invalid dimensions",
         )
-        require(integer(self.horizon) and self.horizon > 0, "Invalid horizon")
+        require(
+            self.horizon is None or (integer(self.horizon) and self.horizon > 0),
+            "Invalid horizon",
+        )
+        require(isinstance(self.map_info, dict), "map_info must be an object")
+        from agv.warehouse.rules import validate_profile
+
         require(bool(self.homes) and len(set(self.homes)) == len(self.homes), "Need distinct homes")
         require(self.shelves <= self.blocked, "Shelves must be blocked")
         for p in self.blocked | set(self.homes):
@@ -65,10 +95,22 @@ class Scenario:
                 point(p) and 0 <= p[0] < self.width and 0 <= p[1] < self.height, "Invalid map point"
             )
         require(all(self.free(p) for p in self.homes), "Blocked home")
+        validate_profile(self)
         require(all(integer(j.id) for j in self.tasks), "Task IDs must be integers")
         require(len({j.id for j in self.tasks}) == len(self.tasks), "Duplicate task ID")
         for j in self.tasks:
             require(integer(j.release) and j.release >= 0, "Invalid release")
+            require(integer(j.shelf_level) and j.shelf_level >= 1, "Invalid shelf level")
+            if self.is_v4:
+                require(j.shelf_level <= self.map_info["layer_count"], "Shelf level exceeds layers")
+                require(
+                    j.pickup_service == 2 * j.shelf_level and j.delivery_service == 1,
+                    "V4 service duration must be 2*level and unload 1",
+                )
+                require(j.delivery in self.stations, "V4 delivery must be a specified station")
+                require(j.shelf is not None, "V4 orders must specify a shelf")
+            else:
+                require(j.shelf_level == 1, "Shelf layers require an explicit V4 profile")
             require(
                 all(integer(s) and s >= 1 for s in (j.pickup_service, j.delivery_service)),
                 "Invalid service duration",
@@ -101,40 +143,94 @@ class Scenario:
                 forbidden = set(self.homes) - {home}
                 seen, queue = {home}, deque([home])
                 while queue:
-                    for p in self.neighbors(queue.popleft()):
+                    for p in self.travel_neighbors(queue.popleft()):
                         if p not in seen and p not in forbidden:
                             seen.add(p)
                             queue.append(p)
+                delivery_reachable = (
+                    any(p in seen for p in self.neighbors(j.delivery))
+                    if self.is_v4
+                    else j.delivery in seen
+                )
                 reachable |= (
-                    any(p in seen for p in self.pickup_candidates(j)) and j.delivery in seen
+                    any(p in seen for p in self.pickup_candidates(j)) and delivery_reachable
                 )
             require(reachable, f"Unreachable task {j.id}")
         return self
 
     def to_dict(self):
-        return dict(
+        tasks = [asdict(j) for j in self.tasks]
+        if not self.is_v4:
+            for job in tasks:
+                job.pop("shelf_level")
+        data = dict(
             width=self.width,
             height=self.height,
             blocked=sorted(self.blocked),
             shelves=sorted(self.shelves),
             homes=self.homes,
             horizon=self.horizon,
-            tasks=[asdict(j) for j in self.tasks],
+            tasks=tasks,
         )
+        if self.is_v4:
+            data.update(
+                service_axis=self.service_axis,
+                pickup_zones=sorted(self.pickup_zones),
+                transit_only=sorted(self.transit_only),
+                stations=list(self.stations),
+                map_info=deepcopy(self.map_info),
+            )
+        return data
+
+    def observation_map(self):
+        """Static public geometry only; no task generator state or evaluation reference."""
+        data = dict(
+            width=self.width,
+            height=self.height,
+            blocked=sorted(self.blocked),
+            shelves=sorted(self.shelves),
+            homes=list(self.homes),
+        )
+        if self.is_v4:
+            data.update(
+                service_axis=self.service_axis,
+                pickup_zones=sorted(self.pickup_zones),
+                transit_only=sorted(self.transit_only),
+                stations=list(self.stations),
+                map_info=deepcopy(self.map_info),
+            )
+        return data
+
+    @classmethod
+    def from_observation_map(cls, data, horizon=600):
+        if not isinstance(data, dict) or "tasks" in data or "horizon" in data:
+            raise ValueError("Observation map must contain static geometry only")
+        return cls.from_dict({**deepcopy(data), "tasks": [], "horizon": horizon})
 
     @classmethod
     def from_dict(cls, data):
         """Validate JSON shape before constructing hashable coordinates/jobs."""
         required = {"width", "height", "blocked", "shelves", "homes", "tasks"}
+        profile_fields = {"service_axis", "pickup_zones", "transit_only", "stations", "map_info"}
         if (
             not isinstance(data, dict)
             or not required <= set(data)
-            or set(data) - required - {"horizon"}
+            or set(data) - required - {"horizon"} - profile_fields
         ):
             raise ValueError("Scenario must contain the documented fields only")
         for field in ("width", "height", "horizon"):
+            if field == "horizon" and data.get(field, 600) is None:
+                continue
             if type(data.get(field, 600)) is not int:
                 raise ValueError(f"{field} must be an integer")
+        info = data.get("map_info", {})
+        if not isinstance(info, dict):
+            raise ValueError("map_info must be an object")
+        is_v4 = info.get("model_version") == "math-v4-integrated"
+        if profile_fields & set(data) and not is_v4:
+            raise ValueError("Extended scene fields require the explicit V4 profile")
+        if is_v4 and not profile_fields <= set(data):
+            raise ValueError("V4 scene is missing profile fields")
 
         def coordinate(value, label):
             if (
@@ -146,7 +242,12 @@ class Scenario:
             return tuple(value)
 
         coordinates = {}
-        for field in ("blocked", "shelves", "homes"):
+        for field in (
+            "blocked",
+            "shelves",
+            "homes",
+            *(("pickup_zones", "transit_only", "stations") if is_v4 else ()),
+        ):
             if not isinstance(data[field], (tuple, list)):
                 raise ValueError(f"{field} must be a list")
             coordinates[field] = [coordinate(p, field) for p in data[field]]
@@ -162,6 +263,8 @@ class Scenario:
             "delivery_service",
             "shelf",
         }
+        if is_v4:
+            allowed.add("shelf_level")
         for raw in data["tasks"]:
             if (
                 not isinstance(raw, dict)
@@ -171,7 +274,7 @@ class Scenario:
                 raise ValueError("Invalid task fields")
             if type(raw["id"]) is not int:
                 raise ValueError("Task ID must be an integer")
-            for field in ("release", "pickup_service", "delivery_service"):
+            for field in ("release", "pickup_service", "delivery_service", "shelf_level"):
                 if type(raw.get(field, 0 if field == "release" else 1)) is not int:
                     raise ValueError(f"Task {field} must be an integer")
             item = dict(raw)
@@ -187,6 +290,11 @@ class Scenario:
             coordinates["homes"],
             tasks,
             data.get("horizon", 600),
+            service_axis=data.get("service_axis", "any"),
+            pickup_zones=set(coordinates.get("pickup_zones", [])),
+            transit_only=set(coordinates.get("transit_only", [])),
+            stations=coordinates.get("stations", []),
+            map_info=deepcopy(info),
         ).check()
 
 
