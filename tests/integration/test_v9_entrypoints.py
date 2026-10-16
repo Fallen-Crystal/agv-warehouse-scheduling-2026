@@ -28,7 +28,7 @@ class V9EntrypointTests(unittest.TestCase):
                     str(path),
                 ]
             )
-            archive = json.loads(path.read_text())
+            archive = json.loads(path.read_text(encoding="utf-8"))
             scene = unpack_scene(archive)
             self.assertTrue(scene.is_v9)
             self.assertEqual(scene.width, 46)

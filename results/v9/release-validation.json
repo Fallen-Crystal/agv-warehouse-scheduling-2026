@@ -3,7 +3,7 @@
   "date": "2026-10-16",
   "development_source_revision": "d6b713e",
   "formal_source_revision": "bb3b0f5",
-  "final_code_difference": "After formal timing only app.js limited new catalog tooltip to mixed-v9; no model, planner, dispatcher, validator or policy changes.",
+  "final_code_difference": "After formal timing app.js limited new catalog tooltip to mixed-v9, and the CLI integration test explicitly reads UTF-8 JSON on Windows; no model, planner, dispatcher, validator or policy changes.",
   "source_hashes_at_release": {
     "__init__.py": "8d58eaea35b384869674fb0241a3f0aa83516ba7ee6824072c97b690ea512de4",
     "__main__.py": "e7d30120ec4887445dd712ed8600765e0a3d6c475f162a327d8433f883d5b84d",
