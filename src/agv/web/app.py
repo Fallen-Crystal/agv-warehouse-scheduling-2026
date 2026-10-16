@@ -39,30 +39,37 @@ def validate_options(options):
         raise ValueError("参数必须是包含已知字段的对象")
     v9_defaults = (
         dict(size="medium", obstacle_layout="columns_equipment")
-        if options.get("profile") == "v9"
+        if options.get("profile") in ("v9", "v9.1")
         else {}
     )
-    options = {**DEFAULTS, **v9_defaults, **options}
-    if options["profile"] not in ("legacy", "v4", "v9"):
+    current_defaults = (
+        dict(horizon=None, algorithm="sipp_stream_dispatch")
+        if options.get("profile") == "v9.1"
+        else {}
+    )
+    options = {**DEFAULTS, **v9_defaults, **current_defaults, **options}
+    if options["profile"] not in ("legacy", "v4", "v9", "v9.1"):
         raise ValueError("Invalid scene profile")
     for name, minimum, maximum in [
-        ("vehicles", 1, 10 if options["profile"] in ("v4", "v9") else 8),
+        ("vehicles", 1, 10 if options["profile"] in ("v4", "v9", "v9.1") else 8),
         ("task_count", 0, 60),
         ("seed", 0, 999999),
         ("horizon", 60, 1800),
         (
             "shelf_layers",
-            3 if options["profile"] == "v9" else 1,
-            8 if options["profile"] == "v9" else 5,
+            3 if options["profile"] in ("v9", "v9.1") else 1,
+            8 if options["profile"] in ("v9", "v9.1") else 5,
         ),
         ("work_width", 2, 4),
         ("layout_variant", 0, 2),
     ]:
+        if name == "horizon" and options["profile"] == "v9.1" and options[name] is None:
+            continue
         if type(options[name]) is not int or not minimum <= options[name] <= maximum:
             raise ValueError(f"{name} 必须是 {minimum} 到 {maximum} 的整数")
     choices = dict(
         size=("medium", "large", "xlarge", "xxlarge")
-        if options["profile"] == "v9"
+        if options["profile"] in ("v9", "v9.1")
         else ("small", "medium", "large", "xlarge", "xxlarge")
         if options["profile"] == "v4"
         else ("small", "medium", "large"),
@@ -77,10 +84,15 @@ def validate_options(options):
     for name, allowed in choices.items():
         if options[name] not in allowed:
             raise ValueError(f"Invalid {name}: {options[name]!r}")
-    if options["profile"] == "v9" and options["obstacle_layout"] != "columns_equipment":
+    if options["profile"] in ("v9", "v9.1") and options["obstacle_layout"] != "columns_equipment":
         raise ValueError("V9 requires its fixed columns and central equipment")
     if "standby" in options["algorithm"] and options["profile"] != "v9":
         raise ValueError("Bounded standby requires V9")
+    if options["profile"] == "v9.1" and options["algorithm"] not in (
+        "baseline",
+        "sipp_stream_dispatch",
+    ):
+        raise ValueError("V9.1 requires a stream-compatible algorithm")
     return options
 
 
@@ -100,8 +112,10 @@ def calculate(options):
 
 def build_scene(options):
     """One explicit scene profile; never reinterpret the legacy wall control."""
-    if options["profile"] in ("v4", "v9"):
-        if options["profile"] == "v9":
+    if options["profile"] in ("v4", "v9", "v9.1"):
+        if options["profile"] == "v9.1":
+            from agv.warehouse.mixed import generate_current as generate
+        elif options["profile"] == "v9":
             from agv.warehouse.mixed import generate
         else:
             from agv.warehouse.layout import generate
@@ -135,6 +149,12 @@ def calculate_loaded(data):
     # Resource limits are checked before expensive reachability/route checks.
     for field, limit in [("width", 96), ("height", 96), ("horizon", 1800)]:
         value = raw.get(field, 600 if field == "horizon" else None)
+        if (
+            field == "horizon"
+            and value is None
+            and raw.get("map_info", {}).get("model_version") == "mixed-v9.1"
+        ):
+            continue
         if type(value) is not int or not 1 <= value <= limit:
             raise ValueError(
                 "页面导入限制：地图不超过96×96、10辆车、60单、1800步；无截止场景请使用CLI"
@@ -152,7 +172,9 @@ def calculate_loaded(data):
     config = data.get("config")
     if config is not None and not isinstance(config, dict):
         raise ValueError("config必须是对象或null")
-    name = (config or {}).get("algorithm", "baseline")
+    name = (config or {}).get(
+        "algorithm", "sipp_stream_dispatch" if scenario.is_v9_1 else "baseline"
+    )
     result = run_named(name, scenario)
     validate(scenario, result)
     return dict(
@@ -177,7 +199,7 @@ def calculate_batch(data):
         raise ValueError("批量数量1～20，起始种子需保证全部种子不超过999999")
     config = validate_options(data["config"])
     name = config.pop("algorithm")
-    if config["profile"] in ("v4", "v9"):
+    if config["profile"] in ("v4", "v9", "v9.1"):
         from agv.experiments.v4 import run_web_batch
 
         return run_web_batch(config, range(start, start + count), name)
@@ -204,9 +226,9 @@ def make_html(initial=None, *, inline_assets=True):
     else:
         style = '<link rel="stylesheet" href="/assets/style.css">'
         script = '<script src="/assets/app.js" defer></script>'
-    encoded = json.dumps([initial or calculate({})], ensure_ascii=False, allow_nan=False).replace(
-        "</", r"<\/"
-    )
+    encoded = json.dumps(
+        [initial or calculate(dict(profile="v9.1"))], ensure_ascii=False, allow_nan=False
+    ).replace("</", r"<\/")
     return (
         html.replace("__STYLE__", style).replace("__DATA__", encoded).replace("__SCRIPT__", script)
     )

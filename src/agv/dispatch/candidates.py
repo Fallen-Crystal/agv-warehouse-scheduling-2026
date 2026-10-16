@@ -32,6 +32,7 @@ def legalize(pairs, observation):
     strict = observation["map"].get("map_info", {}).get("model_version") in (
         "math-v4-integrated",
         "mixed-v9",
+        "mixed-v9.1",
     )
     chosen, used_vehicles, used_jobs, resources = [], set(), set(), set()
     if not isinstance(pairs, (list, tuple)):

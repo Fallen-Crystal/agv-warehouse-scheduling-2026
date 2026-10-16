@@ -36,6 +36,7 @@ SOLVERS = {
 
 
 DISPATCH_SOLVERS = {
+    "sipp_stream_dispatch": dict(policy="greedy"),
     "sipp_greedy_dispatch": dict(policy="greedy"),
     "sipp_matching_dispatch": dict(policy="matching"),
     "bcrd_budget": dict(policy="bcrd", max_batches=4),
@@ -55,6 +56,12 @@ SOLVERS.update(
 def run_named(name, scenario):
     if name not in SOLVERS:
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
+    if scenario.is_v9_1 and name not in ("baseline", "sipp_stream_dispatch"):
+        raise ValueError(
+            "V9.1 currently supports baseline or sipp_stream_dispatch; historical BCRD/finite-wait experiments retain the v9 profile"
+        )
+    if name == "sipp_stream_dispatch" and not scenario.is_v9_1:
+        raise ValueError("Stream dispatch requires the explicit V9.1 profile")
     config = SOLVERS[name]
     if name in DISPATCH_SOLVERS:
         from agv.dispatch.bcrd import run

@@ -1,9 +1,8 @@
-"""Bounded standby on static transit floor, without consulting future orders.
+"""Standby on static transit floor, without consulting future orders.
 
-A hold only delays an available vehicle's already safe fallback return.  The
-automatic policy spends a fixed per-assignment allowance and then follows that
-return, even when no new order has arrived.  It never tests whether the unseen
-order stream has ended.
+A hold only delays an available vehicle's already safe fallback return.  The historical V9 policy spends a fixed per-assignment allowance. V9.1 instead
+waits until a publisher close event and all released deliveries finish. Neither
+policy reads unreleased orders or their total count.
 """
 
 from copy import deepcopy
@@ -103,7 +102,13 @@ def advance_standby(env):
     limit = env.idle_hold_steps
     if type(limit) is not int or limit < 0:
         raise ValueError("idle_hold_steps must be a nonnegative integer")
-    if not limit:
+    stream = env._scenario.is_v9_1
+    if stream:
+        from agv.dispatch.order_stream import final_return_ready
+
+        if final_return_ready(env):
+            return
+    if not limit and not stream:
         return
     if not env._scenario.uses_layer_rules or env._scenario.service_axis != "catalog":
         return
@@ -111,7 +116,7 @@ def advance_standby(env):
         if (
             env._active[vehicle] is not None
             or len(path) <= 1
-            or env._idle_hold_counts[vehicle] >= limit
+            or (not stream and env._idle_hold_counts[vehicle] >= limit)
             or not _ordinary_transit(env._scenario, path[0])
         ):
             continue

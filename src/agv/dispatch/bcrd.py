@@ -172,6 +172,8 @@ def run(
     event_driven=True,
     idle_hold_steps=0,
 ):
+    if scenario.is_v9_1 and policy == "bcrd":
+        raise ValueError("BCRD stream standby requires a separately validated shadow contract")
     if idle_hold_steps and policy == "bcrd":
         raise ValueError("BCRD standby needs a separately validated shadow contract")
     if policy not in ("bcrd", "greedy", "matching"):

@@ -72,7 +72,7 @@ class OptimizerTests(unittest.TestCase):
         self.assertIsNotNone(proposal)
         proposal.pop("trials")
         before = e.result()
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             e.apply_replan(proposal)
         self.assertEqual(e.result(), before)
 

@@ -13,11 +13,18 @@ from agv.warehouse.rules import dispatch_status
 
 
 class Environment:
-    def __init__(self, scenario: Scenario, router_kind="astar", *, idle_hold_steps=0):
+    def __init__(
+        self, scenario: Scenario, router_kind="astar", *, idle_hold_steps=0, stream_open=False
+    ):
         if type(idle_hold_steps) is not int or not 0 <= idle_hold_steps <= 1000:
             raise ValueError("idle_hold_steps must be an integer from 0 to 1000")
         if idle_hold_steps and not scenario.is_v9:
             raise ValueError("Bounded standby requires the explicit V9 catalog profile")
+        if type(stream_open) is not bool:
+            raise ValueError("stream_open must be boolean")
+        if scenario.is_v9_1 and idle_hold_steps:
+            raise ValueError("V9.1 uses stream standby, not a finite hold allowance")
+        self._manual_stream = stream_open
         self.idle_hold_steps = idle_hold_steps
         self._router_kind = router_kind
         self.reset(scenario)
@@ -27,6 +34,8 @@ class Environment:
             checked = deepcopy(scenario).check()
             if self.idle_hold_steps and not checked.is_v9:
                 raise ValueError("Bounded standby requires the explicit V9 catalog profile")
+            if self.idle_hold_steps and checked.is_v9_1:
+                raise ValueError("V9.1 does not accept a finite hold allowance")
             self._scenario = checked
         s = self._scenario
         self.time = 0
@@ -43,7 +52,16 @@ class Environment:
         self._planning_failures = []
         self._execution_error = None
         self._replans = []
+        from agv.dispatch.order_stream import initialize
+
+        initialize(self, self._manual_stream)
         return self.observe()
+
+    def close_order_stream(self):
+        """External publisher API; not a policy/dispatch action."""
+        from agv.dispatch.order_stream import close
+
+        close(self)
 
     def _state(self, k):
         r = self._active[k]
@@ -72,6 +90,15 @@ class Environment:
                         idle_waits=deepcopy(self._idle_waits),
                     )
                     if s.is_v9
+                    else {}
+                ),
+                **(
+                    dict(
+                        order_stream_closed=self._stream_closed,
+                        stream_closed_at=self._stream_closed_at,
+                        idle_policy="stream",
+                    )
+                    if s.is_v9_1
                     else {}
                 ),
                 time=self.time,
@@ -234,6 +261,59 @@ class Environment:
         """
         from agv.evaluation.validation import validate
 
+        if not isinstance(proposal, dict) or not {
+            "time",
+            "before",
+            "after",
+            "trials",
+            "plans",
+            "records",
+        } <= set(proposal):
+            raise ValueError("Malformed replan proposal")
+        if not isinstance(proposal["plans"], (list, tuple)) or not isinstance(
+            proposal["records"], (list, tuple)
+        ):
+            raise ValueError("Malformed replan sequences")
+        required_record = {
+            "vehicle",
+            "task_id",
+            "assigned_at",
+            "shelf",
+            "pickup_point",
+            "pickup_arrival",
+            "pickup_end",
+            "delivery_arrival",
+            "delivery_end",
+            "return_arrival",
+            "return_end",
+        }
+        if any(
+            record is not None
+            and (not isinstance(record, dict) or not required_record <= set(record))
+            for record in proposal["records"]
+        ):
+            raise ValueError("Malformed replan record")
+        for path in proposal["plans"]:
+            if (
+                not isinstance(path, (list, tuple))
+                or not path
+                or any(
+                    not isinstance(q, (list, tuple))
+                    or len(q) != 2
+                    or any(type(x) is not int for x in q)
+                    for q in path
+                )
+            ):
+                raise ValueError("Malformed replan path")
+        for record in proposal["records"]:
+            if record is not None:
+                q = record.get("pickup_point") if isinstance(record, dict) else None
+                if (
+                    not isinstance(q, (list, tuple))
+                    or len(q) != 2
+                    or any(type(x) is not int for x in q)
+                ):
+                    raise ValueError("Malformed pickup point")
         metadata = {key: deepcopy(proposal[key]) for key in ("time", "before", "after", "trials")}
         trial = deepcopy(self)
         if proposal["time"] != self.time:
@@ -346,7 +426,7 @@ class Environment:
         ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
-            if self.idle_hold_steps:
+            if self.idle_hold_steps or self._scenario.is_v9_1:
                 from agv.dispatch.idle import advance_standby
 
                 advance_standby(self)
@@ -359,6 +439,9 @@ class Environment:
             for k, r in enumerate(self._active):
                 if r is not None and r["delivery_end"] <= self.time:
                     self._active[k] = None
+            from agv.dispatch.order_stream import publish
+
+            publish(self)
         return self.observe() if observe else None
 
     def stop_if_stalled(self, feedback):
@@ -367,7 +450,7 @@ class Environment:
             return False
         if any(f["accepted"] for f in feedback) or any(len(p) > 1 for p in self._plans):
             return False
-        if any(j.release > self.time for j in self._jobs.values()):
+        if not self._stream_closed:
             return False
         self._execution_error = dict(
             kind="solver_stalled" if feedback else "policy_stalled",
@@ -381,7 +464,8 @@ class Environment:
     def done(self):
         # 用于环境终止，不能用于提前获取未来任务数量。
         return (
-            len(self._assigned) == len(self._jobs)
+            self._stream_closed
+            and all(j in self._assigned for j in self._released_jobs)
             and all(r is None for r in self._active)
             and all(len(p) == 1 for p in self._plans)
             and all(p[0] == h for p, h in zip(self._plans, self._scenario.homes))
@@ -422,6 +506,12 @@ class Environment:
             events=records,
             assignments=deepcopy(self._records),
         )
+        if self._scenario.is_v9_1:
+            result.update(
+                order_stream_closed=self._stream_closed,
+                stream_closed_at=self._stream_closed_at,
+                idle_policy="stream",
+            )
         if self._scenario.is_v9:
             result["idle_waits"] = deepcopy(self._idle_waits)
             result["idle_hold_steps"] = self.idle_hold_steps

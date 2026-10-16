@@ -5,9 +5,9 @@ rebuilt, task-free canonical geometry is also the metadata schema: unknown
 fields or nested additions cannot carry seeds, future tasks or score references
 into public observations. V4/legacy generators remain separate.
 
-The upstream idle_policy metadata identifies its default, not an instruction to
-activate its unbounded controller. Reviewed runners choose a finite idle budget
-explicitly; the common scoring reference always returns home.
+generate() preserves the historical finite-wait experiment family.
+generate_current() activates the V9.1 publisher-close contract. Their scoring
+references are versioned separately and must not be mixed.
 """
 
 import json
@@ -417,7 +417,7 @@ def validate_profile(scenario):
     s = scenario
     info = s.map_info
     if (
-        info.get("model_version") != "mixed-v9"
+        info.get("model_version") not in ("mixed-v9", "mixed-v9.1")
         or type(info.get("size")) is not str
         or info["size"] not in SIZES
     ):
@@ -447,9 +447,24 @@ def validate_profile(scenario):
     try:
         actual = json.dumps(info, sort_keys=True, separators=(",", ":"), allow_nan=False)
         target = json.dumps(
-            expected.map_info, sort_keys=True, separators=(",", ":"), allow_nan=False
+            {**expected.map_info, "model_version": info["model_version"]},
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
         )
     except (TypeError, ValueError) as error:
         raise ValueError("Invalid V9 metadata") from error
     if actual != target:
         raise ValueError("Unknown or inconsistent V9 metadata, catalog or facilities")
+
+
+def generate_current(*, order_stream_end=None, **options):
+    """V9.1 business contract; generate() retains historical V9 experiments."""
+    scene = _build(**options)
+    scene.map_info["model_version"] = "mixed-v9.1"
+    scene.order_stream_end = (
+        max((j.release for j in scene.tasks), default=0)
+        if order_stream_end is None
+        else order_stream_end
+    )
+    return scene.check()

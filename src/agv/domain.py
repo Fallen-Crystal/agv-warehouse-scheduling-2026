@@ -36,13 +36,19 @@ class Scenario:
     stations: list[Point] = dataclass_field(default_factory=list)
     map_info: dict = dataclass_field(default_factory=dict)
 
+    order_stream_end: int | None = None
+
+    @property
+    def is_v9_1(self):
+        return self.map_info.get("model_version") == "mixed-v9.1"
+
     @property
     def is_v4(self):
         return self.map_info.get("model_version") == "math-v4-integrated"
 
     @property
     def is_v9(self):
-        return self.map_info.get("model_version") == "mixed-v9"
+        return self.map_info.get("model_version") in ("mixed-v9", "mixed-v9.1")
 
     @property
     def uses_layer_rules(self):
@@ -177,6 +183,14 @@ class Scenario:
                     any(p in seen for p in self.pickup_candidates(j)) and delivery_reachable
                 )
             require(reachable, f"Unreachable task {j.id}")
+        if self.order_stream_end is not None:
+            require(
+                integer(self.order_stream_end)
+                and self.order_stream_end >= max((j.release for j in self.tasks), default=0),
+                "Invalid order stream end",
+            )
+        if self.is_v9_1:
+            require(self.order_stream_end is not None, "V9.1 requires an explicit stream end")
         return self
 
     def to_dict(self):
@@ -201,6 +215,8 @@ class Scenario:
                 stations=list(self.stations),
                 map_info=deepcopy(self.map_info),
             )
+        if self.order_stream_end is not None:
+            data["order_stream_end"] = self.order_stream_end
         return data
 
     def observation_map(self):
@@ -226,7 +242,13 @@ class Scenario:
     def from_observation_map(cls, data, horizon=600):
         if not isinstance(data, dict) or "tasks" in data or "horizon" in data:
             raise ValueError("Observation map must contain static geometry only")
-        return cls.from_dict({**deepcopy(data), "tasks": [], "horizon": horizon})
+        # A detached geometry object has no real stream; zero is a local placeholder.
+        extra = (
+            {"order_stream_end": 0}
+            if data.get("map_info", {}).get("model_version") == "mixed-v9.1"
+            else {}
+        )
+        return cls.from_dict({**deepcopy(data), "tasks": [], "horizon": horizon, **extra})
 
     @classmethod
     def from_dict(cls, data):
@@ -236,7 +258,7 @@ class Scenario:
         if (
             not isinstance(data, dict)
             or not required <= set(data)
-            or set(data) - required - {"horizon"} - profile_fields
+            or set(data) - required - {"horizon", "order_stream_end"} - profile_fields
         ):
             raise ValueError("Scenario must contain the documented fields only")
         for field in ("width", "height", "horizon"):
@@ -247,7 +269,7 @@ class Scenario:
         info = data.get("map_info", {})
         if not isinstance(info, dict):
             raise ValueError("map_info must be an object")
-        is_layered = info.get("model_version") in ("math-v4-integrated", "mixed-v9")
+        is_layered = info.get("model_version") in ("math-v4-integrated", "mixed-v9", "mixed-v9.1")
         if profile_fields & set(data) and not is_layered:
             raise ValueError("Extended scene fields require an explicit V4/V9 profile")
         if is_layered and not profile_fields <= set(data):
@@ -316,6 +338,7 @@ class Scenario:
             transit_only=set(coordinates.get("transit_only", [])),
             stations=coordinates.get("stations", []),
             map_info=deepcopy(info),
+            order_stream_end=data.get("order_stream_end"),
         ).check()
 
 

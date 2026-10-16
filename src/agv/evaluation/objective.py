@@ -53,7 +53,13 @@ _SCORE_FIELDS = frozenset(
 
 
 def _model_version(scenario):
-    return "mixed-v9-reviewed-v1" if scenario.is_v9 else MODEL_VERSION
+    return (
+        "mixed-v9.1-reviewed-v1"
+        if scenario.is_v9_1
+        else "mixed-v9-reviewed-v1"
+        if scenario.is_v9
+        else MODEL_VERSION
+    )
 
 
 def _validate_execution(scenario, result):
@@ -85,7 +91,9 @@ def _cached_reference(raw_scene):
         or all(result[name] > 0 for name in ("makespan", "mean_flow_time", "moves"))
     )
     return {
-        "policy": REFERENCE_POLICY,
+        "policy": "stream_standby_distance_greedy_service2l_v9_1"
+        if scenario.is_v9_1
+        else REFERENCE_POLICY,
         "model_version": _model_version(scenario),
         "scenario_sha256": hashlib.sha256(raw_scene.encode("utf-8")).hexdigest(),
         "available": bool(available),
