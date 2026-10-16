@@ -24,7 +24,10 @@ class Environment:
 
     def reset(self, scenario=None):
         if scenario is not None:
-            self._scenario = deepcopy(scenario).check()
+            checked = deepcopy(scenario).check()
+            if self.idle_hold_steps and not checked.is_v9:
+                raise ValueError("Bounded standby requires the explicit V9 catalog profile")
+            self._scenario = checked
         s = self._scenario
         self.time = 0
         self._jobs = {j.id: j for j in s.tasks}

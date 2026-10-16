@@ -53,6 +53,17 @@ agv run --profile v4 --tasks 18 --vehicles 4 --algorithm bcrd_budget --output ru
 
 可直接打开[同种子双栏离线回放](results/bcrd/replay.html)观察真实轨迹；精选案例同时展示完工改善与平均响应、里程的代价。正式 `benchmark-bcrd` 需Git检出并可编辑安装，以保存来源提交和源码哈希。
 
+## V9 混合货架与有限待命
+
+队友V6/V9的有效建模内容已通过独立 `v9` profile 接入：横竖混合背靠背货架、首排单层双侧候选、3–8层独立排、对齐净空与中央设施。原V4和历史结果保留；地图、任务和新参考分母不同，不直接横比两版F。
+
+```bash
+agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_greedy_dispatch --output runs/v9-return.json
+agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_standby8_dispatch --output runs/v9-wait8.json
+```
+
+V9默认中型和固定柱/设备，`--layers 8`控制双排层数，单排始终1层。卸货后返程本就可以被新单打断；新增有限待命仅在普通通行区安全延迟返程，到达固定额度便继续返H。原包依据隐藏订单数量停止待命的逻辑已替换，等待与最终返库均完整计账。新策略为实验选项；BCRD目前只支持返库模式，不自动组合待命。审核、反例、效果与复现见 [V6/V9评估](docs/v9-review.md)。
+
 ## 结构
 
 ```text
@@ -96,7 +107,7 @@ runs/                  本机生成的全量输出，不提交
 
 已训练8特征线性候选排序器：8个训练场景产生3,828条候选样本，3个验证场景产生1,542条样本；6个新种子和独立地图区域用于留出测试。验证MSE约比常量模型低2.52%，完整调度是否改善须看同预算留出对照，不能仅从MSE推导。没有使用私密数据集。详细作用范围、标签和局限见 [模型卡](docs/model-card.md)。
 
-这个已有模型来自旧规则数据，本次没有在 V4 分层与专用交付点规则上重新训练或证明其收益；V4 正式对照不使用 `sipp_learned`。
+这个已有模型来自旧规则数据，没有在 V4/V9 分层与专用交付点规则上重新训练或证明其收益；两版正式对照均不使用 `sipp_learned`。
 
 ```bash
 agv train --map data/maps/warehouse-10-20-10-2-1.map --output runs/my-training

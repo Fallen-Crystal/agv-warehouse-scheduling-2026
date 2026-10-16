@@ -41,7 +41,7 @@ BCRD在V9支持**返库模式**，仍只根据可见订单试算。暂不把待�
 ```bash
 python -m pip install -e '.[dev]'
 agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_greedy_dispatch --output runs/v9-return.json
-agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_standby16_dispatch --output runs/v9-wait16.json
+agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_standby8_dispatch --output runs/v9-wait8.json
 agv run --input examples/scenarios/v9-medium-dynamic.json --algorithm bcrd_budget --output runs/v9-bcrd.json
 agv serve
 ```

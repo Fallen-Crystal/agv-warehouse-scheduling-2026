@@ -13,6 +13,31 @@ from agv.warehouse.mixed import generate
 
 
 class V9IdleTests(unittest.TestCase):
+    def test_complete_return_event_cannot_be_postdated_or_have_fake_service(self):
+        scene = self.fixture()
+        result = self.finish(self.assigned(scene))
+        for kind in ("postdated", "fake_service", "boolean"):
+            forged = deepcopy(result)
+            for collection in ("events", "assignments"):
+                event = forged[collection][-1]
+                if kind == "postdated":
+                    event["return_end"] = event["return_arrival"] = result["time"] + 1
+                elif kind == "fake_service":
+                    event["return_arrival"] -= 1
+                else:
+                    event["return_arrival"] = True
+            with self.subTest(kind=kind), self.assertRaises(ValueError):
+                validate(scene, forged)
+
+    def test_reset_cannot_silently_keep_standby_on_another_profile(self):
+        from agv.warehouse.layout import generate as generate_v4
+
+        env = self.assigned(self.fixture(), ttl=2)
+        before = env.observe()
+        with self.assertRaises(ValueError):
+            env.reset(generate_v4(task_count=0))
+        self.assertEqual(env.observe(), before)
+
     def fixture(self, *, vehicles=1):
         scene = generate(task_count=0, vehicles=vehicles)
         single = next(v for v in scene.map_info["rack_catalog"] if v["rack_type"] == "single")

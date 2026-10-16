@@ -1,0 +1,72 @@
+{
+  "schema": "agv-v9-upstream-audit-v1",
+  "source_name": "agv_modeling_mixed_v9",
+  "source_python_sha256": {
+    "audit_examples.py": "44a03b412095a895faf1087d9602935ad3ae7d9e1e5b5c5d9cf01730bb503bf1",
+    "baseline.py": "1e915dbe917d2b33a9c6e372a7150252d54bcca450ca34188d605f4224b1f2ac",
+    "batch_experiments.py": "4ecd429e079371cfe0f72d1c0a9fbef52c3ff71ee88496bb5f2fa700b601c0fd",
+    "demo_algorithm_interface.py": "fe7380068d343b20b1a6d5ff5c1c076579aa266bc8521b644f116823f794f752",
+    "diagnostics.py": "32c979b964a072a68fcaa601a79e235f443ed689c9080ed292f51829e30ade7c",
+    "environment.py": "f4339bc45af7967e9d59ca0be75685a20e47159cfd8789898643d9c0f37d48a8",
+    "export_metrics.py": "84cdcf59e5010a75149ea263dfa4879df19d03d5874b6e9352092e39367cc7a3",
+    "horizontal_layout.py": "b92535a03abf888a84f378b5fabd28c58a33202cf22579b5a2bf4c3754e8468b",
+    "horizontal_view.py": "51cf3f2960b7c0e49e240864b511bfe0bc6e544d8e7570e156b1e5f59e6eceec",
+    "idle_control.py": "1660870910c7801f648368af6d1d4b12863f325dc82cf1f4c9c9907ab271c165",
+    "layer_rules.py": "c6f69f9b5b9914f2372ebd3d27cb23e2404d056f09bc8f5a57ef664bd54b67e8",
+    "legacy_horizontal_layout.py": "1b22a37e9c95fcbfdf48656f8d852379b84153bb5dc76995f0b3fe3c77de0592",
+    "metrics.py": "8cee1a0841c49e4b7c264f0c36461dfb189c8fd6b502688f05ffa9befb9b946d",
+    "mixed_validation.py": "348f3f406df27b60932316adbc0639639749ef13f329c0844235fc50ed165da8",
+    "model.py": "49737127e358bde63e18ae9b729180ee3b942072106ee5400aa47b36a96a8cd0",
+    "objective.py": "2cac248c9d0371e3fa7df8d5bd567cb8bc731b52e1fb9697cbf233e05f07f26e",
+    "pickup_planning.py": "5d138a3b784b06de5fb4f895ad40ff0944c4428eff1ea2d41a8b033c7e7a430d",
+    "reference_test_completion.py": "3b48bc61533af1cc72450c2e02aa2e1a87bfb6b97d01d3a691fff839ea0bb0e7",
+    "reference_test_delivery_rules.py": "5676f9e66a5ea9e894911441cd8ec3c416f086cf4eb12d03011dd933d9c99f9b",
+    "reference_test_integrated.py": "eaed3ea44694c7b063b8fc16cc47270a56a2515f0c79bf9e009bfff659fb4b65",
+    "reference_test_numbered.py": "ccf1e6feeab8e99fe07de212b6b0cf5eebda2b5321b28e88deb1968f956e5bad",
+    "reference_test_structured.py": "af271ccd5e2824556807a53e00226874f13802109c40ee4ba043f01b730a1c1b",
+    "reference_test_ten_vehicles.py": "bab04800474d5316a31d46f47bd1ec40872605e640995261ad6f63b5342eb24a",
+    "replanning.py": "7a569467c7c718e2e264d17502284ce9aaccc1e875fad5f18e6d6b6af1948941",
+    "routing.py": "6ad1817555424b58050260e8e26b5fde849a7011d148c861bab7a5738b497a0b",
+    "run_dynamic_examples.py": "2d2e2e2786b1b9bcfe8c25de3e2cb68cc16409716dff087860672522065febde",
+    "run_examples.py": "32026570912f9b9e382248c9b4065aa41f24faf2c082d9f0adc9aa62ada0b8cc",
+    "scenario_io.py": "9a5bebaec9d05f94a85677af02fa262a31a6040861871c962fea38eb8e1246cb",
+    "schedule_evaluation.py": "dd3b5d68c45ca3103618181c5be9de5af9d8d5d6ac55cdd92464e8b321586158",
+    "show_warehouse.py": "e4e9769ecee6692a436651f4ac3e66a4f737054b273b8846d5b608436a8da5f7",
+    "test_algorithm_actions.py": "dc0e62aeda98fc1b4d774a8a2fa748d2e0b4b9f3b7b69b2d73077b5a53938efe",
+    "test_alignment.py": "046d88700c5670b4b23f868df66bd720e267e737076f2bfb76f3e1e3c02b32c6",
+    "test_framework_v9.py": "ba536071202e553efc7046831c006115a9a5b026a41b231cbdd7d65024139bbd",
+    "test_metrics.py": "685263d44fbde766a40ec67f5d9f3cce34ccaeeb90c7728460b8b4a7edd38f94",
+    "test_mixed.py": "9cf32719c37bb3fb3c20b16bd79849b8e9e56c02fab55aea5f35f65dd3ab4a8c",
+    "test_objective.py": "d4d93fa76e1577a09cc595fc53b21feefac633c9f6dbb8c97ba95d734dfada35",
+    "test_paired.py": "9f2677f032e5b27fa58ad09dec4bab1b20f3408b5418eaa269ec1594fe8cda95",
+    "test_repro.py": "2de746abe4ba081ec805c09d2a6466d31a9e6ffae5854891b5c18c0c5e6bea2b",
+    "test_resource_identity.py": "46298c072ab204849a190b8bb4cb92ba5a92aa86a45e37a5ec18e9ebbd257518",
+    "test_side_clearance.py": "2c121723e5c7ffef2d27801985b3a05223423a52598173885d961a4a35e69540",
+    "test_single_racks.py": "5a9c0dc5aacb2447f4ae84c29b832d06515a584da6c4edcf9b391a0a3cab47a8",
+    "test_yield.py": "71afd330a505816619b095c06a2c80fd722dc02a10aa57a959dcb2b092f4dd97",
+    "validation.py": "9a32bbdcf100fcd2b418ebacefe431f20ba9c44dd8f49f838e6a6a83538c1d89",
+    "yield_demo.py": "a2a2cf3deeb0955b229c005cd312aa87b804a5d2af1674dd14ba66e33efb4e70"
+  },
+  "findings": {
+    "causality": {
+      "equal_observations_before": true,
+      "next_positions_differ": true,
+      "position_before": [
+        42,
+        39
+      ],
+      "time_before": 66,
+      "with_hidden_order": [
+        42,
+        39
+      ],
+      "without_hidden_order": [
+        41,
+        39
+      ]
+    },
+    "forged_final_return_after_execution_accepted": true,
+    "original_complete": true
+  },
+  "scope": "Counterexamples to the original V9 package, not the reviewed bounded controller"
+}

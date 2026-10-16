@@ -73,6 +73,28 @@ def validate(scenario, result):
                     )
     jobs = {j.id: j for j in scenario.tasks}
     assignments = result["assignments"]
+    if scenario.is_v9:
+        timing_fields = (
+            "assigned_at",
+            "pickup_arrival",
+            "pickup_end",
+            "delivery_arrival",
+            "delivery_end",
+            "return_arrival",
+            "return_end",
+        )
+        require(
+            all(
+                type(r.get(key)) is int and r[key] >= 0
+                for r in assignments
+                for key in timing_fields
+            ),
+            "Invalid V9 event time",
+        )
+        require(
+            all(r["return_arrival"] == r["return_end"] for r in assignments),
+            "Return arrival and end must be the same zero-service event",
+        )
     require(
         all(
             type(r.get("vehicle")) is int
@@ -168,6 +190,11 @@ def validate(scenario, result):
         # interrupted by a later assignment before reaching H.
         for k, path in enumerate(paths):
             latest = next((r for r in reversed(assignments) if r["vehicle"] == k), None)
+            if latest is not None and result.get("feasible"):
+                require(
+                    latest["return_end"] <= horizon,
+                    "A complete execution cannot claim a future final return",
+                )
             if latest is not None and latest["return_end"] <= horizon:
                 end = latest["return_end"]
                 require(
