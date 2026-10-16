@@ -3,6 +3,34 @@
 from math import isclose
 
 
+def _standby_times(scenario, result):
+    """Audit recorded holds from trajectories and immutable task timing, not labels."""
+    waits = result.get("idle_waits", [])
+    if not isinstance(waits, list) or (waits and not scenario.is_v9):
+        raise ValueError("Standby requires V9 and a list of intervals")
+    times = {k: set() for k in range(len(scenario.homes))}
+    for wait in waits:
+        if not isinstance(wait, dict) or set(wait) != {"vehicle", "start", "end"}:
+            raise ValueError("Invalid standby interval")
+        k, a, b = (wait[key] for key in ("vehicle", "start", "end"))
+        if any(type(v) is not int for v in (k, a, b)) or not 0 <= k < len(times) or not 0 <= a < b:
+            raise ValueError("Invalid standby timing or vehicle")
+        own = [r for r in result["assignments"] if r["vehicle"] == k]
+        latest = next((r for r in reversed(own) if r["assigned_at"] <= a), None)
+        if latest is None or latest["delivery_end"] > a or b > latest["return_end"]:
+            raise ValueError("Standby must delay an unloaded vehicle's fallback return")
+        if any(a <= r["assigned_at"] < b for r in own):
+            raise ValueError("Standby overlaps a new assignment")
+        for t in range(a, min(b, result["time"])):
+            if t in times[k]:
+                raise ValueError("Overlapping standby intervals")
+            p = result["paths"][k][t]
+            if tuple(p) not in scenario.transit_only or p != result["paths"][k][t + 1]:
+                raise ValueError("Standby must be stationary on ordinary transit floor")
+            times[k].add(t)
+    return times
+
+
 def validate(scenario, result):
     def require(ok, message):
         if not ok:
@@ -103,7 +131,7 @@ def validate(scenario, result):
         all(type(r["vehicle"]) is int and 0 <= r["vehicle"] < len(paths) for r in assignments),
         "Unknown vehicle",
     )
-    if scenario.is_v4:
+    if scenario.uses_layer_rules:
         assigned, previous = set(), []
         for r in assignments:
             job, now = jobs[r["task_id"]], r["assigned_at"]
@@ -134,6 +162,19 @@ def validate(scenario, result):
                         any(tuple(p) == station and a <= t <= b for station, a, b in permits),
                         "Delivery station occupied outside unload service",
                     )
+    standby = _standby_times(scenario, result)
+    if scenario.is_v9:
+        # Only the last fallback is still effective. Older returns can have been
+        # interrupted by a later assignment before reaching H.
+        for k, path in enumerate(paths):
+            latest = next((r for r in reversed(assignments) if r["vehicle"] == k), None)
+            if latest is not None and latest["return_end"] <= horizon:
+                end = latest["return_end"]
+                require(
+                    tuple(path[end]) == scenario.homes[k]
+                    and all(tuple(p) == scenario.homes[k] for p in path[end:]),
+                    "Final return event does not match actual home trajectory",
+                )
     # 同货架不同侧可同时装货；地面停靠格互斥已由逐时刻碰撞检查保证。
     expected_events = [r for r in assignments if r["delivery_end"] <= horizon]
     require(result["events"] == expected_events, "Wrong completion events")
@@ -173,7 +214,7 @@ def validate(scenario, result):
                     ),
                     None,
                 )
-                is_idle = latest is None or t >= latest["return_end"]
+                is_idle = latest is None or t >= latest["return_end"] or t in standby[k]
                 if is_idle:
                     idle += 1
                 else:
@@ -316,7 +357,7 @@ def validate_metrics(scenario, result):
             shelf_x=shelf[0] if shelf else None,
             shelf_y=shelf[1] if shelf else None,
         )
-        if scenario.is_v4:
+        if scenario.uses_layer_rules:
             job = jobs[r["task_id"]]
             rack = next(
                 v for v in scenario.map_info["rack_catalog"] if tuple(v["position"]) == job.shelf
@@ -331,6 +372,7 @@ def validate_metrics(scenario, result):
         expected = sum(r[name] for r in expected_tasks) / len(events) if events else none_or_zero
         number(result["mean_" + name], expected, "Wrong time decomposition: " + name)
     vehicles = []
+    standby = _standby_times(scenario, result)
     for k, path in enumerate(result["paths"]):
         own = [r for r in assignments if r["vehicle"] == k]
         busy = set(t for r in own for t in range(r["assigned_at"], min(horizon, r["delivery_end"])))
@@ -359,6 +401,8 @@ def validate_metrics(scenario, result):
             task_busy_steps=len(busy),
             task_utilization=len(busy) / horizon if horizon else 0,
         )
+        if scenario.is_v9:
+            row["standby_steps"] = len(standby[k])
         for t, (a, b) in enumerate(zip(path, path[1:])):
             if a != b:
                 row["moves"] += 1
@@ -369,7 +413,7 @@ def validate_metrics(scenario, result):
                 latest = next((r for r in reversed(own) if r["assigned_at"] <= t), None)
                 row[
                     "idle_steps"
-                    if latest is None or t >= latest["return_end"]
+                    if latest is None or t >= latest["return_end"] or t in standby[k]
                     else "traffic_wait_steps"
                 ] += 1
         vehicles.append(row)
@@ -378,6 +422,15 @@ def validate_metrics(scenario, result):
         require(set(actual) == set(expected), "Wrong vehicle metric fields")
         for name, value in expected.items():
             number(actual[name], value, "Wrong per-vehicle metric: " + name)
+    if scenario.is_v9:
+        require(
+            result.get("standby_steps") == sum(map(len, standby.values())), "Wrong standby total"
+        )
+        for k, labels in enumerate(result["interval_states"]):
+            require(
+                {t for t, label in enumerate(labels) if label == "standby"} == standby[k],
+                "Standby labels differ from actual holds",
+            )
     for name in ("empty_moves", "loaded_moves"):
         require(
             result[name] == sum(v[name] for v in vehicles), "Wrong movement decomposition: " + name

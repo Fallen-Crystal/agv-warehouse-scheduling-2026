@@ -2,9 +2,23 @@
 
 
 def plan_task(
-    scenario, router, job, vehicle, position, start, vertices, edges, service_blocked=None
+    scenario,
+    router,
+    job,
+    vehicle,
+    position,
+    start,
+    vertices,
+    edges,
+    service_blocked=None,
+    *,
+    selected_pickup=None,
 ):
     candidates = scenario.pickup_candidates(job)
+    if selected_pickup is not None:
+        if selected_pickup not in candidates:
+            raise ValueError("Selected pickup is not a legal candidate")
+        candidates = [selected_pickup]
     successes = []
     attempts = []
     for point in candidates:

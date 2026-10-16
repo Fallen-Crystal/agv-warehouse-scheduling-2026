@@ -17,6 +17,7 @@ import statistics
 import subprocess
 import time
 from collections import Counter
+from dataclasses import replace
 from pathlib import Path
 
 from agv.dispatch.bcrd import run as run_dispatch
@@ -59,6 +60,8 @@ def protocol_id(protocol):
 def validate_protocol(protocol, *, require_frozen=False):
     if not isinstance(protocol, dict) or protocol.get("schema") != PROTOCOL_SCHEMA:
         raise ValueError("Unknown BCRD protocol schema")
+    if protocol.get("profile", "v4") not in ("v4", "v9"):
+        raise ValueError("Unknown warehouse experiment profile")
     split = protocol.get("split")
     if split not in SPLIT_RANGES:
         raise ValueError("Unknown experiment split")
@@ -93,12 +96,20 @@ def validate_protocol(protocol, *, require_frozen=False):
         "budget",
         "min_queue_ratio",
         "event_driven",
+        "idle_hold_steps",
     }
     for params in protocol["solvers"].values():
         if set(params) - allowed or params.get("policy") not in ("greedy", "matching", "bcrd"):
             raise ValueError("All solvers must use the BCRD runner's SIPP/no-joint backend")
-        if params["policy"] != "bcrd" and set(params) != {"policy"}:
+        if params["policy"] != "bcrd" and set(params) - {"policy", "idle_hold_steps"}:
             raise ValueError("Greedy/matching controls cannot contain unused BCRD parameters")
+        if "idle_hold_steps" in params and (
+            protocol.get("profile") != "v9"
+            or params["policy"] != "greedy"
+            or type(params["idle_hold_steps"]) is not int
+            or not 0 <= params["idle_hold_steps"] <= 1000
+        ):
+            raise ValueError("Standby controls require V9 greedy with a finite integer allowance")
         ratio = params.get("min_queue_ratio", 0)
         if type(ratio) not in (int, float) or not math.isfinite(ratio) or ratio < 0:
             raise ValueError("min_queue_ratio must be a nonnegative finite number")
@@ -321,6 +332,9 @@ def _row(name, seed, solver, scene, result, audit_error, elapsed_cpu, elapsed_wa
     )
     for key in ("makespan", "mean_flow_time", "p90_flow_time", "max_flow_time", "moves", "time"):
         row[key] = result.get(key) if comparable else None
+    if scene.is_v9:
+        for key in ("empty_moves", "loaded_moves", "traffic_wait_steps", "standby_steps"):
+            row[key] = result.get(key) if comparable else None
     return row
 
 
@@ -358,7 +372,21 @@ def _run(output, protocol, *, protocol_bytes=None):
             writer = None
             for name, config in protocol["configs"].items():
                 for position, seed in enumerate(protocol["seeds"]):
-                    scene = generate(**config, seed=seed)
+                    if protocol.get("profile", "v4") == "v9":
+                        from agv.warehouse.mixed import generate as generate_mixed
+
+                        options = dict(config)
+                        scale = options.pop("release_scale", 1)
+                        if type(scale) is not int or not 1 <= scale <= 100:
+                            raise ValueError("release_scale must be an integer in 1..100")
+                        scene = generate_mixed(**options, seed=seed)
+                        if scale != 1:
+                            scene.tasks = [
+                                replace(job, release=scale * job.release) for job in scene.tasks
+                            ]
+                            scene.check()
+                    else:
+                        scene = generate(**config, seed=seed)
                     digest = scenario_id(scene)
                     reference = reference_context(scene)
                     names = list(protocol["solvers"])

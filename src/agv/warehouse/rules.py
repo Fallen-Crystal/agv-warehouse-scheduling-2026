@@ -78,6 +78,11 @@ def validate_profile(scenario):
     _require(isinstance(s.pickup_zones, set), "pickup_zones must be a set")
     _require(isinstance(s.transit_only, set), "transit_only must be a set")
     _require(isinstance(s.stations, list), "stations must be a list")
+    if s.is_v9:
+        from agv.warehouse.mixed import validate_profile as validate_mixed
+
+        validate_mixed(s)
+        return
     if not s.is_v4:
         _require(
             s.service_axis == "any"
@@ -319,7 +324,7 @@ def dispatch_status(scenario, job, records, assigned, time):
     Derive each resource from the immutable task identity, never from an
     optional record.shelf supplied by a planner.
     """
-    if not scenario.is_v4:
+    if not scenario.uses_layer_rules:
         return True, None
     jobs = {j.id: j for j in scenario.tasks}
     for record in records:

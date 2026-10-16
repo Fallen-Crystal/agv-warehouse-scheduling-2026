@@ -28,7 +28,7 @@ def summarize(scenario, result):
                 shelf_y=j.shelf[1] if j.shelf else None,
             )
         )
-        if scenario.is_v4:
+        if scenario.uses_layer_rules:
             rack = next(
                 v for v in scenario.map_info["rack_catalog"] if tuple(v["position"]) == j.shelf
             )
@@ -59,23 +59,29 @@ def summarize(scenario, result):
             traffic_wait_steps=0,
             task_busy_steps=0,
         )
+        if scenario.is_v9:
+            row["standby_steps"] = 0
         for a, b, state in zip(path, path[1:], labels):
-            if state not in ("idle", "returning"):
+            if state not in ("idle", "returning", "standby"):
                 row["task_busy_steps"] += 1
             if a != b:
                 row["moves"] += 1
                 row["loaded_moves" if state == "to_delivery" else "empty_moves"] += 1
             elif state in ("loading", "unloading"):
                 row["service_steps"] += 1
-            elif state == "idle":
+            elif state in ("idle", "standby"):
                 row["idle_steps"] += 1
+                if state == "standby":
+                    row["standby_steps"] += 1
             else:
                 row["traffic_wait_steps"] += 1
         row["task_utilization"] = row["task_busy_steps"] / result["time"] if result["time"] else 0
         vehicles.append(row)
     busy = [v["task_busy_steps"] for v in vehicles]
     average_busy = sum(busy) / len(busy)
+    extras = {"standby_steps": sum(v["standby_steps"] for v in vehicles)} if scenario.is_v9 else {}
     return dict(
+        **extras,
         comparison_valid=result["feasible"],
         metrics_scope="all_tasks" if len(task_metrics) == len(jobs) else "completed_tasks_only",
         response_sample_count=len(task_metrics),

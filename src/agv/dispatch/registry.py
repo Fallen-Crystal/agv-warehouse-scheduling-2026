@@ -40,6 +40,9 @@ DISPATCH_SOLVERS = {
     "sipp_matching_dispatch": dict(policy="matching"),
     "bcrd_budget": dict(policy="bcrd", max_batches=4),
     "bcrd_order": dict(policy="bcrd", max_batches=4, mode="order"),
+    "sipp_standby8_dispatch": dict(policy="greedy", idle_hold_steps=8),
+    "sipp_standby16_dispatch": dict(policy="greedy", idle_hold_steps=16),
+    "sipp_standby32_dispatch": dict(policy="greedy", idle_hold_steps=32),
 }
 SOLVERS.update(
     {
@@ -73,7 +76,7 @@ def run_named(name, scenario):
             if config.learned
             else None,
         )
-    if scenario.is_v4:
+    if scenario.uses_layer_rules:
         from agv.evaluation.objective import score_result
 
         result = score_result(scenario, result)

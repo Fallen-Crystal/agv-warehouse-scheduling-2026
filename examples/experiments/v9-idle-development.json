@@ -1,0 +1,62 @@
+{
+  "schema": "agv-bcrd-protocol-v1",
+  "profile": "v9",
+  "split": "development",
+  "frozen": false,
+  "baseline": "G0",
+  "seeds": [
+    10,
+    11,
+    12
+  ],
+  "bootstrap": {
+    "resamples": 4000,
+    "seed": 20261016
+  },
+  "configs": {
+    "dense_static": {
+      "task_count": 12,
+      "vehicles": 4
+    },
+    "sparse_uniform": {
+      "task_count": 12,
+      "vehicles": 4,
+      "mode": "dynamic",
+      "arrival": "uniform",
+      "release_scale": 16
+    },
+    "large_sparse_switch": {
+      "size": "large",
+      "task_count": 12,
+      "vehicles": 4,
+      "mode": "dynamic",
+      "arrival": "irregular",
+      "demand": "switching",
+      "delivery_pattern": "shared",
+      "release_scale": 12
+    }
+  },
+  "solvers": {
+    "G0": {
+      "policy": "greedy"
+    },
+    "wait8": {
+      "policy": "greedy",
+      "idle_hold_steps": 8
+    },
+    "wait16": {
+      "policy": "greedy",
+      "idle_hold_steps": 16
+    },
+    "wait32": {
+      "policy": "greedy",
+      "idle_hold_steps": 32
+    }
+  },
+  "criteria": {
+    "selection": "Choose one finite allowance from development only; keep return-home default if quality, tail or CPU tradeoffs are weak. No oracle end-of-stream controller.",
+    "quality": "same SIPP/no-joint, identical serialized scenario, fixed return-home A* offline reference",
+    "timing": "raw process CPU and wall only; one observation per run; offline reference/validation/scoring excluded",
+    "holdout": "separate 30..39 seeds; do not retune on their outcomes"
+  }
+}

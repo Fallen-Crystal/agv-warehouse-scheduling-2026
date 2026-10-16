@@ -52,6 +52,10 @@ _SCORE_FIELDS = frozenset(
 )
 
 
+def _model_version(scenario):
+    return "mixed-v9-reviewed-v1" if scenario.is_v9 else MODEL_VERSION
+
+
 def _validate_execution(scenario, result):
     from agv.evaluation.validation import validate
 
@@ -82,7 +86,7 @@ def _cached_reference(raw_scene):
     )
     return {
         "policy": REFERENCE_POLICY,
-        "model_version": MODEL_VERSION,
+        "model_version": _model_version(scenario),
         "scenario_sha256": hashlib.sha256(raw_scene.encode("utf-8")).hexdigest(),
         "available": bool(available),
         "time": result["makespan"] if available else None,
@@ -130,7 +134,7 @@ def _trusted_reference(scenario, supplied):
 
 def _score_fields(scenario, result, context):
     fields = {
-        "model_version": MODEL_VERSION,
+        "model_version": _model_version(scenario),
         "objective_weights": dict(WEIGHTS),
         "estimated_energy": ENERGY_PER_MOVE * result["moves"],
         "normalization_reference": deepcopy(context),

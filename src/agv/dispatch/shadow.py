@@ -87,7 +87,10 @@ def _safe_greedy(observation):
     ):
         return []
     pending = {job["id"]: job for job in observation["pending"]}
-    v4 = observation["map"].get("map_info", {}).get("model_version") == "math-v4-integrated"
+    v4 = observation["map"].get("map_info", {}).get("model_version") in (
+        "math-v4-integrated",
+        "mixed-v9",
+    )
     faces, pairs = set(), []
     for vehicle, job in greedy_action(observation):
         face = tuple(pending[job]["shelf"]) if pending[job].get("shelf") else None

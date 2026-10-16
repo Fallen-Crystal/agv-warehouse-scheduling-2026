@@ -40,6 +40,14 @@ class Scenario:
     def is_v4(self):
         return self.map_info.get("model_version") == "math-v4-integrated"
 
+    @property
+    def is_v9(self):
+        return self.map_info.get("model_version") == "mixed-v9"
+
+    @property
+    def uses_layer_rules(self):
+        return self.is_v4 or self.is_v9
+
     def free(self, p):
         return 0 <= p[0] < self.width and 0 <= p[1] < self.height and p not in self.blocked
 
@@ -52,13 +60,19 @@ class Scenario:
     def travel_neighbors(self, p, delivery_goal=None):
         """A V4 delivery station may be entered only for its designated delivery."""
         for q in self.neighbors(p):
-            if self.is_v4 and q in self.stations and q != delivery_goal:
+            if self.uses_layer_rules and q in self.stations and q != delivery_goal:
                 continue
             yield q
 
     def pickup_candidates(self, job):
         if job.shelf is None:
             return [job.pickup]
+        if self.is_v9:
+            row = next(
+                (v for v in self.map_info["rack_catalog"] if tuple(v["position"]) == job.shelf),
+                None,
+            )
+            return [tuple(p) for p in row["loading_points"]] if row else []
         return sorted(
             p
             for p in self.neighbors(job.shelf)
@@ -98,19 +112,23 @@ class Scenario:
         validate_profile(self)
         require(all(integer(j.id) for j in self.tasks), "Task IDs must be integers")
         require(len({j.id for j in self.tasks}) == len(self.tasks), "Duplicate task ID")
+        reach_cache = {}
+        catalog = {tuple(row["position"]): row for row in self.map_info.get("rack_catalog", [])}
         for j in self.tasks:
             require(integer(j.release) and j.release >= 0, "Invalid release")
             require(integer(j.shelf_level) and j.shelf_level >= 1, "Invalid shelf level")
-            if self.is_v4:
-                require(j.shelf_level <= self.map_info["layer_count"], "Shelf level exceeds layers")
+            if self.uses_layer_rules:
+                row = catalog.get(j.shelf) if point(j.shelf) else None
+                require(row is not None, "Layered orders must specify a catalog shelf")
+                require(j.shelf_level <= row["levels"], "Shelf level exceeds this bay's layers")
                 require(
                     j.pickup_service == 2 * j.shelf_level and j.delivery_service == 1,
-                    "V4 service duration must be 2*level and unload 1",
+                    "Layered service duration must be 2*level and unload 1",
                 )
-                require(j.delivery in self.stations, "V4 delivery must be a specified station")
-                require(j.shelf is not None, "V4 orders must specify a shelf")
+                require(j.delivery in self.stations, "Layered delivery must be a specified station")
+                require(j.shelf is not None, "Layered orders must specify a shelf")
             else:
-                require(j.shelf_level == 1, "Shelf layers require an explicit V4 profile")
+                require(j.shelf_level == 1, "Shelf layers require an explicit warehouse profile")
             require(
                 all(integer(s) and s >= 1 for s in (j.pickup_service, j.delivery_service)),
                 "Invalid service duration",
@@ -141,15 +159,18 @@ class Scenario:
             reachable = False
             for k, home in enumerate(self.homes):
                 forbidden = set(self.homes) - {home}
-                seen, queue = {home}, deque([home])
-                while queue:
-                    for p in self.travel_neighbors(queue.popleft()):
-                        if p not in seen and p not in forbidden:
-                            seen.add(p)
-                            queue.append(p)
+                if k not in reach_cache:
+                    seen, queue = {home}, deque([home])
+                    while queue:
+                        for p in self.travel_neighbors(queue.popleft()):
+                            if p not in seen and p not in forbidden:
+                                seen.add(p)
+                                queue.append(p)
+                    reach_cache[k] = seen
+                seen = reach_cache[k]
                 delivery_reachable = (
                     any(p in seen for p in self.neighbors(j.delivery))
-                    if self.is_v4
+                    if self.uses_layer_rules
                     else j.delivery in seen
                 )
                 reachable |= (
@@ -160,7 +181,7 @@ class Scenario:
 
     def to_dict(self):
         tasks = [asdict(j) for j in self.tasks]
-        if not self.is_v4:
+        if not self.uses_layer_rules:
             for job in tasks:
                 job.pop("shelf_level")
         data = dict(
@@ -172,7 +193,7 @@ class Scenario:
             horizon=self.horizon,
             tasks=tasks,
         )
-        if self.is_v4:
+        if self.uses_layer_rules:
             data.update(
                 service_axis=self.service_axis,
                 pickup_zones=sorted(self.pickup_zones),
@@ -191,7 +212,7 @@ class Scenario:
             shelves=sorted(self.shelves),
             homes=list(self.homes),
         )
-        if self.is_v4:
+        if self.uses_layer_rules:
             data.update(
                 service_axis=self.service_axis,
                 pickup_zones=sorted(self.pickup_zones),
@@ -226,11 +247,11 @@ class Scenario:
         info = data.get("map_info", {})
         if not isinstance(info, dict):
             raise ValueError("map_info must be an object")
-        is_v4 = info.get("model_version") == "math-v4-integrated"
-        if profile_fields & set(data) and not is_v4:
-            raise ValueError("Extended scene fields require the explicit V4 profile")
-        if is_v4 and not profile_fields <= set(data):
-            raise ValueError("V4 scene is missing profile fields")
+        is_layered = info.get("model_version") in ("math-v4-integrated", "mixed-v9")
+        if profile_fields & set(data) and not is_layered:
+            raise ValueError("Extended scene fields require an explicit V4/V9 profile")
+        if is_layered and not profile_fields <= set(data):
+            raise ValueError("Layered scene is missing profile fields")
 
         def coordinate(value, label):
             if (
@@ -246,7 +267,7 @@ class Scenario:
             "blocked",
             "shelves",
             "homes",
-            *(("pickup_zones", "transit_only", "stations") if is_v4 else ()),
+            *(("pickup_zones", "transit_only", "stations") if is_layered else ()),
         ):
             if not isinstance(data[field], (tuple, list)):
                 raise ValueError(f"{field} must be a list")
@@ -263,7 +284,7 @@ class Scenario:
             "delivery_service",
             "shelf",
         }
-        if is_v4:
+        if is_layered:
             allowed.add("shelf_level")
         for raw in data["tasks"]:
             if (

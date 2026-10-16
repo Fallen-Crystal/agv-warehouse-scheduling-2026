@@ -23,21 +23,19 @@ def main(argv=None):
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
     run.add_argument("--tasks", type=int, default=12)
-    run.add_argument("--profile", choices=("legacy", "v4"), default="legacy")
+    run.add_argument("--profile", choices=("legacy", "v4", "v9"), default="legacy")
     run.add_argument("--mode", choices=("static", "dynamic"), default="static")
     run.add_argument(
-        "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default="small"
+        "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default=None
     )
     run.add_argument("--vehicles", type=int, default=4)
     run.add_argument("--layers", type=int, default=3)
     run.add_argument("--work-width", type=int, default=2)
-    run.add_argument(
-        "--obstacles", choices=("none", "columns", "columns_equipment"), default="none"
-    )
+    run.add_argument("--obstacles", choices=("none", "columns", "columns_equipment"), default=None)
     run.add_argument(
         "--horizon",
         type=int,
-        help="Optional finite cutoff; V4 defaults to completion/stall termination",
+        help="Optional finite cutoff; Layered profiles default to completion/stall termination",
     )
     run.add_argument("--overwrite", action="store_true")
     serve = sub.add_parser("serve", help="Start the local-only browser interface")
@@ -65,18 +63,27 @@ def main(argv=None):
         if args.command == "run":
             if args.input:
                 scenario = load_scene(args.input)
-            elif args.profile == "v4":
-                from agv.warehouse.layout import generate
+            elif args.profile in ("v4", "v9"):
+                if args.profile == "v9":
+                    from agv.warehouse.mixed import generate
+                else:
+                    from agv.warehouse.layout import generate
 
                 scenario = generate(
                     seed=args.seed,
                     task_count=args.tasks,
                     mode=args.mode,
-                    size=args.size,
+                    size=args.size or ("medium" if args.profile == "v9" else "small"),
                     vehicles=args.vehicles,
                     shelf_layers=args.layers,
                     work_width=args.work_width,
-                    obstacle_layout=args.obstacles,
+                    obstacle_layout=(
+                        args.obstacles
+                        if args.obstacles is not None
+                        else "columns_equipment"
+                        if args.profile == "v9"
+                        else "none"
+                    ),
                     horizon=args.horizon,
                 )
             else:
@@ -84,7 +91,7 @@ def main(argv=None):
                     seed=args.seed,
                     task_count=args.tasks,
                     mode=args.mode,
-                    size=args.size,
+                    size=args.size or ("medium" if args.profile == "v9" else "small"),
                     vehicles=args.vehicles,
                     horizon=args.horizon if args.horizon is not None else 600,
                 )

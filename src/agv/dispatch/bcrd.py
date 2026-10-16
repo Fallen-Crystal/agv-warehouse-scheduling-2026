@@ -43,6 +43,8 @@ def bcrd_action(
     Truncated previews with residual jobs are rejected in this first version:
     an incomplete forecast cannot win by omitting a difficult order.
     """
+    if observation.get("idle_hold_steps", 0):
+        raise ValueError("Standby forecasting requires a separately validated shadow contract")
     if type(event_driven) is not bool:
         raise ValueError("event_driven must be a boolean")
     if type(max_batches) is not int or not 0 <= max_batches <= 32:
@@ -168,10 +170,13 @@ def run(
     budget=None,
     min_queue_ratio=3.0,
     event_driven=True,
+    idle_hold_steps=0,
 ):
+    if idle_hold_steps and policy == "bcrd":
+        raise ValueError("BCRD standby needs a separately validated shadow contract")
     if policy not in ("bcrd", "greedy", "matching"):
         raise ValueError("Unknown dispatch policy")
-    env = Environment(scenario, router_kind="sipp")
+    env = Environment(scenario, router_kind="sipp", idle_hold_steps=idle_hold_steps)
     logs, observed = [], set()
     while not env.done and (scenario.horizon is None or env.time < scenario.horizon):
         obs = env.observe()
@@ -202,6 +207,8 @@ def run(
         min_queue_ratio=min_queue_ratio,
         event_driven=event_driven,
     )
+    if idle_hold_steps:
+        result["algorithm"]["idle_hold_steps"] = idle_hold_steps
     result["observed_task_count"] = len(observed)
     meaningful = [row for row in logs if row["candidates"] or row["issued_pairs"]]
     result["dispatch_decisions"] = meaningful

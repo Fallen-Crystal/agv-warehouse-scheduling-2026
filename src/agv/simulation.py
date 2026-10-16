@@ -13,7 +13,12 @@ from agv.warehouse.rules import dispatch_status
 
 
 class Environment:
-    def __init__(self, scenario: Scenario, router_kind="astar"):
+    def __init__(self, scenario: Scenario, router_kind="astar", *, idle_hold_steps=0):
+        if type(idle_hold_steps) is not int or not 0 <= idle_hold_steps <= 1000:
+            raise ValueError("idle_hold_steps must be an integer from 0 to 1000")
+        if idle_hold_steps and not scenario.is_v9:
+            raise ValueError("Bounded standby requires the explicit V9 catalog profile")
+        self.idle_hold_steps = idle_hold_steps
         self._router_kind = router_kind
         self.reset(scenario)
 
@@ -28,6 +33,8 @@ class Environment:
         self._paths = [[p] for p in s.homes]  # 实际执行轨迹
         self._interval_states = [[] for _ in s.homes]
         self._records = []
+        self._idle_waits = []
+        self._idle_hold_counts = [0] * len(s.homes)
         self._assigned = set()
         self._active = [None] * len(s.homes)
         self._planning_failures = []
@@ -39,6 +46,8 @@ class Environment:
         r = self._active[k]
         t = self.time
         if r is None:
+            if any(w["vehicle"] == k and w["start"] <= t < w["end"] for w in self._idle_waits):
+                return "standby"
             return "returning" if len(self._plans[k]) > 1 else "idle"
         if t < r["pickup_arrival"]:
             return "to_pickup"
@@ -53,6 +62,15 @@ class Environment:
         # 不返回总任务数、未来release、生成种子或未来任务点。
         return deepcopy(
             dict(
+                **(
+                    dict(
+                        idle_hold_steps=self.idle_hold_steps,
+                        idle_hold_counts=list(self._idle_hold_counts),
+                        idle_waits=deepcopy(self._idle_waits),
+                    )
+                    if s.is_v9
+                    else {}
+                ),
                 time=self.time,
                 horizon=s.horizon,
                 map=s.observation_map(),
@@ -104,11 +122,11 @@ class Environment:
             pairs = list(pairs)
         except TypeError as error:
             raise ValueError("Actions must be an iterable of vehicle/task pairs") from error
-        ks, js = [], []
+        ks, js, normalized = [], [], []
         for pair in pairs:
-            if not isinstance(pair, (list, tuple)) or len(pair) != 2:
-                raise ValueError("Expected (vehicle_id, task_id)")
-            k, j = pair
+            if not isinstance(pair, (list, tuple)) or len(pair) not in (2, 3):
+                raise ValueError("Expected (vehicle_id, task_id[, pickup_point])")
+            k, j = pair[:2]
             if type(k) is not int or not 0 <= k < len(self._plans) or self._active[k] is not None:
                 raise ValueError("Unknown or busy vehicle")
             if (
@@ -122,14 +140,27 @@ class Environment:
                 self._scenario, self._jobs[j], self._records, self._assigned, self.time
             )[0]:
                 raise ValueError("Task blocked by same-face layer order or active pickup")
+            selected = None
+            if len(pair) == 3:
+                raw = pair[2]
+                if (
+                    not isinstance(raw, (list, tuple))
+                    or len(raw) != 2
+                    or any(type(x) is not int for x in raw)
+                ):
+                    raise ValueError("Pickup point must contain two integer coordinates")
+                selected = tuple(raw)
+                if selected not in self._scenario.pickup_candidates(self._jobs[j]):
+                    raise ValueError("Pickup point is not a legal candidate")
+            normalized.append((k, j, selected))
             ks.append(k)
             js.append(j)
         if len(set(ks)) != len(ks) or len(set(js)) != len(js):
             raise ValueError("Duplicate vehicle or task in batch")
-        if self._scenario.is_v4 and len({self._jobs[j].shelf for j in js}) != len(js):
+        if self._scenario.uses_layer_rules and len({self._jobs[j].shelf for j in js}) != len(js):
             raise ValueError("Only one order per shelf face per dispatch batch")
         responses = []
-        for k, j in pairs:
+        for k, j, selected in normalized:
             vertices, edges = VertexReservations(), set()
             for other, plan in enumerate(self._plans):
                 if other == k:
@@ -140,7 +171,15 @@ class Environment:
             job = self._jobs[j]
             # 不同相邻停靠格可独立装货；同格占用仍由车辆路径预约约束。
             path, record, failed, attempts = plan_task(
-                self._scenario, self._router, job, k, self._plans[k][0], self.time, vertices, edges
+                self._scenario,
+                self._router,
+                job,
+                k,
+                self._plans[k][0],
+                self.time,
+                vertices,
+                edges,
+                selected_pickup=selected,
             )
             if failed:
                 self._planning_failures.append(
@@ -163,6 +202,12 @@ class Environment:
                     )
                 )
                 continue
+            self._idle_hold_counts[k] = 0
+            self._idle_waits = [
+                {**w, "end": min(w["end"], self.time)} if w["vehicle"] == k else w
+                for w in self._idle_waits
+            ]
+            self._idle_waits = [w for w in self._idle_waits if w["end"] > w["start"]]
             self._plans[k] = path
             self._records.append(record)
             self._active[k] = record
@@ -298,6 +343,10 @@ class Environment:
         ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
+            if self.idle_hold_steps:
+                from agv.dispatch.idle import advance_standby
+
+                advance_standby(self)
             for k, plan in enumerate(self._plans):
                 self._interval_states[k].append(self._state(k))
                 if len(plan) > 1:
@@ -332,6 +381,7 @@ class Environment:
             len(self._assigned) == len(self._jobs)
             and all(r is None for r in self._active)
             and all(len(p) == 1 for p in self._plans)
+            and all(p[0] == h for p, h in zip(self._plans, self._scenario.homes))
         )
 
     def result(self):
@@ -345,7 +395,7 @@ class Environment:
                     moves += 1
                 elif state in ("loading", "unloading"):
                     service += 1
-                elif state == "idle":
+                elif state in ("idle", "standby"):
                     idle += 1
                 else:
                     traffic_wait += 1
@@ -369,6 +419,9 @@ class Environment:
             events=records,
             assignments=deepcopy(self._records),
         )
+        if self._scenario.is_v9:
+            result["idle_waits"] = deepcopy(self._idle_waits)
+            result["idle_hold_steps"] = self.idle_hold_steps
         result["replanning_events"] = deepcopy(self._replans)
         result["routing_stats"] = deepcopy(self._router.stats)
         result.update(summarize(self._scenario, result))

@@ -37,22 +37,33 @@ DEFAULTS = dict(
 def validate_options(options):
     if not isinstance(options, dict) or set(options) - set(DEFAULTS):
         raise ValueError("参数必须是包含已知字段的对象")
-    options = {**DEFAULTS, **options}
-    if options["profile"] not in ("legacy", "v4"):
+    v9_defaults = (
+        dict(size="medium", obstacle_layout="columns_equipment")
+        if options.get("profile") == "v9"
+        else {}
+    )
+    options = {**DEFAULTS, **v9_defaults, **options}
+    if options["profile"] not in ("legacy", "v4", "v9"):
         raise ValueError("Invalid scene profile")
     for name, minimum, maximum in [
-        ("vehicles", 1, 10 if options["profile"] == "v4" else 8),
+        ("vehicles", 1, 10 if options["profile"] in ("v4", "v9") else 8),
         ("task_count", 0, 60),
         ("seed", 0, 999999),
         ("horizon", 60, 1800),
-        ("shelf_layers", 1, 5),
+        (
+            "shelf_layers",
+            3 if options["profile"] == "v9" else 1,
+            8 if options["profile"] == "v9" else 5,
+        ),
         ("work_width", 2, 4),
         ("layout_variant", 0, 2),
     ]:
         if type(options[name]) is not int or not minimum <= options[name] <= maximum:
             raise ValueError(f"{name} 必须是 {minimum} 到 {maximum} 的整数")
     choices = dict(
-        size=("small", "medium", "large", "xlarge", "xxlarge")
+        size=("medium", "large", "xlarge", "xxlarge")
+        if options["profile"] == "v9"
+        else ("small", "medium", "large", "xlarge", "xxlarge")
         if options["profile"] == "v4"
         else ("small", "medium", "large"),
         layout=("wide", "bottleneck"),
@@ -66,6 +77,10 @@ def validate_options(options):
     for name, allowed in choices.items():
         if options[name] not in allowed:
             raise ValueError(f"Invalid {name}: {options[name]!r}")
+    if options["profile"] == "v9" and options["obstacle_layout"] != "columns_equipment":
+        raise ValueError("V9 requires its fixed columns and central equipment")
+    if "standby" in options["algorithm"] and options["profile"] != "v9":
+        raise ValueError("Bounded standby requires V9")
     return options
 
 
@@ -85,8 +100,11 @@ def calculate(options):
 
 def build_scene(options):
     """One explicit scene profile; never reinterpret the legacy wall control."""
-    if options["profile"] == "v4":
-        from agv.warehouse.layout import generate
+    if options["profile"] in ("v4", "v9"):
+        if options["profile"] == "v9":
+            from agv.warehouse.mixed import generate
+        else:
+            from agv.warehouse.layout import generate
 
         return generate(
             **{k: v for k, v in options.items() if k not in ("profile", "algorithm", "layout")}
@@ -159,7 +177,7 @@ def calculate_batch(data):
         raise ValueError("批量数量1～20，起始种子需保证全部种子不超过999999")
     config = validate_options(data["config"])
     name = config.pop("algorithm")
-    if config["profile"] == "v4":
+    if config["profile"] in ("v4", "v9"):
         from agv.experiments.v4 import run_web_batch
 
         return run_web_batch(config, range(start, start + count), name)
