@@ -34,6 +34,7 @@ def bcrd_action(
     budget=None,
     diagnostics=None,
     min_queue_ratio=3.0,
+    event_driven=True,
 ):
     """Compare complete visible-world rollouts, with fixed per-decision scales.
 
@@ -42,6 +43,8 @@ def bcrd_action(
     Truncated previews with residual jobs are rejected in this first version:
     an incomplete forecast cannot win by omitting a difficult order.
     """
+    if type(event_driven) is not bool:
+        raise ValueError("event_driven must be a boolean")
     if type(max_batches) is not int or not 0 <= max_batches <= 32:
         raise ValueError("max_batches must be 0..32")
     if (
@@ -91,7 +94,9 @@ def bcrd_action(
     batches = make_batches(observation, max_batches=max_batches, include=safe, mode=mode)
     log["candidates_generated"] = len(batches)
     log["candidate_pool"] = [asdict(batch) for batch in batches]
-    shadow = ShadowState.from_observation(observation, router_kind="sipp")
+    shadow = ShadowState.from_observation(
+        observation, router_kind="sipp", event_driven=event_driven
+    )
     scales, best, action = None, 1.0, safe
     for batch in batches:
         remaining = dict(limits)
@@ -162,6 +167,7 @@ def run(
     mode="full",
     budget=None,
     min_queue_ratio=3.0,
+    event_driven=True,
 ):
     if policy not in ("bcrd", "greedy", "matching"):
         raise ValueError("Unknown dispatch policy")
@@ -172,7 +178,9 @@ def run(
         observed.update(j["id"] for j in obs["pending"])
         observed.update(v["task_id"] for v in obs["vehicles"] if v["task_id"] is not None)
         if policy == "bcrd":
-            action = bcrd_action(obs, max_batches, depth, mode, budget, logs, min_queue_ratio)
+            action = bcrd_action(
+                obs, max_batches, depth, mode, budget, logs, min_queue_ratio, event_driven
+            )
         elif policy == "greedy":
             action = fallback(obs)
         else:
@@ -192,6 +200,7 @@ def run(
         depth=depth,
         candidate_mode=mode,
         min_queue_ratio=min_queue_ratio,
+        event_driven=event_driven,
     )
     result["observed_task_count"] = len(observed)
     meaningful = [row for row in logs if row["candidates"] or row["issued_pairs"]]

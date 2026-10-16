@@ -123,18 +123,27 @@ class ShadowState:
     every unassigned known job as residual; they never count residuals as done.
     ``paths`` starts at the observation time, and contains executed preview
     positions plus any still-committed suffix (including all returns).
+
+    Event-driven replay skips only provably empty default-policy decisions;
+    ``event_driven=False`` retains the reference one-step replay. Custom
+    rollout policies always receive every time step. Counting budgets retain
+    identical results; a CPU cutoff can occur at different times because the
+    two implementations intentionally perform different amounts of work.
     """
 
-    def __init__(self, observation, router_kind):
+    def __init__(self, observation, router_kind, event_driven=True):
+        if type(event_driven) is not bool:
+            raise ValueError("event_driven must be a boolean")
+        self._event_driven = event_driven
         self._observation = deepcopy(observation)
         self._router_kind = router_kind
         self._scenario, self._active_records = self._visible_scenario()
 
     @classmethod
-    def from_observation(cls, observation, router_kind="sipp"):
+    def from_observation(cls, observation, router_kind="sipp", event_driven=True):
         if router_kind not in ("astar", "sipp"):
             raise ValueError("router must be 'astar' or 'sipp'")
-        return cls(observation, router_kind)
+        return cls(observation, router_kind, event_driven)
 
     def _visible_scenario(self):
         obs = self._observation
@@ -228,9 +237,27 @@ class ShadowState:
                         raise _BudgetExceeded("steps")
                     if process_time() - started >= limits.get("max_cpu_seconds", float("inf")):
                         raise _BudgetExceeded("cpu")
-                    # Match the real driver's assign-then-advance cadence. The
-                    # first later decision is at t+1, never twice at time t.
-                    env.advance(observe=False)
+                    # Only the known default policy has provably empty actions
+                    # while all cars are busy, or after all visible jobs have
+                    # been assigned. Preserve the final one-step depth break,
+                    # and never skip returning-car positions when work remains.
+                    steps = 1
+                    if (
+                        self._event_driven
+                        and rollout_policy is None
+                        and (depth is None or rounds < depth)
+                    ):
+                        if len(env._assigned) == len(env._jobs):
+                            steps = max(map(len, env._plans)) - 1
+                        elif all(record is not None for record in env._active):
+                            steps = min(record["delivery_end"] for record in env._active) - env.time
+                        steps = min(steps, limits["max_steps"] - (env.time - origin))
+                        if env._scenario.horizon is not None:
+                            steps = min(steps, env._scenario.horizon - env.time)
+                    # Real advance still records every intermediate position,
+                    # service label, and exact delivery release; only empty
+                    # observation/policy/assignment calls are skipped.
+                    env.advance(steps, observe=False)
                     if env.done or (
                         env._scenario.horizon is not None and env.time >= env._scenario.horizon
                     ):

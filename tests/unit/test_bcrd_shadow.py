@@ -4,6 +4,7 @@ import copy
 import json
 import unittest
 from dataclasses import replace
+from unittest.mock import patch
 
 from agv.dispatch.shadow import ShadowState, _safe_greedy
 from agv.domain import Task
@@ -237,6 +238,152 @@ class ShadowTests(unittest.TestCase):
         observed["vehicles"][0]["available"] = False
         with self.assertRaisesRegex(ValueError, "requires"):
             ShadowState.from_observation(observed)
+
+    def assert_event_equivalent(self, observation, action, backend="sipp", **kwargs):
+        answers = [
+            deterministic(
+                ShadowState.from_observation(
+                    observation, router_kind=backend, event_driven=enabled
+                ).preview(action, **kwargs)
+            )
+            for enabled in (False, True)
+        ]
+        self.assertEqual(answers[0], answers[1])
+        return answers[1]
+
+    def test_event_replay_matches_stepwise_at_dynamic_and_service_snapshots(self):
+        for backend in ("astar", "sipp"):
+            for seed in (10, 11):
+                scene = generate(
+                    mode="dynamic",
+                    seed=seed,
+                    task_count=7,
+                    vehicles=2,
+                    delivery_pattern="shared",
+                )
+                env = Environment(scene, router_kind=backend)
+                snapshots = {0, 1, 5, 15, 30, 45}
+                while not env.done and env.time <= 45:
+                    observation = env.observe()
+                    action = _safe_greedy(observation)
+                    if env.time in snapshots:
+                        with self.subTest(backend=backend, seed=seed, time=env.time):
+                            self.assert_event_equivalent(observation, action, backend)
+                    env.assign(action)
+                    env.advance(observe=False)
+
+    def test_event_replay_keeps_depth_and_count_budget_boundaries_exact(self):
+        scene = generate(seed=10, task_count=6, vehicles=2, delivery_pattern="shared")
+        env = Environment(scene, router_kind="sipp")
+        observation = env.observe()
+        action = _safe_greedy(observation)
+        for depth in (None, 0, 1, 2):
+            for budget in (
+                {},
+                {"max_steps": 0},
+                {"max_steps": 1},
+                {"max_steps": 9},
+                {"max_steps": 40},
+                {"max_route_calls": 0},
+                {"max_route_calls": 1},
+                {"max_route_calls": 9},
+                {"max_route_calls": 25},
+                {"max_expanded": 0},
+                {"max_expanded": 50},
+                {"max_cpu_seconds": 0},
+                {"max_cpu_seconds": 100},
+            ):
+                with self.subTest(depth=depth, budget=budget):
+                    prediction = self.assert_event_equivalent(
+                        observation, action, depth=depth, budget=budget
+                    )
+                    if prediction["reason"] == "budget_steps":
+                        self.assertEqual(prediction["simulated_steps"], budget["max_steps"])
+        # A finite horizon and existing commitments use the same clipped end.
+        scene.horizon = 120
+        env = Environment(scene, router_kind="sipp")
+        action = _safe_greedy(env.observe())
+        env.assign(action)
+        env.advance(2, observe=False)
+        for depth in (None, 0, 1):
+            self.assert_event_equivalent(env.observe(), [], depth=depth)
+
+    def test_event_replay_skips_empty_default_decisions_but_keeps_full_history(self):
+        scene = generate(seed=10, task_count=4, vehicles=2)
+        observation = Environment(scene, router_kind="sipp").observe()
+        action = _safe_greedy(observation)
+        real_advance = Environment.advance
+        histories, calls = [], []
+        for enabled in (False, True):
+            advances, environments = [], []
+
+            def recorded(env, steps=1, *, observe=True):
+                advances.append((steps, len(env._assigned) == len(env._jobs), all(env._active)))
+                environments.append(env)
+                return real_advance(env, steps, observe=observe)
+
+            with patch.object(Environment, "advance", recorded):
+                prediction = ShadowState.from_observation(
+                    observation, event_driven=enabled
+                ).preview(action)
+            last = environments[-1]
+            histories.append((last._paths, last._interval_states, deterministic(prediction)))
+            calls.append(advances)
+        self.assertEqual(histories[0], histories[1])
+        self.assertTrue(all(steps == 1 for steps, _, _ in calls[0]))
+        self.assertTrue(any(steps > 1 for steps, _, _ in calls[1]))
+        self.assertLess(len(calls[1]), len(calls[0]))
+        self.assertTrue(all(steps == 1 or assigned or busy for steps, assigned, busy in calls[1]))
+
+    def test_event_replay_custom_policy_is_called_at_every_step(self):
+        scene = generate(seed=11, task_count=4, vehicles=2)
+        observation = Environment(scene, router_kind="sipp").observe()
+        action = _safe_greedy(observation)
+        answers, times = [], []
+        for enabled in (False, True):
+            visited = []
+
+            def policy(obs):
+                visited.append(obs["time"])
+                return _safe_greedy(obs)
+
+            answers.append(
+                deterministic(
+                    ShadowState.from_observation(observation, event_driven=enabled).preview(
+                        action, rollout_policy=policy
+                    )
+                )
+            )
+            times.append(visited)
+        self.assertEqual(answers[0], answers[1])
+        self.assertEqual(times[0], times[1])
+        self.assertGreater(len(times[0]), 10)
+        self.assertTrue(all(b == a + 1 for a, b in zip(times[1], times[1][1:])))
+
+    def test_event_replay_preserves_final_one_step_after_depth_limit(self):
+        scene = generate(seed=10, task_count=6, vehicles=2)
+        observation = Environment(scene, router_kind="sipp").observe()
+        action = _safe_greedy(observation)
+        real_advance = Environment.advance
+        advances = []
+
+        def recorded(env, steps=1, *, observe=True):
+            advances.append(steps)
+            return real_advance(env, steps, observe=observe)
+
+        with patch.object(Environment, "advance", recorded):
+            prediction = ShadowState.from_observation(observation).preview(action, depth=1)
+        self.assertTrue(any(steps > 1 for steps in advances))
+        self.assertEqual(advances[-1], 1)
+        self.assertEqual(prediction["decision_rounds"], 1)
+        self.assert_event_equivalent(observation, action, depth=1)
+
+    def test_event_replay_requires_explicit_boolean_option(self):
+        observation = Environment(self.layers()).observe()
+        for invalid in (None, 0, 1, "yes"):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, "boolean"):
+                    ShadowState.from_observation(observation, event_driven=invalid)
 
     def test_finite_horizon_failure_is_not_a_low_cost_success(self):
         scene = self.layers()

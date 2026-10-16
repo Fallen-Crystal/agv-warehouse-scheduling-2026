@@ -50,6 +50,24 @@ class BCRDPolicyTests(unittest.TestCase):
         self.assertTrue(log_a[0]["candidates"])
         self.assertEqual(stable(log_a), stable(log_b))
 
+    def test_event_execution_preserves_complete_dispatch_behavior(self):
+        scene = generate(task_count=8, vehicles=2, seed=11)
+        old = run(scene, min_queue_ratio=0, event_driven=False)
+        fast = run(scene, min_queue_ratio=0, event_driven=True)
+        validate(scene, old)
+        validate(scene, fast)
+        for field in (
+            "paths",
+            "assignments",
+            "interval_states",
+            "makespan",
+            "mean_flow_time",
+            "moves",
+            "routing_stats",
+        ):
+            self.assertEqual(old[field], fast[field], field)
+        self.assertEqual(stable(old["dispatch_decisions"]), stable(fast["dispatch_decisions"]))
+
     def test_zero_and_exhausted_budget_keep_greedy(self):
         obs = Environment(generate(task_count=5, vehicles=2, seed=10)).observe()
         self.assertEqual(bcrd_action(obs, max_batches=0), fallback(obs))

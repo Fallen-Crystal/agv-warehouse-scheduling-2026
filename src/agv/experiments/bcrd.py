@@ -85,7 +85,15 @@ def validate_protocol(protocol, *, require_frozen=False):
     baseline = protocol.get("baseline", "G0")
     if baseline not in protocol["solvers"] or protocol["solvers"][baseline] != {"policy": "greedy"}:
         raise ValueError("The paired baseline must be the unchanged greedy+SIPP policy")
-    allowed = {"policy", "max_batches", "depth", "mode", "budget", "min_queue_ratio"}
+    allowed = {
+        "policy",
+        "max_batches",
+        "depth",
+        "mode",
+        "budget",
+        "min_queue_ratio",
+        "event_driven",
+    }
     for params in protocol["solvers"].values():
         if set(params) - allowed or params.get("policy") not in ("greedy", "matching", "bcrd"):
             raise ValueError("All solvers must use the BCRD runner's SIPP/no-joint backend")
@@ -94,6 +102,9 @@ def validate_protocol(protocol, *, require_frozen=False):
         ratio = params.get("min_queue_ratio", 0)
         if type(ratio) not in (int, float) or not math.isfinite(ratio) or ratio < 0:
             raise ValueError("min_queue_ratio must be a nonnegative finite number")
+    for params in protocol["solvers"].values():
+        if "event_driven" in params and type(params["event_driven"]) is not bool:
+            raise ValueError("event_driven must be a boolean")
     bootstrap = protocol.get("bootstrap", {"resamples": 4000, "seed": 20261016})
     if (
         not isinstance(bootstrap, dict)
