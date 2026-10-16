@@ -1,0 +1,615 @@
+{
+  "schema": "agv-v6-v9-review-evidence-v1",
+  "upstream_tests": {
+    "V6": {
+      "passed": 50,
+      "seconds": 90.052,
+      "log_sha256": "efb2ce66e5e1c96ff50095ad76f444c16190bf9e00d5b4e48a937c8d906a850f"
+    },
+    "V9": {
+      "passed": 79,
+      "seconds": 96.744,
+      "log_sha256": "f55b03033363e897129e811eca2589dcb34ccb238b804304b6b89a5a8a5427e6"
+    }
+  },
+  "test_scope": "Original isolated copies, no Desktop mutation. Suite times are not comparable policy performance.",
+  "v6_python_sha256": {
+    "audit_examples.py": "db374775ea75e815a1ef9133bfe6aab373665f2451511b113506ff48885a2621",
+    "baseline.py": "29b1e68d57087c91b56115e1eb265cf100d49018b57775dcc5eeeb9b29133e68",
+    "batch_experiments.py": "4ecd429e079371cfe0f72d1c0a9fbef52c3ff71ee88496bb5f2fa700b601c0fd",
+    "diagnostics.py": "32c979b964a072a68fcaa601a79e235f443ed689c9080ed292f51829e30ade7c",
+    "environment.py": "723b28d626463876f984eb6e8b574811804818b3bad458409d69bd9dfc92ac1f",
+    "export_metrics.py": "34b5e3db37370a0f5b8781ca1f3f0d729060cb92ff0dbc3575ef26c839988658",
+    "horizontal_layout.py": "77964db1d7c520a860a9e1bfc65fc5cf2f723e8e056ed3f51c8282bc0bd36670",
+    "horizontal_view.py": "f39dc52ba6b634cfe638652c5da9569052fe633846f3225556c8718ec1e5377c",
+    "layer_rules.py": "c6f69f9b5b9914f2372ebd3d27cb23e2404d056f09bc8f5a57ef664bd54b67e8",
+    "legacy_horizontal_layout.py": "1b22a37e9c95fcbfdf48656f8d852379b84153bb5dc76995f0b3fe3c77de0592",
+    "metrics.py": "42d50f8b293128a0d439ec2f3d54545717d2e162694c6d008428e3762bdc5f2e",
+    "mixed_validation.py": "06e465295beda2c83e63182638ec93e4bf8d8c8f7b3801650d2d7a1c70521fca",
+    "model.py": "6216bcc308c4099f0782da1b2f934bb7d0bf1e57270f0fa11ed523d2fd226243",
+    "objective.py": "df44bfec74475b31b5bf33053d79fb9bfdc92cb310f83e0921c8b5367f37ed32",
+    "pickup_planning.py": "5f572099e3818cd8e7f67c036b0f9ffe4820fed52d4fe32e7bb70c5d571df197",
+    "reference_test_completion.py": "3b48bc61533af1cc72450c2e02aa2e1a87bfb6b97d01d3a691fff839ea0bb0e7",
+    "reference_test_delivery_rules.py": "5676f9e66a5ea9e894911441cd8ec3c416f086cf4eb12d03011dd933d9c99f9b",
+    "reference_test_integrated.py": "eaed3ea44694c7b063b8fc16cc47270a56a2515f0c79bf9e009bfff659fb4b65",
+    "reference_test_numbered.py": "ccf1e6feeab8e99fe07de212b6b0cf5eebda2b5321b28e88deb1968f956e5bad",
+    "reference_test_structured.py": "af271ccd5e2824556807a53e00226874f13802109c40ee4ba043f01b730a1c1b",
+    "reference_test_ten_vehicles.py": "bab04800474d5316a31d46f47bd1ec40872605e640995261ad6f63b5342eb24a",
+    "routing.py": "6ad1817555424b58050260e8e26b5fde849a7011d148c861bab7a5738b497a0b",
+    "run_dynamic_examples.py": "2d2e2e2786b1b9bcfe8c25de3e2cb68cc16409716dff087860672522065febde",
+    "run_examples.py": "6f5eb496a575d6d3333ab1736db4a4fa1aeed6861161834a48494d96cf91b5a2",
+    "scenario_io.py": "9a5bebaec9d05f94a85677af02fa262a31a6040861871c962fea38eb8e1246cb",
+    "show_warehouse.py": "9b3453322ba873e6015c738e0be1bf929fbd1d56fa82499cd7bb7e0d0ce05cd1",
+    "test_metrics.py": "685263d44fbde766a40ec67f5d9f3cce34ccaeeb90c7728460b8b4a7edd38f94",
+    "test_mixed.py": "391b6e912761166c9878f01e3ac8c0e7854919fdb1d39c2c642e20727429398b",
+    "test_objective.py": "d4d93fa76e1577a09cc595fc53b21feefac633c9f6dbb8c97ba95d734dfada35",
+    "test_paired.py": "9f2677f032e5b27fa58ad09dec4bab1b20f3408b5418eaa269ec1594fe8cda95",
+    "test_repro.py": "2de746abe4ba081ec805c09d2a6466d31a9e6ffae5854891b5c18c0c5e6bea2b",
+    "test_resource_identity.py": "46298c072ab204849a190b8bb4cb92ba5a92aa86a45e37a5ec18e9ebbd257518",
+    "test_single_racks.py": "5a9c0dc5aacb2447f4ae84c29b832d06515a584da6c4edcf9b391a0a3cab47a8",
+    "test_yield.py": "71afd330a505816619b095c06a2c80fd722dc02a10aa57a959dcb2b092f4dd97",
+    "validation.py": "e224b6530cb65f1f9de0094721bcdcb215ca680f3d8a65a382cf3b44c3d074cf",
+    "yield_demo.py": "a2a2cf3deeb0955b229c005cd312aa87b804a5d2af1674dd14ba66e33efb4e70"
+  },
+  "v9_counterexamples": "upstream-audit.json",
+  "geometric_identities": {
+    "status": "exact",
+    "cases": [
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 2,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "41c223388514d3659be4f326249fed3f21dea805ac45663868bd7063dd202175",
+        "width": 46,
+        "height": 41
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 2,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "9b215181325509222dcee6b6e55762654560f1a4e4a95dcf0690ee33b769d3c8",
+        "width": 46,
+        "height": 41
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 2,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "79a47bcb5f1e849573ca394a67da747ff8e4fa52fe5c962a222e30125ebdd141",
+        "width": 46,
+        "height": 41
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 3,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "64a06ede74ac14c380719c506ed60826a08d218ec037343fa44e781ff2622bb6",
+        "width": 46,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 3,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "51dcd132b8d07ae388d8a923ee09637223f6e4627af15025da3a65075f16ef74",
+        "width": 46,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 3,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "7c0844a52bacf5990d9eb5de0752ee51a6df8ac83277fc267adae4aeddc3ba0a",
+        "width": 46,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 4,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "70b66899efca05afaa7b4220d2f8f53ab9de9ab0089e69db5ca571216d7fe231",
+        "width": 46,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 4,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "76b4854ae57dc41d7304090d5dea6b7a37d31f4216e5130b0fa53c330ff78f7d",
+        "width": 46,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "medium",
+          "work_width": 4,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "b2e6a8205dbd0915ac5646259177e1882f9e62aa9d114b2e2f89e4c63df437dc",
+        "width": 46,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 2,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "a24fe7fa7672efdaccdf35339b9826a4035c470e1fc468a0ed588b996041a192",
+        "width": 62,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 2,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "426de5ad0f4c7ddc91323661c690a2ca0bd484d2afbbd73db418257bc834417c",
+        "width": 62,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 2,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "5a2090cb02e378da8c98486a8394b10b0953a271ecc98ba105fe6b05e62ccf48",
+        "width": 62,
+        "height": 47
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 3,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "c6c3cbe579b218d4d2054e6375ca22d38f2d83643dec8a112b293c880580002e",
+        "width": 62,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 3,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "c3dd32f75a372f53cba7b1562bd44c2d56c56f9ac78ab20902b5b74a0e968cc5",
+        "width": 62,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 3,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "18209b76cf9848ddc48e3e2f00ca566371e1edd1a742a3157901700b3de996d0",
+        "width": 62,
+        "height": 53
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 4,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "73e73300f1f66453a91c1218f7e64c6ac0377d5013f52c9ccde57fc2c7fbeb1f",
+        "width": 62,
+        "height": 59
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 4,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "f391f78313686c07a3b71bed688651b401e5234625c1b093953fa9fda25270f1",
+        "width": 62,
+        "height": 59
+      },
+      {
+        "config": {
+          "size": "large",
+          "work_width": 4,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "a7c7f894fd1e9349c4a68b6ceaca233fe232993bcee6655ce198031d4b191877",
+        "width": 62,
+        "height": 59
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 2,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "5996742be4373bba4d52b58295822041377bb3f7cd36293fe16c57f061a310bb",
+        "width": 78,
+        "height": 65
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 2,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "feda13c319211ea7d51e47352fb827a0e13937596f80f67fcd21f3bc68ab19e9",
+        "width": 78,
+        "height": 65
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 2,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "faa98bba458fad9f8480ba1cf48f09898e1756b23ef0c4959c6e660ab33edd40",
+        "width": 78,
+        "height": 65
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 3,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "f4f3fc676931809bc2331f102475010233e4324cdb73068e800e124f1439f7c7",
+        "width": 78,
+        "height": 75
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 3,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "dc65888fca183c95f39187099149fb30ae92ab9d3fd593cd1808c9bf6d387172",
+        "width": 78,
+        "height": 75
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 3,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "31e63d97cf9046ed749079b357180f13469d9e908ad7db2e7e81d3ffb7c51457",
+        "width": 78,
+        "height": 75
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 4,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "24f30ce10a0e879174183fcfeb5d4be274ffd443241593fe5e9eaa328672ffad",
+        "width": 78,
+        "height": 85
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 4,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "5114a0525211b234eff9afa15f113a647932c1154f330ab16dbaaba84a2917e7",
+        "width": 78,
+        "height": 85
+      },
+      {
+        "config": {
+          "size": "xlarge",
+          "work_width": 4,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "42c8ae19d223534ecc19a3ed8cfb8b2ad98ff1414bc864a3cb993ea0af8a1942",
+        "width": 78,
+        "height": 85
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 2,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "2cc00b34f385a61298fc7d00b784f48dcfc2560fa103f91639c49e91646248a5",
+        "width": 96,
+        "height": 69
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 2,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "c294573338f96cfe32f20407a946df221074e62995ae1cfa7443dac2c324ed32",
+        "width": 96,
+        "height": 69
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 2,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "fce557e2b7dbccf092efa889f90d7bffe4ab92dd5b300ce8c4eed5893df5cfeb",
+        "width": 96,
+        "height": 69
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 3,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "d8b3614703b6fadb3bdfd2d4684a523fe72c76b84ee9d3e99480546b604396de",
+        "width": 96,
+        "height": 79
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 3,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "09d15e09dba5f544d12df00ad125aa2fe5eeaae8c0954cb0454438d1891e9877",
+        "width": 96,
+        "height": 79
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 3,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "44126c79c68f94ddc73c52618a92c509303c9e789c661e8fb0535362f54a54bd",
+        "width": 96,
+        "height": 79
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 4,
+          "layout_variant": 0,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "3f299545a4dffa7e8340f828e85458a3277315a471c1defbbaf66b0f31a84904",
+        "width": 96,
+        "height": 89
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 4,
+          "layout_variant": 1,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "78962fa90c8f30eb05ddd143302068bdef4c02079cc9f086c7bd9ef8acf523ea",
+        "width": 96,
+        "height": 89
+      },
+      {
+        "config": {
+          "size": "xxlarge",
+          "work_width": 4,
+          "layout_variant": 2,
+          "task_count": 0,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment"
+        },
+        "sha256": "a393c6bc5538e3fd93793232655167ce423fd3842d9f4950948a52f0a48852e5",
+        "width": 96,
+        "height": 89
+      },
+      {
+        "config": {
+          "size": "medium",
+          "mode": "dynamic",
+          "arrival": "irregular",
+          "task_count": 8,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment",
+          "seed": 0
+        },
+        "sha256": "ffaeb21e83b72d3cb4fea131bddb553799393240caceb242e3616051882e252a",
+        "width": 46,
+        "height": 41
+      },
+      {
+        "config": {
+          "size": "medium",
+          "mode": "dynamic",
+          "arrival": "irregular",
+          "task_count": 8,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment",
+          "seed": 1
+        },
+        "sha256": "8b7c586fda9ff565b1d2c1d4b39cdf2a9fbc2bec6ab7b3c9e56b9f9d40530eb5",
+        "width": 46,
+        "height": 41
+      },
+      {
+        "config": {
+          "size": "medium",
+          "mode": "dynamic",
+          "arrival": "irregular",
+          "task_count": 8,
+          "vehicles": 2,
+          "shelf_layers": 8,
+          "obstacle_layout": "columns_equipment",
+          "seed": 10
+        },
+        "sha256": "9ee205f5c74d17e46c0970a4f6b506bf7debd270d56c829fecc845ecc0ede89b",
+        "width": 46,
+        "height": 41
+      }
+    ]
+  },
+  "layout_asset": {
+    "path": "docs/assets/v9-layouts.png",
+    "source_filename": "四种规格地图总览.png",
+    "sha256": "3337c2f98359de37ec84eca41d3e00031a7aff696594e78e0e425f06816ec4b0"
+  },
+  "selection": "Latest V9 geometry supersedes unshipped V6 integration candidate; original V4 remains a distinct supported profile."
+}

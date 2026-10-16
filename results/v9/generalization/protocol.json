@@ -1,0 +1,67 @@
+{
+  "schema": "agv-bcrd-protocol-v1",
+  "profile": "v9",
+  "split": "generalization",
+  "frozen": true,
+  "baseline": "G0",
+  "seeds": [
+    60,
+    61,
+    62
+  ],
+  "bootstrap": {
+    "resamples": 4000,
+    "seed": 20261016
+  },
+  "configs": {
+    "xlarge_sparse_8layers": {
+      "size": "xlarge",
+      "shelf_layers": 8,
+      "task_count": 12,
+      "vehicles": 4,
+      "mode": "dynamic",
+      "arrival": "uniform",
+      "release_scale": 16
+    },
+    "xxlarge_dense_8layers": {
+      "size": "xxlarge",
+      "shelf_layers": 8,
+      "task_count": 18,
+      "vehicles": 6
+    }
+  },
+  "solvers": {
+    "G0": {
+      "policy": "greedy"
+    },
+    "wait8": {
+      "policy": "greedy",
+      "idle_hold_steps": 8
+    },
+    "G2": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    }
+  },
+  "criteria": {
+    "selection": "Choose one finite allowance from development only; keep return-home default if quality, tail or CPU tradeoffs are weak. No oracle end-of-stream controller.",
+    "quality": "same SIPP/no-joint, identical serialized scenario, fixed return-home A* offline reference",
+    "timing": "raw process CPU and wall only; one observation per run; offline reference/validation/scoring excluded",
+    "holdout": "separate 30..39 seeds; do not retune on their outcomes"
+  },
+  "selection": {
+    "development_source": "d6b713e",
+    "selected_idle_hold_steps": 8,
+    "reason": "9 dev cases: wait8 6 wins/0 losses/3 ties, F +0.625506%; wait16 +0.665849% but 1 loss, more CPU; wait32 lower mean, 2 losses. Choose lower-cost consistent option; all old presets retained as ablations.",
+    "quality_source_patch": "Before unseen data only: validator additionally rejects complete returns postdated beyond actual end and mismatched zero-service return timestamps; reset rejects cross-profile standby. No raw policy retuning.",
+    "end_stream": "No hidden task-count or future release termination test. Even final unloaded vehicle spends the finite allowance then returns home."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "development": {
+    "status": "verified",
+    "rows": 36,
+    "independent_traces_validated": 12,
+    "retained_failed_traces": 0,
+    "source_revision": "d6b713e",
+    "protocol_sha256": "3e245509f4c5935efc1e6eecf4bfe320c2280d23038a92b7968e8a8e0e86c102"
+  },
+  "holdout": {
+    "status": "verified",
+    "rows": 90,
+    "independent_traces_validated": 9,
+    "retained_failed_traces": 0,
+    "source_revision": "bb3b0f5",
+    "protocol_sha256": "ba4a40568da5d0859238c3627102b903a76850e10f4538566ab05f44b262eee1"
+  },
+  "generalization": {
+    "status": "verified",
+    "rows": 18,
+    "independent_traces_validated": 6,
+    "retained_failed_traces": 0,
+    "source_revision": "bb3b0f5",
+    "protocol_sha256": "3c7f6ce72746fd5b5f0e1d9dd9202fd61aa2ee7e15971161fc618e3ba58ee376"
+  }
+}
