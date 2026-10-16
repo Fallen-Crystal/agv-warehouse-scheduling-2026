@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/Fallen-Crystal/agv-warehouse-scheduling-2026",
+  "base_commit_prefix": "dee48a4",
+  "local_modeling_package": "agv_modeling_mixed_v9_1",
+  "source_files": {
+    "order_stream.py": "c6867877f6b46e7960f280af678c84793d58707897249352fd8b8be091dd8308",
+    "idle_control.py": "ab61d42ef531ad7fda64e2f0e8350e1db786db1a7230cc1fde4d9ad449fe9f11",
+    "validation.py": "aa127dd595a07f1e5b211266400efbb1096c00563c63ee2d653a012324ae32a5",
+    "canonical_layout.py": "88a4d5bca7d32378e23e4f67d0765c171fa5e259d19e64a695faada89b9c6f41"
+  }
+}

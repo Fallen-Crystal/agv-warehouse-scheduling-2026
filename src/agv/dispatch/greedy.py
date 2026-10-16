@@ -40,6 +40,10 @@ def greedy_action(observation):
             pairs.append((k, j))
             used_vehicles.add(k)
             used_jobs.add(j)
+    if geometry.is_v9_1:
+        from agv.dispatch.candidates import legalize
+
+        return legalize(pairs, observation)
     return pairs
 
 

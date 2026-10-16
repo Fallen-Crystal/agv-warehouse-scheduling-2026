@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-16",
+  "trace_audit": {
+    "pairs": 36,
+    "raw_runs": 72,
+    "traces_independently_audited": 72,
+    "scope": "all traces",
+    "mean_F_improvement_pct": 0.8764780859347241
+  },
+  "compact_audit": {
+    "pairs": 36,
+    "raw_runs": 72,
+    "traces_independently_audited": 4,
+    "scope": "compact summaries and selected traces",
+    "mean_F_improvement_pct": 0.8764780859347241
+  },
+  "portable_runner_execution_functions_ast_equal": true,
+  "portable_pair_reproduced": true,
+  "production_source_matches_206_test_version": true,
+  "third_policy_implemented": false
+}

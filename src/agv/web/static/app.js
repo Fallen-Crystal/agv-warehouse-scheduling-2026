@@ -2,7 +2,7 @@
 let datasets=JSON.parse(document.getElementById('scene-data').textContent);
 const $=id=>document.getElementById(id), canvas=$('map'), ctx=canvas.getContext('2d');
 const colors=['#176ca7','#af4d8b','#bd6819','#16816c','#6752b8','#bd4650','#578023','#3c7f87','#915c48','#7045a1'];
-const names={idle:'停车等待',standby:'有限待命',returning:'返回停车位',to_pickup:'前往取货',loading:'装载',to_delivery:'前往交付',unloading:'卸载'};
+const names={idle:'停车等待',standby:'交付区外待命',returning:'返回停车位',to_pickup:'前往取货',loading:'装载',to_delivery:'前往交付',unloading:'卸载'};
 let selected=0,t=0,timer=null,hit=null,geometry=null;
 
 const key=p=>p.join(','),same=(a,b)=>key(a)===key(b);
@@ -11,6 +11,7 @@ function targetShelves(s,r,time){
  return new Set(s.tasks.filter(j=>j.release<=time&&j.shelf&&!picked.has(j.id)).map(j=>key(j.shelf)));
 }
 function stop(){if(timer!==null)clearInterval(timer);timer=null;$('play').textContent='播放'}
+function streamStatus(result,time){return result.idle_policy==='stream'?'｜订单流'+(result.stream_closed_at!==null&&time>=result.stream_closed_at?'已结束':'未结束'):''}
 function draw(){
  const {scenario:s,result:r}=datasets[selected], cell=Math.min(940/s.width,650/s.height), ox=(1040-cell*s.width)/2,oy=48;
  geometry={cell,ox,oy,s};ctx.clearRect(0,0,1040,800);ctx.font='15px Microsoft YaHei';ctx.textAlign='center';ctx.textBaseline='middle';
@@ -35,12 +36,12 @@ function draw(){
  r.assignments.filter(e=>e.assigned_at<=t&&e.pickup_end>t).forEach(e=>{const p=e.pickup_point;ctx.strokeStyle=colors[e.vehicle];ctx.lineWidth=3;ctx.strokeRect(ox+p[0]*cell+4,oy+p[1]*cell+4,cell-8,cell-8)});
  r.paths.forEach((path,k)=>{const p=path[Math.min(t,path.length-1)];ctx.beginPath();ctx.arc(ox+(p[0]+.5)*cell,oy+(p[1]+.5)*cell,cell*.3,0,Math.PI*2);ctx.fillStyle=colors[k];ctx.fill();ctx.fillStyle='#fff';ctx.font=`bold ${Math.max(12,cell*.32)}px Microsoft YaHei`;ctx.fillText(k,ox+(p[0]+.5)*cell,oy+(p[1]+.5)*cell)});
  $('time').value=t;$('timeLabel').textContent=t+' / '+r.time;
- $('progress').textContent='已出现 '+visible.length+' 单 · 已完成 '+r.events.filter(e=>e.delivery_end<=t).length+' 单';
+ $('progress').textContent=streamStatus(r,t)+'已出现 '+visible.length+' 单 · 已完成 '+r.events.filter(e=>e.delivery_end<=t).length+' 单';
  $('description').textContent=`${s.width}×${s.height} 格 · ${s.homes.length} 辆车 · `+(r.feasible?`最后一单完成于第 ${r.makespan} 步 · 返回结束于第 ${r.time} 步`:`当前只完成 ${r.completed}/${r.total_tasks} 单 · 执行截至第 ${r.time} 步`);
  $('vehicles').replaceChildren();r.paths.forEach((path,k)=>{const line=document.createElement('div');line.style.color=colors[k];const state=t<r.time?r.interval_states[k][t]:'idle';const active=r.assignments.find(e=>e.vehicle===k&&e.assigned_at<=t&&e.delivery_end>t);line.textContent='车 '+k+'：'+names[state]+'，位置 ('+path[t].join(', ')+')'+(active?'，装货停靠 ('+active.pickup_point.join(', ')+')':'');$('vehicles').appendChild(line)});
- $('pendingOrders').replaceChildren();const assigned=new Set(r.assignments.filter(e=>e.assigned_at<=t).map(e=>e.task_id));visible.filter(j=>!assigned.has(j.id)).forEach(j=>{const row=document.createElement('p');const sameFace=['math-v4-integrated','mixed-v9'].includes(s.map_info?.model_version)&&j.shelf&&r.assignments.some(e=>e.assigned_at<=t&&e.pickup_end>t&&e.shelf&&same(e.shelf,j.shelf));row.textContent=`任务 ${j.id} · 出现 ${j.release} · `+(j.shelf?`货架 (${j.shelf.join(',')})`:`取货点 (${j.pickup.join(',')})`)+(s.map_info?` · 第${j.shelf_level}层 · 装货${j.pickup_service}步`:'')+(sameFace?' · 同面取货尚未释放':'');$('pendingOrders').appendChild(row)});
+ $('pendingOrders').replaceChildren();const assigned=new Set(r.assignments.filter(e=>e.assigned_at<=t).map(e=>e.task_id));visible.filter(j=>!assigned.has(j.id)).forEach(j=>{const row=document.createElement('p');const sameFace=['math-v4-integrated','mixed-v9','mixed-v9.1'].includes(s.map_info?.model_version)&&j.shelf&&r.assignments.some(e=>e.assigned_at<=t&&e.pickup_end>t&&e.shelf&&same(e.shelf,j.shelf));row.textContent=`任务 ${j.id} · 出现 ${j.release} · `+(j.shelf?`货架 (${j.shelf.join(',')})`:`取货点 (${j.pickup.join(',')})`)+(s.map_info?` · 第${j.shelf_level}层 · 装货${j.pickup_service}步`:'')+(sameFace?' · 同面取货尚未释放':'');$('pendingOrders').appendChild(row)});
  if(hit)$('cell').textContent='选中 ('+hit.join(', ')+')。'+(blocked.has(key(hit))?'此格为障碍，车辆不能进入。':'四邻接地面位置：'+(neighbors.map(p=>'('+p.join(', ')+')').join('、')||'无')+'。需要另行检查车辆占用和专属停车位限制。');
- if(hit&&s.map_info?.model_version==='mixed-v9'&&s.map_info?.rack_catalog){const bay=s.map_info.rack_catalog.find(row=>same(row.position,hit));if(bay){const points=bay.loading_points||[];$('cell').textContent=`货位 ${bay.bay_id}，${bay.rack_type==='single'?'单排1层，两侧共享一把锁':'独立货架排，最多'+bay.levels+'层'}。合法装货位置：${points.map(q=>'('+q.join(', ')+')').join('、')}。货架实体不可进入。`;}}
+ if(hit&&['mixed-v9','mixed-v9.1'].includes(s.map_info?.model_version)&&s.map_info?.rack_catalog){const bay=s.map_info.rack_catalog.find(row=>same(row.position,hit));if(bay){const points=bay.loading_points||[];$('cell').textContent=`货位 ${bay.bay_id}，${bay.rack_type==='single'?'单排1层，两侧共享一把锁':'独立货架排，最多'+bay.levels+'层'}。合法装货位置：${points.map(q=>'('+q.join(', ')+')').join('、')}。货架实体不可进入。`;}}
 
 }
 function load(){stop();selected=0;t=0;hit=null;$('time').max=datasets[selected].result.time;$('cell').textContent='点击格子查看四邻接。绿色边框只表示地图上可通行，仍需检查车辆占用。';draw();renderMetrics()}
@@ -74,10 +75,11 @@ $('exportTasks').onclick=()=>downloadCSV('每单响应时间.csv',taskColumns,da
 
 function controls(){return {profile:$('profile').value,shelf_layers:Number($('shelfLayers').value),work_width:Number($('workWidth').value),obstacle_layout:$('obstacles').value,layout_variant:0,size:$('size').value,vehicles:Number($('vehiclesCount').value),layout:$('layout').value,
  mode:$('mode').value,arrival:$('arrival').value,demand:$('demand').value,delivery_pattern:$('delivery').value,
- task_count:Number($('taskCount').value),seed:Number($('seed').value),horizon:Number($('horizon').value),algorithm:$('algorithm').value}}
+ task_count:Number($('taskCount').value),seed:Number($('seed').value),horizon:$('profile').value==='v9.1'?null:Number($('horizon').value),algorithm:$('algorithm').value}}
 function updateMode(){
  $('arrival').disabled=$('mode').value==='static';
- const profile=$('profile').value, layered=profile!=='legacy', v9=profile==='v9';
+ const profile=$('profile').value, layered=profile!=='legacy', v9=['v9','v9.1'].includes(profile);
+ const current=profile==='v9.1';$('horizonControl').hidden=current;
  $('layout').disabled=layered;['shelfLayers','workWidth','obstacles'].forEach(id=>$(id).disabled=!layered);
  $('shelfLayers').min=v9?'3':'1';$('shelfLayers').max=v9?'8':'5';
  if(Number($('shelfLayers').value)<Number($('shelfLayers').min)||Number($('shelfLayers').value)>Number($('shelfLayers').max))$('shelfLayers').value='3';
@@ -87,7 +89,9 @@ function updateMode(){
  for(const option of $('vehiclesCount').options)option.disabled=!layered&&Number(option.value)>8;
  if(!layered&&Number($('vehiclesCount').value)>8)$('vehiclesCount').value='8';
  if(v9){$('obstacles').value='columns_equipment';$('obstacles').disabled=true;}
- for(const option of $('algorithm').options)option.disabled=option.value.includes('standby')&&!v9;
+ for(const option of $('algorithm').options)option.disabled=current?!['baseline','sipp_stream_dispatch'].includes(option.value):(option.value==='sipp_stream_dispatch'||option.value.includes('standby')&&!v9);
+ if(current&&!['baseline','sipp_stream_dispatch'].includes($('algorithm').value))$('algorithm').value='sipp_stream_dispatch';
+ if(!current&&$('algorithm').value==='sipp_stream_dispatch')$('algorithm').value='sipp_greedy_dispatch';
  if(!v9&&$('algorithm').value.includes('standby'))$('algorithm').value='sipp_greedy_dispatch';
 }
 function markChanged(){updateMode();$('status').textContent='参数已修改。点击“生成并运行”应用新设置；当前地图仍是上次结果。'}
@@ -101,7 +105,7 @@ $('generate').onclick=async()=>{
   const response=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(controls())});
   const payload=await response.json();if(!response.ok)throw new Error(payload.error||'运行失败');
   datasets=[payload];load();const c=payload.config,r=payload.result;
-  $('status').textContent=(r.feasible?'运行完成。':'未在整次仿真允许运行的最长时间（步）内全部完成并返回。')+' 当前：'+$('size').selectedOptions[0].textContent+'，'+c.vehicles+'辆车，'+(c.profile!=='legacy'?`${c.profile.toUpperCase()}作业通道宽${c.work_width}格`:$('layout').selectedOptions[0].textContent)+'，'+$('mode').selectedOptions[0].textContent+'。订单 '+c.task_count+' 单，完成 '+r.completed+' 单。'+(c.mode==='static'?'所有任务在第0步出现。':'到达方式：'+$('arrival').selectedOptions[0].textContent+'。');
+  $('status').textContent=(r.feasible?'运行完成。':'本次运行未完成，请查看停滞或失败原因。')+' 当前：'+$('size').selectedOptions[0].textContent+'，'+c.vehicles+'辆车，'+(c.profile!=='legacy'?`${c.profile.toUpperCase()}作业通道宽${c.work_width}格`:$('layout').selectedOptions[0].textContent)+'，'+$('mode').selectedOptions[0].textContent+'。订单 '+c.task_count+' 单，完成 '+r.completed+' 单。'+(c.mode==='static'?'所有任务在第0步出现。':'到达方式：'+$('arrival').selectedOptions[0].textContent+'。');
  }catch(error){$('status').textContent='无法生成：'+error.message+'。请确认 终端中 agv serve 仍在运行。'}
  finally{$('generate').disabled=false;locked(false)}
 };
@@ -118,7 +122,7 @@ function renderFailures(){const r=datasets[selected].result,d=r.diagnostics;$('f
 function online(){if(location.protocol==='file:')throw new Error('请先在终端运行 agv serve，使用自动打开的本机页面')}
 async function send(path,data){online();const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const result=await response.json();if(!response.ok)throw new Error(result.error||'请求失败');return result}
 function locked(value){['profile','shelfLayers','workWidth','obstacles','algorithm','generate','loadScene','runBatch','sceneFile','size','vehiclesCount','layout','mode','arrival','demand','delivery','taskCount','seed','horizon','batchSeed','batchCount'].forEach(id=>$(id).disabled=value);if(!value)updateMode()}
-$('saveScene').onclick=()=>{const e=datasets[selected];downloadJSON('完整仓库场景.json',{format:e.scenario.map_info?.model_version==='mixed-v9'?'agv-scene-v9':e.scenario.map_info?'agv-scene-v4':'agv-scene-v2',scenario:e.scenario,scenario_sha256:e.scenario_sha256,config:e.config,result:e.result})};
+$('saveScene').onclick=()=>{const e=datasets[selected];downloadJSON('完整仓库场景.json',{format:e.scenario.map_info?.model_version==='mixed-v9.1'?'agv-scene-v9.1':e.scenario.map_info?.model_version==='mixed-v9'?'agv-scene-v9':e.scenario.map_info?'agv-scene-v4':'agv-scene-v2',scenario:e.scenario,scenario_sha256:e.scenario_sha256,config:e.config,result:e.result})};
 $('exportFailures').onclick=()=>downloadJSON('失败与未完成记录.json',datasets[selected].result.diagnostics);
 $('loadScene').onclick=async()=>{try{const file=$('sceneFile').files[0];if(!file)throw new Error('请先选择JSON文件');if(file.size>10*1024*1024)throw new Error('文件不能超过10MB');online();stop();locked(true);$('status').textContent='正在读取并重新运行固定场景…';const payload=await send('/api/load',JSON.parse(await file.text()));datasets=[payload];load();$('status').textContent='已按文件中的实际地图和任务重新运行。场景校验值：'+payload.scenario_sha256.slice(0,12)+'。当前下拉选项不代表导入文件。'}catch(error){$('status').textContent=error.message}finally{locked(false)}};
 $('runBatch').onclick=async()=>{try{online();stop();const options=controls();const start_seed=Number($('batchSeed').value),count=Number($('batchCount').value);locked(true);$('batchStatus').textContent='正在批量运行，请保持Python服务开启…';batchReport=await send('/api/batch',{config:options,start_seed,count});const s=batchReport.summaries[0];$('batchStatus').textContent=`运行 ${s.runs} 次，成功 ${s.successes} 次，失败 ${s.failures} 次，成功率 ${(s.success_rate*100).toFixed(1)}%。统计成绩只覆盖成功运行，批量实验不改变上面的单场景地图。`;

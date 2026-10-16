@@ -19,11 +19,11 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="Generate or load a scene and save validated results")
     run.add_argument("--input", type=Path)
-    run.add_argument("--algorithm", choices=SOLVERS, default="sipp_budget")
+    run.add_argument("--algorithm", choices=SOLVERS, default=None)
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
     run.add_argument("--tasks", type=int, default=12)
-    run.add_argument("--profile", choices=("legacy", "v4", "v9"), default="legacy")
+    run.add_argument("--profile", choices=("legacy", "v4", "v9", "v9.1"), default="legacy")
     run.add_argument("--mode", choices=("static", "dynamic"), default="static")
     run.add_argument(
         "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default=None
@@ -63,8 +63,10 @@ def main(argv=None):
         if args.command == "run":
             if args.input:
                 scenario = load_scene(args.input)
-            elif args.profile in ("v4", "v9"):
-                if args.profile == "v9":
+            elif args.profile in ("v4", "v9", "v9.1"):
+                if args.profile == "v9.1":
+                    from agv.warehouse.mixed import generate_current as generate
+                elif args.profile == "v9":
                     from agv.warehouse.mixed import generate
                 else:
                     from agv.warehouse.layout import generate
@@ -73,7 +75,7 @@ def main(argv=None):
                     seed=args.seed,
                     task_count=args.tasks,
                     mode=args.mode,
-                    size=args.size or ("medium" if args.profile == "v9" else "small"),
+                    size=args.size or ("medium" if args.profile in ("v9", "v9.1") else "small"),
                     vehicles=args.vehicles,
                     shelf_layers=args.layers,
                     work_width=args.work_width,
@@ -81,7 +83,7 @@ def main(argv=None):
                         args.obstacles
                         if args.obstacles is not None
                         else "columns_equipment"
-                        if args.profile == "v9"
+                        if args.profile in ("v9", "v9.1")
                         else "none"
                     ),
                     horizon=args.horizon,
@@ -91,10 +93,13 @@ def main(argv=None):
                     seed=args.seed,
                     task_count=args.tasks,
                     mode=args.mode,
-                    size=args.size or ("medium" if args.profile == "v9" else "small"),
+                    size=args.size or ("medium" if args.profile in ("v9", "v9.1") else "small"),
                     vehicles=args.vehicles,
                     horizon=args.horizon if args.horizon is not None else 600,
                 )
+            args.algorithm = args.algorithm or (
+                "sipp_stream_dispatch" if scenario.is_v9_1 else "sipp_budget"
+            )
             result = run_named(args.algorithm, scenario)
             validate(scenario, result)
             write_json(

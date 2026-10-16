@@ -197,6 +197,11 @@ def validate(scenario, result):
                 )
             if latest is not None and latest["return_end"] <= horizon:
                 end = latest["return_end"]
+                if scenario.is_v9_1:
+                    require(
+                        end == 0 or tuple(path[end - 1]) != scenario.homes[k],
+                        "Final return time is later than actual home arrival",
+                    )
                 require(
                     tuple(path[end]) == scenario.homes[k]
                     and all(tuple(p) == scenario.homes[k] for p in path[end:]),
@@ -209,8 +214,25 @@ def validate(scenario, result):
         result["completed"] == len(expected_events) and result["total_tasks"] == len(jobs),
         "Wrong completion count",
     )
-    complete = len(expected_events) == len(jobs) and all(
-        tuple(p[-1]) == home for p, home in zip(paths, scenario.homes)
+    closed = True
+    if scenario.is_v9_1:
+        closed = horizon >= scenario.order_stream_end
+        require(result.get("idle_policy") == "stream", "Wrong V9.1 idle policy")
+        if closed:
+            require(type(result.get("stream_closed_at")) is int, "Invalid stream close time type")
+        require(
+            type(result.get("order_stream_closed")) is bool
+            and result["order_stream_closed"] == closed,
+            "Wrong stream closed flag",
+        )
+        require(
+            result.get("stream_closed_at") == (scenario.order_stream_end if closed else None),
+            "Wrong stream close event time",
+        )
+    complete = (
+        closed
+        and len(expected_events) == len(jobs)
+        and all(tuple(p[-1]) == home for p, home in zip(paths, scenario.homes))
     )
     require(result["feasible"] == complete, "Wrong success flag")
     times = [r["delivery_end"] for r in expected_events]
