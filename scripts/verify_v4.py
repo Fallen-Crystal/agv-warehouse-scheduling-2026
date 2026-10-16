@@ -13,6 +13,7 @@ import json
 import math
 import re
 import statistics
+import subprocess
 from pathlib import Path
 
 from agv.evaluation.objective import reference_context
@@ -112,10 +113,60 @@ def independent_summary(rows, manifest):
     return answer
 
 
-def audit(root, example_path):
+def source_snapshot(revision=None):
+    """Resolve the complete measured file set, never a manifest-selected subset.
+
+    A historical revision supplies provenance only: references and independent
+    validators below still run from the currently installed project code.
+    """
+    if revision is None:
+        return {"revision": "current-working-tree", "hashes": source_hashes()}
+
+    def git(*arguments):
+        command = subprocess.run(
+            ["git", "-C", str(ROOT), *arguments],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        require(command.returncode == 0, "Cannot read historical Git source snapshot")
+        return command.stdout
+
+    require(type(revision) is str and bool(revision), "Invalid source revision")
+    commit = (
+        git("rev-parse", "--verify", "--end-of-options", revision + "^{commit}").decode().strip()
+    )
+    require(bool(re.fullmatch(r"[0-9a-f]{40,64}", commit)), "Invalid resolved source revision")
+    prefix = "src/agv/"
+    hashes = {}
+    for entry in git("ls-tree", "-r", "-z", commit, "--", "src/agv").split(b"\0"):
+        if not entry:
+            continue
+        metadata, raw_path = entry.split(b"\t", 1)
+        path = raw_path.decode("utf-8")
+        if Path(path).suffix not in (".py", ".json", ".js", ".html", ".css"):
+            continue
+        mode, kind, _ = metadata.split()
+        require(
+            path.startswith(prefix) and kind == b"blob" and mode in (b"100644", b"100755"),
+            "Historical source must contain ordinary tracked files",
+        )
+        relative = path[len(prefix) :]
+        require(relative not in hashes, "Duplicate historical source path")
+        hashes[relative] = hashlib.sha256(git("show", commit + ":" + path)).hexdigest()
+    require(bool(hashes), "Historical revision contains no project source")
+    return {"revision": commit, "hashes": dict(sorted(hashes.items()))}
+
+
+def audit(root, example_path, source_revision=None):
     manifest = read_json(root / "manifest.json")
     require(manifest["status"] == "complete", "Incomplete benchmark")
-    require(manifest["source_hashes"] == source_hashes(), "Measured source snapshot has drifted")
+    snapshot = source_snapshot(source_revision)
+    current_sources = source_hashes()
+    require(
+        manifest["source_hashes"] == snapshot["hashes"],
+        "Measured source snapshot has drifted (file set or content differs)",
+    )
     with (root / "runs.csv").open(encoding="utf-8-sig", newline="") as file:
         rows = [parse_row(raw) for raw in csv.DictReader(file)]
     expected = {
@@ -223,13 +274,20 @@ def audit(root, example_path):
     require("result" not in example, "Input example should not embed a measured run")
     example_reference = reference_context(scene)
     require(example_reference["available"], "Example baseline execution did not complete")
-    require(manifest["source_hashes"] == source_hashes(), "Source changed during the audit")
+    final_snapshot = source_snapshot(
+        source_revision if source_revision is None else snapshot["revision"]
+    )
+    require(snapshot == final_snapshot, "Selected source snapshot changed during the audit")
+    require(current_sources == source_hashes(), "Current source changed during the audit")
     return {
         "format": "agv-v4-evidence-audit-v1",
         "evidence_files_sha256": {
             name: digest(root / name) for name in ("manifest.json", "runs.csv", "summary.json")
         },
-        "measurement_sources_match_current": True,
+        "source_snapshot_revision": snapshot["revision"],
+        "measurement_sources_match_selected_snapshot": True,
+        "measurement_sources_match_current": manifest["source_hashes"] == current_sources,
+        "current_source_files_checked": len(current_sources),
         "source_files_checked": len(manifest["source_hashes"]),
         "csv_rows_checked": len(rows),
         "scene_identities_checked": len(scenes),
@@ -265,7 +323,10 @@ def audit(root, example_path):
         "scope": (
             "This audit checks all saved CSV identities and calculations and replays the "
             "independent validator on six saved execution traces. It reproduces 18 fixed "
-            "benchmark reference runs and one example reference; it does not rerun all "
+            "benchmark reference runs and one example reference using current code. "
+            "A selected historical Git revision authenticates the complete measured source "
+            "file set and content; it does not replace the runtime validator or reference code. "
+            "This audit does not rerun all "
             "54 timed candidate experiments or unit "
             "tests. The benchmark itself validated all 54 executions before writing them. "
             "Six paired seeds per template and one wall-clock repetition are exploratory; "
@@ -280,12 +341,21 @@ def main():
     parser.add_argument(
         "--example", type=Path, default=ROOT / "examples/scenarios/v4_small_dynamic.json"
     )
+    parser.add_argument(
+        "--source-revision",
+        help="Authenticate the full measured source tree at this Git revision; runtime checks use current code",
+    )
     parser.add_argument("--source-dir", type=Path, help="Optional original V4 folder to hash")
     parser.add_argument("--report-pdf", type=Path, help="Optional inspiration PDF to hash")
     parser.add_argument("--test-log", type=Path, help="Optional prior unittest log to summarize")
     parser.add_argument("--output", type=Path, help="Write the JSON audit to this path")
     args = parser.parse_args()
-    report = audit(args.results.resolve(), args.example.resolve())
+    if args.source_revision and args.output:
+        require(
+            args.output.resolve() != args.results.resolve() / "review-validation.json",
+            "Historical audits must not overwrite the archived review-validation.json",
+        )
+    report = audit(args.results.resolve(), args.example.resolve(), args.source_revision)
     provenance = {}
     if args.source_dir:
         base = args.source_dir.resolve()

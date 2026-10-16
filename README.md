@@ -39,6 +39,16 @@ CLI 默认仍为 `--profile legacy --algorithm sipp_budget`。V4 在不传 `--ho
 
 V4 的有效变化、三处修复、54次配对运行和后续方向见 [V4 集成审核](docs/v4-review.md)。这批实验中 SIPP 联合修复的综合分数有升有降，尚不足以替代 V4 距离贪心基线；业务规则更完整与调度算法更优需要分别验证。
 
+## BCRD 有序批次派单
+
+新增 `bcrd_budget`：只用可见订单生成有序批次，复用真实 SIPP 做影子试派和保底 rollout，在明显积压时搜索；不改变路径和仓库规则。命令示例：
+
+```bash
+agv run --profile v4 --tasks 18 --vehicles 4 --algorithm bcrd_budget --output runs/bcrd.json
+```
+
+算法边界、配对实验和成本见 [BCRD 执行报告](docs/bcrd-results.md)，诊断与安全合同分别保存在关联文档。新策略保持为可选入口；CLI和网页默认值保持原样。
+
 ## 结构
 
 ```text

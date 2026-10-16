@@ -1,0 +1,145 @@
+{
+  "schema": "agv-bcrd-protocol-v1",
+  "baseline": "G0",
+  "bootstrap": {
+    "resamples": 4000,
+    "seed": 20261016
+  },
+  "source_plan": {
+    "name": "AGV_BCRD_Execution_Plan_1.pdf",
+    "sha256": "71eb5d9ecdcaf8a0679e60aa53b9621262c79233300fd3da75419d988d5eca06"
+  },
+  "criteria": {
+    "safety": "all complete and independently validated; all failures retained",
+    "primary": "mean paired per-instance relative F improvement vs same SIPP/no-joint G0; positive is better",
+    "economy": "if CPU ratio >3 and paired F improvement <0.5%, do not replace simple fallback",
+    "tail": "report all P90/max-response degradations; existing defaults remain unchanged",
+    "inference": "fixed-template percentile bootstrap; not an unseen-map or global-optimality guarantee"
+  },
+  "split": "development",
+  "frozen": false,
+  "seeds": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+  ],
+  "configs": {
+    "static_layers": {
+      "task_count": 18,
+      "vehicles": 4
+    },
+    "dynamic_equipment": {
+      "mode": "dynamic",
+      "arrival": "burst",
+      "task_count": 24,
+      "vehicles": 6,
+      "obstacle_layout": "columns_equipment"
+    },
+    "dynamic_shared": {
+      "mode": "dynamic",
+      "arrival": "irregular",
+      "task_count": 24,
+      "vehicles": 6,
+      "delivery_pattern": "shared"
+    }
+  },
+  "solvers": {
+    "G0": {
+      "policy": "greedy"
+    },
+    "G1": {
+      "policy": "matching"
+    },
+    "G2": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_full6": {
+      "policy": "bcrd",
+      "max_batches": 6,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 0.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_ratio2": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 2.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_order": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "order",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_ungated": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 0.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_limited1": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": 1,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    },
+    "G_limited2": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": 2,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      }
+    }
+  }
+}

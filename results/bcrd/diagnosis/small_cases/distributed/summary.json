@@ -1,0 +1,145 @@
+{
+  "scenario_sha256": "e11027bd5f712ba375f323e29857cf7049a1a8185121fb30cf32f815802986a0",
+  "configuration": {
+    "seed": 10,
+    "task_count": 5,
+    "vehicles": 2,
+    "delivery_pattern": "distributed"
+  },
+  "backend": "sipp",
+  "joint": false,
+  "scope": "all legal maximum-cardinality initial ordered batches, then fixed legal greedy",
+  "globally_optimal": false,
+  "trials": 40,
+  "successful_trials": 40,
+  "greedy": {
+    "ordered_batch": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 148,
+    "mean_flow_time": 81.2,
+    "p90_flow_time": 148,
+    "moves": 248,
+    "weighted_score": 1.0,
+    "runtime_seconds": 0.35998291592113674,
+    "initial_feedback": [
+      {
+        "vehicle": 1,
+        "task_id": 2,
+        "accepted": true,
+        "planned_delivery_end": 41,
+        "pickup_point": [
+          17,
+          14
+        ]
+      },
+      {
+        "vehicle": 0,
+        "task_id": 0,
+        "accepted": true,
+        "planned_delivery_end": 42,
+        "pickup_point": [
+          7,
+          10
+        ]
+      }
+    ]
+  },
+  "matching": {
+    "ordered_batch": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 148,
+    "mean_flow_time": 81.2,
+    "p90_flow_time": 148,
+    "moves": 248,
+    "weighted_score": 1.0,
+    "runtime_seconds": 0.35745112504810095,
+    "initial_feedback": [
+      {
+        "vehicle": 0,
+        "task_id": 0,
+        "accepted": true,
+        "planned_delivery_end": 42,
+        "pickup_point": [
+          7,
+          10
+        ]
+      },
+      {
+        "vehicle": 1,
+        "task_id": 2,
+        "accepted": true,
+        "planned_delivery_end": 41,
+        "pickup_point": [
+          17,
+          14
+        ]
+      }
+    ]
+  },
+  "best_initial_batch": {
+    "ordered_batch": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 120,
+    "mean_flow_time": 76.0,
+    "p90_flow_time": 120,
+    "moves": 226,
+    "weighted_score": 0.868451647261436,
+    "runtime_seconds": 0.3056722499895841,
+    "initial_feedback": [
+      {
+        "vehicle": 0,
+        "task_id": 1,
+        "accepted": true,
+        "planned_delivery_end": 42,
+        "pickup_point": [
+          5,
+          6
+        ]
+      },
+      {
+        "vehicle": 1,
+        "task_id": 0,
+        "accepted": true,
+        "planned_delivery_end": 52,
+        "pickup_point": [
+          7,
+          10
+        ]
+      }
+    ]
+  },
+  "improvement_vs_greedy_pct": 13.154835273856403
+}

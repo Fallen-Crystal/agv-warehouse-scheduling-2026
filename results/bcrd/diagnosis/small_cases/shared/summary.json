@@ -1,0 +1,233 @@
+{
+  "scenario_sha256": "08c9a70ef5308ec75d2c8643567758788f9a3952fec0f0b24fca4c31a882a8ab",
+  "configuration": {
+    "seed": 10,
+    "task_count": 5,
+    "vehicles": 2,
+    "delivery_pattern": "shared"
+  },
+  "backend": "sipp",
+  "joint": false,
+  "scope": "all legal maximum-cardinality initial ordered batches, then fixed legal greedy",
+  "globally_optimal": false,
+  "trials": 40,
+  "successful_trials": 40,
+  "greedy": {
+    "ordered_batch": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 127,
+    "mean_flow_time": 71.4,
+    "p90_flow_time": 127,
+    "moves": 220,
+    "weighted_score": 1.0,
+    "runtime_seconds": 0.25376695895101875,
+    "initial_feedback": [
+      {
+        "vehicle": 0,
+        "task_id": 1,
+        "accepted": true,
+        "planned_delivery_end": 23,
+        "pickup_point": [
+          5,
+          6
+        ]
+      },
+      {
+        "vehicle": 1,
+        "task_id": 0,
+        "accepted": true,
+        "planned_delivery_end": 45,
+        "pickup_point": [
+          7,
+          10
+        ]
+      }
+    ]
+  },
+  "matching": {
+    "ordered_batch": [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 127,
+    "mean_flow_time": 71.4,
+    "p90_flow_time": 127,
+    "moves": 220,
+    "weighted_score": 1.0,
+    "runtime_seconds": 0.253660749993287,
+    "initial_feedback": [
+      {
+        "vehicle": 1,
+        "task_id": 0,
+        "accepted": true,
+        "planned_delivery_end": 45,
+        "pickup_point": [
+          7,
+          10
+        ]
+      },
+      {
+        "vehicle": 0,
+        "task_id": 1,
+        "accepted": true,
+        "planned_delivery_end": 23,
+        "pickup_point": [
+          5,
+          6
+        ]
+      }
+    ]
+  },
+  "best_initial_batch": {
+    "ordered_batch": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "feasible": true,
+    "completed": 5,
+    "total_tasks": 5,
+    "makespan": 109,
+    "mean_flow_time": 67.0,
+    "p90_flow_time": 109,
+    "moves": 200,
+    "weighted_score": 0.8924646451279152,
+    "runtime_seconds": 0.22817745804786682,
+    "initial_feedback": [
+      {
+        "vehicle": 0,
+        "task_id": 1,
+        "accepted": true,
+        "planned_delivery_end": 23,
+        "pickup_point": [
+          5,
+          6
+        ]
+      },
+      {
+        "vehicle": 1,
+        "task_id": 2,
+        "accepted": true,
+        "planned_delivery_end": 51,
+        "pickup_point": [
+          17,
+          14
+        ]
+      }
+    ]
+  },
+  "improvement_vs_greedy_pct": 10.753535487208477,
+  "order_counterexample": [
+    {
+      "ordered_batch": [
+        [
+          1,
+          0
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "feasible": true,
+      "completed": 5,
+      "total_tasks": 5,
+      "makespan": 127,
+      "mean_flow_time": 75.4,
+      "p90_flow_time": 127,
+      "moves": 220,
+      "weighted_score": 1.0168067226890756,
+      "runtime_seconds": 0.252931666909717,
+      "initial_feedback": [
+        {
+          "vehicle": 1,
+          "task_id": 0,
+          "accepted": true,
+          "planned_delivery_end": 45,
+          "pickup_point": [
+            7,
+            10
+          ]
+        },
+        {
+          "vehicle": 0,
+          "task_id": 3,
+          "accepted": true,
+          "planned_delivery_end": 43,
+          "pickup_point": [
+            10,
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "ordered_batch": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "feasible": true,
+      "completed": 5,
+      "total_tasks": 5,
+      "makespan": 127,
+      "mean_flow_time": 76.6,
+      "p90_flow_time": 127,
+      "moves": 222,
+      "weighted_score": 1.0236669213139802,
+      "runtime_seconds": 0.2529899999499321,
+      "initial_feedback": [
+        {
+          "vehicle": 0,
+          "task_id": 3,
+          "accepted": true,
+          "planned_delivery_end": 43,
+          "pickup_point": [
+            10,
+            10
+          ]
+        },
+        {
+          "vehicle": 1,
+          "task_id": 0,
+          "accepted": true,
+          "planned_delivery_end": 48,
+          "pickup_point": [
+            7,
+            10
+          ]
+        }
+      ]
+    }
+  ]
+}

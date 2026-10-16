@@ -1,0 +1,510 @@
+{
+  "traces": [
+    {
+      "scenario": "dynamic_equipment",
+      "solver": "baseline",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 24,
+      "completed_tasks": 24,
+      "makespan": 171,
+      "moves": 924,
+      "p90_flow_time": 81,
+      "runtime_seconds": "0.5162820830009878",
+      "dispatch_wait": 10.375,
+      "pickup_duration": 13.75,
+      "loaded_duration": 17.958333333333332,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 13.75,
+      "empty_stationary_wait": 0,
+      "loaded_travel_moves": 17.958333333333332,
+      "loaded_stationary_wait": 0,
+      "flow_time": 46.75
+    },
+    {
+      "scenario": "dynamic_equipment",
+      "solver": "sipp_budget",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 24,
+      "completed_tasks": 24,
+      "makespan": 171,
+      "moves": 924,
+      "p90_flow_time": 81,
+      "runtime_seconds": "1.200695125036873",
+      "dispatch_wait": 10.375,
+      "pickup_duration": 13.75,
+      "loaded_duration": 17.958333333333332,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 13.75,
+      "empty_stationary_wait": 0,
+      "loaded_travel_moves": 17.958333333333332,
+      "loaded_stationary_wait": 0,
+      "flow_time": 46.75
+    },
+    {
+      "scenario": "dynamic_shared",
+      "solver": "baseline",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 24,
+      "completed_tasks": 24,
+      "makespan": 211,
+      "moves": 974,
+      "p90_flow_time": 99,
+      "runtime_seconds": "0.5351197919808328",
+      "dispatch_wait": 15.541666666666666,
+      "pickup_duration": 17.833333333333332,
+      "loaded_duration": 19.75,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 17.791666666666668,
+      "empty_stationary_wait": 0.041666666666666664,
+      "loaded_travel_moves": 19.708333333333332,
+      "loaded_stationary_wait": 0.041666666666666664,
+      "flow_time": 57.791666666666664
+    },
+    {
+      "scenario": "dynamic_shared",
+      "solver": "sipp_budget",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 24,
+      "completed_tasks": 24,
+      "makespan": 207,
+      "moves": 968,
+      "p90_flow_time": 99,
+      "runtime_seconds": "1.1545364579651505",
+      "dispatch_wait": 16.166666666666668,
+      "pickup_duration": 17.541666666666668,
+      "loaded_duration": 19.791666666666668,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 17.541666666666668,
+      "empty_stationary_wait": 0,
+      "loaded_travel_moves": 19.708333333333332,
+      "loaded_stationary_wait": 0.08333333333333333,
+      "flow_time": 58.166666666666664
+    },
+    {
+      "scenario": "static_layers",
+      "solver": "baseline",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 18,
+      "completed_tasks": 18,
+      "makespan": 198,
+      "moves": 684,
+      "p90_flow_time": 176,
+      "runtime_seconds": "0.5109572500223294",
+      "dispatch_wait": 55.5,
+      "pickup_duration": 13,
+      "loaded_duration": 19.055555555555557,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 13,
+      "empty_stationary_wait": 0,
+      "loaded_travel_moves": 19.055555555555557,
+      "loaded_stationary_wait": 0,
+      "flow_time": 92.22222222222223
+    },
+    {
+      "scenario": "static_layers",
+      "solver": "sipp_budget",
+      "seed": 0,
+      "successful": true,
+      "total_tasks": 18,
+      "completed_tasks": 18,
+      "makespan": 198,
+      "moves": 684,
+      "p90_flow_time": 176,
+      "runtime_seconds": "1.0435591250425205",
+      "dispatch_wait": 55.5,
+      "pickup_duration": 13,
+      "loaded_duration": 19.055555555555557,
+      "service_duration": 4.666666666666667,
+      "empty_travel_moves": 13,
+      "empty_stationary_wait": 0,
+      "loaded_travel_moves": 19.055555555555557,
+      "loaded_stationary_wait": 0,
+      "flow_time": 92.22222222222223
+    }
+  ],
+  "small_cases": {
+    "distributed": {
+      "scenario_sha256": "e11027bd5f712ba375f323e29857cf7049a1a8185121fb30cf32f815802986a0",
+      "configuration": {
+        "seed": 10,
+        "task_count": 5,
+        "vehicles": 2,
+        "delivery_pattern": "distributed"
+      },
+      "backend": "sipp",
+      "joint": false,
+      "scope": "all legal maximum-cardinality initial ordered batches, then fixed legal greedy",
+      "globally_optimal": false,
+      "trials": 40,
+      "successful_trials": 40,
+      "greedy": {
+        "ordered_batch": [
+          [
+            1,
+            2
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 148,
+        "mean_flow_time": 81.2,
+        "p90_flow_time": 148,
+        "moves": 248,
+        "weighted_score": 1.0,
+        "runtime_seconds": 0.35998291592113674,
+        "initial_feedback": [
+          {
+            "vehicle": 1,
+            "task_id": 2,
+            "accepted": true,
+            "planned_delivery_end": 41,
+            "pickup_point": [
+              17,
+              14
+            ]
+          },
+          {
+            "vehicle": 0,
+            "task_id": 0,
+            "accepted": true,
+            "planned_delivery_end": 42,
+            "pickup_point": [
+              7,
+              10
+            ]
+          }
+        ]
+      },
+      "matching": {
+        "ordered_batch": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 148,
+        "mean_flow_time": 81.2,
+        "p90_flow_time": 148,
+        "moves": 248,
+        "weighted_score": 1.0,
+        "runtime_seconds": 0.35745112504810095,
+        "initial_feedback": [
+          {
+            "vehicle": 0,
+            "task_id": 0,
+            "accepted": true,
+            "planned_delivery_end": 42,
+            "pickup_point": [
+              7,
+              10
+            ]
+          },
+          {
+            "vehicle": 1,
+            "task_id": 2,
+            "accepted": true,
+            "planned_delivery_end": 41,
+            "pickup_point": [
+              17,
+              14
+            ]
+          }
+        ]
+      },
+      "best_initial_batch": {
+        "ordered_batch": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 120,
+        "mean_flow_time": 76.0,
+        "p90_flow_time": 120,
+        "moves": 226,
+        "weighted_score": 0.868451647261436,
+        "runtime_seconds": 0.3056722499895841,
+        "initial_feedback": [
+          {
+            "vehicle": 0,
+            "task_id": 1,
+            "accepted": true,
+            "planned_delivery_end": 42,
+            "pickup_point": [
+              5,
+              6
+            ]
+          },
+          {
+            "vehicle": 1,
+            "task_id": 0,
+            "accepted": true,
+            "planned_delivery_end": 52,
+            "pickup_point": [
+              7,
+              10
+            ]
+          }
+        ]
+      },
+      "improvement_vs_greedy_pct": 13.154835273856403
+    },
+    "shared": {
+      "scenario_sha256": "08c9a70ef5308ec75d2c8643567758788f9a3952fec0f0b24fca4c31a882a8ab",
+      "configuration": {
+        "seed": 10,
+        "task_count": 5,
+        "vehicles": 2,
+        "delivery_pattern": "shared"
+      },
+      "backend": "sipp",
+      "joint": false,
+      "scope": "all legal maximum-cardinality initial ordered batches, then fixed legal greedy",
+      "globally_optimal": false,
+      "trials": 40,
+      "successful_trials": 40,
+      "greedy": {
+        "ordered_batch": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 127,
+        "mean_flow_time": 71.4,
+        "p90_flow_time": 127,
+        "moves": 220,
+        "weighted_score": 1.0,
+        "runtime_seconds": 0.25376695895101875,
+        "initial_feedback": [
+          {
+            "vehicle": 0,
+            "task_id": 1,
+            "accepted": true,
+            "planned_delivery_end": 23,
+            "pickup_point": [
+              5,
+              6
+            ]
+          },
+          {
+            "vehicle": 1,
+            "task_id": 0,
+            "accepted": true,
+            "planned_delivery_end": 45,
+            "pickup_point": [
+              7,
+              10
+            ]
+          }
+        ]
+      },
+      "matching": {
+        "ordered_batch": [
+          [
+            1,
+            0
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 127,
+        "mean_flow_time": 71.4,
+        "p90_flow_time": 127,
+        "moves": 220,
+        "weighted_score": 1.0,
+        "runtime_seconds": 0.253660749993287,
+        "initial_feedback": [
+          {
+            "vehicle": 1,
+            "task_id": 0,
+            "accepted": true,
+            "planned_delivery_end": 45,
+            "pickup_point": [
+              7,
+              10
+            ]
+          },
+          {
+            "vehicle": 0,
+            "task_id": 1,
+            "accepted": true,
+            "planned_delivery_end": 23,
+            "pickup_point": [
+              5,
+              6
+            ]
+          }
+        ]
+      },
+      "best_initial_batch": {
+        "ordered_batch": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "feasible": true,
+        "completed": 5,
+        "total_tasks": 5,
+        "makespan": 109,
+        "mean_flow_time": 67.0,
+        "p90_flow_time": 109,
+        "moves": 200,
+        "weighted_score": 0.8924646451279152,
+        "runtime_seconds": 0.22817745804786682,
+        "initial_feedback": [
+          {
+            "vehicle": 0,
+            "task_id": 1,
+            "accepted": true,
+            "planned_delivery_end": 23,
+            "pickup_point": [
+              5,
+              6
+            ]
+          },
+          {
+            "vehicle": 1,
+            "task_id": 2,
+            "accepted": true,
+            "planned_delivery_end": 51,
+            "pickup_point": [
+              17,
+              14
+            ]
+          }
+        ]
+      },
+      "improvement_vs_greedy_pct": 10.753535487208477,
+      "order_counterexample": [
+        {
+          "ordered_batch": [
+            [
+              1,
+              0
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "feasible": true,
+          "completed": 5,
+          "total_tasks": 5,
+          "makespan": 127,
+          "mean_flow_time": 75.4,
+          "p90_flow_time": 127,
+          "moves": 220,
+          "weighted_score": 1.0168067226890756,
+          "runtime_seconds": 0.252931666909717,
+          "initial_feedback": [
+            {
+              "vehicle": 1,
+              "task_id": 0,
+              "accepted": true,
+              "planned_delivery_end": 45,
+              "pickup_point": [
+                7,
+                10
+              ]
+            },
+            {
+              "vehicle": 0,
+              "task_id": 3,
+              "accepted": true,
+              "planned_delivery_end": 43,
+              "pickup_point": [
+                10,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "ordered_batch": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              0
+            ]
+          ],
+          "feasible": true,
+          "completed": 5,
+          "total_tasks": 5,
+          "makespan": 127,
+          "mean_flow_time": 76.6,
+          "p90_flow_time": 127,
+          "moves": 222,
+          "weighted_score": 1.0236669213139802,
+          "runtime_seconds": 0.2529899999499321,
+          "initial_feedback": [
+            {
+              "vehicle": 0,
+              "task_id": 3,
+              "accepted": true,
+              "planned_delivery_end": 43,
+              "pickup_point": [
+                10,
+                10
+              ]
+            },
+            {
+              "vehicle": 1,
+              "task_id": 0,
+              "accepted": true,
+              "planned_delivery_end": 48,
+              "pickup_point": [
+                7,
+                10
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

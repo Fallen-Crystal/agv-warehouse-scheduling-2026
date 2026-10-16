@@ -9,3 +9,5 @@ The package layout, interval planner, reservation index, conflict-based candidat
 Public map data has its own ODC-By attribution notice at `data/NOTICE.md`. Training uses that public source and generated task labels, with no private or undisclosed dataset. The existing ranker has not been retrained or established effective under the V4 profile. V4 benchmark scenes are synthetic, generated from the adapted geometry and task assumptions. Historical v1/v2 and reviewed V4 measurements remain separate in `results/v1/`, `results/v2/` and `results/v4/`.
 
 The owner-supplied `AGV_Report_28pages_Attachment.pdf` was read as research context for the improvement roadmap. Its recommendations are distinguished from implemented behavior, and the PDF itself is not redistributed in this repository.
+
+The owner-supplied BCRD execution plan informed the observation-only ordered-batch dispatch experiment. Its source PDF is not redistributed. The visible shadow, bounded candidate policies and paired experiment tooling are project-specific implementations; they reuse the existing executor and SIPP rather than replacing their safety rules.

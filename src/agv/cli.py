@@ -52,6 +52,9 @@ def main(argv=None):
     )
     benchmark_v4.add_argument("--seeds", type=int, default=6)
     benchmark_v4.add_argument("--output", type=Path, required=True)
+    benchmark_bcrd = sub.add_parser("benchmark-bcrd", help="Frozen paired dispatch experiments")
+    benchmark_bcrd.add_argument("--protocol", type=Path, required=True)
+    benchmark_bcrd.add_argument("--output", type=Path, required=True)
     data = sub.add_parser("fetch-data", help="Fetch the attributed public MovingAI warehouse map")
     data.add_argument("--output", type=Path, required=True)
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
@@ -122,6 +125,10 @@ def main(argv=None):
             from agv.experiments.v4 import run_benchmark
 
             run_benchmark(args.output, args.seeds)
+        elif args.command == "benchmark-bcrd":
+            from agv.experiments.bcrd import run_frozen
+
+            run_frozen(args.output, args.protocol)
         elif args.command == "fetch-data":
             from agv.io.movingai import download_map
 

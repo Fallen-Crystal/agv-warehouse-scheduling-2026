@@ -1,0 +1,25 @@
+{
+  "stage": "A",
+  "baseline_commit": "8551943e1b248c05ba5e12cab0570dd6d2f59975",
+  "current_commit": "8551943e1b248c05ba5e12cab0570dd6d2f59975",
+  "retained_trace_hashes": {
+    "results/v4/traces/dynamic_equipment-baseline.json": "01ba27cbaf2083b84ab6b7ecb58ca8cf7cc8b4d06eadbf0c1420a74f904bd005",
+    "results/v4/traces/dynamic_equipment-sipp_budget.json": "da1efef2b4e39adfb2b0e8d7997955e1efb8d9cce9175383944a6e2e58fad1a5",
+    "results/v4/traces/dynamic_shared-baseline.json": "2ae7478d9d3e1efee0b005a7dde701f7f538bc59472157b092cacdad4753ed84",
+    "results/v4/traces/dynamic_shared-sipp_budget.json": "5096cefe7a3a0cd1723768b091faf1dc8aaf69bf87136d70104c66f75165bfd9",
+    "results/v4/traces/static_layers-baseline.json": "6d8741d22910be5bc164a3f620de8ec7d48e31e7cb0219f39908cd8a25595a56",
+    "results/v4/traces/static_layers-sipp_budget.json": "3f27f39d9186df135d556d34cb42eb338920ca6add97831aebbe28ad40a136cd"
+  },
+  "analysis_source_sha256": {
+    "scripts/bcrd_diagnose.py": "7301f2f441f76d38ef6923c524d55df6afbb7d27331b47028e0515922db21df4",
+    "src/agv/evaluation/dispatch_analysis.py": "505079241afd68ed8fd472b4b0faf1c5f11804f42ad0d094b85cf898b0ba7cbd"
+  },
+  "historical_traces_validated": 6,
+  "task_ledgers_reconciled": 132,
+  "historical_runs_summarized": 54,
+  "development_seeds": [
+    10
+  ],
+  "holdout_results_accessed": false,
+  "notes": "No old trace or score overwritten. Small reference reads all currently released tasks, never a future order. Stationary path steps are observable waits, not causal traffic/gate attribution. No online denominator access."
+}

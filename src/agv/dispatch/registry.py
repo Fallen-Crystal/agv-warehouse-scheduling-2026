@@ -35,11 +35,29 @@ SOLVERS = {
 }
 
 
+DISPATCH_SOLVERS = {
+    "sipp_greedy_dispatch": dict(policy="greedy"),
+    "sipp_matching_dispatch": dict(policy="matching"),
+    "bcrd_budget": dict(policy="bcrd", max_batches=4),
+    "bcrd_order": dict(policy="bcrd", max_batches=4, mode="order"),
+}
+SOLVERS.update(
+    {
+        name: SolverConfig(assignment=name, joint=False, router_kind="sipp")
+        for name in DISPATCH_SOLVERS
+    }
+)
+
+
 def run_named(name, scenario):
     if name not in SOLVERS:
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
     config = SOLVERS[name]
-    if config is None:
+    if name in DISPATCH_SOLVERS:
+        from agv.dispatch.bcrd import run
+
+        result = run(scenario, **DISPATCH_SOLVERS[name])
+    elif config is None:
         result = run_baseline(scenario)
     else:
         result = run_optimized(
