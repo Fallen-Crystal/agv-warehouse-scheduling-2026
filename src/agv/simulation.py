@@ -49,6 +49,7 @@ class Environment:
                 raise ValueError("Positioning requires the explicit V9.1 profile")
             self._scenario = checked
         s = self._scenario
+        self._public_map = s.observation_map()
         self.time = 0
         self._jobs = {j.id: j for j in s.tasks}
         self._router = create_router(self._router_kind, s)
@@ -127,7 +128,7 @@ class Environment:
                     else {}
                 ),
                 horizon=s.horizon,
-                map=s.observation_map(),
+                map=self._public_map,
                 vehicles=[
                     dict(
                         id=k,
@@ -283,10 +284,13 @@ class Environment:
             )
         return responses
 
-    def _replace_plan(self, vehicle, path):
+    def _replace_plan(self, vehicle, path, *, held_steps=0):
         self._plans[vehicle] = path
         if self._reservation_index is not None:
-            self._reservation_index.replace(vehicle, path, self.time)
+            if held_steps:
+                self._reservation_index.hold(vehicle, self.time, held_steps)
+            else:
+                self._reservation_index.replace(vehicle, path, self.time)
 
     def plan_reservations(self):
         from agv.planning.reservations import PlanReservations

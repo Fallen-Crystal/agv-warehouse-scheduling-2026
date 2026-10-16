@@ -86,7 +86,7 @@ def hold_return(env, vehicle, steps=1):
         waits.append(dict(vehicle=vehicle, start=env.time, end=env.time + steps))
     else:
         adjacent["end"] += steps
-    env._replace_plan(vehicle, plans[vehicle])
+    env._replace_plan(vehicle, plans[vehicle], held_steps=steps)
     env._records, env._idle_waits = records, waits
     if position_event is not None:
         position_event["return_end"] = old_end + steps

@@ -6,6 +6,10 @@ from agv.simulation import Environment
 
 
 def greedy_action(observation):
+    if not any(v["available"] for v in observation["vehicles"]) or not any(
+        j.get("dispatchable", True) for j in observation["pending"]
+    ):
+        return []
     geometry = Scenario.from_observation_map(observation["map"], observation["horizon"])
     router = Router(geometry)
     candidates = []

@@ -36,4 +36,5 @@ jobs:
           /tmp/agv-wheel/bin/agv run --profile v4 --tasks 2 --vehicles 10 --algorithm sipp_budget --output v4-smoke.json
           /tmp/agv-wheel/bin/agv run --profile v4 --tasks 8 --vehicles 2 --algorithm bcrd_budget --output bcrd-smoke.json
           /tmp/agv-wheel/bin/agv run --profile v9 --tasks 2 --vehicles 1 --algorithm sipp_standby16_dispatch --output v9-smoke.json
+          /tmp/agv-wheel/bin/agv run --profile v9.1 --tasks 2 --vehicles 1 --algorithm sipp_stream_bcrd_tail --output v91-smoke.json
           /tmp/agv-wheel/bin/python -c "from agv.web.app import create_server; s=create_server(); s.server_close()"

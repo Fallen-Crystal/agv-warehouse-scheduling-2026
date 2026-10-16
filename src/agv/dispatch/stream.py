@@ -110,7 +110,11 @@ def run(scenario, policy="greedy", *, positioning=False, delay=False):
             locator.observe(obs)
         action = matcher.action(obs) if matcher else fallback(obs)
         feedback = env.assign(action)
-        if locator:
+        if (
+            locator
+            and not obs["order_stream_closed"]
+            and (env.time - locator.last >= locator.interval or locator.new_idle)
+        ):
             for vehicle, target in locator.action(env.observe()):
                 attempts += 1
                 try:

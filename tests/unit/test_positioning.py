@@ -6,6 +6,7 @@ from copy import deepcopy
 from dataclasses import replace
 
 from agv.dispatch.positioning import PositioningPolicy, articulation_points, waiting_candidates
+from agv.dispatch.stream import run as run_stream
 from agv.domain import Scenario, Task
 from agv.evaluation.validation import validate
 from agv.planning.reservations import PlanReservations
@@ -89,6 +90,46 @@ def brute_conflict(plans, starts, candidate, start, vehicle):
 
 
 class ReservationIndexTests(unittest.TestCase):
+    def test_mixed_multistep_holds_advance_and_replacements_match_materialized_routes(self):
+        rng = random.Random(20261018)
+
+        def walk(start=None):
+            path = [start if start is not None else (rng.randrange(5), rng.randrange(5))]
+            for _ in range(rng.randrange(1, 12)):
+                x, y = path[-1]
+                path.append(rng.choice([(x, y), (x, y), (x + 1, y), (x - 1, y), (x, y + 1)]))
+            return path
+
+        plans, now, held_until = [walk() for _ in range(4)], 0, [0] * 4
+        index = PlanReservations(plans, now)
+        for _ in range(200):
+            vehicle, operation = rng.randrange(4), rng.randrange(3)
+            if operation == 0 and now >= held_until[vehicle]:
+                steps = rng.randrange(1, 6)
+                plans[vehicle] = [plans[vehicle][0]] * steps + plans[vehicle]
+                index.hold(vehicle, now, steps)
+                held_until[vehicle] = now + steps
+            elif operation == 1:
+                plans[vehicle] = walk(plans[vehicle][0])
+                index.replace(vehicle, plans[vehicle], now)
+                held_until[vehicle] = now
+            else:
+                steps = rng.randrange(1, 5)
+                plans = [path[min(steps, len(path) - 1) :] for path in plans]
+                now += steps
+            for peer in range(4):
+                for offset in (0, 1, 6, 20):
+                    self.assertEqual(
+                        index.at(peer, now + offset), plans[peer][min(offset, len(plans[peer]) - 1)]
+                    )
+            for _ in range(3):
+                query = rng.randrange(4)
+                proposal = walk(plans[query][0] if rng.randrange(2) else None)
+                self.assertEqual(
+                    index.conflict(proposal, now, query) is not None,
+                    brute_conflict(plans, [now] * 4, proposal, now, query),
+                )
+
     def test_reverse_edge_and_stationary_tails_are_reserved(self):
         index = PlanReservations([[(0, 0), (1, 0)], [(3, 0)]], 0)
         self.assertEqual(index.conflict([(1, 0), (0, 0)], 0, 1), "edge")
@@ -131,6 +172,37 @@ class ReservationIndexTests(unittest.TestCase):
 
 
 class PositioningTests(unittest.TestCase):
+    def test_cached_public_geometry_is_detached_and_reset_rebuilds_it(self):
+        original = scene(vehicles=2)
+        original_data = deepcopy(original.to_dict())
+        env = Environment(original, positioning=True)
+        before = env.observe()
+        changed = env.observe()
+        changed["map"]["blocked"].clear()
+        changed["map"]["homes"].append((99, 99))
+        changed["map"]["map_info"]["rack_catalog"][0]["bay_id"] = "corrupted"
+        changed["map"]["map_info"]["model_version"] = "corrupted"
+        changed["map"]["width"] = 0
+        self.assertEqual(env.observe(), before)
+        self.assertEqual(original.to_dict(), original_data)
+        fresh = generate_current(size="large", task_count=0, vehicles=2, order_stream_end=200)
+        env.reset(fresh)
+        self.assertEqual(env.observe()["map"], fresh.observation_map())
+        self.assertNotEqual(env.observe()["map"]["width"], before["map"]["width"])
+
+    def test_real_sparse_stream_uses_positioning_then_returns_home(self):
+        s = generate_current(mode="dynamic", arrival="uniform", task_count=4, vehicles=2, seed=10)
+        s.tasks = [replace(task, release=task.release * 20) for task in s.tasks]
+        s.order_stream_end *= 20
+        result = run_stream(s.check(), positioning=True)
+        self.assertTrue(result["feasible"])
+        self.assertTrue(validate(s, result))
+        self.assertTrue(result["positioning_events"])
+        self.assertTrue(
+            any(tuple(event["target"]) not in s.homes for event in result["positioning_events"])
+        )
+        self.assertEqual([path[-1] for path in result["paths"]], s.homes)
+
     def test_default_environment_does_not_enable_repositioning(self):
         env = Environment(scene())
         before = snapshot(env)

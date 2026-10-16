@@ -83,67 +83,75 @@ def reservations(plans, start):
 
 
 class PlanReservations:
-    """Absolute-time index for replacing one complete fallback suffix.
+    """Spatially filtered absolute-time reservations with O(1) hold shifts.
 
-    Advancing time needs no rebuild: absolute reservations remain the same.
-    A replaced vehicle removes its own old entries. Final stationary tails are
-    checked separately, so a finite path never silently stops occupying space.
+    A pure delay changes an origin and a small stationary override, preserving
+    the immutable base route. Only real route replacement rebuilds cell users.
     """
 
     def __init__(self, plans, start):
-        self.vertices = defaultdict(set)
-        self.edges = defaultdict(set)
-        self.visits = defaultdict(set)
-        self.tail_cells = defaultdict(dict)
         self.routes = {}
-        self.tails = {}
+        self.users = defaultdict(set)
         for vehicle, path in enumerate(plans):
             self.replace(vehicle, path, start)
 
     def replace(self, vehicle, path, start):
-        if vehicle in self.routes:
-            old, origin = self.routes[vehicle]
-            for i, point in enumerate(old):
-                key = (origin + i, point)
-                self.vertices[key].discard(vehicle)
-                self.visits[point].discard((origin + i, vehicle))
-                if not self.visits[point]:
-                    del self.visits[point]
-                if not self.vertices[key]:
-                    del self.vertices[key]
-            for i, (a, b) in enumerate(zip(old, old[1:])):
-                key = (origin + i, a, b)
-                self.edges[key].discard(vehicle)
-                if not self.edges[key]:
-                    del self.edges[key]
-            old_end, old_tail = self.tails[vehicle]
-            del self.tail_cells[old_tail][vehicle]
-            if not self.tail_cells[old_tail]:
-                del self.tail_cells[old_tail]
-        path = list(path)
-        self.routes[vehicle] = (path, start)
-        self.tails[vehicle] = (start + len(path) - 1, path[-1])
-        self.tail_cells[path[-1]][vehicle] = start + len(path) - 1
+        old = self.routes.get(vehicle)
+        if old is not None:
+            for point in old["times"]:
+                self.users[point].discard(vehicle)
+                if not self.users[point]:
+                    del self.users[point]
+        times = defaultdict(list)
         for i, point in enumerate(path):
-            self.vertices[start + i, point].add(vehicle)
-            self.visits[point].add((start + i, vehicle))
-        for i, (a, b) in enumerate(zip(path, path[1:])):
-            self.edges[start + i, a, b].add(vehicle)
+            times[point].append(i)
+        self.routes[vehicle] = dict(path=tuple(path), origin=start, hold=None, times=dict(times))
+        for point in times:
+            self.users[point].add(vehicle)
+
+    def at(self, vehicle, time):
+        route = self.routes[vehicle]
+        hold = route["hold"]
+        if hold is not None and hold[0] <= time < hold[1]:
+            return hold[2]
+        index = min(max(0, time - route["origin"]), len(route["path"]) - 1)
+        return route["path"][index]
+
+    def hold(self, vehicle, start, steps):
+        point = self.at(vehicle, start)
+        route = self.routes[vehicle]
+        route["origin"] += steps
+        route["hold"] = (start, start + steps, point)
 
     def conflict(self, path, start, vehicle):
         for i, point in enumerate(path):
             time = start + i
-            if self.vertices.get((time, point), set()) - {vehicle}:
-                return "vertex"
             if any(
-                peer != vehicle and time >= end
-                for peer, end in self.tail_cells.get(point, {}).items()
+                peer != vehicle and self.at(peer, time) == point
+                for peer in self.users.get(point, ())
             ):
                 return "vertex"
-            if i and self.edges.get((time - 1, point, path[i - 1]), set()) - {vehicle}:
+            if i and any(
+                peer != vehicle
+                and self.at(peer, time - 1) == point
+                and self.at(peer, time) == path[i - 1]
+                for peer in self.users.get(point, ())
+            ):
                 return "edge"
-        # The replacement itself has a stationary tail beyond its finite path.
         end, tail = start + len(path) - 1, path[-1]
-        if any(peer != vehicle and time >= end for time, peer in self.visits.get(tail, ())):
-            return "vertex"
+        for peer in self.users.get(tail, ()):
+            if peer == vehicle:
+                continue
+            route = self.routes[peer]
+            if route["path"][-1] == tail:
+                return "vertex"
+            hold = route["hold"]
+            if hold is not None and hold[2] == tail and max(end, hold[0]) < hold[1]:
+                return "vertex"
+            for index in reversed(route["times"][tail]):
+                time = route["origin"] + index
+                if time < end:
+                    break
+                if hold is None or not hold[0] <= time < hold[1]:
+                    return "vertex"
         return None

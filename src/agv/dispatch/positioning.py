@@ -70,12 +70,18 @@ class PositioningPolicy:
         self.scenario = Scenario.from_observation_map(observation["map"], observation["horizon"])
         self.router = Router(self.scenario)
         self.candidates = waiting_candidates(self.scenario)
+        self.candidate_set = set(self.candidates)
         self.strength, self.sigma = strength, sigma
         self.interval, self.capacity, self.hysteresis = interval, capacity, hysteresis
         self.history, self.last = {}, -interval
         self.log = []
+        self.available = {v["id"] for v in observation["vehicles"] if v["available"]}
+        self.new_idle = set()
 
     def observe(self, observation):
+        available = {v["id"] for v in observation["vehicles"] if v["available"]}
+        self.new_idle.update(available - self.available)
+        self.available = available
         for job in observation["pending"] + [
             v["active_task"] for v in observation["vehicles"] if v["active_task"]
         ]:
@@ -95,12 +101,13 @@ class PositioningPolicy:
         # Closed means no new demand; preserve safe fallbacks and let final return happen.
         if (
             observation["order_stream_closed"]
-            or now - self.last < self.interval
+            or (now - self.last < self.interval and not self.new_idle)
             or any(j.get("dispatchable", True) for j in observation["pending"])
             or not self.history
         ):
             return []
         self.last = now
+        self.new_idle.clear()
         heat = Counter()
         for released, points in self.history.values():
             for point in points:
@@ -111,16 +118,29 @@ class PositioningPolicy:
         vehicles = [v for v in observation["vehicles"] if v["available"]]
         if not vehicles:
             return []
+        if len(self.router.cache) > 64:
+            self.router.cache.clear()
+        distances = {
+            v["id"]: self.router.distances(tuple(v["position"]), v["id"]) for v in vehicles
+        }
+
+        def distance(vehicle, point):
+            return distances[vehicle["id"]].get(point, float("inf"))
 
         # Scores use static geometry and historical pickup demand, not unseen orders.
+        scores = {}
+
         def score(point):
-            return (
+            if point in scores:
+                return scores[point]
+            scores[point] = (
                 sum(
                     h * exp(-(abs(point[0] - p[0]) + abs(point[1] - p[1])) / self.sigma)
                     for p, h in heat.items()
                 )
                 / mass
             )
+            return scores[point]
 
         zones = {i: [] for i in range(len(self.scenario.stations))}
         for point in self.candidates:
@@ -136,7 +156,16 @@ class PositioningPolicy:
         targets = []
         for points in zones.values():
             # Capacity is hard: at most c shared target slots per station zone.
-            targets.extend(sorted(points, key=lambda p: (-score(p), p))[: self.capacity])
+            old_points = [
+                tuple(t["target"])
+                for t in observation.get("positioning_targets", [])
+                if t is not None and tuple(t["target"]) in points
+            ]
+            ordered = sorted(
+                points,
+                key=lambda p: (min(distance(v, p) for v in vehicles) - self.strength * score(p), p),
+            )
+            targets.extend(list(dict.fromkeys(old_points + ordered))[: self.capacity])
         targets += list(self.scenario.homes)
         targets = list(dict.fromkeys(targets))
         costs = []
@@ -149,9 +178,8 @@ class PositioningPolicy:
                 if target in self.scenario.homes and target != self.scenario.homes[k]:
                     row.append(float("inf"))
                     continue
-                distance = self.router.distance(current, target, k)
                 penalty = 0 if target == old_point else self.hysteresis
-                row.append(distance - self.strength * score(target) + penalty)
+                row.append(distance(vehicle, target) - self.strength * score(target) + penalty)
             costs.append(row)
         choice = minimum_assignment(costs)
         result = []
@@ -175,10 +203,14 @@ class PositioningPolicy:
             current = tuple(v["position"])
             old = observation.get("positioning_targets", [None] * len(self.scenario.homes))[v["id"]]
             old_point = tuple(old["target"]) if old else current
-            stay = self.router.distance(current, old_point, v["id"]) - self.strength * score(
-                old_point
+            stay = distance(v, old_point) - self.strength * score(old_point)
+            valid_stay = (
+                old_point in self.candidate_set or old_point == self.scenario.homes[v["id"]]
             )
-            if target != old_point and costs[i][selected] < stay - 1e-9:
+            register = old is None and target == current and current in self.candidate_set
+            if register or (
+                target != old_point and (not valid_stay or costs[i][selected] < stay - 1e-9)
+            ):
                 old_zone = zone(old_point) if old else None
                 new_zone = zone(target) if target not in self.scenario.homes else None
                 if (
@@ -192,4 +224,11 @@ class PositioningPolicy:
                 if new_zone is not None:
                     counts[new_zone] += 1
                 result.append((v["id"], target))
+            elif (
+                old is None
+                and current in self.candidate_set
+                and counts[zone(current)] < self.capacity
+            ):
+                counts[zone(current)] += 1
+                result.append((v["id"], current))
         return result
