@@ -1,0 +1,835 @@
+{
+  "schema": "agv-bcrd-event-equivalence-v1",
+  "status": "equivalent",
+  "evidence_scope": "These exact quality seeds were used before the implementation change. This is behavior-equivalence and descriptive CPU evidence only, NOT a second independent held-out quality evaluation.",
+  "quality_parameters_changed": false,
+  "old_git_commit": "90b98efe0d10d3416f7b36c37d73457ef53a415a",
+  "event_git_commit": "ad5bce1f52652eb015d79daec75d5ffb0409bf9e",
+  "all_matrix_runs_retained": true,
+  "failed_runs": 0,
+  "old_vs_event_row_pairs": 330,
+  "event_vs_stepwise_row_pairs": 110,
+  "trace_pairs": 20,
+  "maximum_absolute_quality_difference": 0.0,
+  "independent_trace_validation": true,
+  "ignored_trace_fields": "Only cpu_seconds/wall_seconds/decision_cpu_seconds recursively, plus algorithm.event_driven; all other result fields compared, including paths, interval_states, assignments, events, complete candidate decisions and routing counters.",
+  "comparisons": [
+    {
+      "split": "holdout",
+      "old_vs_event": {
+        "pairs": 270,
+        "compared_fields": [
+          "backend",
+          "candidates_evaluated",
+          "candidates_rejected",
+          "candidates_valid",
+          "changed",
+          "comparison_valid",
+          "completed",
+          "completion_rate",
+          "decisions",
+          "execution_valid",
+          "expanded",
+          "fallbacks",
+          "feasible",
+          "joint",
+          "makespan",
+          "max_flow_time",
+          "mean_flow_time",
+          "moves",
+          "observed_task_count",
+          "p90_flow_time",
+          "planning_failures",
+          "reason",
+          "route_calls",
+          "scenario",
+          "scenario_sha256",
+          "score_valid",
+          "searched",
+          "seed",
+          "shadow_calls",
+          "shadow_expanded",
+          "shadow_route_calls",
+          "time",
+          "total_tasks",
+          "weighted_score"
+        ],
+        "ignored_timing_fields": [
+          "cpu_seconds",
+          "decision_cpu_seconds",
+          "wall_seconds"
+        ],
+        "numeric_max_absolute_by_field": {
+          "seed": 0,
+          "completed": 0,
+          "total_tasks": 0,
+          "observed_task_count": 0,
+          "completion_rate": 0,
+          "weighted_score": 0,
+          "route_calls": 0,
+          "expanded": 0,
+          "shadow_calls": 0,
+          "shadow_route_calls": 0,
+          "shadow_expanded": 0,
+          "changed": 0,
+          "fallbacks": 0,
+          "decisions": 0,
+          "searched": 0,
+          "candidates_evaluated": 0,
+          "candidates_valid": 0,
+          "candidates_rejected": 0,
+          "planning_failures": 0,
+          "makespan": 0,
+          "mean_flow_time": 0,
+          "p90_flow_time": 0,
+          "max_flow_time": 0,
+          "moves": 0,
+          "time": 0
+        },
+        "compared_numeric_values": 6750,
+        "maximum_absolute_difference": 0.0,
+        "maximum_relative_difference": 0.0,
+        "largest_difference_path": null
+      },
+      "event_vs_stepwise": {
+        "pairs": 90,
+        "compared_fields": [
+          "backend",
+          "candidates_evaluated",
+          "candidates_rejected",
+          "candidates_valid",
+          "changed",
+          "comparison_valid",
+          "completed",
+          "completion_rate",
+          "decisions",
+          "execution_valid",
+          "expanded",
+          "fallbacks",
+          "feasible",
+          "joint",
+          "makespan",
+          "max_flow_time",
+          "mean_flow_time",
+          "moves",
+          "observed_task_count",
+          "p90_flow_time",
+          "planning_failures",
+          "reason",
+          "route_calls",
+          "scenario",
+          "scenario_sha256",
+          "score_valid",
+          "searched",
+          "seed",
+          "shadow_calls",
+          "shadow_expanded",
+          "shadow_route_calls",
+          "time",
+          "total_tasks",
+          "weighted_score"
+        ],
+        "ignored_timing_fields": [
+          "cpu_seconds",
+          "decision_cpu_seconds",
+          "wall_seconds"
+        ],
+        "numeric_max_absolute_by_field": {
+          "seed": 0,
+          "completed": 0,
+          "total_tasks": 0,
+          "observed_task_count": 0,
+          "completion_rate": 0,
+          "weighted_score": 0,
+          "route_calls": 0,
+          "expanded": 0,
+          "shadow_calls": 0,
+          "shadow_route_calls": 0,
+          "shadow_expanded": 0,
+          "changed": 0,
+          "fallbacks": 0,
+          "decisions": 0,
+          "searched": 0,
+          "candidates_evaluated": 0,
+          "candidates_valid": 0,
+          "candidates_rejected": 0,
+          "planning_failures": 0,
+          "makespan": 0,
+          "mean_flow_time": 0,
+          "p90_flow_time": 0,
+          "max_flow_time": 0,
+          "moves": 0,
+          "time": 0
+        },
+        "compared_numeric_values": 2250,
+        "maximum_absolute_difference": 0.0,
+        "maximum_relative_difference": 0.0,
+        "largest_difference_path": null
+      }
+    },
+    {
+      "split": "generalization",
+      "old_vs_event": {
+        "pairs": 60,
+        "compared_fields": [
+          "backend",
+          "candidates_evaluated",
+          "candidates_rejected",
+          "candidates_valid",
+          "changed",
+          "comparison_valid",
+          "completed",
+          "completion_rate",
+          "decisions",
+          "execution_valid",
+          "expanded",
+          "fallbacks",
+          "feasible",
+          "joint",
+          "makespan",
+          "max_flow_time",
+          "mean_flow_time",
+          "moves",
+          "observed_task_count",
+          "p90_flow_time",
+          "planning_failures",
+          "reason",
+          "route_calls",
+          "scenario",
+          "scenario_sha256",
+          "score_valid",
+          "searched",
+          "seed",
+          "shadow_calls",
+          "shadow_expanded",
+          "shadow_route_calls",
+          "time",
+          "total_tasks",
+          "weighted_score"
+        ],
+        "ignored_timing_fields": [
+          "cpu_seconds",
+          "decision_cpu_seconds",
+          "wall_seconds"
+        ],
+        "numeric_max_absolute_by_field": {
+          "seed": 0,
+          "completed": 0,
+          "total_tasks": 0,
+          "observed_task_count": 0,
+          "completion_rate": 0,
+          "weighted_score": 0,
+          "route_calls": 0,
+          "expanded": 0,
+          "shadow_calls": 0,
+          "shadow_route_calls": 0,
+          "shadow_expanded": 0,
+          "changed": 0,
+          "fallbacks": 0,
+          "decisions": 0,
+          "searched": 0,
+          "candidates_evaluated": 0,
+          "candidates_valid": 0,
+          "candidates_rejected": 0,
+          "planning_failures": 0,
+          "makespan": 0,
+          "mean_flow_time": 0,
+          "p90_flow_time": 0,
+          "max_flow_time": 0,
+          "moves": 0,
+          "time": 0
+        },
+        "compared_numeric_values": 1500,
+        "maximum_absolute_difference": 0.0,
+        "maximum_relative_difference": 0.0,
+        "largest_difference_path": null
+      },
+      "event_vs_stepwise": {
+        "pairs": 20,
+        "compared_fields": [
+          "backend",
+          "candidates_evaluated",
+          "candidates_rejected",
+          "candidates_valid",
+          "changed",
+          "comparison_valid",
+          "completed",
+          "completion_rate",
+          "decisions",
+          "execution_valid",
+          "expanded",
+          "fallbacks",
+          "feasible",
+          "joint",
+          "makespan",
+          "max_flow_time",
+          "mean_flow_time",
+          "moves",
+          "observed_task_count",
+          "p90_flow_time",
+          "planning_failures",
+          "reason",
+          "route_calls",
+          "scenario",
+          "scenario_sha256",
+          "score_valid",
+          "searched",
+          "seed",
+          "shadow_calls",
+          "shadow_expanded",
+          "shadow_route_calls",
+          "time",
+          "total_tasks",
+          "weighted_score"
+        ],
+        "ignored_timing_fields": [
+          "cpu_seconds",
+          "decision_cpu_seconds",
+          "wall_seconds"
+        ],
+        "numeric_max_absolute_by_field": {
+          "seed": 0,
+          "completed": 0,
+          "total_tasks": 0,
+          "observed_task_count": 0,
+          "completion_rate": 0,
+          "weighted_score": 0,
+          "route_calls": 0,
+          "expanded": 0,
+          "shadow_calls": 0,
+          "shadow_route_calls": 0,
+          "shadow_expanded": 0,
+          "changed": 0,
+          "fallbacks": 0,
+          "decisions": 0,
+          "searched": 0,
+          "candidates_evaluated": 0,
+          "candidates_valid": 0,
+          "candidates_rejected": 0,
+          "planning_failures": 0,
+          "makespan": 0,
+          "mean_flow_time": 0,
+          "p90_flow_time": 0,
+          "max_flow_time": 0,
+          "moves": 0,
+          "time": 0
+        },
+        "compared_numeric_values": 500,
+        "maximum_absolute_difference": 0.0,
+        "maximum_relative_difference": 0.0,
+        "largest_difference_path": null
+      }
+    }
+  ],
+  "trace_comparisons": [
+    {
+      "split": "holdout",
+      "scenario": "static_layers",
+      "left": "old-G0",
+      "right": "event-G0",
+      "compared_numeric_values": 2747,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "static_layers",
+      "left": "old-G1",
+      "right": "event-G1",
+      "compared_numeric_values": 2747,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "static_layers",
+      "left": "old-G2",
+      "right": "event-G2",
+      "compared_numeric_values": 2857,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "static_layers",
+      "left": "G2",
+      "right": "G2_stepwise",
+      "compared_numeric_values": 2857,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_equipment",
+      "left": "old-G0",
+      "right": "event-G0",
+      "compared_numeric_values": 3719,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_equipment",
+      "left": "old-G1",
+      "right": "event-G1",
+      "compared_numeric_values": 3659,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_equipment",
+      "left": "old-G2",
+      "right": "event-G2",
+      "compared_numeric_values": 3929,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_equipment",
+      "left": "G2",
+      "right": "G2_stepwise",
+      "compared_numeric_values": 3929,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_shared",
+      "left": "old-G0",
+      "right": "event-G0",
+      "compared_numeric_values": 4031,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_shared",
+      "left": "old-G1",
+      "right": "event-G1",
+      "compared_numeric_values": 4115,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_shared",
+      "left": "old-G2",
+      "right": "event-G2",
+      "compared_numeric_values": 4295,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "holdout",
+      "scenario": "dynamic_shared",
+      "left": "G2",
+      "right": "G2_stepwise",
+      "compared_numeric_values": 4295,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_static",
+      "left": "old-G0",
+      "right": "event-G0",
+      "compared_numeric_values": 4733,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_static",
+      "left": "old-G1",
+      "right": "event-G1",
+      "compared_numeric_values": 4733,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_static",
+      "left": "old-G2",
+      "right": "event-G2",
+      "compared_numeric_values": 5223,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_static",
+      "left": "G2",
+      "right": "G2_stepwise",
+      "compared_numeric_values": 5223,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_burst_five_layers",
+      "left": "old-G0",
+      "right": "event-G0",
+      "compared_numeric_values": 6755,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_burst_five_layers",
+      "left": "old-G1",
+      "right": "event-G1",
+      "compared_numeric_values": 6839,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_burst_five_layers",
+      "left": "old-G2",
+      "right": "event-G2",
+      "compared_numeric_values": 7106,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    },
+    {
+      "split": "generalization",
+      "scenario": "medium_burst_five_layers",
+      "left": "G2",
+      "right": "G2_stepwise",
+      "compared_numeric_values": 7106,
+      "maximum_absolute_difference": 0.0,
+      "maximum_relative_difference": 0.0,
+      "largest_difference_path": null
+    }
+  ],
+  "cpu_statistics": {
+    "aggregation": "Within-scenario arithmetic means of paired ratios; __all__ is equal weight per instance. Ratios of means are separately labelled. One timing per policy-instance; CPU/wall are descriptive, not confidence bounds.",
+    "holdout": [
+      {
+        "scenario": "static_layers",
+        "pairs": 30,
+        "cpu_stepwise_over_event_pair_mean": 2.1660842492722843,
+        "cpu_stepwise_over_event_pair_min": 1.9001228722315102,
+        "cpu_stepwise_over_event_pair_max": 2.4420959655361454,
+        "cpu_stepwise_over_event_ratio_of_means": 2.1936852827898554,
+        "event_cpu_over_G0_pair_mean": 3.054254944422438,
+        "stepwise_cpu_over_G0_pair_mean": 6.701282683367221,
+        "event_cpu_seconds_mean": 0.8378406333333336,
+        "stepwise_cpu_seconds_mean": 1.8379586666666654,
+        "G0_cpu_seconds_mean": 0.27505373333333194,
+        "event_wall_seconds_mean": 0.8387988973292522,
+        "stepwise_wall_seconds_mean": 1.8390166069963017,
+        "G0_wall_seconds_mean": 0.27518886676601445
+      },
+      {
+        "scenario": "dynamic_equipment",
+        "pairs": 30,
+        "cpu_stepwise_over_event_pair_mean": 1.3169415143760315,
+        "cpu_stepwise_over_event_pair_min": 0.9957410625992629,
+        "cpu_stepwise_over_event_pair_max": 2.0380881207668047,
+        "cpu_stepwise_over_event_ratio_of_means": 1.423331040466254,
+        "event_cpu_over_G0_pair_mean": 1.2542552651266103,
+        "stepwise_cpu_over_G0_pair_mean": 1.7819370347154928,
+        "event_cpu_seconds_mean": 0.3801645000000003,
+        "stepwise_cpu_seconds_mean": 0.5410999333333336,
+        "G0_cpu_seconds_mean": 0.3027609999999991,
+        "event_wall_seconds_mean": 0.38037701941793783,
+        "stepwise_wall_seconds_mean": 0.5413766834069975,
+        "G0_wall_seconds_mean": 0.3029139083072854
+      },
+      {
+        "scenario": "dynamic_shared",
+        "pairs": 30,
+        "cpu_stepwise_over_event_pair_mean": 1.0049709370472812,
+        "cpu_stepwise_over_event_pair_min": 0.9671422152325785,
+        "cpu_stepwise_over_event_pair_max": 1.1477884006220143,
+        "cpu_stepwise_over_event_ratio_of_means": 1.0056931862889453,
+        "event_cpu_over_G0_pair_mean": 1.0012654713455436,
+        "stepwise_cpu_over_G0_pair_mean": 1.006409768135573,
+        "event_cpu_seconds_mean": 0.30899509999999947,
+        "stepwise_cpu_seconds_mean": 0.3107542666666708,
+        "G0_cpu_seconds_mean": 0.3086724000000023,
+        "event_wall_seconds_mean": 0.31075666246470063,
+        "stepwise_wall_seconds_mean": 0.31118378333825,
+        "G0_wall_seconds_mean": 0.30899637355081117
+      },
+      {
+        "scenario": "__all__",
+        "pairs": 90,
+        "cpu_stepwise_over_event_pair_mean": 1.4959989002318657,
+        "cpu_stepwise_over_event_pair_min": 0.9671422152325785,
+        "cpu_stepwise_over_event_pair_max": 2.4420959655361454,
+        "cpu_stepwise_over_event_ratio_of_means": 1.7615012807136243,
+        "event_cpu_over_G0_pair_mean": 1.769925226964864,
+        "stepwise_cpu_over_G0_pair_mean": 3.1632098287394292,
+        "event_cpu_seconds_mean": 0.5090000777777778,
+        "stepwise_cpu_seconds_mean": 0.89660428888889,
+        "G0_cpu_seconds_mean": 0.2954957111111111,
+        "event_wall_seconds_mean": 0.5099775264039635,
+        "stepwise_wall_seconds_mean": 0.8971923579138497,
+        "G0_wall_seconds_mean": 0.295699716208037
+      }
+    ],
+    "generalization": [
+      {
+        "scenario": "medium_static",
+        "pairs": 10,
+        "cpu_stepwise_over_event_pair_mean": 1.972111452190312,
+        "cpu_stepwise_over_event_pair_min": 1.8017094671299652,
+        "cpu_stepwise_over_event_pair_max": 2.2888792199019767,
+        "cpu_stepwise_over_event_ratio_of_means": 1.9941647630906856,
+        "event_cpu_over_G0_pair_mean": 3.527813133877989,
+        "stepwise_cpu_over_G0_pair_mean": 7.0340867821058755,
+        "event_cpu_seconds_mean": 3.0327132000000034,
+        "stepwise_cpu_seconds_mean": 6.047729800000002,
+        "G0_cpu_seconds_mean": 0.8614620000000087,
+        "event_wall_seconds_mean": 3.0362809121841563,
+        "stepwise_wall_seconds_mean": 6.051880124898162,
+        "G0_wall_seconds_mean": 0.8619884794112295
+      },
+      {
+        "scenario": "medium_burst_five_layers",
+        "pairs": 10,
+        "cpu_stepwise_over_event_pair_mean": 1.0758803599721298,
+        "cpu_stepwise_over_event_pair_min": 0.9923821529698483,
+        "cpu_stepwise_over_event_pair_max": 1.7701651564145027,
+        "cpu_stepwise_over_event_ratio_of_means": 1.0929792739103996,
+        "event_cpu_over_G0_pair_mean": 1.0320012382068955,
+        "stepwise_cpu_over_G0_pair_mean": 1.1293072310789103,
+        "event_cpu_seconds_mean": 1.0458847000000049,
+        "stepwise_cpu_seconds_mean": 1.1431303000000015,
+        "G0_cpu_seconds_mean": 1.0138835999999969,
+        "event_wall_seconds_mean": 1.0465274540008977,
+        "stepwise_wall_seconds_mean": 1.1438337500090712,
+        "G0_wall_seconds_mean": 1.014375554106664
+      },
+      {
+        "scenario": "__all__",
+        "pairs": 20,
+        "cpu_stepwise_over_event_pair_mean": 1.523995906081221,
+        "cpu_stepwise_over_event_pair_min": 0.9923821529698483,
+        "cpu_stepwise_over_event_pair_max": 2.2888792199019767,
+        "cpu_stepwise_over_event_ratio_of_means": 1.7630715937945218,
+        "event_cpu_over_G0_pair_mean": 2.279907186042442,
+        "stepwise_cpu_over_G0_pair_mean": 4.0816970065923925,
+        "event_cpu_seconds_mean": 2.039298950000004,
+        "stepwise_cpu_seconds_mean": 3.595430050000002,
+        "G0_cpu_seconds_mean": 0.9376728000000029,
+        "event_wall_seconds_mean": 2.041404183092527,
+        "stepwise_wall_seconds_mean": 3.5978569374536162,
+        "G0_wall_seconds_mean": 0.9381820167589467
+      }
+    ],
+    "all_paired_instances": {
+      "pairs": 110,
+      "weighting": "Equal weight per paired instance across both reused splits",
+      "cpu_stepwise_over_event_pair_mean": 1.5010892649317484,
+      "event_cpu_over_G0_pair_mean": 1.8626492195244235,
+      "stepwise_cpu_over_G0_pair_mean": 3.330207497439968,
+      "event_wall_seconds_mean": 0.7884187367109751,
+      "stepwise_wall_seconds_mean": 1.3882222814665346,
+      "G0_wall_seconds_mean": 0.41251467994456603
+    }
+  },
+  "provenance": [
+    {
+      "directory": "results/bcrd/holdout",
+      "git_commit": "90b98efe0d10d3416f7b36c37d73457ef53a415a",
+      "rows": 630,
+      "protocol_sha256": "a729a8dd27d3764019575b91b4b46e5df1629c0380b855548bb74d9744fefad4",
+      "protocol_file_sha256": "f02f081b8c3be8e757bab0a52cb055f6907dcdd655dcf33cb0cda32c1e675c19",
+      "manifest_file_sha256": "dd34f427105dd8981ab01575eb63ff3b00b823414ff3ab26d715f5ac1966d532",
+      "csv_file_sha256": "af27724b0c19fbc2817a7a125da98784c611a4b3dfdef1c00d909fac6dc1b85a"
+    },
+    {
+      "directory": "results/bcrd/generalization",
+      "git_commit": "90b98efe0d10d3416f7b36c37d73457ef53a415a",
+      "rows": 60,
+      "protocol_sha256": "e0d2fbdab7f4033c88b18f37dd6fc79b6ab02db30ef7992942ec740e1a4b4d2e",
+      "protocol_file_sha256": "381c5a10757333129607c1c3b342102707d52fc022f316cefe06fd64fb6bb008",
+      "manifest_file_sha256": "0ffb82b8c065369d299ba2f508be0461c3bca2014d2cf1eb5e174ca121cd9e7f",
+      "csv_file_sha256": "b0de5c4dcd13da299daf513dc25770142d0f678cedff325a70ca7cf1adfe9610"
+    },
+    {
+      "directory": "results/bcrd/event-holdout",
+      "git_commit": "ad5bce1f52652eb015d79daec75d5ffb0409bf9e",
+      "rows": 360,
+      "protocol_sha256": "d7e0ea0316d7519f72518dbd5761a00cb3cfdb0cc9ca8d6eaf192bec0d19ce24",
+      "protocol_file_sha256": "b1b5f7b71cde1bdd11b332c14291b392146b034606d2626ac964027e1dc6157f",
+      "manifest_file_sha256": "337b17db884f8ca79d16ce851ab45c1fd61adff38054e630a8f2859d56020549",
+      "csv_file_sha256": "a373356fe609424cb1f6e956b6111a76e4e0f3fde3bea1a18a5bb4c2fdfdc5f7"
+    },
+    {
+      "directory": "results/bcrd/event-generalization",
+      "git_commit": "ad5bce1f52652eb015d79daec75d5ffb0409bf9e",
+      "rows": 80,
+      "protocol_sha256": "463a159c49b9c475e3dfebe93301ed56ee586e911d836caf27eaa5d6c924bef9",
+      "protocol_file_sha256": "e5cb23c9cbda63f0258c0742a8f4ca311acde2ceb152d6d828c8195a91320d9f",
+      "manifest_file_sha256": "26d8afa77c948803b51ef3dd10e8b7d36246ee8b3019a17fd5fb76acec1e4cbb",
+      "csv_file_sha256": "92e57613a14e0e3fba99d800fe46e33921a249f9757af344341a3d88444aca65"
+    }
+  ],
+  "representative_trace_sources": [
+    {
+      "path": "results/bcrd/holdout/traces/static_layers-G0.json",
+      "sha256": "748dc323ce6e801a060ed6197e978db7248f36f06be6e5f81104a92240fff1f3"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/static_layers-G0.json",
+      "sha256": "5e55102833765a8b393959c9e665ef6fb95c0a9695a9c811df846ccfcb82e36b"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/static_layers-G1.json",
+      "sha256": "6740b5c5b408f7f0486504041128442bfaee79ea5e127822ab5e6eaf98635e7a"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/static_layers-G1.json",
+      "sha256": "6d953d518ca07037017e43e0a07bfa436d6f2f6c57dab877f69db684dbede3f5"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/static_layers-G2.json",
+      "sha256": "e52a3ad1bf5578acb6ae4544b22192b89fe7a9de1053f00f1f1b30bffe1ce9d0"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/static_layers-G2.json",
+      "sha256": "082f72e6e6424a7ad19d8db9c427658801d6ae0164df202c8e98ab6666a92940"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/static_layers-G2_stepwise.json",
+      "sha256": "34afdccca071a92d0eeb79a0dd30d202366e87d9505f9fbeb1299514111d3732"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_equipment-G0.json",
+      "sha256": "c36b6c85bec9d13d296470ce4dc6e118143910671808c2944bfc0f99de71b6d6"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_equipment-G0.json",
+      "sha256": "95563ad3e8e67ea538205d3beeb2ac9520085b3e246903b4dbdb5807324ac576"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_equipment-G1.json",
+      "sha256": "2160339a3bc2809876131982ff627265592c13353f55ae36ecf6444a4c670ed5"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_equipment-G1.json",
+      "sha256": "9500745c61534a9716a68a12faa696cc8d2ba6a77f7ed8670e406e93a7862756"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_equipment-G2.json",
+      "sha256": "73f1335db208a0ce4dd2fc50758b5a8e77927833887c6d6895885f841a67d736"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_equipment-G2.json",
+      "sha256": "2b6ab025a12441b5bc563e7532e1c3536941a1f103d8b8beab2501880cf131d8"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_equipment-G2_stepwise.json",
+      "sha256": "735a39d577876e4b366ba76f3bc211398fa85abb989b409a142ceab74acb3cb7"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_shared-G0.json",
+      "sha256": "6d7964b5ccd5f235b7e2a64e2686f10a6fa4592c0fd617dfef59e773f7a07502"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_shared-G0.json",
+      "sha256": "55a77f48164cda5607478e30b30fd9ff8cd7fdcde1fa09347aef199a3c780dfa"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_shared-G1.json",
+      "sha256": "31d7b4f70bfd81744f1fc33464ccab631b1c1fd42a0db48427623ad7b1537226"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_shared-G1.json",
+      "sha256": "4ef9fb6f89fe69b1c55e7b1fe68f872ded84ae80acb819e0de0541aa05b531b6"
+    },
+    {
+      "path": "results/bcrd/holdout/traces/dynamic_shared-G2.json",
+      "sha256": "20c30f50f394d320b6ead169d27a7f040efe444319ebb8b9a247be16ada81a3c"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_shared-G2.json",
+      "sha256": "7dd929d0c41fe84253214a022c1c29858f042bdd1002c6e0e32181a4a60f24ea"
+    },
+    {
+      "path": "results/bcrd/event-holdout/traces/dynamic_shared-G2_stepwise.json",
+      "sha256": "d91e659dc3e3d777934f7f04912cbc9f33f2852519d55f4c41b0361925353282"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_static-G0.json",
+      "sha256": "1fe7e190bad9822102e681af9b91a7df5f8c25071dc881e9f211dd73e5a7a385"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_static-G0.json",
+      "sha256": "094b254eb111145e1ab874e4e16da96d443e94d49b5e313a0b476d624d6e14d5"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_static-G1.json",
+      "sha256": "94c01fe3cf2f7c91f4555e37d78d0c606a9c9ee533e2c71c73898c185e4afd9c"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_static-G1.json",
+      "sha256": "92a074ec1fb59824ce5cec0c0dc0568bdf465ac0f929e8b670f7047427ce7c22"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_static-G2.json",
+      "sha256": "e8d2968708acaeefb63818d6d71dbc8eff53b89981a41a1db5ff7d7e1e3fc184"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_static-G2.json",
+      "sha256": "48a355f9bb4fa80ad05f58558d229f21bc72a6c1cff8385596c4f8c3e6581ac0"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_static-G2_stepwise.json",
+      "sha256": "9e20a2fcebebc80c0d8b6410f4c14fd1e2881155946c1889e3385f367fc5da4f"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_burst_five_layers-G0.json",
+      "sha256": "b529d2302dfd8658b60fda386c7ae5d2b36310a5ebb1a276bda36c84a65d3295"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_burst_five_layers-G0.json",
+      "sha256": "7c1be0fc72183c907e0ecf918aa6deae39d44bc67424f5945971f17f1b19eecd"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_burst_five_layers-G1.json",
+      "sha256": "e48d156e5cf159349b68d61e24d3fbcb1e5038e33f93bbc75769e54d8734a771"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_burst_five_layers-G1.json",
+      "sha256": "1be01be883c9d547ef2c66da780b3b39c8928b79823b0ec9f9ba057a385bc40f"
+    },
+    {
+      "path": "results/bcrd/generalization/traces/medium_burst_five_layers-G2.json",
+      "sha256": "80bbdeeafc073fdf2a203cacc186405162c775ca284d67c0148310812015715d"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_burst_five_layers-G2.json",
+      "sha256": "ab6a135a1c5aa5e3206e952746281276d6bbdcb2ee1aa1a3dfcff68a6ccd8c2d"
+    },
+    {
+      "path": "results/bcrd/event-generalization/traces/medium_burst_five_layers-G2_stepwise.json",
+      "sha256": "4fb69aca93b88ce70a501bd1b8a0b475753211b0f90a190a88c2ae1d53b5dfbe"
+    }
+  ]
+}

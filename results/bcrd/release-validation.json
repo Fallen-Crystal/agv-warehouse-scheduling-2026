@@ -1,0 +1,60 @@
+{
+  "schema": "agv-bcrd-release-validation-v1",
+  "date": "2026-10-16",
+  "measured_source_revision": "ad5bce1f52652eb015d79daec75d5ffb0409bf9e",
+  "unit_integration_tests": {
+    "command": "python -m unittest discover -s tests -t . -v",
+    "passed": 160,
+    "elapsed_seconds": 28.995,
+    "log_sha256": "b3cd06401c44dc18d65243a2839b29614b2d64b725456e1c9917c354331aa6dd"
+  },
+  "ruff": {
+    "check": "passed",
+    "format": "passed",
+    "files": 75,
+    "scope": "src, tests, and 7 intended repository scripts; unrelated pre-existing untracked report scripts excluded"
+  },
+  "javascript_syntax": {
+    "app_js": "passed",
+    "standalone_replay_inline_script": "passed",
+    "replay_payload": "2 validated traces, identical scenario, 4 vehicles"
+  },
+  "browser_visual_check": "not performed for standalone replay",
+  "wheel": {
+    "version": "0.4.0",
+    "artifact": "agv_warehouse_scheduling-0.4.0-py3-none-any.whl",
+    "sha256": "ffc1d267e4d59b0891f4d9cc498dfd719ec319f29d5d975fbf72555db5a58dfd",
+    "installed_outside_source": true,
+    "completed_tasks": 8,
+    "vehicles": 2,
+    "actual_shadow_searches": 1,
+    "independent_validation": "passed",
+    "web_server_create_close": "passed"
+  },
+  "historical_v4": {
+    "source_revision": "8551943",
+    "audit_output": "runs/v4-historical-audit.json",
+    "measured_sources": 43,
+    "rows": 54,
+    "references": 18,
+    "scores": 54,
+    "summaries": 9,
+    "independent_traces": 6,
+    "tracked_history_unchanged": true
+  },
+  "experiments": {
+    "development": 270,
+    "holdout": 630,
+    "generalization": 60,
+    "event_holdout": 360,
+    "event_generalization": 80,
+    "total_executions": 1400,
+    "unique_initial_unseen_quality_scenarios": 110,
+    "retained_traces_audited": 74,
+    "failures": 0,
+    "audit": "verification.json",
+    "event_equivalence": "event-equivalence.json"
+  },
+  "independent_code_review": "no release-blocking correctness issue found; documented soft CPU/expansion budgets, unchanged default, depth semantics, Git-checkout requirement",
+  "publication_scope": "BCRD code, tests, frozen protocols, selected traces, summary evidence and documentation only; no original PDF or unrelated work"
+}

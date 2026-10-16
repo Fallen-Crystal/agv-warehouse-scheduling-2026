@@ -1,0 +1,90 @@
+{
+  "schema": "agv-bcrd-protocol-v1",
+  "baseline": "G0",
+  "bootstrap": {
+    "resamples": 4000,
+    "seed": 20261016
+  },
+  "source_plan": {
+    "name": "AGV_BCRD_Execution_Plan_1.pdf",
+    "sha256": "71eb5d9ecdcaf8a0679e60aa53b9621262c79233300fd3da75419d988d5eca06"
+  },
+  "criteria": {
+    "safety": "all complete and independently validated; all failures retained",
+    "primary": "mean paired per-instance relative F improvement vs same SIPP/no-joint G0; positive is better",
+    "economy": "if CPU ratio >3 and paired F improvement <0.5%, do not replace simple fallback",
+    "tail": "report all P90/max-response degradations; existing defaults remain unchanged",
+    "inference": "fixed-template percentile bootstrap; not an unseen-map or global-optimality guarantee"
+  },
+  "split": "generalization",
+  "frozen": true,
+  "seeds": [
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69
+  ],
+  "configs": {
+    "medium_static": {
+      "size": "medium",
+      "task_count": 30,
+      "vehicles": 6,
+      "obstacle_layout": "columns_equipment"
+    },
+    "medium_burst_five_layers": {
+      "size": "medium",
+      "mode": "dynamic",
+      "arrival": "burst",
+      "task_count": 36,
+      "vehicles": 6,
+      "shelf_layers": 5,
+      "delivery_pattern": "shared",
+      "obstacle_layout": "columns_equipment"
+    }
+  },
+  "solvers": {
+    "G0": {
+      "policy": "greedy"
+    },
+    "G1": {
+      "policy": "matching"
+    },
+    "G2": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      },
+      "event_driven": true
+    },
+    "G2_stepwise": {
+      "policy": "bcrd",
+      "max_batches": 4,
+      "depth": null,
+      "mode": "full",
+      "min_queue_ratio": 3.0,
+      "budget": {
+        "max_route_calls": 480,
+        "max_expanded": 120000,
+        "max_steps": 2400
+      },
+      "event_driven": false
+    }
+  },
+  "implementation_validation": {
+    "quality_parameters_frozen_at": "90b98ef",
+    "purpose": "Compare semantically equal empty-action event jumps vs original stepwise shadow. Same seeds are reused only for exact behavior equivalence and CPU; this is not a second unseen quality evaluation.",
+    "first_holdout_economy": "mean F improvement 0.406106488%; CPU/G0 3.165248659; event optimization changes no pairing, objective or pressure parameter."
+  }
+}
