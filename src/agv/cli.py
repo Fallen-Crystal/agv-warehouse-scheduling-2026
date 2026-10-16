@@ -53,6 +53,12 @@ def main(argv=None):
     benchmark_bcrd = sub.add_parser("benchmark-bcrd", help="Frozen paired dispatch experiments")
     benchmark_bcrd.add_argument("--protocol", type=Path, required=True)
     benchmark_bcrd.add_argument("--output", type=Path, required=True)
+    benchmark_v91 = sub.add_parser(
+        "benchmark-v91", help="Frozen V9.1 paired evaluation and offline bounds"
+    )
+    benchmark_v91.add_argument("--protocol", type=Path, required=True)
+    benchmark_v91.add_argument("--output", type=Path, required=True)
+    benchmark_v91.add_argument("--workers", type=int, default=1)
     data = sub.add_parser("fetch-data", help="Fetch the attributed public MovingAI warehouse map")
     data.add_argument("--output", type=Path, required=True)
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
@@ -60,7 +66,11 @@ def main(argv=None):
     training.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
     try:
-        if args.command == "run":
+        if args.command == "benchmark-v91":
+            from agv.experiments.v91_bench import run_benchmark
+
+            run_benchmark(args.output, args.protocol, workers=args.workers)
+        elif args.command == "run":
             if args.input:
                 scenario = load_scene(args.input)
             elif args.profile in ("v4", "v9", "v9.1"):

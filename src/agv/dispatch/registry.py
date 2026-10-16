@@ -52,18 +52,40 @@ SOLVERS.update(
     }
 )
 
+STREAM_SOLVERS = {
+    "sipp_stream_matching": dict(policy="matching"),
+    "sipp_position_dispatch": dict(policy="greedy", positioning=True),
+    "sipp_position_matching_dispatch": dict(policy="matching", positioning=True),
+    "sipp_position_delay_dispatch": dict(policy="matching", positioning=True, delay=True),
+    "sipp_stream_bcrd": dict(policy="bcrd"),
+    "sipp_stream_bcrd_tail": dict(policy="bcrd", tail_guard=True),
+}
+SOLVERS.update(
+    {
+        name: SolverConfig(assignment=name, joint=False, router_kind="sipp")
+        for name in STREAM_SOLVERS
+    }
+)
 
-def run_named(name, scenario):
+
+def run_raw(name, scenario):
     if name not in SOLVERS:
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
-    if scenario.is_v9_1 and name not in ("baseline", "sipp_stream_dispatch"):
+    if scenario.is_v9_1 and name not in ("baseline", "sipp_stream_dispatch", *STREAM_SOLVERS):
         raise ValueError(
-            "V9.1 currently supports baseline or sipp_stream_dispatch; historical BCRD/finite-wait experiments retain the v9 profile"
+            "V9.1 requires an explicitly registered stream solver; historical algorithms retain their original profiles"
         )
-    if name == "sipp_stream_dispatch" and not scenario.is_v9_1:
+    if (name == "sipp_stream_dispatch" or name in STREAM_SOLVERS) and not scenario.is_v9_1:
         raise ValueError("Stream dispatch requires the explicit V9.1 profile")
     config = SOLVERS[name]
-    if name in DISPATCH_SOLVERS:
+    if name in STREAM_SOLVERS:
+        params = STREAM_SOLVERS[name]
+        if params["policy"] == "bcrd":
+            from agv.dispatch.bcrd import run
+        else:
+            from agv.dispatch.stream import run
+        result = run(scenario, **params)
+    elif name in DISPATCH_SOLVERS:
         from agv.dispatch.bcrd import run
 
         result = run(scenario, **DISPATCH_SOLVERS[name])
@@ -83,6 +105,11 @@ def run_named(name, scenario):
             if config.learned
             else None,
         )
+    return result
+
+
+def run_named(name, scenario):
+    result = run_raw(name, scenario)
     if scenario.uses_layer_rules:
         from agv.evaluation.objective import score_result
 

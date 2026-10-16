@@ -1,0 +1,64 @@
+{
+  "schema": "agv-v91-protocol-v1",
+  "split": "development",
+  "frozen": false,
+  "seeds": [
+    10,
+    11,
+    12
+  ],
+  "maps": {
+    "medium": {
+      "size": "medium",
+      "vehicles": 4
+    },
+    "large": {
+      "size": "large",
+      "vehicles": 4
+    },
+    "xlarge": {
+      "size": "xlarge",
+      "vehicles": 4
+    },
+    "xxlarge": {
+      "size": "xxlarge",
+      "vehicles": 4
+    }
+  },
+  "workloads": {
+    "dense_static": {
+      "mode": "static",
+      "arrival": "batch",
+      "task_count": 12
+    },
+    "sparse_uniform": {
+      "mode": "dynamic",
+      "arrival": "uniform",
+      "task_count": 12,
+      "release_scale": 20
+    },
+    "shared_bursts": {
+      "mode": "dynamic",
+      "arrival": "burst",
+      "task_count": 12,
+      "delivery_pattern": "shared",
+      "release_scale": 8
+    }
+  },
+  "solvers": {
+    "G0": "sipp_stream_dispatch",
+    "G1": "sipp_stream_matching",
+    "G2": "sipp_position_dispatch",
+    "G3": "sipp_position_matching_dispatch",
+    "G4": "sipp_position_delay_dispatch",
+    "B0": "sipp_stream_bcrd",
+    "B1": "sipp_stream_bcrd_tail"
+  },
+  "baseline": "G0",
+  "bootstrap": {
+    "resamples": 4000,
+    "seed": 20261016
+  },
+  "data_origin": "Synthetic generate_current mixed-v9.1 templates; not a public real dataset",
+  "inference": "Fixed-template paired bootstrap; no unseen-map or optimality guarantee"
+}

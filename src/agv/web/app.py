@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import BoundedSemaphore
 
-from agv.dispatch.registry import SOLVERS, run_named
+from agv.dispatch.registry import SOLVERS, STREAM_SOLVERS, run_named
 from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.experiments.batch import run_batch
@@ -91,8 +91,11 @@ def validate_options(options):
     if options["profile"] == "v9.1" and options["algorithm"] not in (
         "baseline",
         "sipp_stream_dispatch",
+        *STREAM_SOLVERS,
     ):
         raise ValueError("V9.1 requires a stream-compatible algorithm")
+    if options["profile"] != "v9.1" and options["algorithm"] in STREAM_SOLVERS:
+        raise ValueError("Stream optimization requires V9.1")
     return options
 
 

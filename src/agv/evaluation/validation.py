@@ -3,6 +3,98 @@
 from math import isclose
 
 
+def _position_event(result, vehicle, time):
+    event = next(
+        (
+            r
+            for r in reversed(result.get("positioning_events", []))
+            if r["vehicle"] == vehicle and r["start"] <= time
+        ),
+        None,
+    )
+    if event is not None and any(
+        r["vehicle"] == vehicle and event["start"] < r["assigned_at"] <= time
+        for r in result["assignments"]
+    ):
+        return None
+    return event
+
+
+def _audit_positioning(scenario, result):
+    events = result.get("positioning_events", [])
+    if not isinstance(events, list) or (events and not scenario.is_v9_1):
+        raise ValueError("Positioning requires V9.1 and an event list")
+    seen, previous = set(), -1
+    for event in events:
+        if not isinstance(event, dict) or set(event) != {
+            "vehicle",
+            "start",
+            "arrival",
+            "target",
+            "return_end",
+        }:
+            raise ValueError("Invalid positioning event")
+        k, start, arrival, end = (
+            event[key] for key in ("vehicle", "start", "arrival", "return_end")
+        )
+        if any(type(x) is not int for x in (k, start, arrival, end)) or not (
+            0 <= k < len(scenario.homes)
+            and 0 <= start <= result["time"]
+            and start <= arrival <= end
+        ):
+            raise ValueError("Invalid positioning timing")
+        if (
+            start < previous
+            or (k, start) in seen
+            or (scenario.horizon is not None and end > scenario.horizon)
+        ):
+            raise ValueError("Duplicate, unordered or out-of-horizon positioning event")
+        seen.add((k, start))
+        previous = start
+        raw = event["target"]
+        if (
+            not isinstance(raw, (list, tuple))
+            or len(raw) != 2
+            or any(type(x) is not int for x in raw)
+        ):
+            raise ValueError("Invalid positioning target")
+        target = tuple(raw)
+        if target != scenario.homes[k] and (
+            target not in scenario.transit_only
+            or target in scenario.homes
+            or target in scenario.stations
+            or target in scenario.pickup_zones
+            or not scenario.free(target)
+        ):
+            raise ValueError("Positioning target is not ordinary floor")
+        if any(
+            r["vehicle"] == k and r["assigned_at"] <= start < r["delivery_end"]
+            for r in result["assignments"]
+        ):
+            raise ValueError("Positioning interrupted a committed order")
+        interruptions = [
+            r["assigned_at"]
+            for r in result["assignments"]
+            if r["vehicle"] == k and r["assigned_at"] > start
+        ]
+        interruptions += [r["start"] for r in events if r["vehicle"] == k and r["start"] > start]
+        cutoff = min(interruptions, default=result["time"] + 1)
+        if (
+            arrival < cutoff
+            and arrival <= result["time"]
+            and tuple(result["paths"][k][arrival]) != target
+        ):
+            raise ValueError("Positioning arrival disagrees with trajectory")
+        if cutoff > result["time"] and result.get("feasible") and end > result["time"]:
+            raise ValueError("Positioning fallback lies beyond complete execution")
+        if (
+            end < cutoff
+            and end <= result["time"]
+            and tuple(result["paths"][k][end]) != scenario.homes[k]
+        ):
+            raise ValueError("Positioning fallback did not reach own home")
+
+
 def _standby_times(scenario, result):
     """Audit recorded holds from trajectories and immutable task timing, not labels."""
     waits = result.get("idle_waits", [])
@@ -17,7 +109,13 @@ def _standby_times(scenario, result):
             raise ValueError("Invalid standby timing or vehicle")
         own = [r for r in result["assignments"] if r["vehicle"] == k]
         latest = next((r for r in reversed(own) if r["assigned_at"] <= a), None)
-        if latest is None or latest["delivery_end"] > a or b > latest["return_end"]:
+        position = _position_event(result, k, a)
+        position_support = (
+            position is not None and position["arrival"] <= a and b <= position["return_end"]
+        )
+        if (latest is None and not position_support) or (
+            latest is not None and (latest["delivery_end"] > a or b > latest["return_end"])
+        ):
             raise ValueError("Standby must delay an unloaded vehicle's fallback return")
         if any(a <= r["assigned_at"] < b for r in own):
             raise ValueError("Standby overlaps a new assignment")
@@ -184,6 +282,7 @@ def validate(scenario, result):
                         any(tuple(p) == station and a <= t <= b for station, a, b in permits),
                         "Delivery station occupied outside unload service",
                     )
+    _audit_positioning(scenario, result)
     standby = _standby_times(scenario, result)
     if scenario.is_v9:
         # Only the last fallback is still effective. Older returns can have been
@@ -263,7 +362,11 @@ def validate(scenario, result):
                     ),
                     None,
                 )
-                is_idle = latest is None or t >= latest["return_end"] or t in standby[k]
+                position = _position_event(result, k, t)
+                fallback_end = max(
+                    latest["return_end"] if latest else 0, position["return_end"] if position else 0
+                )
+                is_idle = t >= fallback_end or t in standby[k]
                 if is_idle:
                     idle += 1
                 else:
@@ -460,10 +563,12 @@ def validate_metrics(scenario, result):
                 row["service_steps"] += 1
             else:
                 latest = next((r for r in reversed(own) if r["assigned_at"] <= t), None)
+                position = _position_event(result, k, t)
+                fallback_end = max(
+                    latest["return_end"] if latest else 0, position["return_end"] if position else 0
+                )
                 row[
-                    "idle_steps"
-                    if latest is None or t >= latest["return_end"] or t in standby[k]
-                    else "traffic_wait_steps"
+                    "idle_steps" if t >= fallback_end or t in standby[k] else "traffic_wait_steps"
                 ] += 1
         vehicles.append(row)
     require(len(result["per_vehicle"]) == len(vehicles), "Wrong vehicle metric count")

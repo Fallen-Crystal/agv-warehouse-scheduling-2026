@@ -89,9 +89,10 @@ function updateMode(){
  for(const option of $('vehiclesCount').options)option.disabled=!layered&&Number(option.value)>8;
  if(!layered&&Number($('vehiclesCount').value)>8)$('vehiclesCount').value='8';
  if(v9){$('obstacles').value='columns_equipment';$('obstacles').disabled=true;}
- for(const option of $('algorithm').options)option.disabled=current?!['baseline','sipp_stream_dispatch'].includes(option.value):(option.value==='sipp_stream_dispatch'||option.value.includes('standby')&&!v9);
- if(current&&!['baseline','sipp_stream_dispatch'].includes($('algorithm').value))$('algorithm').value='sipp_stream_dispatch';
- if(!current&&$('algorithm').value==='sipp_stream_dispatch')$('algorithm').value='sipp_greedy_dispatch';
+ const streamAlgorithms=['sipp_stream_dispatch','sipp_stream_matching','sipp_position_dispatch','sipp_position_matching_dispatch','sipp_position_delay_dispatch','sipp_stream_bcrd','sipp_stream_bcrd_tail'];
+ for(const option of $('algorithm').options)option.disabled=current?!['baseline',...streamAlgorithms].includes(option.value):(streamAlgorithms.includes(option.value)||option.value.includes('standby')&&!v9);
+ if(current&&!['baseline',...streamAlgorithms].includes($('algorithm').value))$('algorithm').value='sipp_stream_dispatch';
+ if(!current&&streamAlgorithms.includes($('algorithm').value))$('algorithm').value='sipp_greedy_dispatch';
  if(!v9&&$('algorithm').value.includes('standby'))$('algorithm').value='sipp_greedy_dispatch';
 }
 function markChanged(){updateMode();$('status').textContent='参数已修改。点击“生成并运行”应用新设置；当前地图仍是上次结果。'}

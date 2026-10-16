@@ -31,6 +31,15 @@ class _VisibleEnvironment(Environment):
         history = getattr(self, "_visible_completed", [])
         observation["completed"] = deepcopy(history) + observation["completed"]
         old_routes = getattr(self, "_visible_old_routes", {})
+        for record in observation["completed"]:
+            old = old_routes.get(record["vehicle"])
+            if old is not None and old["task_id"] == record["task_id"]:
+                record.update(return_end=old["return_end"], return_arrival=old["return_arrival"])
+        if "completed_flow_times" in observation:
+            observation["completed_flow_times"] = (
+                list(getattr(self, "_historical_flow_times", []))
+                + observation["completed_flow_times"]
+            )
         for vehicle in observation["vehicles"]:
             if vehicle["route_record"] is None and vehicle["id"] in old_routes:
                 vehicle["route_record"] = deepcopy(old_routes[vehicle["id"]])
@@ -192,10 +201,29 @@ class ShadowState:
         # Preserve the original visible pending order, which is part of the
         # observation contract; no hidden order/seed/normalization is supplied.
         scenario.tasks = list(jobs.values())
+        if scenario.is_v9_1:
+            if type(obs.get("order_stream_closed")) is not bool:
+                raise ValueError("Missing stream state")
+            closed_at = obs.get("stream_closed_at")
+            if obs["order_stream_closed"]:
+                if (
+                    type(closed_at) is not int
+                    or not max((j.release for j in scenario.tasks), default=0) <= closed_at <= now
+                ):
+                    raise ValueError("Invalid observed close event")
+            elif closed_at is not None:
+                raise ValueError("Open stream cannot disclose a future close event")
+            scenario.order_stream_end = (
+                closed_at
+                if obs["order_stream_closed"]
+                else max((j.release for j in scenario.tasks), default=0)
+            )
         return scenario.check(), records
 
     def _environment(self, budget, started):
-        env = _VisibleEnvironment(self._scenario, router_kind=self._router_kind)
+        env = _VisibleEnvironment(
+            self._scenario, router_kind=self._router_kind, stream_open=self._scenario.is_v9_1
+        )
         obs = self._observation
         env.time = obs["time"]
         env._visible_completed = deepcopy(obs.get("completed", []))
@@ -214,6 +242,13 @@ class ShadowState:
         env._assigned = {record["task_id"] for record in env._records}
         active = {record["vehicle"]: record for record in env._records}
         env._active = [active.get(k) for k in range(len(env._plans))]
+        if self._scenario.is_v9_1:
+            env._idle_hold_counts = list(obs.get("idle_hold_counts", env._idle_hold_counts))
+            env._idle_waits = deepcopy(obs.get("idle_waits", []))
+            env._historical_flow_times = list(obs.get("completed_flow_times", []))
+            env._released_jobs = dict(env._jobs)
+            env._stream_closed = obs["order_stream_closed"]
+            env._stream_closed_at = obs["stream_closed_at"]
         env._router = _BudgetedRouter(env._router, budget, started)
         return env
 
@@ -226,6 +261,7 @@ class ShadowState:
         origin = env.time
         feedback, rounds, reason, exhausted = [], 0, None, False
         policy = _safe_greedy if rollout_policy is None else rollout_policy
+        open_stream = self._scenario.is_v9_1 and not self._observation["order_stream_closed"]
         try:
             if limits.get("max_cpu_seconds", float("inf")) <= 0:
                 raise _BudgetExceeded("cpu")
@@ -236,6 +272,12 @@ class ShadowState:
                 while not env.done and (
                     env._scenario.horizon is None or env.time < env._scenario.horizon
                 ):
+                    if (
+                        open_stream
+                        and len(env._assigned) == len(env._jobs)
+                        and all(r is None for r in env._active)
+                    ):
+                        break
                     if env.time - origin >= limits["max_steps"]:
                         raise _BudgetExceeded("steps")
                     if process_time() - started >= limits.get("max_cpu_seconds", float("inf")):
@@ -251,7 +293,12 @@ class ShadowState:
                         and (depth is None or rounds < depth)
                     ):
                         if len(env._assigned) == len(env._jobs):
-                            steps = max(map(len, env._plans)) - 1
+                            steps = (
+                                min(r["delivery_end"] for r in env._active if r is not None)
+                                - env.time
+                                if open_stream and any(r is not None for r in env._active)
+                                else max(map(len, env._plans)) - 1
+                            )
                         elif all(record is not None for record in env._active):
                             steps = min(record["delivery_end"] for record in env._active) - env.time
                         steps = min(steps, limits["max_steps"] - (env.time - origin))
@@ -282,6 +329,11 @@ class ShadowState:
         jobs = env._jobs
         flows = [record["delivery_end"] - jobs[record["task_id"]].release for record in records]
         paths = [past + plan[1:] for past, plan in zip(env._paths, env._plans)]
+        if open_stream:
+            # Forecast only the released workload. Do not invent an end event
+            # or charge unexecuted final returns as if this stream had closed.
+            end = max([origin] + [r["delivery_end"] for r in records])
+            paths = [path[: end - origin + 1] for path in paths]
         moves = sum(a != b for path in paths for a, b in zip(path, path[1:]))
         residual = [asdict(job) for job in jobs.values() if job.id not in env._assigned]
         completed = not residual and len(records) == len(jobs)

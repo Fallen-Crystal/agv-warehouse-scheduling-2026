@@ -14,7 +14,13 @@ from agv.warehouse.rules import dispatch_status
 
 class Environment:
     def __init__(
-        self, scenario: Scenario, router_kind="astar", *, idle_hold_steps=0, stream_open=False
+        self,
+        scenario: Scenario,
+        router_kind="astar",
+        *,
+        idle_hold_steps=0,
+        stream_open=False,
+        positioning=False,
     ):
         if type(idle_hold_steps) is not int or not 0 <= idle_hold_steps <= 1000:
             raise ValueError("idle_hold_steps must be an integer from 0 to 1000")
@@ -24,6 +30,9 @@ class Environment:
             raise ValueError("stream_open must be boolean")
         if scenario.is_v9_1 and idle_hold_steps:
             raise ValueError("V9.1 uses stream standby, not a finite hold allowance")
+        if type(positioning) is not bool or (positioning and not scenario.is_v9_1):
+            raise ValueError("Positioning requires the explicit V9.1 profile")
+        self.positioning = positioning
         self._manual_stream = stream_open
         self.idle_hold_steps = idle_hold_steps
         self._router_kind = router_kind
@@ -36,6 +45,8 @@ class Environment:
                 raise ValueError("Bounded standby requires the explicit V9 catalog profile")
             if self.idle_hold_steps and checked.is_v9_1:
                 raise ValueError("V9.1 does not accept a finite hold allowance")
+            if self.positioning and not checked.is_v9_1:
+                raise ValueError("Positioning requires the explicit V9.1 profile")
             self._scenario = checked
         s = self._scenario
         self.time = 0
@@ -52,6 +63,9 @@ class Environment:
         self._planning_failures = []
         self._execution_error = None
         self._replans = []
+        self._reservation_index = None
+        self._position_targets = [None] * len(s.homes)
+        self._position_events = []
         from agv.dispatch.order_stream import initialize
 
         initialize(self, self._manual_stream)
@@ -97,11 +111,21 @@ class Environment:
                         order_stream_closed=self._stream_closed,
                         stream_closed_at=self._stream_closed_at,
                         idle_policy="stream",
+                        completed_flow_times=[
+                            r["delivery_end"] - self._released_jobs[r["task_id"]].release
+                            for r in self._records
+                            if r["delivery_end"] <= self.time
+                        ],
                     )
                     if s.is_v9_1
                     else {}
                 ),
                 time=self.time,
+                **(
+                    dict(positioning_targets=deepcopy(self._position_targets))
+                    if self.positioning
+                    else {}
+                ),
                 horizon=s.horizon,
                 map=s.observation_map(),
                 vehicles=[
@@ -238,7 +262,13 @@ class Environment:
                 for w in self._idle_waits
             ]
             self._idle_waits = [w for w in self._idle_waits if w["end"] > w["start"]]
-            self._plans[k] = path
+            self._replace_plan(k, path)
+            self._position_targets[k] = None
+            self._position_events = [
+                e
+                for e in self._position_events
+                if not (e["vehicle"] == k and e["start"] == self.time)
+            ]
             self._records.append(record)
             self._active[k] = record
             self._assigned.add(j)
@@ -252,6 +282,24 @@ class Environment:
                 )
             )
         return responses
+
+    def _replace_plan(self, vehicle, path):
+        self._plans[vehicle] = path
+        if self._reservation_index is not None:
+            self._reservation_index.replace(vehicle, path, self.time)
+
+    def plan_reservations(self):
+        from agv.planning.reservations import PlanReservations
+
+        if self._reservation_index is None:
+            self._reservation_index = PlanReservations(self._plans, self.time)
+        return self._reservation_index
+
+    def reposition(self, vehicle, target):
+        """Replace an available car's uncommitted suffix, retaining a safe H return."""
+        from agv.planning.reposition import reposition
+
+        return reposition(self, vehicle, target)
 
     def apply_replan(self, proposal):
         """Atomically replace feasible future suffixes, retain task ownership.
@@ -415,6 +463,7 @@ class Environment:
             raise ValueError("Candidate must improve the actual suffix objective")
         event = dict(**metadata, changes=changes)
         self._plans, self._records, self._active = trial._plans, trial._records, trial._active
+        self._reservation_index = None
         self._replans.append(event)
         return True
 
@@ -512,6 +561,8 @@ class Environment:
                 stream_closed_at=self._stream_closed_at,
                 idle_policy="stream",
             )
+            if self.positioning:
+                result["positioning_events"] = deepcopy(self._position_events)
         if self._scenario.is_v9:
             result["idle_waits"] = deepcopy(self._idle_waits)
             result["idle_hold_steps"] = self.idle_hold_steps

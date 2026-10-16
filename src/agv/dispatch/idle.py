@@ -50,36 +50,33 @@ def hold_return(env, vehicle, steps=1):
         (i for i in range(len(env._records) - 1, -1, -1) if env._records[i]["vehicle"] == vehicle),
         None,
     )
-    if record_index is None:
+    position_event = (
+        next((r for r in reversed(env._position_events) if r["vehicle"] == vehicle), None)
+        if env.positioning
+        else None
+    )
+    shadow_return = getattr(env, "_visible_old_routes", {}).get(vehicle)
+    if record_index is None and position_event is None and shadow_return is None:
         raise ValueError("No accepted task has a fallback return")
-    latest = env._records[record_index]
+    latest = env._records[record_index] if record_index is not None else shadow_return
     old_end = env.time + len(old_path) - 1
-    if latest["delivery_end"] > env.time or latest["return_end"] != old_end:
+    if latest is not None and (
+        latest["delivery_end"] > env.time or latest["return_end"] != old_end
+    ):
         raise ValueError("Fallback return metadata does not match current suffix")
     if scenario.horizon is not None and old_end + steps > scenario.horizon:
         raise ValueError("Standby exceeds supplied horizon")
 
     plans = list(env._plans)
     plans[vehicle] = [point] * steps + list(old_path)
-    last = max(map(len, plans))
-    for i in range(last):
-        current = plans[vehicle][min(i, len(plans[vehicle]) - 1)]
-        for other, path in enumerate(plans):
-            if other == vehicle:
-                continue
-            occupied = path[min(i, len(path) - 1)]
-            if current == occupied:
-                raise ValueError("Standby conflicts with an existing route")
-            if i:
-                previous = plans[vehicle][min(i - 1, len(plans[vehicle]) - 1)]
-                other_previous = path[min(i - 1, len(path) - 1)]
-                if current == other_previous and previous == occupied:
-                    raise ValueError("Standby causes an edge swap")
+    if env.plan_reservations().conflict(plans[vehicle], env.time, vehicle):
+        raise ValueError("Standby conflicts with an existing route or edge swap")
 
     records = list(env._records)
-    records[record_index] = deepcopy(latest)
-    records[record_index]["return_end"] = old_end + steps
-    records[record_index]["return_arrival"] = old_end + steps
+    if record_index is not None:
+        records[record_index] = deepcopy(latest)
+        records[record_index]["return_end"] = old_end + steps
+        records[record_index]["return_arrival"] = old_end + steps
     waits = [dict(w) for w in env._idle_waits]
     adjacent = next(
         (w for w in reversed(waits) if w["vehicle"] == vehicle and w["end"] == env.time),
@@ -89,7 +86,12 @@ def hold_return(env, vehicle, steps=1):
         waits.append(dict(vehicle=vehicle, start=env.time, end=env.time + steps))
     else:
         adjacent["end"] += steps
-    env._plans, env._records, env._idle_waits = plans, records, waits
+    env._replace_plan(vehicle, plans[vehicle])
+    env._records, env._idle_waits = records, waits
+    if position_event is not None:
+        position_event["return_end"] = old_end + steps
+    if record_index is None and shadow_return is not None:
+        shadow_return.update(return_end=old_end + steps, return_arrival=old_end + steps)
     return dict(vehicle=vehicle, accepted=True, start=env.time, end=env.time + steps)
 
 
@@ -113,6 +115,10 @@ def advance_standby(env):
     if not env._scenario.uses_layer_rules or env._scenario.service_axis != "catalog":
         return
     for vehicle, path in enumerate(env._plans):
+        if env.positioning:
+            target = env._position_targets[vehicle]
+            if target is None or env.time < target["arrival"] or path[0] != target["target"]:
+                continue
         if (
             env._active[vehicle] is not None
             or len(path) <= 1
@@ -124,5 +130,7 @@ def advance_standby(env):
             hold_return(env, vehicle)
         except ValueError:
             # Preserve the original safe return when a reservation blocks a hold.
+            if env.positioning:
+                env._position_targets[vehicle] = None
             continue
         env._idle_hold_counts[vehicle] += 1

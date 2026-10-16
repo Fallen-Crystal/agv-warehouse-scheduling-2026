@@ -35,6 +35,7 @@ def bcrd_action(
     diagnostics=None,
     min_queue_ratio=3.0,
     event_driven=True,
+    tail_guard=False,
 ):
     """Compare complete visible-world rollouts, with fixed per-decision scales.
 
@@ -43,8 +44,10 @@ def bcrd_action(
     Truncated previews with residual jobs are rejected in this first version:
     an incomplete forecast cannot win by omitting a difficult order.
     """
-    if observation.get("idle_hold_steps", 0):
+    if observation.get("idle_hold_steps", 0) or "positioning_targets" in observation:
         raise ValueError("Standby forecasting requires a separately validated shadow contract")
+    if type(tail_guard) is not bool:
+        raise ValueError("tail_guard must be boolean")
     if type(event_driven) is not bool:
         raise ValueError("event_driven must be a boolean")
     if type(max_batches) is not int or not 0 <= max_batches <= 32:
@@ -99,7 +102,7 @@ def bcrd_action(
     shadow = ShadowState.from_observation(
         observation, router_kind="sipp", event_driven=event_driven
     )
-    scales, best, action = None, 1.0, safe
+    scales, best, action, incumbent_p90 = None, 1.0, safe, None
     for batch in batches:
         remaining = dict(limits)
         for name, used in (
@@ -129,6 +132,11 @@ def bcrd_action(
         value = (
             sum(w * c / d for w, c, d in zip(WEIGHTS, costs, scales)) if valid and scales else None
         )
+        flows = sorted(observation.get("completed_flow_times", []) + estimate["flow_times"])
+        p90 = flows[(9 * len(flows) + 9) // 10 - 1] if flows else 0
+        if batch.id == "greedy" and valid:
+            incumbent_p90 = p90
+        tail_rejected = tail_guard and incumbent_p90 is not None and p90 > incumbent_p90
         log["candidates"].append(
             dict(
                 **asdict(batch),
@@ -141,12 +149,13 @@ def bcrd_action(
                 cpu_seconds=estimate["cpu_seconds"],
                 simulated_steps=estimate["simulated_steps"],
                 decision_rounds=estimate["decision_rounds"],
+                **(dict(predicted_p90=p90, tail_rejected=tail_rejected) if tail_guard else {}),
             )
         )
         if batch.id == "greedy" and not valid:
             log.update(reason="incumbent_preview_failed", fallback=True)
             break
-        if value is not None and value < best - 1e-12:
+        if value is not None and not tail_rejected and value < best - 1e-12:
             best, action = value, list(batch.pairs)
             log.update(chosen=batch.id, reason="visible_rollout_improvement")
         if estimate["exhausted"]:
@@ -171,9 +180,8 @@ def run(
     min_queue_ratio=3.0,
     event_driven=True,
     idle_hold_steps=0,
+    tail_guard=False,
 ):
-    if scenario.is_v9_1 and policy == "bcrd":
-        raise ValueError("BCRD stream standby requires a separately validated shadow contract")
     if idle_hold_steps and policy == "bcrd":
         raise ValueError("BCRD standby needs a separately validated shadow contract")
     if policy not in ("bcrd", "greedy", "matching"):
@@ -186,7 +194,15 @@ def run(
         observed.update(v["task_id"] for v in obs["vehicles"] if v["task_id"] is not None)
         if policy == "bcrd":
             action = bcrd_action(
-                obs, max_batches, depth, mode, budget, logs, min_queue_ratio, event_driven
+                obs,
+                max_batches,
+                depth,
+                mode,
+                budget,
+                logs,
+                min_queue_ratio,
+                event_driven,
+                tail_guard,
             )
         elif policy == "greedy":
             action = fallback(obs)
@@ -211,6 +227,8 @@ def run(
     )
     if idle_hold_steps:
         result["algorithm"]["idle_hold_steps"] = idle_hold_steps
+    if tail_guard:
+        result["algorithm"]["tail_guard"] = "visible_rollout_p90_not_worse_than_greedy"
     result["observed_task_count"] = len(observed)
     meaningful = [row for row in logs if row["candidates"] or row["issued_pairs"]]
     result["dispatch_decisions"] = meaningful
