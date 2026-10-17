@@ -64,13 +64,11 @@
   },
   "solvers": {
     "G0": "sipp_stream_dispatch",
-    "G1": "sipp_stream_matching",
-    "G2": "sipp_position_dispatch",
-    "G3": "sipp_position_matching_dispatch",
     "G4": "sipp_position_delay_dispatch",
     "B0": "sipp_stream_bcrd",
     "B1": "sipp_stream_bcrd_tail"
   },
+  "selection_before_holdout": "Development seeds 10-12: retain combined positioning+ETA+delay G4 (mean F gain 0.9425%) and BCRD B0/B1 (0.7949%); single-factor G1-G3 remain in development ablations. All algorithm parameters frozen before seeds 200-219 are executed. No holdout tuning.",
   "baseline": "G0",
   "bootstrap": {
     "resamples": 4000,

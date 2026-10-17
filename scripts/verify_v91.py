@@ -300,12 +300,16 @@ def verify(directory, revision=None):
     saved = json.loads((root / "summary.json").read_text(encoding="utf-8"))
     _check_summary(rows, saved, protocol)
     diagnostics = [
-        json.loads(line) for line in (root / "diagnostics.jsonl").read_text().splitlines()
+        json.loads(line)
+        for line in (root / "diagnostics.jsonl").read_text(encoding="utf-8").splitlines()
     ]
     diagnostic_keys = [(r["scenario"], r["seed"], r["solver"]) for r in diagnostics]
     if len(diagnostic_keys) != len(expected) or set(diagnostic_keys) != expected:
         raise ValueError("Incomplete per-run diagnostics")
-    evidence = [json.loads(line) for line in (root / "bounds.jsonl").read_text().splitlines()]
+    evidence = [
+        json.loads(line)
+        for line in (root / "bounds.jsonl").read_text(encoding="utf-8").splitlines()
+    ]
     bound_index = {(r["scenario"], r["seed"]): r for r in evidence}
     if len(evidence) != len(digests) or set(bound_index) != set(digests):
         raise ValueError("Incomplete lower-bound evidence")
