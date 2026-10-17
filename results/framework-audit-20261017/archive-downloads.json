@@ -1,0 +1,17 @@
+[
+  {
+    "dataset": "stage0",
+    "bytes": 976377,
+    "git_blob_sha": "322a5e7e21237ed5b229f5c2da454e2fe34bc60e"
+  },
+  {
+    "dataset": "development",
+    "bytes": 3421933,
+    "git_blob_sha": "9d411399c8ddf79ef1d9f9aa51bc36b731f8323e"
+  },
+  {
+    "dataset": "holdout",
+    "bytes": 2076872,
+    "git_blob_sha": "d33dc678189278bf60e89b9ed89834bae1bc4457"
+  }
+]

@@ -1,6 +1,31 @@
 """独立检查实际轨迹与事件；不使用规划器的预约表。"""
 
-from math import isclose
+from math import isclose, isfinite
+
+
+def _same_metrics(actual, expected):
+    """Strict structural/numeric comparison; bool is never a numeric counter."""
+    if isinstance(expected, dict):
+        return (
+            isinstance(actual, dict)
+            and actual.keys() == expected.keys()
+            and all(_same_metrics(actual[k], v) for k, v in expected.items())
+        )
+    if isinstance(expected, list):
+        return (
+            isinstance(actual, list)
+            and len(actual) == len(expected)
+            and all(_same_metrics(a, b) for a, b in zip(actual, expected))
+        )
+    if type(expected) is int:
+        return type(actual) is int and actual == expected
+    if type(expected) is float:
+        return (
+            type(actual) in (int, float)
+            and isfinite(actual)
+            and isclose(actual, expected, rel_tol=1e-12, abs_tol=1e-12)
+        )
+    return type(actual) is type(expected) and actual == expected
 
 
 def _position_event(result, vehicle, time):
@@ -114,7 +139,8 @@ def _standby_times(scenario, result):
             position is not None and position["arrival"] <= a and b <= position["return_end"]
         )
         if (latest is None and not position_support) or (
-            latest is not None and (latest["delivery_end"] > a or b > latest["return_end"])
+            latest is not None
+            and (latest["delivery_end"] > a or (b > latest["return_end"] and not position_support))
         ):
             raise ValueError("Standby must delay an unloaded vehicle's fallback return")
         if any(a <= r["assigned_at"] < b for r in own):
@@ -134,6 +160,32 @@ def validate(scenario, result):
         if not ok:
             raise ValueError(message)
 
+    require(isinstance(result, dict), "Result must be an object")
+    for name in (
+        "completed",
+        "total_tasks",
+        "makespan",
+        "moves",
+        "service_steps",
+        "idle_steps",
+        "traffic_wait_steps",
+        "response_sample_count",
+    ):
+        require(
+            type(result.get(name)) is int and result[name] >= 0, "Invalid integer metric: " + name
+        )
+    for name in ("feasible", "comparison_valid"):
+        require(type(result.get(name)) is bool, "Invalid boolean flag: " + name)
+    for name in ("mean_completion", "mean_flow_time"):
+        value = result.get(name)
+        require(
+            type(value) in (int, float) and isfinite(value) and value >= 0,
+            "Invalid numeric metric: " + name,
+        )
+    require(
+        all(key in result for key in ("paths", "time", "assignments", "events", "interval_states")),
+        "Missing execution fields",
+    )
     raw_paths = result["paths"]
     horizon = result["time"]
     require(
@@ -164,6 +216,21 @@ def validate(scenario, result):
         paths.append(normalized)
     # All subsequent checks share coordinate identity, without changing the caller's data.
     result = {**result, "paths": paths}
+    labels = result["interval_states"]
+    require(
+        isinstance(labels, (list, tuple)) and len(labels) == len(paths),
+        "Invalid state vehicle count",
+    )
+    states = {"idle", "returning", "standby", "to_pickup", "loading", "to_delivery", "unloading"}
+    require(
+        all(
+            isinstance(row, (list, tuple))
+            and len(row) == horizon
+            and all(type(label) is str and label in states for label in row)
+            for row in labels
+        ),
+        "Invalid interval states",
+    )
     for k, path in enumerate(paths):
         require(
             len(path) == horizon + 1 and tuple(path[0]) == scenario.homes[k], "Invalid start/length"
@@ -192,7 +259,12 @@ def validate(scenario, result):
                     )
     jobs = {j.id: j for j in scenario.tasks}
     assignments = result["assignments"]
-    if scenario.is_v9:
+    require(
+        isinstance(assignments, list) and all(isinstance(r, dict) for r in assignments),
+        "Assignments must be an event list",
+    )
+    require(isinstance(result["events"], list), "Completed events must be a list")
+    if assignments:
         timing_fields = (
             "assigned_at",
             "pickup_arrival",
@@ -210,10 +282,15 @@ def validate(scenario, result):
             ),
             "Invalid V9 event time",
         )
+    if scenario.is_v9:
         require(
             all(r["return_arrival"] == r["return_end"] for r in assignments),
             "Return arrival and end must be the same zero-service event",
         )
+    require(
+        all(a["assigned_at"] <= b["assigned_at"] for a, b in zip(assignments, assignments[1:])),
+        "Assignments must be chronological; same-tick order is the submitted batch order",
+    )
     require(
         all(
             type(r.get("vehicle")) is int
@@ -247,13 +324,25 @@ def validate(scenario, result):
             )
             raw_point = r.get("pickup_point", j.pickup)
             require(
-                isinstance(raw_point, (tuple, list)) and len(raw_point) == 2, "Missing pickup point"
+                isinstance(raw_point, (tuple, list))
+                and len(raw_point) == 2
+                and all(type(v) is int for v in raw_point),
+                "Missing integer pickup point",
             )
             chosen = tuple(raw_point)
             require(
                 chosen in scenario.pickup_candidates(j), "Pickup is not an allowed shelf neighbor"
             )
             if "shelf" in r:
+                require(
+                    r["shelf"] is None
+                    or (
+                        isinstance(r["shelf"], (tuple, list))
+                        and len(r["shelf"]) == 2
+                        and all(type(v) is int for v in r["shelf"])
+                    ),
+                    "Invalid shelf metadata",
+                )
                 require(
                     (tuple(r["shelf"]) if r["shelf"] is not None else None) == j.shelf,
                     "Wrong target shelf",
@@ -322,9 +411,17 @@ def validate(scenario, result):
                         end == 0 or tuple(path[end - 1]) != scenario.homes[k],
                         "Final return time is later than actual home arrival",
                     )
+                cutoff = min(
+                    (
+                        e["start"]
+                        for e in result.get("positioning_events", [])
+                        if e["vehicle"] == k and e["start"] >= end
+                    ),
+                    default=horizon,
+                )
                 require(
                     tuple(path[end]) == scenario.homes[k]
-                    and all(tuple(p) == scenario.homes[k] for p in path[end:]),
+                    and all(tuple(p) == scenario.homes[k] for p in path[end : cutoff + 1]),
                     "Final return event does not match actual home trajectory",
                 )
     # 同货架不同侧可同时装货；地面停靠格互斥已由逐时刻碰撞检查保证。
@@ -412,6 +509,33 @@ def validate(scenario, result):
         ),
         "Wrong movement metrics",
     )
+    # Independently rebuild each displayed interval, rather than trusting its label.
+    for k in range(len(paths)):
+        own = [r for r in assignments if r["vehicle"] == k]
+        for t, label in enumerate(labels[k]):
+            active = next((r for r in own if r["assigned_at"] <= t < r["delivery_end"]), None)
+            if active:
+                expected = (
+                    "to_pickup"
+                    if t < active["pickup_arrival"]
+                    else "loading"
+                    if t < active["pickup_end"]
+                    else "to_delivery"
+                    if t < active["delivery_arrival"]
+                    else "unloading"
+                )
+            elif t in standby[k]:
+                expected = "standby"
+            else:
+                latest = next((r for r in reversed(own) if r["assigned_at"] <= t), None)
+                pos = _position_event(result, k, t)
+                end = max(latest["return_end"] if latest else 0, pos["return_end"] if pos else 0)
+                expected = (
+                    "returning"
+                    if t < end or (end == 0 and paths[k][t] != paths[k][t + 1])
+                    else "idle"
+                )
+            require(label == expected, "State label disagrees with execution phase")
     validate_metrics(scenario, result)
     if "diagnostics" in result:
         d = result["diagnostics"]
@@ -487,12 +611,7 @@ def validate_metrics(scenario, result):
             raise ValueError(message)
 
     def number(actual, expected, message):
-        require(
-            actual is None
-            if expected is None
-            else actual is not None and isclose(actual, expected),
-            message,
-        )
+        require(_same_metrics(actual, expected), message)
 
     jobs = {j.id: j for j in scenario.tasks}
     events, assignments, horizon = result["events"], result["assignments"], result["time"]
@@ -550,7 +669,7 @@ def validate_metrics(scenario, result):
                 rack_bay=rack["bay_id"],
                 storage_id=f"{rack['bay_id']}-L{job.shelf_level:02d}",
             )
-    require(result["task_metrics"] == expected_tasks, "Wrong task metric rows")
+    require(_same_metrics(result["task_metrics"], expected_tasks), "Wrong task metric rows")
     for name in ("dispatch_wait", "pickup_duration", "loaded_duration", "service_duration"):
         expected = sum(r[name] for r in expected_tasks) / len(events) if events else none_or_zero
         number(result["mean_" + name], expected, "Wrong time decomposition: " + name)

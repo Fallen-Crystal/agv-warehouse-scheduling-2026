@@ -46,7 +46,7 @@ def reposition(env, vehicle, target):
     index = next(
         (i for i in range(len(records) - 1, -1, -1) if records[i]["vehicle"] == vehicle), None
     )
-    if index is not None:
+    if index is not None and records[index]["return_end"] > now:
         records[index] = deepcopy(records[index])
         records[index].update(return_end=end, return_arrival=end)
     waits = [
