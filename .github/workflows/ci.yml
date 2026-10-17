@@ -19,6 +19,8 @@ jobs:
       - run: python -m unittest discover -s tests -t . -v
       - run: ruff check src tests scripts
       - run: ruff format --check src tests scripts
+      - run: node --check src/agv/web/static/app.js
+      - run: node scripts/check_viewer_contracts.mjs
   wheel:
     runs-on: ubuntu-latest
     steps:
@@ -38,3 +40,4 @@ jobs:
           /tmp/agv-wheel/bin/agv run --profile v9 --tasks 2 --vehicles 1 --algorithm sipp_standby16_dispatch --output v9-smoke.json
           /tmp/agv-wheel/bin/agv run --profile v9.1 --tasks 2 --vehicles 1 --algorithm sipp_stream_bcrd_tail --output v91-smoke.json
           /tmp/agv-wheel/bin/python -c "from agv.web.app import create_server; s=create_server(); s.server_close()"
+

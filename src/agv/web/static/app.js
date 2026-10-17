@@ -3,6 +3,17 @@ let datasets=JSON.parse(document.getElementById('scene-data').textContent);
 const $=id=>document.getElementById(id), canvas=$('map'), ctx=canvas.getContext('2d');
 const colors=['#176ca7','#af4d8b','#bd6819','#16816c','#6752b8','#bd4650','#578023','#3c7f87','#915c48','#7045a1'];
 const names={idle:'停车等待',standby:'交付区外待命',returning:'返回停车位',to_pickup:'前往取货',loading:'装载',to_delivery:'前往交付',unloading:'卸载'};
+function stateAt(r,k,time){
+ if(time<r.time)return r.interval_states[k][time];
+ if(r.feasible)return 'idle';
+ const own=r.assignments.filter(e=>e.vehicle===k&&e.assigned_at<=time);
+ const active=own.find(e=>time<e.delivery_end);
+ if(active)return time<active.pickup_arrival?'to_pickup':time<active.pickup_end?'loading':time<active.delivery_arrival?'to_delivery':'unloading';
+ if((r.idle_waits||[]).some(w=>w.vehicle===k&&w.start<=time&&time<w.end))return 'standby';
+ const positions=(r.positioning_events||[]).filter(e=>e.vehicle===k&&e.start<=time&&!own.some(a=>e.start<a.assigned_at));
+ const end=Math.max(own.length?own[own.length-1].return_end:0,positions.length?positions[positions.length-1].return_end:0);
+ return time<end?'returning':'idle';
+}
 let selected=0,t=0,timer=null,hit=null,geometry=null;
 
 const key=p=>p.join(','),same=(a,b)=>key(a)===key(b);
@@ -38,7 +49,7 @@ function draw(){
  $('time').value=t;$('timeLabel').textContent=t+' / '+r.time;
  $('progress').textContent=streamStatus(r,t)+'已出现 '+visible.length+' 单 · 已完成 '+r.events.filter(e=>e.delivery_end<=t).length+' 单';
  $('description').textContent=`${s.width}×${s.height} 格 · ${s.homes.length} 辆车 · `+(r.feasible?`最后一单完成于第 ${r.makespan} 步 · 返回结束于第 ${r.time} 步`:`当前只完成 ${r.completed}/${r.total_tasks} 单 · 执行截至第 ${r.time} 步`);
- $('vehicles').replaceChildren();r.paths.forEach((path,k)=>{const line=document.createElement('div');line.style.color=colors[k];const state=t<r.time?r.interval_states[k][t]:'idle';const active=r.assignments.find(e=>e.vehicle===k&&e.assigned_at<=t&&e.delivery_end>t);line.textContent='车 '+k+'：'+names[state]+'，位置 ('+path[t].join(', ')+')'+(active?'，装货停靠 ('+active.pickup_point.join(', ')+')':'');$('vehicles').appendChild(line)});
+ $('vehicles').replaceChildren();r.paths.forEach((path,k)=>{const line=document.createElement('div');line.style.color=colors[k];const state=stateAt(r,k,t);const active=r.assignments.find(e=>e.vehicle===k&&e.assigned_at<=t&&e.delivery_end>t);line.textContent='车 '+k+'：'+names[state]+'，位置 ('+path[t].join(', ')+')'+(active?'，装货停靠 ('+active.pickup_point.join(', ')+')':'');$('vehicles').appendChild(line)});
  $('pendingOrders').replaceChildren();const assigned=new Set(r.assignments.filter(e=>e.assigned_at<=t).map(e=>e.task_id));visible.filter(j=>!assigned.has(j.id)).forEach(j=>{const row=document.createElement('p');const sameFace=['math-v4-integrated','mixed-v9','mixed-v9.1'].includes(s.map_info?.model_version)&&j.shelf&&r.assignments.some(e=>e.assigned_at<=t&&e.pickup_end>t&&e.shelf&&same(e.shelf,j.shelf));row.textContent=`任务 ${j.id} · 出现 ${j.release} · `+(j.shelf?`货架 (${j.shelf.join(',')})`:`取货点 (${j.pickup.join(',')})`)+(s.map_info?` · 第${j.shelf_level}层 · 装货${j.pickup_service}步`:'')+(sameFace?' · 同面取货尚未释放':'');$('pendingOrders').appendChild(row)});
  if(hit)$('cell').textContent='选中 ('+hit.join(', ')+')。'+(blocked.has(key(hit))?'此格为障碍，车辆不能进入。':'四邻接地面位置：'+(neighbors.map(p=>'('+p.join(', ')+')').join('、')||'无')+'。需要另行检查车辆占用和专属停车位限制。');
  if(hit&&['mixed-v9','mixed-v9.1'].includes(s.map_info?.model_version)&&s.map_info?.rack_catalog){const bay=s.map_info.rack_catalog.find(row=>same(row.position,hit));if(bay){const points=bay.loading_points||[];$('cell').textContent=`货位 ${bay.bay_id}，${bay.rack_type==='single'?'单排1层，两侧共享一把锁':'独立货架排，最多'+bay.levels+'层'}。合法装货位置：${points.map(q=>'('+q.join(', ')+')').join('、')}。货架实体不可进入。`;}}
@@ -61,7 +72,7 @@ function renderMetrics(){
  if(r.dispatch_stats) explanation=`派单搜索 ${r.dispatch_stats.searched} 次，改变保底批次 ${r.dispatch_stats.changed} 次，影子试算 ${r.dispatch_stats.shadow_calls} 次；逐候选解释随完整 JSON 保存。`;
  else if(r.algorithm&&typeof r.algorithm.positioning==='boolean') explanation=`${r.algorithm.assignment==='eta_matching'?'按预计完成时间匹配派单':'距离贪心派单'}。${r.algorithm.positioning?`重定位请求 ${r.algorithm.position_attempts} 次，拒绝 ${r.algorithm.position_rejections} 次。`:''}${r.algorithm.delay?'已启用有限延迟。':''}决策记录随完整 JSON 保存。`;
  else if(r.algorithm&&Number.isFinite(r.algorithm.replan_calls)) explanation=`联合重规划调用 ${r.algorithm.replan_calls} 次，接受 ${r.algorithm.accepted_replans} 次。日志随完整结果 JSON 保存。`;
- $('replanSummary').textContent=explanation;$('metricScope').textContent=r.comparison_valid?'全部订单完成且车辆已返回，可用于完整场景比较。':`此场景未成功结束。响应时间仅覆盖已完成的 ${r.completed}/${r.total_tasks} 单；不能与成功场景直接比较。`;
+ $('replanSummary').textContent=explanation;$('metricScope').textContent=r.comparison_valid?(r.model_version&&r.score_valid===false?'执行完整，但没有有效归一化综合分数；请查看实际里程和能耗，不进入F排名。':'全部订单完成且车辆已返回，可用于完整场景比较。'):`此场景未成功结束。响应时间仅覆盖已完成的 ${r.completed}/${r.total_tasks} 单；不能与成功场景直接比较。`;
  $('metricScope').style.color=r.comparison_valid?'#16816c':'#a44a12';$('metricSummary').replaceChildren();
  const cards=[...(r.model_version? [['综合分数 F',r.weighted_score],['归一化 T / R / D',`${formatMetric(r.normalized_time)} / ${formatMetric(r.normalized_response)} / ${formatMetric(r.normalized_distance)}`]]:[]),['完成订单',`${r.completed}/${r.total_tasks}`],['平均订单完成耗时',r.response_sample_count?r.mean_flow_time:(r.total_tasks?null:0)],['最长响应时间',r.max_flow_time],['90%订单的耗时上限',r.p90_flow_time],['平均等车接单时间',r.mean_dispatch_wait],['平均前往取货时间',r.mean_pickup_duration],['平均载货运输时间',r.mean_loaded_duration],['平均装卸时间',r.mean_service_duration],['空驶 / 载货距离',`${r.empty_moves} / ${r.loaded_moves}`],['途中等待总步数',r.traffic_wait_steps],['车辆工作量差异',r.workload_cv]];
  cards.forEach(([label,value])=>{const card=document.createElement('div');card.className='metric';const name=document.createElement('span');name.textContent=label;const explanations={'平均订单完成耗时':'订单出现 → 卸货完成，包含等车接单时间','平均等车接单时间':'订单出现 → 成功分配给车辆'};if(explanations[label]){card.title=explanations[label];const hint=document.createElement('div');hint.className='note';hint.textContent=explanations[label];card.appendChild(hint);}const number=document.createElement('strong');number.textContent=formatMetric(value);card.appendChild(name);card.appendChild(number);$('metricSummary').appendChild(card)});

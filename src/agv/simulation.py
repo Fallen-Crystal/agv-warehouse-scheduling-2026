@@ -472,6 +472,10 @@ class Environment:
         return True
 
     def advance(self, steps=1, *, observe=True):
+        if type(steps) is not int or steps < 1:
+            raise ValueError("Invalid advance or horizon exceeded")
+        if self._scenario.is_v9_1 and self.done:
+            return self.observe() if observe else None
         if (
             type(steps) is not int
             or steps < 1
@@ -479,6 +483,8 @@ class Environment:
         ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
+            if self._scenario.is_v9_1 and self.done:
+                break
             if self.idle_hold_steps or self._scenario.is_v9_1:
                 from agv.dispatch.idle import advance_standby
 
