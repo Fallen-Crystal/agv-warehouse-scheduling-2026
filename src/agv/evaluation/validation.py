@@ -217,20 +217,6 @@ def validate(scenario, result):
     # All subsequent checks share coordinate identity, without changing the caller's data.
     result = {**result, "paths": paths}
     labels = result["interval_states"]
-    require(
-        isinstance(labels, (list, tuple)) and len(labels) == len(paths),
-        "Invalid state vehicle count",
-    )
-    states = {"idle", "returning", "standby", "to_pickup", "loading", "to_delivery", "unloading"}
-    require(
-        all(
-            isinstance(row, (list, tuple))
-            and len(row) == horizon
-            and all(type(label) is str and label in states for label in row)
-            for row in labels
-        ),
-        "Invalid interval states",
-    )
     for k, path in enumerate(paths):
         require(
             len(path) == horizon + 1 and tuple(path[0]) == scenario.homes[k], "Invalid start/length"
@@ -510,6 +496,20 @@ def validate(scenario, result):
         "Wrong movement metrics",
     )
     # Independently rebuild each displayed interval, rather than trusting its label.
+    require(
+        isinstance(labels, (list, tuple)) and len(labels) == len(paths),
+        "Invalid state vehicle count",
+    )
+    states = {"idle", "returning", "standby", "to_pickup", "loading", "to_delivery", "unloading"}
+    require(
+        all(
+            isinstance(row, (list, tuple))
+            and len(row) == horizon
+            and all(type(label) is str and label in states for label in row)
+            for row in labels
+        ),
+        "Invalid interval states",
+    )
     for k in range(len(paths)):
         own = [r for r in assignments if r["vehicle"] == k]
         for t, label in enumerate(labels[k]):
