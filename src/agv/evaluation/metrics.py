@@ -64,7 +64,7 @@ def summarize(scenario, result):
         for a, b, state in zip(path, path[1:], labels):
             if state not in ("idle", "returning", "standby"):
                 row["task_busy_steps"] += 1
-            if a != b:
+            if tuple(a) != tuple(b):
                 row["moves"] += 1
                 row["loaded_moves" if state == "to_delivery" else "empty_moves"] += 1
             elif state in ("loading", "unloading"):
