@@ -23,6 +23,8 @@ def reposition(env, vehicle, target):
     target = tuple(target)
     scenario, now = env._scenario, env.time
     home = scenario.homes[vehicle]
+    if target == home and env._plans[vehicle][0] == home:
+        raise ValueError("Vehicle is already at home")
     if target != home and not _ordinary_transit(scenario, target):
         raise ValueError("Positioning target must be ordinary transit floor or own home")
     if final_return_ready(env) and target != home:

@@ -228,6 +228,21 @@ class PositioningTests(unittest.TestCase):
         self.assertGreater(result["standby_steps"], 0)
         self.assertGreater(result["empty_moves"], 0)
 
+    def test_already_home_request_cannot_rewrite_actual_return_time(self):
+        s = scene(release=0, end=300)
+        env = Environment(s, router_kind="sipp", positioning=True)
+        self.assertTrue(env.assign([(0, 0)])[0]["accepted"])
+        actual_return = env._records[0]["return_end"]
+        env.advance(actual_return + 2, observe=False)
+        self.assertEqual(env.observe()["vehicles"][0]["position"], s.homes[0])
+        before = snapshot(env)
+        with self.assertRaisesRegex(ValueError, "already at home"):
+            env.reposition(0, s.homes[0])
+        self.assertEqual(snapshot(env), before)
+        result = finish(env)
+        self.assertEqual(result["events"][0]["return_end"], actual_return)
+        self.assertTrue(validate(s, result))
+
     def test_new_order_interrupts_an_inflight_positioning_route(self):
         s = scene(release=5)
         env = Environment(s, router_kind="sipp", positioning=True)
