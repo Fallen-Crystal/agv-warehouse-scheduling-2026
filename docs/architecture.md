@@ -15,15 +15,19 @@ src/agv/
     reservations.py     # invalidated per-cell time index
     pickup.py           # shelf side and pickup/delivery/return composition
     joint.py            # candidate neighborhoods and feasible improvement acceptance
+    reposition.py       # opt-in interruptible empty move with complete home fallback
   dispatch/
     greedy.py           # original visible-state policy
     optimized.py        # online driver and exact current-batch matching
     registry.py         # one set of named solver configurations
+    positioning.py      # safe static candidates, causal demand history, target matching
+    stream.py           # V9.1 SIPP ETA matching and bounded intentional deferral
+    bcrd.py             # bounded visible-order rollouts, optional predicted P90 guard
   learning/             # standard-library ridge ranking + reproducible training
   models/               # schema-validated trained artifact
-  evaluation/           # metrics, offline V4 score, independent execution validator
+  evaluation/           # metrics, offline score/lower bounds, independent execution validator
   io/                   # scene format/hash, atomic writes, public map import
-  experiments/          # legacy/V4 paired benchmarks and isolated planner benchmark
+  experiments/          # paired legacy/V4/V9.1 benchmarks and isolated planner benchmark
   web/
     app.py              # local HTTP boundary, limits, run dispatch
     templates/          # one actual HTML template
@@ -89,6 +93,45 @@ The existing joint repair accepts strict lexicographic improvements in remaining
 The optional standby controller in `dispatch/idle.py` delays a discharged vehicle's fallback only on static ordinary transit floor. It audits the full delayed suffix against every other reservation before an atomic update, records waits separately, and spends an explicit finite per-assignment allowance. It never inspects future task count or release locations to decide whether to stay. The default allowance is zero. Final actual returns are independently checked against the last effective return event; old returns interrupted by a new assignment remain historical fallback metadata.
 
 Explicit `(vehicle, task, pickup_point)` actions narrow the real planner's legal candidates after complete input validation; existing pairs keep automatic side choice. Standby plus BCRD is rejected until its observation/shadow recovery contract includes the consumed allowance and wait history. Unbounded structured waits and the teammate's unverified generic replanning adapter were not copied. The shared experiment runner can select the V9 generator explicitly and record standby/empty-distance metrics while retaining the same SIPP/no-joint controls and failure accounting.
+
+## V9.1 stream optimizations
+
+The current stream contract supersedes the finite V9 standby allowance. Only the
+publisher knows the stream end in advance; dispatch observes the closure event
+after it happens. An open stream with no current pending orders remains open.
+The mandatory final-return phase starts after closure and completion of all
+published deliveries. An opt-in positioning policy can also choose its own Home
+earlier as a safe idle alternative; completion still waits for closure and all
+published work.
+
+`dispatch/stream.py` shares the observation boundary with the existing greedy
+driver. ETA matching estimates each pair with SIPP and then passes a legal batch
+to the real atomic assignment boundary. Optional intentional deferral compares
+already committed soon-free vehicles; its age cap is not a service deadline.
+`dispatch/positioning.py` selects safe ordinary-floor candidates using static
+connectivity, past observed demand, zone capacity and assignment costs. It can
+activate idle Home vehicles after observed demand exists. New orders interrupt
+empty positioning, but cannot cancel task commitments. Positioning is opt-in at
+the environment boundary and is independently audited from action events and
+actual paths, including final Home returns and all empty mileage.
+
+`PlanReservations` stores spatial membership and absolute route origins, with a
+stationary override for inserted waits. Hold maintenance in this index is O(1);
+the full hold action still constructs and checks its future suffix. Public static
+geometry is cached at reset and still deep-copied into each observation.
+
+The V9.1 `ShadowState` reconstructs only released work. Open-flow forecasts stop
+at the end of currently known deliveries without inventing closure or charging
+unexecuted final returns. Closed-flow forecasts honor final returns. The optional
+P90 guard compares visible forecasts, including completed historical flow times;
+it does not bound actual response under unseen future demand. Positioning plus
+BCRD and historical TTL combinations are rejected until separately validated.
+
+`evaluation/bounds.py` computes optimistic offline relaxations only; it neither
+changes the score reference nor enters an observation. `benchmark-v91` times raw
+execution apart from these bounds, the A* reference, and independent validation.
+Source hashes remain frozen while a protocol runs. See the
+[optimization report](v91-optimization.md) for measured effects and limitations.
 
 ## Deliberate scope
 

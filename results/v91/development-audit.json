@@ -1,0 +1,8 @@
+{
+  "status": "verified",
+  "rows": 252,
+  "independent_traces_validated": 84,
+  "retained_failed_traces": 0,
+  "source_revision": "689735f",
+  "protocol_sha256": "72a5722de62e85280ddc81c74fa90b07e4ab03a184e794cd73ab087b5ebe741c"
+}

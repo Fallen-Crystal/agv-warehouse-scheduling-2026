@@ -1,0 +1,47 @@
+{
+  "source_commit": "32a6797b14257e87f492ae9619872e2b7b49ac33",
+  "python": "3.12.13",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "unittest": {
+    "command": "python -m unittest discover -s tests -t . -q",
+    "passed": 251,
+    "duration_seconds": 150.033,
+    "log_sha256": "37e7f914a2ff359ff39ac4043ea9cc73ae7620f09ab43c6a556637a015434202"
+  },
+  "ruff": "All published Python files: check and format --check passed",
+  "js_syntax": "node --check src/agv/web/static/app.js passed",
+  "wheel": {
+    "version": "0.6.0",
+    "installed_in_fresh_environment": true,
+    "executed_outside_source": true,
+    "position_delay_smoke": {
+      "vehicles": 2,
+      "tasks": 4,
+      "complete_and_valid": true
+    },
+    "bcrd_tail_smoke": {
+      "vehicles": 2,
+      "tasks": 4,
+      "complete_and_valid": true
+    },
+    "installed_home_noop_rejected_atomically": true,
+    "installed_js_equals_source": true
+  },
+  "browser_smoke": {
+    "profile": "v9.1",
+    "algorithm": "sipp_position_delay_dispatch",
+    "vehicles": 2,
+    "tasks": 4,
+    "mode": "dynamic",
+    "complete_and_returned": true,
+    "summary_without_undefined": true,
+    "screenshot": "ui-smoke.png"
+  },
+  "formal_runs": 1284,
+  "holdout_runs": 960,
+  "holdout_unique_scenarios": 240,
+  "holdout_valid": 960,
+  "representative_release_replays": 48,
+  "replays_all_equal": true,
+  "limitation": "Representative replay is not a repeat of every formal row; new policies remain opt-in."
+}

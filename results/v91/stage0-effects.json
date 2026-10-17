@@ -1,0 +1,12 @@
+{
+  "schema": "agv-v91-mechanism-analysis-v1",
+  "source": "v91-stage0",
+  "uncertainty": "Fixed-template paired bootstrap, descriptive CPU, no correction for development selection",
+  "baseline_mean_relaxation_gaps": {
+    "T_gap_pct": 28.14020536253289,
+    "R_gap_pct": 72.64910468278171,
+    "D_gap_pct": 25.11336240623985,
+    "F_gap_pct": 36.78641285710954
+  },
+  "comparisons": []
+}

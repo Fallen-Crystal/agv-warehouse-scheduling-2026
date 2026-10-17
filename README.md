@@ -61,15 +61,26 @@ agv run --profile v4 --tasks 18 --vehicles 4 --algorithm bcrd_budget --output ru
 agv run --profile v9.1 --mode dynamic --tasks 12 --vehicles 4 --output runs/current.json
 ```
 
-此入口默认使用 `sipp_stream_dispatch`；网页默认选择V9.1，不要求填写仿真步数上限，支持无截止场景导入与同步订单流状态。也可运行 `--algorithm baseline`。这两项复用已有调度/路径代码，本次没有新增全局最优算法或算法收益实验。
+此入口默认使用 `sipp_stream_dispatch`；网页默认选择V9.1，不要求填写仿真步数上限，支持无截止场景导入与同步订单流状态。也可运行 `--algorithm baseline`。
 
-数学模型、规则和接口见 [V9.1算法交接](docs/modeling-v9.1.md)，验证见 [V9.1验证](docs/v9.1-validation.md)。**下面V9有限待命及BCRD结果属于历史实验**；尚未完成影子预测适配的算法不能直接与当前profile组合，程序会明确拒绝，旧入口及原结果保留供复现。
+数学模型、规则和接口见 [V9.1算法交接](docs/modeling-v9.1.md)，初次业务接入验证见 [V9.1验证](docs/v9.1-validation.md)。0.6.0新增可选的安全选点定位、SIPP完成时间匹配、有限延迟派单，以及适配真实订单流的BCRD与可见订单P90保护；机制、同场景消融、留出实验和限制见 [本轮优化报告](docs/v91-optimization.md)。默认策略保持原样，旧规则的联合重规划入口仍不能直接与当前profile组合。
+
+```bash
+agv run --profile v9.1 --mode dynamic --tasks 12 --vehicles 4 \
+  --algorithm sipp_position_delay_dispatch --output runs/current-positioning.json
+agv run --profile v9.1 --mode static --tasks 12 --vehicles 4 \
+  --algorithm sipp_stream_bcrd_tail --output runs/current-bcrd.json
+agv benchmark-v91 --protocol examples/experiments/v91-development.json \
+  --output runs/v91-reproduction --workers 4
+```
+
+新机制均通过显式算法名启用。定位与BCRD分别验证，当前没有提供二者的未经验证组合。全程重定位、等待和最终返库均参与验解与计账；P90保护作用于已发布订单的预测，不能保证未知订单到来后的实际P90。实验使用合成场景，没有重新训练旧模型或使用私密数据。下文V9有限待命及BCRD数字继续属于历史实验。
 
 ## 待命与可中途接单返库的独立比较
 
 新增四种地图×三类工况×三个种子的36组配对、72次执行，使用相同贪心与SIPP，均计最终返库。近卸货口安全待命在稀疏工况平均空驶减少17.61%、F改善2.71%；共享出口批量工况F变差0.32%。每设置仅三个种子，属于探索性结果，没有普遍最优或真实电池节能的宣称。
 
-论文、实验定义及限制见[对照研究](docs/idle-policy-comparison.md)；分散/动态定位等后续路线见[待命位置建模建议](docs/idle-positioning-options.md)。第三策略尚未实现，当前V9.1业务规则保持不变。
+论文、实验定义及限制见[对照研究](docs/idle-policy-comparison.md)；分散/动态定位的设计见[待命位置建模建议](docs/idle-positioning-options.md)。第三策略的0.6.0实现与新规则实测另见 [本轮优化报告](docs/v91-optimization.md)；此处保留原比较结论与业务合同。
 
 紧凑统计、原始逐次CSV和正/负精选轨迹见[结果与复现](results/idle-policy-20261016/README.md)。研究F使用同场景SIPP返库方案为固定参照，不与生产A*分母或历史报告F直接混比。
 

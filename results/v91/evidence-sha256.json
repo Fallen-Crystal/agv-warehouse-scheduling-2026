@@ -1,0 +1,58 @@
+{
+  "schema": "agv-v91-evidence-sha256-v1",
+  "measured_batches": {
+    "stage0": {
+      "git_commit": "73c56b93feb11795e0e88b03e7e6f39278b81733",
+      "recorded_runs": 72,
+      "valid_runs": 72,
+      "representative_traces": 24
+    },
+    "development": {
+      "git_commit": "689735f5985a7c727c51b652f28c9efe128f1782",
+      "recorded_runs": 252,
+      "valid_runs": 252,
+      "representative_traces": 84
+    },
+    "holdout": {
+      "git_commit": "ace242e10a16e9cb5d338bb6d1c2521b2fc136ca",
+      "recorded_runs": 960,
+      "valid_runs": 960,
+      "representative_traces": 48
+    }
+  },
+  "release_source_commit": "32a6797b14257e87f492ae9619872e2b7b49ac33",
+  "files": {
+    "README.md": "1fd406b4570603f87ca426ae4e982d2720dae4ffdb84f73f81e853a6cc418d51",
+    "baseline-equivalence.json": "11d70dccc6fa95c27f686072e33cbd6a4d64c8443258b7153c737accef6c7ba7",
+    "development-audit.json": "3d53c3d56748a09f7308456e11a120f54ad981e359b12f64ab9f494d1a107abb",
+    "development-effects.json": "51412f96f7721ad0583f0413c9e12c8140c860daa92a586bd8b1245a36949441",
+    "development-runs.csv": "b9c6baf854a6627fbd0192a8e2bf3e6920c868e21f049974c9094cf695c09af4",
+    "development-summary.json": "67c94ddaf297a6f92041c88c02839cbb58152ce2a2f919df7d6f8893181d86a9",
+    "development.tar.gz": "2b37ec60e762a32db03871a75c907c037debc765035f72ded56a69abe9a4cf95",
+    "holdout-audit.json": "9f2f79affed50b519e1655baa42690485fcae2e0975ad5567d4ca85d2d3066eb",
+    "holdout-effects.json": "991992ee9c4c224f4ed4dd89709c7bfd92072ce996c71b9e5842ed09c34ad28a",
+    "holdout-effects.png": "726980b23889df301d73ae600d5eec25038c74c37ca1129f97201955786fa421",
+    "holdout-runs.csv": "d0f1da56642311890b58d7bb8db655ac976049c639ee0c45c5c030a000ef8146",
+    "holdout-summary.json": "d2ac144161afdaa23c2d822170ba7703066bda5fc1a3d4e85a1f25d7da3fb86a",
+    "holdout.tar.gz": "977dcc5412dd4b1c619aaa4070f23849ad7482356f81b4333750f7f3abda8498",
+    "index-performance-after.json": "e4f89803a0dda17deb9b446438699e2c6b116cbd5258ba73bd7d6a6631b03d4f",
+    "index-performance-before.json": "535c169f6f3d5d66be6117d28ab1e6c405483cb72650ddbd1613dba421ffe548",
+    "matching-negative-replay.html": "31c8ffdc71c16fc08d2610b745fd8e3c3bc534e5568bbe5698b470a90b94dc6a",
+    "observe-cache-pilot.json": "3273c750fe0b17be35b43ccae9d42cf4588185daeae87c8f8639e0294114a9aa",
+    "position-positive-replay.html": "899106a612e6083af641554082ee19883e4309370b6d5a4e6f15442f9a3d184c",
+    "release-replay.json": "410d6f1ff9f63f16ae6d6c264d71210468e144e2bd2954613e85eb86c21bd6e1",
+    "stage0-audit.json": "2ac8f7f1f0753ddb03aa4cd8bc9d637777ae65986fe0a10c44a3935ce4561558",
+    "stage0-effects.json": "0d38b1af3d7959141110aa552c80824dee0e78e607df72364021c003eaa549bb",
+    "stage0-runs.csv": "a3db517ce58c6ef5e688eef8fb8bf71a098bd4bd23b6a071f639d60da33d61b2",
+    "stage0-summary.json": "8abd4bef0352e91f0c959c8e2127d450c659bd0dcf53481903fffb406fb6e464",
+    "stage0.tar.gz": "72ff479949eb22841dc0a97acb70ecb230ef71f82502404813e46e3708787cec",
+    "tail-guard-replay.html": "6ea435e5e39c1283432ec439ce742a79896367f8f5fc41216846a5eb259bfe25",
+    "ui-smoke.png": "4b3c927d917e901cfba20eeeb407001d61386b95f19e2b3ab5813a5e1a12b6fa",
+    "verification.json": "508b5388f7a4b5fbd7e43d2b39dd5e02543cdd38239bddb826bf1e1106751dde"
+  },
+  "analysis_scripts": {
+    "scripts/analyze_v91.py": "f3f1ba33f7ff0f1575210c988f193587b9a94cb54e1e054fe862daf07183c6c1",
+    "scripts/plot_v91.py": "f7be9b206a02ea07115a59a336b483d3b7a17999618794044a671f99ec82b4d4",
+    "scripts/verify_v91_release.py": "866f4c313296a78fe0351291be769a479d43f9a1b170cca5168fd311ced707e6"
+  }
+}

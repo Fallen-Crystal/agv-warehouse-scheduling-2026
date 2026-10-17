@@ -18,6 +18,7 @@ def analyze(directory):
     comparisons = (
         ("G0", "G1"),
         ("G0", "G2"),
+        ("G0", "G3"),
         ("G2", "G3"),
         ("G3", "G4"),
         ("G0", "G4"),
