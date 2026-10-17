@@ -146,7 +146,11 @@ def _score_fields(scenario, result, context):
         "objective_weights": dict(WEIGHTS),
         "estimated_energy": ENERGY_PER_MOVE * result["moves"],
         "normalization_reference": deepcopy(context),
-        "score_valid": bool(_successful(result) and context["available"]),
+        "score_valid": bool(
+            _successful(result)
+            and context["available"]
+            and (bool(scenario.tasks) or result["moves"] == 0)
+        ),
         "weighted_score": None,
         **{name: None for name in _NORMALIZED_FIELDS},
     }
@@ -174,7 +178,9 @@ def score_result(scenario, result, reference=None):
     denominators, scene digest, policy and model version are all verified.
     An invalid trace raises ValueError; a valid unfinished/failed execution
     remains reportable but has no normalized metrics or primary score.
-    A successful empty scene scores zero. Original execution fields survive.
+    A successful stationary empty scene scores zero. Empty executions with
+    movement retain actual distance/energy but have no normalized score:
+    their fixed zero-demand reference has zero distance. Original fields survive.
     """
     _validate_execution(scenario, result)
     context = _trusted_reference(scenario, reference)

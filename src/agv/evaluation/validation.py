@@ -134,7 +134,7 @@ def validate(scenario, result):
         if not ok:
             raise ValueError(message)
 
-    paths = result["paths"]
+    raw_paths = result["paths"]
     horizon = result["time"]
     require(
         type(horizon) is int
@@ -142,7 +142,28 @@ def validate(scenario, result):
         and (scenario.horizon is None or horizon <= scenario.horizon),
         "Invalid executed time",
     )
-    require(len(paths) == len(scenario.homes), "Missing vehicle")
+    require(
+        isinstance(raw_paths, (list, tuple)) and len(raw_paths) == len(scenario.homes),
+        "Missing vehicle",
+    )
+    paths = []
+    for path in raw_paths:
+        require(
+            isinstance(path, (list, tuple)) and len(path) == horizon + 1,
+            "Invalid trajectory length",
+        )
+        normalized = []
+        for point in path:
+            require(
+                isinstance(point, (list, tuple))
+                and len(point) == 2
+                and all(type(value) is int for value in point),
+                "Trajectory coordinates must be pairs of integers",
+            )
+            normalized.append(tuple(point))
+        paths.append(normalized)
+    # All subsequent checks share coordinate identity, without changing the caller's data.
+    result = {**result, "paths": paths}
     for k, path in enumerate(paths):
         require(
             len(path) == horizon + 1 and tuple(path[0]) == scenario.homes[k], "Invalid start/length"
@@ -334,6 +355,16 @@ def validate(scenario, result):
         and all(tuple(p[-1]) == home for p, home in zip(paths, scenario.homes))
     )
     require(result["feasible"] == complete, "Wrong success flag")
+    if scenario.is_v9_1 and complete:
+        ready = max(
+            scenario.order_stream_end, max((r["delivery_end"] for r in expected_events), default=0)
+        )
+        terminal = next(
+            t
+            for t in range(ready, horizon + 1)
+            if all(path[t] == home for path, home in zip(paths, scenario.homes))
+        )
+        require(horizon == terminal, "Executed time exceeds actual terminal completion")
     times = [r["delivery_end"] for r in expected_events]
     flow = [r["delivery_end"] - jobs[r["task_id"]].release for r in expected_events]
     require(result["makespan"] == max(times, default=0), "Wrong makespan")
