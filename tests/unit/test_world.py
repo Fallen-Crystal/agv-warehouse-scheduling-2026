@@ -321,5 +321,20 @@ class AtomicCommandTests(unittest.TestCase):
         self.assertEqual(execution_footprint(world), before)
 
 
+class PublisherAdapterTests(unittest.TestCase):
+    def test_legacy_publisher_adapter_reinitializes_and_closes_the_same_world(self):
+        from agv.dispatch.order_stream import close, initialize, publish
+
+        scenario = generate_current(task_count=0, vehicles=1, order_stream_end=0)
+        world = Environment(scenario)
+        self.assertTrue(world.done)
+        initialize(world, manual=True)
+        self.assertFalse(world.done)
+        publish(world)
+        self.assertFalse(world.observe()["order_stream_closed"])
+        close(world)
+        self.assertTrue(world.done)
+
+
 if __name__ == "__main__":
     unittest.main()

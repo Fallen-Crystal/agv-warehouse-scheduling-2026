@@ -1,9 +1,11 @@
 # Pre-refactor trajectory baseline
 
 `manifest.json` and `results.json.gz` are recorded from commit
-`cabc2120c15d5810823bdc1ea84b0a18eb846065`, before architecture changes.
-The source was exported with `git archive HEAD` into
-`tmp/architecture-baseline/`; the recorder starts a separate interpreter with
+`81dc59313898687be0e64ff9ba19b236a9f8dc06`, before architecture changes.
+This is the remote main revision explicitly audited by the user's architecture
+plan; the earlier local checkout `cabc212` was stale. The source was exported
+with `git archive 81dc593` into `tmp/architecture-baseline-main81dc593/`;
+the recorder starts a separate interpreter with
 that archive's `src/` on `PYTHONPATH`. It refuses to record directly from the
 working source tree or replace an existing baseline without `--overwrite`.
 Do not regenerate expected results to make a refactor pass.
@@ -32,16 +34,24 @@ recursively. Simulated times, ordering, floats and routing counters are retained
 The manifest includes SHA-256 hashes for the payload and for each normalized
 result, path collection and assignment collection, plus original execution times.
 
-Recording completed with 580/580 feasible, independently validated results and
-zero exceptions in 628.114 measured wall seconds. Per-run CPU medians were:
+Recording from the audited main completed with 580/580 feasible, independently
+validated results, zero exceptions, and 612.968 measured wall seconds. Per-run
+CPU medians were:
 
 | Profile | Baseline CPU median (seconds) |
 | --- | ---: |
-| Legacy | 0.044893 |
-| V4 | 0.175341 |
-| V9 | 1.926891 |
-| V9.1, 4 jobs / 2 vehicles | 1.326580 |
-| V9.1, 12 jobs / 4 vehicles | 1.565342 |
+| Legacy | 0.045237 |
+| V4 | 0.185800 |
+| V9 | 1.916638 |
+| V9.1, 4 jobs / 2 vehicles | 1.186237 |
+| V9.1, 12 jobs / 4 vehicles | 1.567889 |
+
+`upstream-baseline-diff.json` compares the earlier stale-local recording with
+the independently re-recorded audited main. All 580 normalized results and
+all 50 scenarios are identical in this matrix. The stricter upstream API and
+validation fixes are covered separately by contract and mutation tests; this
+matrix alone does not exercise every repaired boundary. Expected values were
+never recorded from the refactored source tree.
 
 Per-run timing covers `run_named`, including its existing score computation;
 the recorder's additional independent validation is outside that timer. Total
@@ -68,8 +78,22 @@ This output is not overwritten by ordinary replay or unittest. To validate the
 recorder against its own archive:
 
 ```sh
-.venv/bin/python tests/golden/record.py replay --source-root tmp/architecture-baseline
+.venv/bin/python tests/golden/record.py replay --source-root tmp/architecture-baseline-main81dc593
 ```
+
+The final recorded full replay passed all 580 cases with zero normalized-field
+differences and an unchanged 94-file source/assets fingerprint:
+`0dd78533a19754235fb1cc920195e0ba6dee8396d898238f97b903fa40b05aff`.
+The measured CPU medians across each profile's registered solver/seed matrix
+were:
+
+| Profile | Baseline seconds | Refactored seconds | Baseline / refactored |
+| --- | ---: | ---: | ---: |
+| Legacy | 0.045237 | 0.040648 | 1.113× |
+| V4 | 0.185800 | 0.106851 | 1.739× |
+| V9 | 1.916638 | 0.524236 | 3.656× |
+| V9.1, 4 jobs / 2 vehicles | 1.186237 | 0.133457 | 8.889× |
+| V9.1, 12 jobs / 4 vehicles | 1.567889 | 0.479850 | 3.267× |
 
 Normal unittest discovery replays seed 10: 58 runs covering every solver/profile.
 Set `AGV_GOLDEN_FULL=1` to run all 580 cases through unittest as well:
@@ -81,3 +105,5 @@ AGV_GOLDEN_FULL=1 .venv/bin/python -m unittest tests.golden.test_replay
 This is a deterministic refactoring regression gate, not an algorithm-quality
 benchmark or a hardware-controlled speed experiment. The 12-job V9.1 scenes are
 included to exercise budgeted rollouts and provide comparable baseline timing.
+
+The dedicated `golden` CI job executes the complete 580-case CLI gate for every push and pull request. The six platform/Python unit jobs retain the compact 58-case default.

@@ -9,7 +9,7 @@ from tests.golden.record import load_golden, replay
 class GoldenReplayTests(unittest.TestCase):
     def test_frozen_manifest_covers_all_solvers_and_development_seeds(self):
         manifest, data = load_golden()
-        self.assertEqual(manifest["baseline_commit"], "cabc2120c15d5810823bdc1ea84b0a18eb846065")
+        self.assertEqual(manifest["baseline_commit"], "81dc59313898687be0e64ff9ba19b236a9f8dc06")
         self.assertEqual(manifest["seeds"], list(range(10, 20)))
         self.assertEqual(manifest["errors"], [])
         self.assertEqual(manifest["case_count"], manifest["expected_case_count"])

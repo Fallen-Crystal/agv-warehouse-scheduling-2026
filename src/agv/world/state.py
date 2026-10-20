@@ -67,6 +67,14 @@ class WorldState:
         self.orders.initialize()
         return self.observe()
 
+    def initialize_orders(self, manual=False):
+        """Historical publisher adapter; no policy owns publication state."""
+        self.orders = OrderPublisher(
+            ScheduledOrderSource(tuple(self._scenario.tasks), self._scenario.order_stream_end),
+            manual=manual,
+        )
+        return self.orders.initialize(self.time)
+
     def close_order_stream(self):
         """External publisher API; not a policy/dispatch action."""
         self.orders.close(self.time)

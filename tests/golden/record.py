@@ -195,11 +195,17 @@ def replay(directory=GOLDEN, *, seeds=None, verbose=False):
                 changed = sorted(
                     k
                     for k in actual.keys() | case["result"].keys()
-                    if actual.get(k) != case["result"].get(k)
+                    if k not in actual
+                    or k not in case["result"]
+                    or canonical(actual[k]) != canonical(case["result"][k])
                 )
                 errors.append(dict(id=case["id"], changed=changed))
+                if verbose:
+                    print(f"DIFFERENCE {case['id']}: {', '.join(changed)}", flush=True)
         except Exception as error:
             errors.append(dict(id=case["id"], error=f"{type(error).__name__}: {error}"))
+            if verbose:
+                print(f"FAILED {case['id']}: {error}", flush=True)
         if verbose and len(timings) % 20 == 0:
             print(f"replayed {len(timings)} cases; differences={len(errors)}", flush=True)
     baseline_times = {row["id"]: row for row in manifest["timings"]}
@@ -217,7 +223,14 @@ def replay(directory=GOLDEN, *, seeds=None, verbose=False):
             replay_median_cpu_seconds=after,
             baseline_over_replay=before / after,
         )
-    return dict(runs=len(timings), differences=errors, timings=timings, timing_summary=comparison)
+    return dict(
+        baseline_commit=manifest["baseline_commit"],
+        baseline_payload_sha256=manifest["payload_sha256"],
+        runs=len(timings),
+        differences=errors,
+        timings=timings,
+        timing_summary=comparison,
+    )
 
 
 def main():
@@ -226,7 +239,7 @@ def main():
     parser.add_argument("--source-root", type=Path, default=ROOT)
     parser.add_argument("--output", type=Path, default=GOLDEN)
     parser.add_argument("--report", type=Path, help="Separate replay evidence JSON file")
-    parser.add_argument("--baseline-commit", default="cabc2120c15d5810823bdc1ea84b0a18eb846065")
+    parser.add_argument("--baseline-commit", default="81dc59313898687be0e64ff9ba19b236a9f8dc06")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--seed", type=int, action="append", help="Replay only selected seed(s)")
     parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
