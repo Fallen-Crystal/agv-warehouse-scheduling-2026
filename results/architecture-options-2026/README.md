@@ -41,3 +41,5 @@ python tests/golden/record.py replay --report runs/full-golden.json
 [golden-final.json](golden-final.json) 为完整580回放，轨迹/绑定/模拟时刻/指标/路由计数等完整规范化结果零差异，且源码前后一致。这里的旧版计时来自早先记录，新版回放有背景负载，因此不把该文件的timing_summary当作本轮配对速度提升证据。
 
 [verification.json](verification.json) 记录345项测试、580回放、源码指纹、验解器原样、架构/格式/lock/安装包检查；[unittest.log](unittest.log) 为实际测试尾部。早期筛选对已有机制的增量比较见 [screening-decisions.json](screening-decisions.json)，只用于开发淘汰，没有在留出后调参。
+
+首次远端Windows CI发现两处测试平台假设：UTF-8诊断文件被默认cp1252读取、瞬时失败被要求CPU严格大于零。后续提交只修测试，使用显式UTF-8和含中文的来源样例，并主动模拟零CPU计时。20项相关测试和完整345项本地重跑通过（65.156秒）；生产源码99文件哈希未变，580回放及冻结留出实验无须重算，原始记录继续有效。

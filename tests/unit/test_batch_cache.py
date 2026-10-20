@@ -202,15 +202,17 @@ class CacheTests(unittest.TestCase):
                 self.assertTrue(rows[0]["comparison_valid"])
 
     def test_cache_retains_original_measurement_machine_when_reused_elsewhere(self):
-        with patch("agv.experiments.v91_bench.platform.platform", return_value="original-platform"):
+        with patch("agv.experiments.v91_bench.platform.platform", return_value="原始-platform"):
             first, _ = self.run_bench("original-machine")
         with patch("agv.experiments.v91_bench._raw", wraps=v91_bench._raw) as execute:
             reused, _ = self.run_bench("current-machine")
         self.assertEqual(execute.call_count, 0)
         environment = json.loads(reused[0]["measurement_environment"])
-        self.assertEqual(environment["platform"], "original-platform")
+        self.assertEqual(environment["platform"], "原始-platform")
         self.assertEqual(reused[0]["cpu_seconds"], first[0]["cpu_seconds"])
-        diagnostics = json.loads((self.root / "current-machine" / "diagnostics.jsonl").read_text())
+        diagnostics = json.loads(
+            (self.root / "current-machine" / "diagnostics.jsonl").read_text(encoding="utf-8")
+        )
         self.assertEqual(diagnostics["measurement_environment"], environment)
 
     def test_atomic_store_leaves_no_temporary_files_and_missing_cache_is_a_miss(self):
@@ -261,7 +263,7 @@ class CacheTests(unittest.TestCase):
                     self.root / "changed", self.protocol, cache_dir=self.cache_dir
                 )
         self.assertFalse(self.cache_dir.exists())
-        manifest = json.loads((self.root / "changed" / "manifest.json").read_text())
+        manifest = json.loads((self.root / "changed" / "manifest.json").read_text(encoding="utf-8"))
         self.assertEqual(manifest["status"], "source_changed")
 
 

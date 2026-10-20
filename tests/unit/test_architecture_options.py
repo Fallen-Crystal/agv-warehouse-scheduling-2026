@@ -1,6 +1,7 @@
 """The new holdout is frozen independently of the historical 200--219 set."""
 
 import json
+import math
 import tempfile
 import unittest
 from pathlib import Path
@@ -91,13 +92,16 @@ class ArchitectureOptionsTests(unittest.TestCase):
                     f"agv.experiments.architecture_options.{tool}",
                     side_effect=RuntimeError("deliberate probe failure"),
                 ),
+                # A sub-clock-tick failure legitimately measures zero CPU on Windows.
+                patch("agv.experiments.architecture_options.time.process_time", return_value=10.0),
             ):
                 rows = _execute(payload)
             self.assertEqual(len(rows), 2)
             self.assertTrue(all(not row["valid"] for row in rows))
             self.assertTrue(all(row["failure_stage"] == stage for row in rows))
             self.assertTrue(all("deliberate probe failure" in row["audit_error"] for row in rows))
-            self.assertTrue(all(row["cpu_seconds"] > 0 for row in rows))
+            self.assertTrue(all(row["cpu_seconds"] == 0 for row in rows))
+            self.assertTrue(all(row["wall_seconds"] >= 0 for row in rows))
 
     def test_non_mapping_solver_result_is_retained_as_execution_failure(self):
         config = self.config()
@@ -149,7 +153,13 @@ class ArchitectureOptionsTests(unittest.TestCase):
                 self.assertEqual(len(report["rows"]), 2)
                 self.assertTrue(all(row["valid"] for row in report["rows"]))
                 self.assertEqual(report["summary"]["window/all"]["valid_pairs"], 1)
-                self.assertTrue(all(row["cpu_seconds"] > 0 for row in report["rows"]))
+                self.assertTrue(
+                    all(
+                        math.isfinite(row[field]) and row[field] >= 0
+                        for row in report["rows"]
+                        for field in ("cpu_seconds", "wall_seconds")
+                    )
+                )
             self.assertEqual(json.loads((root / "dev.json").read_text())["seeds"], [10])
             with self.assertRaises(FileExistsError):
                 freeze(config, root / "freeze.json")

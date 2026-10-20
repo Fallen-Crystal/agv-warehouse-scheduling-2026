@@ -29,6 +29,6 @@ small__dense_static seed=10: 2 runs recorded
 small__dense_static seed=10: 1 runs recorded
 empty seed=10 2 runs recorded
 ----------------------------------------------------------------------
-Ran 345 tests in 149.301s
+Ran 345 tests in 65.156s
 
 OK

@@ -105,9 +105,10 @@
   "python": "3.12.13",
   "tests": {
     "count": 345,
-    "seconds": 149.301,
+    "seconds": 65.156,
     "status": "passed",
-    "log_sha256": "e53041e16b0e1fcaeb20792ac9027c622681da519b9ad39862c52f3ad26a19e5"
+    "log_sha256": "291b0cdce9e899e4e1920936b4957a7ec5b724c2b36cd689888666bbafd4e429",
+    "initial_seconds": 149.301
   },
   "golden": {
     "runs": 580,
@@ -128,5 +129,18 @@
     "resources_identical": true,
     "sha256": "dd5b136ebbd759807620454cc90575194f58ba2202eb9873d08c28a5d251988b"
   },
-  "notes": "Formal holdout reports are separate; golden timing summary compares earlier recorded CPU with a concurrently loaded replay and is not a paired single-run speed claim."
+  "notes": "Formal holdout reports are separate; golden timing summary compares earlier recorded CPU with a concurrently loaded replay and is not a paired single-run speed claim.",
+  "test_portability_followup": {
+    "production_source_unchanged": true,
+    "full_local_rerun": 345,
+    "full_local_seconds": 65.156,
+    "targeted_tests": 20,
+    "zero_cpu_clock_explicitly_tested": true,
+    "utf8_measurement_environment_explicitly_tested": true,
+    "original_windows_job": "https://github.com/Fallen-Crystal/agv-warehouse-scheduling-2026/actions/runs/39425913974/job/118638304820",
+    "changes": [
+      "Read UTF-8 test diagnostics explicitly instead of the Windows locale codec",
+      "Accept genuine zero CPU measurements and explicitly test the zero-resolution path"
+    ]
+  }
 }
