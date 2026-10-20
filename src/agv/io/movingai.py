@@ -9,8 +9,9 @@ from io import BytesIO
 from pathlib import Path
 from urllib.request import Request, urlopen
 
-from agv.domain import Scenario, Task
+from agv.core import Task
 from agv.io.storage import write_json
+from agv.warehouse.scenarios import Scenario
 
 MAP_NAME = "warehouse-10-20-10-2-1"
 MAP_URL = f"https://movingai.com/benchmarks/mapf/{MAP_NAME}.map.zip"

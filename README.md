@@ -101,28 +101,28 @@ V9默认中型和固定柱/设备，`--layers 8`控制双排层数，单排始�
 
 ```text
 src/agv/
-  domain.py             场景、任务与输入约束
-  warehouse/            V4货架、通道、设施几何与业务规则
-  simulation.py         唯一真实执行状态与原子路线提交
-  planning/             A*参照、SIPP、预约索引、取送路线、联合修复
-  dispatch/             派单、在线驱动、统一算法配置
-  learning/             透明线性排序器与训练流程
-  models/               带schema的已训练模型
-  evaluation/           指标、V4离线归一化评分、独立验解与失败诊断
-  io/                   场景格式、原子文件写入、公开地图导入
-  experiments/          配对实验、低层规划器独立实验
-  web/                  HTTP接口、HTML模板、JS和CSS
-  cli.py                统一命令行入口
+  core/                  不依赖算法的任务、版本与坐标类型
+  warehouse/ rules/      静态仓库几何、场景校验、分版本业务合同
+  orders/                独立订单发布器与流关闭事件
+  world/                 唯一执行内核、任务状态、行程、预约表、命令网关
+  planning/              A*、SIPP、静态距离、取送路线组合与联合修复
+  policy/                派单 / 空闲定位 / 修复策略与可见订单推演
+  runner/                唯一求解循环、执行依赖编配
+  registry.py            SolverSpec 组合及全部历史算法名
+  evaluation/            由轨迹生成指标、离线评分、独立验解与下界
+  learning/ models/      可解释排序器、训练流程与模型
+  io/ experiments/       原子持久化、场景导入与冻结配对实验
+  web/ cli.py            网页与命令行入口
+  domain.py simulation.py dispatch/  历史导入兼容层
 
-tests/                  unit与integration测试
-examples/scenarios/     少量可直接复现的场景
-data/                  公开地图、哈希与独立许可声明
-docs/                  架构、论文依据、模型卡、实测与复现
-results/               精简统计、验证证据、精选轨迹
-runs/                  本机生成的全量输出，不提交
+tests/golden/            重构前冻结的580次轨迹与全字段回放门禁
+tests/unit/ integration/ 合同、回归、命令行和HTTP测试
+examples/ data/          示例、公开地图与许可
+docs/ results/           架构、研究与历史实测证据
+runs/                   本机生成输出，不提交
 ```
 
-详见 [架构与接口边界](docs/architecture.md)。工程参考实际检查了 [w9-pathfinding](https://github.com/andreyd41/w9-pathfinding)、[作者MAPF-LNS](https://github.com/Jiaoyang-Li/MAPF-LNS)、[作者RHCR](https://github.com/Jiaoyang-Li/RHCR) 和 [libMultiRobotPlanning](https://github.com/whoenig/libMultiRobotPlanning)，固定源码版本与具体借鉴见 [研究记录](docs/research/engineering-and-sipp.md)。
+本轮重构保持23个算法名、业务规则、默认值与历史结果格式；生产代码依赖方向由CI强制检查。运行 `python scripts/check_architecture.py` 检查结构，运行 `python tests/golden/record.py replay` 对照重构前580次金标准。实现与实测边界见 [重构验收记录](docs/architecture-refactor.md)，各模块职责见 [架构与接口边界](docs/architecture.md)。工程参考实际检查了 [w9-pathfinding](https://github.com/andreyd41/w9-pathfinding)、[作者MAPF-LNS](https://github.com/Jiaoyang-Li/MAPF-LNS)、[作者RHCR](https://github.com/Jiaoyang-Li/RHCR) 和 [libMultiRobotPlanning](https://github.com/whoenig/libMultiRobotPlanning)，固定源码版本与具体借鉴见 [研究记录](docs/research/engineering-and-sipp.md)。
 
 ## 算法改进
 

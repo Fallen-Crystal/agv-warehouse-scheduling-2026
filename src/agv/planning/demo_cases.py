@@ -1,7 +1,7 @@
 """展示实际时空A*的局部避让；不是完整订单实验或训练结果。"""
 
-from agv.domain import Scenario
 from agv.planning.astar import Router
+from agv.warehouse.scenarios import Scenario
 
 
 def cases():

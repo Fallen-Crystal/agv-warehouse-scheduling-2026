@@ -124,7 +124,7 @@ def default_protocol(split="development"):
 
 
 def validate_protocol(protocol, *, require_frozen=False):
-    from agv.dispatch.registry import SOLVERS, STREAM_SOLVERS
+    from agv.registry import SOLVERS, STREAM_SOLVERS
 
     if not isinstance(protocol, dict) or protocol.get("schema") != PROTOCOL_SCHEMA:
         raise ValueError("Unknown V9.1 protocol schema")
@@ -195,7 +195,7 @@ def build_scene(map_options, workload, seed):
 
 
 def _raw(name, scene):
-    from agv.dispatch.registry import run_raw
+    from agv.registry import run_raw
 
     return run_raw(name, scene)
 

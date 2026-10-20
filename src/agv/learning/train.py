@@ -4,12 +4,12 @@ import hashlib
 import statistics
 from pathlib import Path
 
-from agv.dispatch.optimized import run
 from agv.evaluation.validation import validate
 from agv.io.movingai import REGIONS, derived_scene, map_provenance
 from agv.io.scenes import scenario_id
 from agv.io.storage import write_json
 from agv.learning.ranker import fit
+from agv.runner.compat import run_optimized as run
 
 TRAIN_SEEDS = tuple(range(8))
 VALIDATION_SEEDS = tuple(range(100, 103))

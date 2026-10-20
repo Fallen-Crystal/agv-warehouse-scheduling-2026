@@ -6,11 +6,11 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import BoundedSemaphore
 
-from agv.dispatch.registry import SOLVERS, STREAM_SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.experiments.batch import run_batch
 from agv.io.scenes import scenario_id, unpack_scene
+from agv.registry import SOLVERS, STREAM_SOLVERS, run_named
+from agv.warehouse.scenarios import example
 
 _LOG = logging.getLogger(__name__)
 _ASSETS = Path(__file__).resolve().parent
@@ -211,7 +211,7 @@ def calculate_batch(data):
         for k, v in config.items()
         if k not in ("profile", "shelf_layers", "work_width", "obstacle_layout", "layout_variant")
     }
-    from agv.dispatch.greedy import greedy_action
+    from agv.runner.compat import greedy_action
 
     return run_batch(
         config,

@@ -14,8 +14,9 @@ import json
 import random
 from functools import lru_cache
 
-from agv.domain import Scenario, Task
+from agv.core import Task
 from agv.warehouse.layout import connected
+from agv.warehouse.scenarios import Scenario
 
 
 def _validate_options(mode, seed, task_count, vehicles, delivery_pattern, arrival, demand, horizon):

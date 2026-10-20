@@ -80,8 +80,8 @@ def _successful(result):
 
 @lru_cache(maxsize=32)
 def _cached_reference(raw_scene):
-    from agv.dispatch.greedy import run
-    from agv.domain import Scenario
+    from agv.evaluation.reference import run
+    from agv.warehouse.scenarios import Scenario
 
     scenario = Scenario.from_dict(json.loads(raw_scene))
     result = run(scenario)

@@ -4,38 +4,75 @@
 
 ```text
 src/agv/
-  domain.py             # immutable Task, validated Scenario, scenario generator
-  warehouse/
-    layout.py           # explicit V4 paired-rack/aisle/facility geometry
-    rules.py            # V4 profile validation and visible-state layer gates
-  simulation.py         # release/assign/advance, task ownership, atomic route commit
-  planning/
-    astar.py            # time-expanded reference/oracle
-    sipp.py             # safe-interval search with edge and service constraints
-    reservations.py     # invalidated per-cell time index
-    pickup.py           # shelf side and pickup/delivery/return composition
-    joint.py            # candidate neighborhoods and feasible improvement acceptance
-    reposition.py       # opt-in interruptible empty move with complete home fallback
-  dispatch/
-    greedy.py           # original visible-state policy
-    optimized.py        # online driver and exact current-batch matching
-    registry.py         # one set of named solver configurations
-    positioning.py      # safe static candidates, causal demand history, target matching
-    stream.py           # V9.1 SIPP ETA matching and bounded intentional deferral
-    bcrd.py             # bounded visible-order rollouts, optional predicted P90 guard
-  learning/             # standard-library ridge ranking + reproducible training
-  models/               # schema-validated trained artifact
-  evaluation/           # metrics, offline score/lower bounds, independent execution validator
-  io/                   # scene format/hash, atomic writes, public map import
-  experiments/          # paired legacy/V4/V9.1 benchmarks and isolated planner benchmark
-  web/
-    app.py              # local HTTP boundary, limits, run dispatch
-    templates/          # one actual HTML template
-    static/             # actual JavaScript and CSS, no chained source rewriting
-  cli.py                # installed command entry point
+  core/                  # immutable Task/Profile/Cell and pure ranking features
+  warehouse/             # validated Scenario, generators and frozen geometry rules
+  rules/                 # legacy/V4/V9/V9.1 execution contracts
+  orders/                # publisher-owned release and explicit close events
+  world/                 # sole mutable kernel and command gateway
+    state.py             # WorldState, policy-free tick and observation projection
+    commands.py          # Assign/Hold/Reposition/ReplaceSuffix validation/commit
+    itinerary.py         # immutable route storage, O(1) cursor advancement
+    tasks.py             # one TaskBook and explicit lifecycle states
+    reservations.py      # one absolute-time route index and filtered views
+    observation.py       # immutable online view, detached legacy JSON adapter
+    restore.py           # observation-only world reconstruction for forecasting
+  planning/              # A*, SIPP, static DistanceOracle, composition and repair
+  policy/                # observation-only assignment/idle/repair stages
+  runner/                # one solver loop and dependency composition
+  registry.py            # typed SolverSpec compositions and historical aliases
+  evaluation/            # trace metrics, fixed offline reference, independent audit
+  io/                    # serialization, hashes, atomic writes and map import
+  experiments/           # frozen protocols and paired benchmarks
+  learning/ models/      # optional transparent ranker and its trained artifact
+  web/ cli.py            # HTTP/CLI applications
+  domain.py              # compatibility re-export only
+  simulation.py          # compatibility re-export of runner.Environment
+  dispatch/              # historical import/run adapters; no solver loops
 ```
 
 `examples/` contains reusable inputs; `data/` contains one attributed public map and its provenance. `tests/unit/` checks contracts and `tests/integration/` checks installed CLI and HTTP behavior. `results/` contains compact statistics, validation evidence and selected representative traces. `runs/` is ignored and contains generated candidate training rows and full local experiment outputs. Historical v1 folders are not copied into current source; their complete evidence remains in Git history and a local backup outside the checkout.
+
+## Dependency direction and execution ownership
+
+`core` has no project dependencies. Static `warehouse` geometry depends only on
+core; `rules` and `orders` remain below the kernel. `world` imports no planner,
+policy, runner or evaluator. `KernelServices` supplies planning, suffix scoring,
+trace evaluation and independent audit functions at construction. `planning`
+uses static geometry and world reservation views; `policy` uses those contracts
+and receives only public observations. `runner` and `registry` compose concrete
+implementations. The offline reference is a separate evaluation composition
+adapter, never part of an online observation.
+
+Run `python scripts/check_architecture.py` to enforce these directions, including
+function-local imports. CI also rejects production imports of historical
+compatibility facades, route/record/private-state writes outside world, solver
+loops inside historical adapters, and extra kernel/reservation owners.
+`evaluation/validation.py` still imports no execution or planning implementation.
+
+The runner commits assignments before requesting a fresh observation for idle
+positioning or joint repair. Reusing the earlier observation would change
+available vehicles and reservations. Therefore this migration deliberately
+preserves those extra observations rather than imposing one stale observation
+per tick. A failed positioning command retains the safe fallback return.
+
+`Environment.advance()` remains a convenience adapter for existing callers: it
+requests a visible idle decision before each `tick()`. The runner makes that
+sequence explicit. The underlying `WorldState.advance()/tick()` performs no
+standby or dispatch decisions. All assignment, hold, reposition and suffix
+replacement mutations are owned by `world/commands.py` and WorldState bookkeeping.
+
+`WorldState.snapshot()` shares static geometry and immutable route buffers and
+copies mutable state/router counters. It is not a general persistent copy-on-write
+store. BCRD constructs a disposable world from **released observations only** and
+injects the same world factory and tick implementation. It never snapshots the
+live world's hidden future jobs. The old ShadowState API remains an adapter;
+there is no second vehicle-execution kernel.
+
+Result metrics are derived in `evaluation/execution.py` from a detached trace
+export. Archived result JSON, route-record dictionaries and the independent
+validator contract are preserved. `TaskBook` owns task dictionaries, assignment
+membership, active records and lifecycle queries; legacy private attribute names
+are aliases to those same objects, not duplicate state stores.
 
 ## Data flow
 
@@ -90,7 +127,7 @@ The existing joint repair accepts strict lexicographic improvements in remaining
 
 `mixed-v9` / `agv-scene-v9` selects the latest reviewed mixed-rack family in `warehouse/mixed.py`. `Scenario.is_v4` keeps its original meaning; `uses_layer_rules` shares only the layer gates, strict terminal-D rule and immutable shelf identity. Catalog permissions supply two loading points for a one-layer single row, or one outer point for each independent horizontal/vertical paired row. The complete task-free canonical geometry validates all static fields and nested metadata; arbitrary layouts cannot claim this profile merely by setting its version string. Legacy/V4 serialization is unchanged.
 
-The optional standby controller in `dispatch/idle.py` delays a discharged vehicle's fallback only on static ordinary transit floor. It audits the full delayed suffix against every other reservation before an atomic update, records waits separately, and spends an explicit finite per-assignment allowance. It never inspects future task count or release locations to decide whether to stay. The default allowance is zero. Final actual returns are independently checked against the last effective return event; old returns interrupted by a new assignment remain historical fallback metadata.
+The optional standby controller in `policy/idle.py` delays a discharged vehicle's fallback only on static ordinary transit floor. It audits the full delayed suffix against every other reservation before an atomic update, records waits separately, and spends an explicit finite per-assignment allowance. It never inspects future task count or release locations to decide whether to stay. The default allowance is zero. Final actual returns are independently checked against the last effective return event; old returns interrupted by a new assignment remain historical fallback metadata.
 
 Explicit `(vehicle, task, pickup_point)` actions narrow the real planner's legal candidates after complete input validation; existing pairs keep automatic side choice. Standby plus BCRD is rejected until its observation/shadow recovery contract includes the consumed allowance and wait history. Unbounded structured waits and the teammate's unverified generic replanning adapter were not copied. The shared experiment runner can select the V9 generator explicitly and record standby/empty-distance metrics while retaining the same SIPP/no-joint controls and failure accounting.
 
@@ -104,21 +141,22 @@ published deliveries. An opt-in positioning policy can also choose its own Home
 earlier as a safe idle alternative; completion still waits for closure and all
 published work.
 
-`dispatch/stream.py` shares the observation boundary with the existing greedy
+`policy/stream.py` shares the observation boundary with the existing greedy
 driver. ETA matching estimates each pair with SIPP and then passes a legal batch
 to the real atomic assignment boundary. Optional intentional deferral compares
 already committed soon-free vehicles; its age cap is not a service deadline.
-`dispatch/positioning.py` selects safe ordinary-floor candidates using static
+`policy/positioning.py` selects safe ordinary-floor candidates using static
 connectivity, past observed demand, zone capacity and assignment costs. It can
 activate idle Home vehicles after observed demand exists. New orders interrupt
 empty positioning, but cannot cancel task commitments. Positioning is opt-in at
 the environment boundary and is independently audited from action events and
 actual paths, including final Home returns and all empty mileage.
 
-`PlanReservations` stores spatial membership and absolute route origins, with a
+`world.ReservationTable` (historical alias `PlanReservations`) stores spatial membership and absolute route origins, with a
 stationary override for inserted waits. Hold maintenance in this index is O(1);
 the full hold action still constructs and checks its future suffix. Public static
-geometry is cached at reset and still deep-copied into each observation.
+geometry is frozen once at reset and shared by immutable `observe_view()` values.
+The historical `observe()` still returns editable detached JSON-compatible values.
 
 The V9.1 `ShadowState` reconstructs only released work. Open-flow forecasts stop
 at the end of currently known deliveries without inventing closure or charging
@@ -132,6 +170,32 @@ changes the score reference nor enters an observation. `benchmark-v91` times raw
 execution apart from these bounds, the A* reference, and independent validation.
 Source hashes remain frozen while a protocol runs. See the
 [optimization report](v91-optimization.md) for measured effects and limitations.
+
+## Refactor regression gate
+
+`tests/golden/manifest.json` records the pre-refactor source commit and resource
+hashes. The compressed result snapshot covers all 23 solver names and every
+supported profile, development seeds 10–19, plus V9.1 four-vehicle/twelve-order
+cases: 580 independently validated executions. Only actual CPU/wall-clock
+measurements are excluded from equality; paths, assignments, interval states,
+metrics, F, router counters and algorithm metadata must match exactly.
+
+```bash
+python tests/golden/record.py replay --report tests/golden/full-replay.json
+python -m unittest discover -s tests -t . -v
+python scripts/check_architecture.py
+```
+
+Ordinary unittest runs replay seed 10's 58 representative combinations. The full
+CLI replay checks all 580 and verifies that source/resource hashes are unchanged
+during the run. The golden recorder refuses the current tree unless an explicit
+independent archived source directory and baseline commit are supplied. Do not
+regenerate expected results to make a failed refactor pass.
+
+No objective alignment, top-k matching pruning, new positioning+BCRD combination,
+new training or holdout algorithm selection is part of this structural migration.
+Those alter policy behavior and require separate paired experiments. See the
+[implementation and validation record](architecture-refactor.md).
 
 ## Deliberate scope
 

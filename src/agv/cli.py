@@ -7,11 +7,11 @@ import sys
 import webbrowser
 from pathlib import Path
 
-from agv.dispatch.registry import SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.scenes import load_scene, pack_scene
 from agv.io.storage import write_json
+from agv.registry import SOLVERS, run_named
+from agv.warehouse.scenarios import example
 
 
 def main(argv=None):
