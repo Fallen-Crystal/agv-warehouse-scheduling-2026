@@ -6,13 +6,13 @@ import statistics
 import time
 from pathlib import Path
 
-from agv.dispatch.registry import run_named
 from agv.evaluation.objective import reference_context
 from agv.evaluation.validation import validate
 from agv.experiments.batch import aggregate
 from agv.experiments.benchmark import source_hashes
 from agv.io.scenes import pack_scene, scenario_id
 from agv.io.storage import write_json
+from agv.registry import run_named
 from agv.warehouse.layout import generate
 
 CONFIGS = {

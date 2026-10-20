@@ -10,21 +10,21 @@ import csv
 import hashlib
 import json
 import math
-import multiprocessing
 import platform
 import random
 import re
 import statistics
 import subprocess
 import time
-from concurrent.futures import ProcessPoolExecutor
 from dataclasses import replace
 from pathlib import Path
 
 from agv.evaluation.objective import WEIGHTS, reference_context, score_result
 from agv.evaluation.validation import validate
+from agv.experiments.cache import ResultCache, cache_identity, default_cache_dir
 from agv.io.scenes import pack_scene, scenario_id
 from agv.io.storage import write_json
+from agv.runner.batch import BatchTask, run_batch
 from agv.warehouse.mixed import generate_current
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -124,7 +124,7 @@ def default_protocol(split="development"):
 
 
 def validate_protocol(protocol, *, require_frozen=False):
-    from agv.dispatch.registry import SOLVERS, STREAM_SOLVERS
+    from agv.registry import SOLVERS, STREAM_SOLVERS
 
     if not isinstance(protocol, dict) or protocol.get("schema") != PROTOCOL_SCHEMA:
         raise ValueError("Unknown V9.1 protocol schema")
@@ -195,7 +195,7 @@ def build_scene(map_options, workload, seed):
 
 
 def _raw(name, scene):
-    from agv.dispatch.registry import run_raw
+    from agv.registry import run_raw
 
     return run_raw(name, scene)
 
@@ -424,7 +424,9 @@ def _check_result_bounds(scene, result, bounds):
 
 def _run_instance(job):
     """One isolated scene is the process-pool unit; only raw code is timed."""
-    protocol, map_name, workload, seed, position, sources = job
+    from agv.registry import SOLVERS
+
+    protocol, map_name, workload, seed, position, sources, cache_settings = job
     _check_sources(sources)
     template = f"{map_name}__{workload}"
     scene = build_scene(protocol["maps"][map_name], protocol["workloads"][workload], seed)
@@ -432,19 +434,76 @@ def _run_instance(job):
     reference, bounds = reference_context(scene), _bounds(scene)
     names = list(protocol["solvers"])
     offset = position % len(names)
-    rows, diagnostics, traces = [], [], []
+    rows, diagnostics, traces, pending_cache = [], [], [], []
+    cache = ResultCache(cache_settings["directory"]) if cache_settings["directory"] else None
     for solver in names[offset:] + names[:offset]:
         registry_name = protocol["solvers"][solver]
         result, error = {}, None
-        cpu_start, wall_start = time.process_time(), time.perf_counter()
-        try:
-            result = _raw(registry_name, scene)
-            if not isinstance(result, dict):
-                raise TypeError("Raw solver must return a result mapping")
-        except Exception as caught:
-            result = result if isinstance(result, dict) else {}
-            error = f"algorithm_error:{type(caught).__name__}:{caught}"
-        wall, cpu = time.perf_counter() - wall_start, time.process_time() - cpu_start
+        identity = cache_identity(
+            scene,
+            SOLVERS[registry_name],
+            seed,
+            dict(
+                map=map_name,
+                map_options=protocol["maps"][map_name],
+                workload=workload,
+                workload_options=protocol["workloads"][workload],
+                registry_name=registry_name,
+                protocol_schema=protocol["schema"],
+            ),
+            sources,
+            resources={
+                name: digest for name, digest in sources.items() if Path(name).suffix != ".py"
+            },
+        )
+
+        def check_cached(payload):
+            if not isinstance(payload["result"], dict) or any(
+                type(payload[field]) not in (int, float)
+                or not math.isfinite(payload[field])
+                or payload[field] < 0
+                for field in ("cpu_seconds", "wall_seconds")
+            ):
+                raise ValueError("Invalid cached execution or timing")
+            environment = payload["measurement_environment"]
+            if (
+                not isinstance(environment, dict)
+                or set(environment) != {"platform", "processor", "machine", "python", "workers"}
+                or any(
+                    not isinstance(environment[field], str) or not environment[field]
+                    for field in ("platform", "processor", "machine", "python")
+                )
+                or environment["python"] != platform.python_version()
+                or type(environment["workers"]) is not int
+                or not 1 <= environment["workers"] <= 32
+            ):
+                raise ValueError("Invalid original measurement environment")
+            validate(scene, payload["result"])
+            _check_result_bounds(scene, payload["result"], bounds)
+
+        cached, cache_status = None, "disabled" if cache is None else "refresh"
+        if cache is not None and not cache_settings["refresh"]:
+            cached, cache_status = cache.load(identity, check_cached)
+        if cached is not None:
+            result, cpu, wall = cached["result"], cached["cpu_seconds"], cached["wall_seconds"]
+            environment = cached["measurement_environment"]
+        else:
+            environment = dict(
+                platform=platform.platform(),
+                processor=platform.processor() or "unknown",
+                machine=platform.machine() or "unknown",
+                python=platform.python_version(),
+                workers=cache_settings["workers"],
+            )
+            cpu_start, wall_start = time.process_time(), time.perf_counter()
+            try:
+                result = _raw(registry_name, scene)
+                if not isinstance(result, dict):
+                    raise TypeError("Raw solver must return a result mapping")
+            except Exception as caught:
+                result = result if isinstance(result, dict) else {}
+                error = f"algorithm_error:{type(caught).__name__}:{caught}"
+            wall, cpu = time.perf_counter() - wall_start, time.process_time() - cpu_start
         if error is None:
             try:
                 validate(scene, result)
@@ -463,6 +522,18 @@ def _run_instance(job):
                 error = f"validation_error:{type(caught).__name__}:{caught}"
         if scenario_id(scene) != digest:
             raise RuntimeError("Algorithm mutated the shared scenario")
+        if cache is not None and cached is None and error is None:
+            pending_cache.append(
+                (
+                    identity,
+                    dict(
+                        result=result,
+                        cpu_seconds=cpu,
+                        wall_seconds=wall,
+                        measurement_environment=environment,
+                    ),
+                )
+            )
         rows.append(
             _row(
                 template,
@@ -480,6 +551,11 @@ def _run_instance(job):
                 reference,
             )
         )
+        rows[-1].update(
+            cache_status=cache_status,
+            timing_origin="cached" if cached is not None else "fresh",
+            measurement_environment=_canonical(environment),
+        )
         diagnostics.append(
             dict(
                 scenario=template,
@@ -487,6 +563,7 @@ def _run_instance(job):
                 solver=solver,
                 scenario_sha256=digest,
                 error=error,
+                measurement_environment=environment,
                 dispatch_stats=result.get("dispatch_stats", {}),
                 diagnostics=result.get("diagnostics", {}),
             )
@@ -508,11 +585,15 @@ def _run_instance(job):
             archive["lower_bounds"] = bounds
             traces.append((f"{template}-{solver}.json", archive))
     _check_sources(sources)
+    for identity, payload in pending_cache:
+        cache.store(identity, payload)
     evidence = dict(scenario=template, seed=seed, scenario_sha256=digest, bounds=bounds)
     return rows, diagnostics, traces, evidence
 
 
-def run_benchmark(output, protocol=None, workers=1):
+def run_benchmark(
+    output, protocol=None, workers=1, *, cache_dir=None, no_cache=False, refresh=False
+):
     """Run a dict/path protocol; process workers operate on whole paired scenes.
 
     Rows are written in canonical protocol-instance order and rotated solver
@@ -521,6 +602,11 @@ def run_benchmark(output, protocol=None, workers=1):
     """
     if type(workers) is not int or not 1 <= workers <= 32:
         raise ValueError("workers must be an integer in 1..32")
+    if no_cache and refresh:
+        raise ValueError("no_cache and refresh cannot be combined")
+    cache_path = Path(cache_dir or default_cache_dir()).resolve()
+    if not no_cache and cache_path.is_relative_to(ROOT / "src/agv"):
+        raise ValueError("Experiment caches must be outside shipped source")
     if protocol is None:
         protocol = default_protocol()
     if isinstance(protocol, (str, Path)):
@@ -534,6 +620,9 @@ def run_benchmark(output, protocol=None, workers=1):
     root.mkdir(parents=True, exist_ok=False)
     (root / "protocol.json").write_bytes(raw)
     sources = source_hashes()
+    cache_settings = dict(
+        directory=None if no_cache else str(cache_path), refresh=refresh, workers=workers
+    )
     manifest = dict(
         schema=RESULT_SCHEMA,
         status="running",
@@ -548,6 +637,7 @@ def run_benchmark(output, protocol=None, workers=1):
         python=platform.python_version(),
         platform=platform.platform(),
         workers=workers,
+        cache=cache_settings,
         expected_runs=(
             len(protocol["maps"])
             * len(protocol["workloads"])
@@ -555,26 +645,20 @@ def run_benchmark(output, protocol=None, workers=1):
             * len(protocol["solvers"])
         ),
         data_origin="Synthetic generate_current scenarios, not a public real dataset",
-        timing="One raw execution in worker process_time/perf_counter; validation, bounds and A* reference excluded. CPU and concurrent wall times are descriptive; workers compete for machine resources.",
+        timing="Raw execution process_time/perf_counter excludes validation, bounds and A* reference. timing_origin=cached preserves the original measured CPU/wall, not a fresh measurement; use --no-cache for timing comparisons. Concurrent workers compete for machine resources.",
         ordering="protocol maps, workloads and seeds; solver order rotates by seed position; independent of worker completion order",
         notes="First-seed traces are representative, not a performance sample. Failures remain in CSV. Stage0 A0 is an A* score-reference diagnostic, excluded from same-SIPP paired effects.",
     )
     write_json(root / "manifest.json", manifest)
     jobs = [
-        (protocol, m, w, seed, position, sources)
+        BatchTask(seed, (protocol, m, w, seed, position, sources, cache_settings))
         for m in protocol["maps"]
         for w in protocol["workloads"]
         for position, seed in enumerate(protocol["seeds"])
     ]
-    rows, traces, executor = [], 0, None
+    rows, traces = [], 0
     try:
-        if workers > 1:
-            executor = ProcessPoolExecutor(
-                max_workers=workers, mp_context=multiprocessing.get_context("spawn")
-            )
-            results = executor.map(_run_instance, jobs)
-        else:
-            results = map(_run_instance, jobs)
+        results = run_batch(jobs, _run_instance, workers=workers)
         with (
             (root / "runs.csv").open("x", encoding="utf-8", newline="") as file,
             (root / "diagnostics.jsonl").open("x", encoding="utf-8", newline="\n") as diagnostics,
@@ -604,6 +688,16 @@ def run_benchmark(output, protocol=None, workers=1):
                 )
         _check_sources(sources)
         summary = summarize(rows, protocol)
+        cache_report = dict(
+            hits=sum(r["cache_status"] == "hit" for r in rows),
+            misses=sum(r["cache_status"] == "miss" for r in rows),
+            invalid=sum(r["cache_status"] == "invalid" for r in rows),
+            refreshed=sum(r["cache_status"] == "refresh" for r in rows),
+            disabled=sum(r["cache_status"] == "disabled" for r in rows),
+            timing="CPU/wall for cached rows are historical; no new solver execution was timed",
+        )
+        cache_report["hit_rate"] = cache_report["hits"] / len(rows) if rows else 0.0
+        summary["cache"] = cache_report
         write_json(root / "summary.json", summary)
         artifacts = {
             p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -617,6 +711,7 @@ def run_benchmark(output, protocol=None, workers=1):
             execution_failures=sum(not r["execution_valid"] or not r["feasible"] for r in rows),
             representative_traces=traces,
             artifact_hashes=artifacts,
+            cache_report=cache_report,
         )
         write_json(root / "manifest.json", manifest, overwrite=True)
         return rows, summary
@@ -629,8 +724,7 @@ def run_benchmark(output, protocol=None, workers=1):
         write_json(root / "manifest.json", manifest, overwrite=True)
         raise
     finally:
-        if executor is not None:
-            executor.shutdown(wait=True, cancel_futures=True)
+        results.close()
 
 
 def read_rows(path):
@@ -644,6 +738,9 @@ def read_rows(path):
         "scenario_sha256",
         "backend",
         "reason",
+        "cache_status",
+        "timing_origin",
+        "measurement_environment",
     }
     rows = []
     with Path(path).open(encoding="utf-8", newline="") as file:

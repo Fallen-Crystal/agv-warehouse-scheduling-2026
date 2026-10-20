@@ -7,11 +7,11 @@ import sys
 import webbrowser
 from pathlib import Path
 
-from agv.dispatch.registry import SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.scenes import load_scene, pack_scene
 from agv.io.storage import write_json
+from agv.registry import SOLVERS, run_named
+from agv.warehouse.scenarios import example
 
 
 def main(argv=None):
@@ -59,6 +59,10 @@ def main(argv=None):
     benchmark_v91.add_argument("--protocol", type=Path, required=True)
     benchmark_v91.add_argument("--output", type=Path, required=True)
     benchmark_v91.add_argument("--workers", type=int, default=1)
+    benchmark_v91.add_argument("--cache-dir", type=Path, help="Local reusable experiment cache")
+    cache_mode = benchmark_v91.add_mutually_exclusive_group()
+    cache_mode.add_argument("--no-cache", action="store_true", help="Measure every execution anew")
+    cache_mode.add_argument("--refresh", action="store_true", help="Replace cached executions")
     data = sub.add_parser("fetch-data", help="Fetch the attributed public MovingAI warehouse map")
     data.add_argument("--output", type=Path, required=True)
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
@@ -69,7 +73,14 @@ def main(argv=None):
         if args.command == "benchmark-v91":
             from agv.experiments.v91_bench import run_benchmark
 
-            run_benchmark(args.output, args.protocol, workers=args.workers)
+            run_benchmark(
+                args.output,
+                args.protocol,
+                workers=args.workers,
+                cache_dir=args.cache_dir,
+                no_cache=args.no_cache,
+                refresh=args.refresh,
+            )
         elif args.command == "run":
             if args.input:
                 scenario = load_scene(args.input)

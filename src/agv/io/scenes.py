@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from agv.domain import Scenario
+from agv.warehouse.scenarios import Scenario
 
 
 def scenario_id(scenario):

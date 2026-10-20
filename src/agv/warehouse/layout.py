@@ -7,7 +7,8 @@ No simulation, legacy scene construction or global RNG mutation is needed.
 import random
 from collections import deque
 
-from agv.domain import Scenario, Task
+from agv.core import Task
+from agv.warehouse.scenarios import Scenario
 
 SIZES = {
     "small": (3, 3, 5),

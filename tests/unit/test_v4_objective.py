@@ -105,7 +105,7 @@ class V4ObjectiveTests(unittest.TestCase):
         scene = tiny()
         candidate = run(scene)
         failed_reference = Environment(scene).result()
-        with patch("agv.dispatch.greedy.run", return_value=failed_reference):
+        with patch("agv.evaluation.reference.run", return_value=failed_reference):
             scored = score_result(scene, candidate)
             self.assertFalse(scored["normalization_reference"]["available"])
             self.assertIsNone(scored["normalization_reference"]["time"])
