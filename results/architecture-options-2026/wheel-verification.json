@@ -1,0 +1,148 @@
+{
+  "installed_from": "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/lib/python3.12/site-packages/agv",
+  "resource_files": 98,
+  "resources_identical": true,
+  "new_interfaces_importable": true,
+  "web_server_constructed": true,
+  "rows": [
+    {
+      "profile": "legacy",
+      "algorithm": "sipp_learned",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "legacy",
+        "--algorithm",
+        "sipp_learned",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/0.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 28, \"mean_flow_time\": 19.75}"
+    },
+    {
+      "profile": "v4",
+      "algorithm": "sipp_budget",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "v4",
+        "--algorithm",
+        "sipp_budget",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/1.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 84, \"mean_flow_time\": 50.0}"
+    },
+    {
+      "profile": "v4",
+      "algorithm": "bcrd_budget",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "v4",
+        "--algorithm",
+        "bcrd_budget",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/2.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 84, \"mean_flow_time\": 50.0}"
+    },
+    {
+      "profile": "v9",
+      "algorithm": "sipp_standby16_dispatch",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "v9",
+        "--algorithm",
+        "sipp_standby16_dispatch",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/3.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 247, \"mean_flow_time\": 150.0}"
+    },
+    {
+      "profile": "v9.1",
+      "algorithm": "sipp_position_delay_dispatch",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "v9.1",
+        "--algorithm",
+        "sipp_position_delay_dispatch",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/4.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 247, \"mean_flow_time\": 150.0}"
+    },
+    {
+      "profile": "v9.1",
+      "algorithm": "sipp_stream_bcrd_tail",
+      "valid": true,
+      "command": [
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-install/bin/python",
+        "-I",
+        "-m",
+        "agv",
+        "run",
+        "--profile",
+        "v9.1",
+        "--algorithm",
+        "sipp_stream_bcrd_tail",
+        "--tasks",
+        "4",
+        "--vehicles",
+        "2",
+        "--output",
+        "/Users/fallen/Documents/ChatGPT/Ai\u57fa\u7840\u5927\u4f5c\u4e1a\uff0811-30\u622a\u6b62\uff09/tmp/architecture-options-installed-cases-final/5.json"
+      ],
+      "stdout": "{\"feasible\": true, \"completed\": 4, \"makespan\": 247, \"mean_flow_time\": 150.0}"
+    }
+  ],
+  "wheel_sha256": "dd5b136ebbd759807620454cc90575194f58ba2202eb9873d08c28a5d251988b"
+}

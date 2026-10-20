@@ -7,6 +7,7 @@ specification data does not create dependencies back into the execution loop.
 """
 
 from dataclasses import dataclass, field
+from math import isfinite
 from pathlib import Path
 from typing import Literal
 
@@ -27,12 +28,87 @@ class AssignSpec:
     min_queue_ratio: float = 3.0
     event_driven: bool = True
     tail_guard: bool = False
+    eta_cache_capacity: int = 0
+    route_budget: int | None = None
+    expansion_budget: int | None = None
+    step_budget: int | None = None
+
+    def __post_init__(self):
+        if self.kind not in ("greedy", "matching", "eta_matching", "bcrd"):
+            raise ValueError("Unknown assignment kind")
+        for name in ("delay", "event_driven", "tail_guard"):
+            if type(getattr(self, name)) is not bool:
+                raise ValueError(f"{name} must be boolean")
+        if type(self.max_batches) is not int or not 0 <= self.max_batches <= 32:
+            raise ValueError("max_batches must be 0..32")
+        if self.depth is not None and (type(self.depth) is not int or self.depth < 0):
+            raise ValueError("depth must be a nonnegative integer or None")
+        if self.mode not in ("full", "order"):
+            raise ValueError("Unknown candidate mode")
+        if (
+            type(self.min_queue_ratio) not in (int, float)
+            or not isfinite(self.min_queue_ratio)
+            or self.min_queue_ratio < 0
+        ):
+            raise ValueError("min_queue_ratio must be finite and nonnegative")
+        if type(self.eta_cache_capacity) is not int or self.eta_cache_capacity < 0:
+            raise ValueError("eta_cache_capacity must be a nonnegative integer")
+        if self.eta_cache_capacity and self.kind != "eta_matching":
+            raise ValueError("ETA caching requires eta_matching")
+        for name in ("route_budget", "expansion_budget", "step_budget"):
+            value = getattr(self, name)
+            if value is not None and (type(value) is not int or value < 0):
+                raise ValueError(f"{name} must be a nonnegative integer or None")
+            if value is not None and self.kind != "bcrd":
+                raise ValueError("Rollout budgets require bcrd")
+        if self.delay and self.kind != "eta_matching":
+            raise ValueError("Delayed assignment requires eta_matching")
+        if self.kind != "bcrd" and (
+            self.tail_guard
+            or self.max_batches != 4
+            or self.depth is not None
+            or self.mode != "full"
+            or self.min_queue_ratio != 3.0
+            or not self.event_driven
+        ):
+            raise ValueError("Rollout options require bcrd")
 
 
 @dataclass(frozen=True)
 class IdleSpec:
     kind: Literal["profile", "standby", "positioning"] = "profile"
     hold_steps: int = 0
+    stat_window: int | None = None
+    rebalance_period: int | None = None
+    hotspot_zones: int = 0
+    protect_utilization: float | None = None
+
+    def __post_init__(self):
+        if self.kind not in ("profile", "standby", "positioning"):
+            raise ValueError("Unknown idle kind")
+        if type(self.hold_steps) is not int or self.hold_steps < 0:
+            raise ValueError("hold_steps must be a nonnegative integer")
+        if self.hold_steps and self.kind != "standby":
+            raise ValueError("hold_steps requires standby")
+        for name in ("stat_window", "rebalance_period"):
+            value = getattr(self, name)
+            if value is not None and (type(value) is not int or value < 1):
+                raise ValueError(f"{name} must be a positive integer or None")
+        if type(self.hotspot_zones) is not int or self.hotspot_zones < 0:
+            raise ValueError("hotspot_zones must be a nonnegative integer")
+        if self.protect_utilization is not None and (
+            type(self.protect_utilization) not in (int, float)
+            or not isfinite(self.protect_utilization)
+            or not 0 < self.protect_utilization <= 1
+        ):
+            raise ValueError("protect_utilization must be greater than zero and at most one")
+        if self.kind != "positioning" and any(
+            value is not None
+            for value in (self.stat_window, self.rebalance_period, self.protect_utilization)
+        ):
+            raise ValueError("Positioning options require positioning")
+        if self.kind != "positioning" and self.hotspot_zones:
+            raise ValueError("Positioning options require positioning")
 
 
 @dataclass(frozen=True)
@@ -55,6 +131,10 @@ class SolverSpec:
     result_style: Literal["baseline", "optimized", "dispatch", "stream"] = "baseline"
 
     def __post_init__(self):
+        if self.router not in ("astar", "sipp"):
+            raise ValueError("Unknown router")
+        if not self.profiles or not all(isinstance(p, Profile) for p in self.profiles):
+            raise ValueError("profiles must contain explicit Profile values")
         if self.assign.kind == "bcrd" and (self.idle.kind == "positioning" or self.idle.hold_steps):
             raise ValueError("BCRD standby needs a separately validated shadow contract")
 
@@ -249,33 +329,67 @@ def build_controller(
             repair=JointRepair(planner, repair.interval, repair.enabled),
         )
     if spec.result_style == "stream":
+        from agv.planning.cache import EtaCache
+
         matcher = (
-            ArrivalMatching(initial, delay=assignment.delay)
+            ArrivalMatching(
+                initial,
+                delay=assignment.delay,
+                eta_cache=(
+                    EtaCache(assignment.eta_cache_capacity)
+                    if assignment.eta_cache_capacity
+                    else None
+                ),
+            )
             if assignment.kind == "eta_matching"
             else None
         )
-        locator = PositioningPolicy(initial) if spec.idle.kind == "positioning" else None
+        locator = (
+            PositioningPolicy(
+                initial,
+                stat_window=spec.idle.stat_window,
+                rebalance_period=spec.idle.rebalance_period,
+                hotspot_zones=spec.idle.hotspot_zones,
+                protect_utilization=spec.idle.protect_utilization,
+            )
+            if spec.idle.kind == "positioning"
+            else None
+        )
         return Controller(
             EtaAssignment(matcher) if matcher else CallableAssignment(fallback),
             StreamReporter(matcher, locator, locator is not None, assignment.delay),
             idle=PositioningIdle(locator) if locator else None,
         )
     if assignment.kind == "bcrd":
+        configured_budget = {
+            name: value
+            for name, value in (
+                ("max_route_calls", assignment.route_budget),
+                ("max_expanded", assignment.expansion_budget),
+                ("max_steps", assignment.step_budget),
+            )
+            if value is not None
+        }
+        effective_budget = {**configured_budget, **(budget or {})} if configured_budget else budget
         assign_stage = RolloutAssignment(
             dict(
                 max_batches=assignment.max_batches,
                 depth=assignment.depth,
                 mode=assignment.mode,
-                budget=budget,
+                budget=effective_budget,
                 min_queue_ratio=assignment.min_queue_ratio,
                 event_driven=assignment.event_driven,
                 tail_guard=assignment.tail_guard,
             ),
             world_factory=world_factory,
         )
+        if configured_budget:
+            configured_budget = effective_budget
     elif assignment.kind == "greedy":
+        configured_budget = None
         assign_stage = CallableAssignment(fallback)
     else:
+        configured_budget = None
         assign_stage = CallableAssignment(
             lambda observation: (
                 legalize(matching_action(observation), observation) if fallback(observation) else []
@@ -292,6 +406,7 @@ def build_controller(
             assignment.event_driven,
             spec.idle.hold_steps,
             assignment.tail_guard,
+            configured_budget,
         ),
         track_observed_tasks=True,
     )

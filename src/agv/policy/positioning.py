@@ -1,7 +1,7 @@
 """Visible-history positioning, with static corridor exclusions and hysteresis."""
 
-from collections import Counter
-from math import exp
+from collections import Counter, deque
+from math import exp, isfinite
 
 from agv.planning.astar import Router
 from agv.policy.assignment import minimum_assignment
@@ -65,20 +65,79 @@ class PositioningPolicy:
     """No release oracle: history consists only of orders actually observed."""
 
     def __init__(
-        self, observation, *, strength=32.0, sigma=18.0, interval=10, capacity=2, hysteresis=3.0
+        self,
+        observation,
+        *,
+        strength=32.0,
+        sigma=18.0,
+        interval=10,
+        capacity=2,
+        hysteresis=3.0,
+        stat_window=None,
+        rebalance_period=None,
+        hotspot_zones=0,
+        protect_utilization=None,
     ):
+        for name, value in (("interval", interval), ("capacity", capacity)):
+            if type(value) is not int or value <= 0:
+                raise ValueError(f"{name} must be a positive integer")
+        for name, value in (("stat_window", stat_window), ("rebalance_period", rebalance_period)):
+            if value is not None and (type(value) is not int or value <= 0):
+                raise ValueError(f"{name} must be a positive integer or None")
+        for name, value in (("strength", strength), ("sigma", sigma), ("hysteresis", hysteresis)):
+            if type(value) not in (int, float) or not isfinite(value) or value < 0:
+                raise ValueError(f"{name} must be finite and nonnegative")
+        if not sigma:
+            raise ValueError("sigma must be positive")
+        if type(hotspot_zones) is not int or hotspot_zones < 0:
+            raise ValueError("hotspot_zones must be a nonnegative integer")
+        if protect_utilization is not None and (
+            type(protect_utilization) not in (int, float)
+            or not isfinite(protect_utilization)
+            or not 0 < protect_utilization <= 1
+        ):
+            raise ValueError("protect_utilization must be in (0, 1] or None")
         self.scenario = Scenario.from_observation_map(observation["map"], observation["horizon"])
         self.router = Router(self.scenario)
         self.candidates = waiting_candidates(self.scenario)
         self.candidate_set = set(self.candidates)
         self.strength, self.sigma = strength, sigma
-        self.interval, self.capacity, self.hysteresis = interval, capacity, hysteresis
-        self.history, self.last = {}, -interval
+        self.interval = interval if rebalance_period is None else rebalance_period
+        self.capacity, self.hysteresis = capacity, hysteresis
+        self.stat_window, self.rebalance_period = stat_window, rebalance_period
+        self.hotspot_zones, self.protect_utilization = hotspot_zones, protect_utilization
+        self.history, self.last = {}, -self.interval
+        self.occupancy = deque()
+        self.zones = {i: [] for i in range(len(self.scenario.stations))}
+        for point in self.candidates:
+            self.zones[self._zone(point)].append(point)
         self.log = []
         self.available = {v["id"] for v in observation["vehicles"] if v["available"]}
         self.new_idle = set()
 
+    def _zone(self, point):
+        return min(
+            self.zones,
+            key=lambda i: (
+                abs(point[0] - self.scenario.stations[i][0])
+                + abs(point[1] - self.scenario.stations[i][1]),
+                i,
+            ),
+        )
+
+    def _utilization(self, zone, now, capacity):
+        if not self.occupancy or now <= self.occupancy[0][0]:
+            return 0.0
+        start = max(self.occupancy[0][0], now - (self.stat_window or 200))
+        occupied = 0
+        samples = list(self.occupancy)
+        for i, (time, zones) in enumerate(samples):
+            end = samples[i + 1][0] if i + 1 < len(samples) else now
+            occupied += zones[zone] * max(0, end - max(time, start))
+        return min(1.0, occupied / ((now - start) * capacity))
+
     def observe(self, observation):
+        now = observation["time"]
         available = {v["id"] for v in observation["vehicles"] if v["available"]}
         self.new_idle.update(available - self.available)
         self.available = available
@@ -90,10 +149,36 @@ class PositioningPolicy:
                 from agv.policy.forecast import _task
 
                 task = _task(job)
+                if task.release > now:
+                    continue
                 self.history[job["id"]] = (
                     task.release,
                     tuple(self.scenario.pickup_candidates(task)),
                 )
+        if self.stat_window is not None:
+            self.history = {
+                key: value
+                for key, value in self.history.items()
+                if value[0] >= now - self.stat_window
+            }
+        if self.protect_utilization is not None:
+            targets = observation.get("positioning_targets", [])
+            occupied = Counter(
+                self._zone(tuple(targets[v["id"]]["target"]))
+                for v in observation["vehicles"]
+                if v["available"]
+                and v["id"] < len(targets)
+                and targets[v["id"]] is not None
+                and tuple(v["position"]) == tuple(targets[v["id"]]["target"])
+                and tuple(v["position"]) in self.candidate_set
+            )
+            if self.occupancy and self.occupancy[-1][0] == now:
+                self.occupancy[-1] = (now, occupied)
+            else:
+                self.occupancy.append((now, occupied))
+            cutoff = now - (self.stat_window or 200)
+            while len(self.occupancy) > 1 and self.occupancy[1][0] <= cutoff:
+                self.occupancy.popleft()
 
     def action(self, observation):
         self.observe(observation)
@@ -142,20 +227,20 @@ class PositioningPolicy:
             )
             return scores[point]
 
-        zones = {i: [] for i in range(len(self.scenario.stations))}
-        for point in self.candidates:
-            zone = min(
-                zones,
-                key=lambda i: (
-                    abs(point[0] - self.scenario.stations[i][0])
-                    + abs(point[1] - self.scenario.stations[i][1]),
-                    i,
-                ),
-            )
-            zones[zone].append(point)
+        # Keep precomputed geometry, but allow callers/tests to narrow candidate points.
+        candidates = set(self.candidates)
+        zones = {
+            i: [point for point in points if point in candidates]
+            for i, points in self.zones.items()
+        }
+        zone_heat = Counter()
+        for point, value in heat.items():
+            zone_heat[self._zone(point)] += value
+        hot = set(sorted(zone_heat, key=lambda z: (-zone_heat[z], z))[: self.hotspot_zones])
+        capacities = {i: self.capacity + (i in hot) for i in zones}
         targets = []
-        for points in zones.values():
-            # Capacity is hard: at most c shared target slots per station zone.
+        for zone_id, points in zones.items():
+            # Each zone exposes only its configured safe target slots.
             old_points = [
                 tuple(t["target"])
                 for t in observation.get("positioning_targets", [])
@@ -165,17 +250,34 @@ class PositioningPolicy:
                 points,
                 key=lambda p: (min(distance(v, p) for v in vehicles) - self.strength * score(p), p),
             )
-            targets.extend(list(dict.fromkeys(old_points + ordered))[: self.capacity])
+            targets.extend(list(dict.fromkeys(old_points + ordered))[: capacities[zone_id]])
         targets += list(self.scenario.homes)
         targets = list(dict.fromkeys(targets))
+        current_targets = observation.get("positioning_targets", [])
+        counts = Counter(self._zone(tuple(t["target"])) for t in current_targets if t is not None)
         costs = []
         for vehicle in vehicles:
             k, current = vehicle["id"], tuple(vehicle["position"])
             old = observation.get("positioning_targets", [None] * len(self.scenario.homes))[k]
             old_point = tuple(old["target"]) if old else current
+            # Never protect an unsafe point, an in-flight car or an overfull zone.
+            protected = (
+                self.protect_utilization is not None
+                and old is not None
+                and current == old_point
+                and current in self.candidate_set
+                and counts[self._zone(current)] <= capacities[self._zone(current)]
+                and self._utilization(self._zone(current), now, capacities[self._zone(current)])
+                > self.protect_utilization
+            )
             row = []
             for target in targets:
                 if target in self.scenario.homes and target != self.scenario.homes[k]:
+                    row.append(float("inf"))
+                    continue
+                # Protection affects voluntary relocation only; the command gate can still
+                # reject a hold and move this car along its reserved fallback to clear traffic.
+                if protected and target != old_point:
                     row.append(float("inf"))
                     continue
                 penalty = 0 if target == old_point else self.hysteresis
@@ -184,18 +286,6 @@ class PositioningPolicy:
         choice = minimum_assignment(costs)
         result = []
 
-        def zone(point):
-            return min(
-                zones,
-                key=lambda i: (
-                    abs(point[0] - self.scenario.stations[i][0])
-                    + abs(point[1] - self.scenario.stations[i][1]),
-                    i,
-                ),
-            )
-
-        current_targets = observation.get("positioning_targets", [])
-        counts = Counter(zone(tuple(t["target"])) for t in current_targets if t is not None)
         for i, selected in enumerate(choice):
             if selected is None:
                 continue
@@ -211,12 +301,12 @@ class PositioningPolicy:
             if register or (
                 target != old_point and (not valid_stay or costs[i][selected] < stay - 1e-9)
             ):
-                old_zone = zone(old_point) if old else None
-                new_zone = zone(target) if target not in self.scenario.homes else None
+                old_zone = self._zone(old_point) if old else None
+                new_zone = self._zone(target) if target not in self.scenario.homes else None
                 if (
                     new_zone is not None
                     and new_zone != old_zone
-                    and counts[new_zone] >= self.capacity
+                    and counts[new_zone] >= capacities[new_zone]
                 ):
                     continue
                 if old_zone is not None:
@@ -227,8 +317,8 @@ class PositioningPolicy:
             elif (
                 old is None
                 and current in self.candidate_set
-                and counts[zone(current)] < self.capacity
+                and counts[self._zone(current)] < capacities[self._zone(current)]
             ):
-                counts[zone(current)] += 1
+                counts[self._zone(current)] += 1
                 result.append((v["id"], current))
         return result

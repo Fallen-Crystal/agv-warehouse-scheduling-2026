@@ -187,6 +187,8 @@ class StreamReporter:
             result["algorithm"].update(
                 delay_max_wait=self.matcher.max_wait, delay_threshold=self.matcher.threshold
             )
+            if self.matcher.eta_cache is not None:
+                result["eta_cache_stats"] = self.matcher.eta_cache.snapshot()
         if self.locator:
             result["algorithm"]["positioning_parameters"] = dict(
                 strength=self.locator.strength,
@@ -196,6 +198,14 @@ class StreamReporter:
                 hysteresis=self.locator.hysteresis,
                 history_decay_steps=200,
             )
+            for name in ("stat_window", "rebalance_period", "protect_utilization"):
+                value = getattr(self.locator, name)
+                if value is not None:
+                    result["algorithm"]["positioning_parameters"][name] = value
+            if self.locator.hotspot_zones:
+                result["algorithm"]["positioning_parameters"]["hotspot_zones"] = (
+                    self.locator.hotspot_zones
+                )
         return result
 
 
@@ -209,6 +219,7 @@ class DispatchReporter:
     event_driven: bool
     idle_hold_steps: int
     tail_guard: bool
+    configured_budget: Mapping[str, int] | None = None
 
     def finish(self, result: dict, context: PolicyContext) -> dict:
         result["algorithm"] = dict(
@@ -227,6 +238,8 @@ class DispatchReporter:
             result["algorithm"]["idle_hold_steps"] = self.idle_hold_steps
         if self.tail_guard:
             result["algorithm"]["tail_guard"] = "visible_rollout_p90_not_worse_than_greedy"
+        if self.configured_budget:
+            result["algorithm"]["rollout_budget"] = dict(self.configured_budget)
         result["observed_task_count"] = len(context.observed_tasks)
         meaningful = [row for row in context.decisions if row["candidates"] or row["issued_pairs"]]
         result["dispatch_decisions"] = meaningful

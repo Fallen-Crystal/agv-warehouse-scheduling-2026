@@ -16,13 +16,13 @@ src/agv/
     reservations.py      # one absolute-time route index and filtered views
     observation.py       # immutable online view, detached legacy JSON adapter
     restore.py           # observation-only world reconstruction for forecasting
-  planning/              # A*, SIPP, static DistanceOracle, composition and repair
+  planning/              # A*, SIPP, bounded static/ETA caches, composition and repair
   policy/                # observation-only assignment/idle/repair stages
-  runner/                # one solver loop and dependency composition
+  runner/                # one solver loop, composition, ordered batch execution
   registry.py            # typed SolverSpec compositions and historical aliases
   evaluation/            # trace metrics, fixed offline reference, independent audit
   io/                    # serialization, hashes, atomic writes and map import
-  experiments/           # frozen protocols and paired benchmarks
+  experiments/           # frozen protocols, local result cache, paired benchmarks
   learning/ models/      # optional transparent ranker and its trained artifact
   web/ cli.py            # HTTP/CLI applications
   domain.py              # compatibility re-export only
@@ -101,7 +101,7 @@ The online driver may use only the observation. Full future order lists are allo
 - `Scenario.from_dict()` checks shape, unknown fields and strict integer coordinates before building objects. Existing v1/v2 scene formats remain readable. Explicit V4 scenes serialize as `agv-scene-v4`; the teammate's v3 envelope is accepted only if its enclosed scene passes the current explicit profile checks.
 - `write_json()` writes and flushes a temporary file on the destination filesystem. Default exclusive link creation refuses to overwrite an existing output; explicit overwrite uses atomic replacement. A failed serialization never damages an existing result.
 - The HTTP server serves fixed assets only, validates Host/Origin/body type/length and rejects simultaneous simulations with 429. Input dimensions/task counts are checked before reachability search. Request sockets have timeouts; unexpected failures are logged locally and return a bounded error.
-- Batch parameter validation does not run an unnecessary extra simulation. There is no unbounded result cache or queue of expensive background runs.
+- Web batch parameter validation does not run an unnecessary extra simulation. The HTTP application has no unbounded in-memory result cache or queue of expensive background runs. Formal V9.1 experiments can use a content-addressed local disk cache; hits are independently validated and retain their original timing provenance. See [architecture extensions](architecture-options.md).
 - A replan is committed only after complete-route independent audit. Existing task IDs, assignment times, started services and executed path prefixes are preserved.
 - Formal experiments flush rows incrementally, save `status=running` until complete, and reject a run if any measured source changes during execution. Reusing an output directory is rejected.
 

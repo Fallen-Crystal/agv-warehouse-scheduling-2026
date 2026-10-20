@@ -10,10 +10,11 @@ from agv.world.reservations import reservations
 
 
 class ArrivalMatching:
-    def __init__(self, observation, *, delay=False, max_wait=16, threshold=3):
+    def __init__(self, observation, *, delay=False, max_wait=16, threshold=3, eta_cache=None):
         self.scenario = Scenario.from_observation_map(observation["map"], observation["horizon"])
         self.router = create_router("sipp", self.scenario)
         self.delay, self.max_wait, self.threshold = delay, max_wait, threshold
+        self.eta_cache = eta_cache
         self.log = []
 
     def action(self, observation):
@@ -41,17 +42,39 @@ class ArrivalMatching:
                 vertices, edges = reservations(
                     [p for k, p in enumerate(paths) if k != vehicle["id"]], now
                 )
-                _, record, failed, _ = plan_task(
-                    self.scenario,
-                    self.router,
-                    _task(raw),
-                    vehicle["id"],
-                    position,
-                    start,
-                    vertices,
-                    edges,
-                )
-                estimates[key] = float("inf") if failed else record["delivery_end"]
+                task = _task(raw)
+
+                def compute():
+                    _, record, failed, _ = plan_task(
+                        self.scenario,
+                        self.router,
+                        task,
+                        vehicle["id"],
+                        position,
+                        start,
+                        vertices,
+                        edges,
+                    )
+                    return float("inf") if failed else record["delivery_end"]
+
+                if self.eta_cache is None:
+                    estimates[key] = compute()
+                else:
+                    query = (
+                        self.router.geometry,
+                        vehicle["id"],
+                        position,
+                        start,
+                        task,
+                        tuple(self.scenario.pickup_candidates(task)),
+                    )
+                    # SIPP never examines reservations before this departure;
+                    # retaining the absolute suffix permits exact cross-tick reuse.
+                    signature = (
+                        frozenset(v for v in vertices if v[0] >= start),
+                        frozenset(e for e in edges if e[0] >= start),
+                    )
+                    estimates[key] = self.eta_cache.get_or_compute(query, signature, compute)
             return estimates[key]
 
         values = [
