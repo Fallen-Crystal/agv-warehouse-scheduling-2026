@@ -45,6 +45,10 @@ class Environment(WorldState):
     def advance(self, steps=1, *, observe=True):
         # Historical public API schedules idle actions on each step. New runners
         # issue them explicitly before tick(), which contains no policy.
+        if type(steps) is not int or steps < 1:
+            raise ValueError("Invalid advance or horizon exceeded")
+        if self.ruleset.stream and self.done:
+            return self.observe() if observe else None
         if (
             type(steps) is not int
             or steps < 1
@@ -52,6 +56,8 @@ class Environment(WorldState):
         ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
+            if self.ruleset.stream and self.done:
+                break
             self.prepare_idle()
             self.tick(observe=False)
         return self.observe() if observe else None

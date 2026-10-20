@@ -1,0 +1,1695 @@
+{
+  "base_commit": "ff0d8b713d9f9ddaef2b17b0e75e1bf9c55b8ebe",
+  "source_lf_sha256": {
+    "scripts/audit_framework.py": "0db5744a4f7069965b130dd042737663dfef0aaa6bbde90e603e89a326d6d8e5",
+    "src/agv/__init__.py": "2fd96b9934bceaed326a0040e9d08243132639f63d3f4cfacbce15e982a35a32",
+    "src/agv/__main__.py": "e7d30120ec4887445dd712ed8600765e0a3d6c475f162a327d8433f883d5b84d",
+    "src/agv/cli.py": "29074a52cac78a0c0e208394dc579af37d189af9e0b5090b8a2ec392e526406e",
+    "src/agv/dispatch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/dispatch/assignment.py": "1d4cf12301f75d036c8759cf45b810624aa7e236b74da2ec8da38b89217863cd",
+    "src/agv/dispatch/bcrd.py": "642db12bb6dda57572e53d9d3cd8c94563af01b0a57bd91b6fe37ac5b6fd2f96",
+    "src/agv/dispatch/candidates.py": "6d3a7f7a788fdb062859625e9460799acc3c5eed79015f6a5cd0b2e365fd308e",
+    "src/agv/dispatch/greedy.py": "48286e8ed12fcc901a9a4abc17b69441fe3a59df17210df285d67e4a3c1f6907",
+    "src/agv/dispatch/idle.py": "4fd70d5a48928231eeb8a2ed81203d9d6217547f1e763c54bce290d645fdf7bd",
+    "src/agv/dispatch/optimized.py": "019ebf0111b2a9b508f64bb286044b220fd86b39ee2e3985668cd7f7d0ec960c",
+    "src/agv/dispatch/order_stream.py": "195b327831c53f90253b5af0372ae03b7f7ad2d1fe63c94589162146603804dd",
+    "src/agv/dispatch/positioning.py": "01a841611dc37877247160e13fb5852dff069cc32a5840016ae633f50997ea9e",
+    "src/agv/dispatch/registry.py": "f83388c8e65ec1efbf8e4109fb466c181cd8bf71388cba148cfedd2de566309a",
+    "src/agv/dispatch/shadow.py": "63d7069124ae4447530dc5d0f08a6dfe98dff43cd28d934b8a4074c03c50c6b0",
+    "src/agv/dispatch/stream.py": "bc99d50f10a4c2b570059632e3c6522bc9466fea2993f16d4ee087a7afb3c2cd",
+    "src/agv/domain.py": "ef8d119dde6e0fab37436e2ad420c410544758edfd6bedd10f4869978ba01909",
+    "src/agv/evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/evaluation/bounds.py": "de004a8a66645665ba27187ebaaa501c8db7c48facfd33f358dee100affb9e3f",
+    "src/agv/evaluation/diagnostics.py": "ce60cff899424edbc4ce001f58281be598dd57bdeb0c5c6d3ac16c1c546528e2",
+    "src/agv/evaluation/dispatch_analysis.py": "505079241afd68ed8fd472b4b0faf1c5f11804f42ad0d094b85cf898b0ba7cbd",
+    "src/agv/evaluation/metrics.py": "e464e43943d53cba34e4975dab4da37cd4403c6771daa2c0e393a9bbde5f8532",
+    "src/agv/evaluation/objective.py": "2d5caf8fdb241c9c0d86e1cb8b76c8ffd4de4c6bda71732a033034bbb21bada1",
+    "src/agv/evaluation/validation.py": "abd45b5e6090df3922896b1a115d940533d429591428af82f87639a318aefcc6",
+    "src/agv/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/experiments/batch.py": "40e3f66cb095efee9c861f74fdb1fa1fd9f845676e0c5bddc8b59a2875bfc3e3",
+    "src/agv/experiments/bcrd.py": "b0ba7fa2dcb54d9e0d30b61f33d500c7f2fedb5e9ec7839cbbec830621b65a4f",
+    "src/agv/experiments/benchmark.py": "7433ec7ea7b62ec49e1cbbab1d5a770fcb0917a40935d6999d3a7685bf1bb10a",
+    "src/agv/experiments/routing_benchmark.py": "543dd39df013ce8f7262c4e8617a3be5fad98c532ba0a91cfbf6f92e42da6a56",
+    "src/agv/experiments/v4.py": "d42063a0166df9a9a2bbc67c054e787f81f968936e5ad50e533cdd14f9befdf2",
+    "src/agv/experiments/v91_bench.py": "a340f87ae13257786f93f2f856a1c49414d25d1b36c16f36eb1d1c1beb3deca9",
+    "src/agv/io/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/io/exports.py": "92ed2bb4e19f4577b6c4bd56d6542ef665ff9fd50bc1cd2d717623f7fed2e4f0",
+    "src/agv/io/movingai.py": "f5d63101655ca8290eb309c42d669f35ea746bae5465f1f57230f394e0d00aa3",
+    "src/agv/io/scenes.py": "8d95c94d94e66f9a7402fb3341928378cef1ecb349ac1f13d692d6b431407946",
+    "src/agv/io/storage.py": "079b6e7ca6e5504cae410181a6cb450a7e55ded6ab5ba17e1cc2c53bf98dd965",
+    "src/agv/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/learning/ranker.py": "3b92d5feb265091ade7a32d6f5d16c97c5de62152eb049c66655f81d7bf28961",
+    "src/agv/learning/train.py": "643995ec5aad9ec92aecaf5706d7f989c7b6393cecc73b969b449d8907d05c3b",
+    "src/agv/planning/__init__.py": "db86414d3646a6bbd7e82ee3819a6a2cb4d2b114dcc3aa33965832faffd456a0",
+    "src/agv/planning/astar.py": "c7fbce10f43cfde76a3a6eaac51a25d7911650cfae3320d4ae83fa71e438a450",
+    "src/agv/planning/demo_cases.py": "795345382719d64a09df53d8f34bc9fce0f6b523d729c27096163ed83a12b39b",
+    "src/agv/planning/joint.py": "94bbaaceb3b2301956636e6ba61c450c8831854c04b9bfddc77789af13a5cd8a",
+    "src/agv/planning/pickup.py": "39a69a9d45792f2002488d0e661f0c379f0661ca3e130c2e79ad8e2885083fb3",
+    "src/agv/planning/reposition.py": "0f1937714e1d61990c87cff8242d60e27b482d4cffdcb3e4892c2d5a41508d69",
+    "src/agv/planning/reservations.py": "bd24d789bee26a5a2acdb7af4222660d4daf0307f3b40388f2d5090059b33050",
+    "src/agv/planning/sipp.py": "5321317e2769e8e16d5dea4c71e3eac0a5a1124ee05fe414c50accbf6de1a252",
+    "src/agv/simulation.py": "7c46926a39e42b5bcc59bea897d28b47441981aa2501a02b615ef9fb8478f180",
+    "src/agv/warehouse/__init__.py": "eb9f09aba0227e0adf8a8549854d1678278c206281c34af426fc0ffd94087a36",
+    "src/agv/warehouse/layout.py": "216fa9db9badd390ac3300af46b5c7e6b6dda09b3d63eb17a0810f2804c18f30",
+    "src/agv/warehouse/mixed.py": "5670fbb156493b3dd46cf406af80a070eab0d0fbabc7406653171e8e7db9d273",
+    "src/agv/warehouse/rules.py": "84321dee6d568336fad6ca0ccb46956e86af68a211aab3db250f3c2488dee749",
+    "src/agv/web/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/web/app.py": "55d7a915cf48a1eef23d6be8f12a366be6a615bd2fbdeb30f71558eece7db2bf",
+    "src/agv/web/static/app.js": "f1d1ff75e11aebb178834e527050131673db4f57d1ca8f235e78403bdfe96ee7"
+  },
+  "geometry": [
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "medium",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "large",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 1,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 3,
+      "work_width": 4,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 2,
+      "variant": 2
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 0
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 1
+    },
+    {
+      "size": "xxlarge",
+      "cars": 10,
+      "layers": 8,
+      "work_width": 4,
+      "variant": 2
+    }
+  ],
+  "archives": {
+    "traces": [
+      {
+        "file": "development\\development\\traces\\large__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\large__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\medium__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xlarge__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-G1.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-G2.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-G3.json",
+        "valid": true
+      },
+      {
+        "file": "development\\development\\traces\\xxlarge__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\large__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\medium__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xlarge__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__dense_static-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__dense_static-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__dense_static-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__shared_bursts-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__shared_bursts-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__shared_bursts-G4.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__sparse_uniform-B0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__sparse_uniform-B1.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "holdout\\holdout\\traces\\xxlarge__sparse_uniform-G4.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__dense_static-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__shared_bursts-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__sparse_uniform-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\large__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__dense_static-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__shared_bursts-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__sparse_uniform-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\medium__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__dense_static-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__shared_bursts-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__sparse_uniform-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xlarge__sparse_uniform-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__dense_static-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__dense_static-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__shared_bursts-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__shared_bursts-G0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__sparse_uniform-A0.json",
+        "valid": true
+      },
+      {
+        "file": "stage0\\stage0\\traces\\xxlarge__sparse_uniform-G0.json",
+        "valid": true
+      }
+    ],
+    "tables": [
+      {
+        "file": "development\\development\\runs.csv",
+        "rows": 252,
+        "scores_checked": 252
+      },
+      {
+        "file": "holdout\\holdout\\runs.csv",
+        "rows": 960,
+        "scores_checked": 960
+      },
+      {
+        "file": "stage0\\stage0\\runs.csv",
+        "rows": 72,
+        "scores_checked": 72
+      }
+    ],
+    "limitation": "Only retained traces audited; CSV arithmetic is not a rerun of all executions or A* references."
+  },
+  "executions": [
+    {
+      "size": "medium",
+      "case": "sequential",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 350,
+      "T": 307,
+      "R": 179.75,
+      "D": 334,
+      "energy": 16.7,
+      "valid": true
+    },
+    {
+      "size": "medium",
+      "case": "sequential",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 350,
+      "T": 307,
+      "R": 179.75,
+      "D": 334,
+      "energy": 16.7,
+      "valid": true
+    },
+    {
+      "size": "medium",
+      "case": "capacity_layers",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 147,
+      "T": 126,
+      "R": 101.4,
+      "D": 1092,
+      "energy": 54.6,
+      "valid": true
+    },
+    {
+      "size": "medium",
+      "case": "capacity_layers",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 163,
+      "T": 130,
+      "R": 101.6,
+      "D": 1094,
+      "energy": 54.7,
+      "valid": true
+    },
+    {
+      "size": "medium",
+      "case": "dynamic",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 464,
+      "T": 384,
+      "R": 62.75,
+      "D": 644,
+      "energy": 32.2,
+      "valid": true
+    },
+    {
+      "size": "medium",
+      "case": "dynamic",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 463,
+      "T": 383,
+      "R": 63.25,
+      "D": 648,
+      "energy": 32.4,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "sequential",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 496,
+      "T": 415,
+      "R": 231.75,
+      "D": 480,
+      "energy": 24.0,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "sequential",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 496,
+      "T": 415,
+      "R": 231.75,
+      "D": 480,
+      "energy": 24.0,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "capacity_layers",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 179,
+      "T": 165,
+      "R": 126.0,
+      "D": 1372,
+      "energy": 68.60000000000001,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "capacity_layers",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 215,
+      "T": 174,
+      "R": 127.2,
+      "D": 1386,
+      "energy": 69.3,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "dynamic",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 452,
+      "T": 412,
+      "R": 88.0,
+      "D": 818,
+      "energy": 40.900000000000006,
+      "valid": true
+    },
+    {
+      "size": "large",
+      "case": "dynamic",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 456,
+      "T": 413,
+      "R": 88.75,
+      "D": 816,
+      "energy": 40.800000000000004,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "sequential",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 632,
+      "T": 579,
+      "R": 328.25,
+      "D": 618,
+      "energy": 30.900000000000002,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "sequential",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 632,
+      "T": 579,
+      "R": 328.25,
+      "D": 618,
+      "energy": 30.900000000000002,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "capacity_layers",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 251,
+      "T": 193,
+      "R": 160.4,
+      "D": 1782,
+      "energy": 89.10000000000001,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "capacity_layers",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 294,
+      "T": 231,
+      "R": 164.3,
+      "D": 1822,
+      "energy": 91.10000000000001,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "dynamic",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 578,
+      "T": 442,
+      "R": 111.375,
+      "D": 1158,
+      "energy": 57.900000000000006,
+      "valid": true
+    },
+    {
+      "size": "xlarge",
+      "case": "dynamic",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 547,
+      "T": 431,
+      "R": 115.625,
+      "D": 1250,
+      "energy": 62.5,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "sequential",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 728,
+      "T": 673,
+      "R": 381.0,
+      "D": 714,
+      "energy": 35.7,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "sequential",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 1,
+      "tasks": 4,
+      "time": 728,
+      "T": 673,
+      "R": 381.0,
+      "D": 714,
+      "energy": 35.7,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "capacity_layers",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 285,
+      "T": 230,
+      "R": 183.2,
+      "D": 2034,
+      "energy": 101.7,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "capacity_layers",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 10,
+      "tasks": 10,
+      "time": 319,
+      "T": 252,
+      "R": 185.1,
+      "D": 2054,
+      "energy": 102.7,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "dynamic",
+      "solver": "sipp_position_delay_dispatch",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 553,
+      "T": 491,
+      "R": 152.75,
+      "D": 1452,
+      "energy": 72.60000000000001,
+      "valid": true
+    },
+    {
+      "size": "xxlarge",
+      "case": "dynamic",
+      "solver": "sipp_stream_bcrd_tail",
+      "vehicles": 4,
+      "tasks": 8,
+      "time": 576,
+      "T": 492,
+      "R": 153.125,
+      "D": 1452,
+      "energy": 72.60000000000001,
+      "valid": true
+    }
+  ],
+  "completed": true
+}

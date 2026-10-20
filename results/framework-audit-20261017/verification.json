@@ -1,0 +1,45 @@
+{
+  "base_commit": "ff0d8b713d9f9ddaef2b17b0e75e1bf9c55b8ebe",
+  "focused_tests": {
+    "passed": 55,
+    "seconds": 122.294
+  },
+  "mutation_tests": {
+    "passed": 3,
+    "invalid_scene_cases": 49,
+    "invalid_execution_cases": 66
+  },
+  "http": {
+    "passed": 1,
+    "invalid_then_valid": true
+  },
+  "viewer_node": {
+    "passed": 8
+  },
+  "ruff": "passed",
+  "geometry_configurations": 96,
+  "new_executions": 24,
+  "retained_traces_audited": 156,
+  "historical_csv_rows": 1284,
+  "full_suite": {
+    "tests": 268,
+    "source": "GitHub Actions complete suite; six OS/Python jobs plus wheel",
+    "pr_run": 39022062612,
+    "push_run": 39022059863,
+    "conclusion": "success"
+  },
+  "limitations": [
+    "Historical full executions and all A* references were not rerun.",
+    "No universal correctness, completeness or optimality claim."
+  ],
+  "final_code_commit": "ad3dfeb8415c4b0729393f5c9341d67ce7460f22",
+  "diagnostic_followup": {
+    "initial_local_suite_tests": 268,
+    "initial_local_failures": 2,
+    "cause": "Error diagnostic ordering, not acceptance of invalid execution",
+    "final_targeted_tests": 18,
+    "final_targeted_passed": true
+  },
+  "final_matrix_repeated": true,
+  "diagnostic_followup_execution_metrics_identical": true
+}

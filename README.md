@@ -162,3 +162,5 @@ python -m build --wheel
 已配置 Linux/macOS/Windows、Python3.10/3.12 测试，以及wheel安装后从源码目录外运行的检查。具体状态以GitHub Actions结果为准。更多复现及输出口径见 [复现指南](docs/reproduction.md)；开发约束见 [CONTRIBUTING](CONTRIBUTING.md)。
 
 核心规则、初始贪心、时空A*、原验解器以及 V4 分层几何模型来自队友项目；新增工程结构、规划改进、V4 规则集成与修复、训练和实验证据属于本次适配。来源与许可边界见 [NOTICE](NOTICE.md)。组员真实姓名、学号和实际贡献比例需据实填入正式课程报告。
+
+算法接入前请先阅读[建模框架系统审查与接口合同](docs/framework-audit-20261017.md)。本轮覆盖生命周期、状态验解、异常导入、历史代表轨迹和参数边界；实际运行证据及未覆盖范围见[审查证据目录](results/framework-audit-20261017/README.md)。它不构成任意场景无缺陷或全局最优证明。

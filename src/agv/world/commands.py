@@ -361,6 +361,17 @@ def hold_return(env, vehicle, steps=1):
         if env.positioning
         else None
     )
+    if position_event is not None and any(
+        r["vehicle"] == vehicle and r["assigned_at"] > position_event["start"] for r in env._records
+    ):
+        position_event = None
+    if (
+        record_index is not None
+        and position_event is not None
+        and env._records[record_index]["return_end"] <= position_event["start"]
+    ):
+        # Completed task history is immutable; a new empty trip owns its return.
+        record_index = None
     shadow_return = getattr(env, "_visible_old_routes", {}).get(vehicle)
     if record_index is None and position_event is None and shadow_return is None:
         raise ValueError("No accepted task has a fallback return")
@@ -439,7 +450,7 @@ def reposition(env, vehicle, target):
     index = next(
         (i for i in range(len(records) - 1, -1, -1) if records[i]["vehicle"] == vehicle), None
     )
-    if index is not None:
+    if index is not None and records[index]["return_end"] > now:
         records[index] = deepcopy(records[index])
         records[index].update(return_end=end, return_arrival=end)
     waits = [

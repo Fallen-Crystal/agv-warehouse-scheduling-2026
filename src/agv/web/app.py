@@ -149,6 +149,8 @@ def calculate_loaded(data):
     raw = data.get("scenario", data)
     if not isinstance(raw, dict):
         raise ValueError("scenario必须是对象")
+    if not isinstance(raw.get("map_info", {}), dict):
+        raise ValueError("map_info必须是对象")
     # Resource limits are checked before expensive reachability/route checks.
     for field, limit in [("width", 96), ("height", 96), ("horizon", 1800)]:
         value = raw.get(field, 600 if field == "horizon" else None)
@@ -178,6 +180,8 @@ def calculate_loaded(data):
     name = (config or {}).get(
         "algorithm", "sipp_stream_dispatch" if scenario.is_v9_1 else "baseline"
     )
+    if not isinstance(name, str) or name not in SOLVERS:
+        raise ValueError("algorithm必须是已注册的算法名称")
     result = run_named(name, scenario)
     validate(scenario, result)
     return dict(

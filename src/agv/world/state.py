@@ -164,6 +164,10 @@ class WorldState:
         return self._reservation_index
 
     def advance(self, steps=1, *, observe=True):
+        if type(steps) is not int or steps < 1:
+            raise ValueError("Invalid advance or horizon exceeded")
+        if self.ruleset.stream and self.done:
+            return self.observe() if observe else None
         if (
             type(steps) is not int
             or steps < 1
@@ -171,6 +175,8 @@ class WorldState:
         ):
             raise ValueError("Invalid advance or horizon exceeded")
         for _ in range(steps):
+            if self.ruleset.stream and self.done:
+                break
             for k, plan in enumerate(self._plans):
                 self._interval_states[k].append(self._state(k))
                 if len(plan) > 1:
