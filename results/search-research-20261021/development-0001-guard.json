@@ -1,0 +1,9 @@
+{
+  "command": "\"C:/Users/XieBao/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe\" -B -m unittest tests.unit.test_research_search -q",
+  "cwd": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\work\\algorithm-research-20261021\\Fallen-Crystal-agv-warehouse-scheduling-2026-cd8d1be",
+  "duration_seconds": 6.172,
+  "returncode": 0,
+  "stderr": "----------------------------------------------------------------------\r\nRan 3 tests in 3.414s\r\n\r\nOK\r\n",
+  "stdout": "",
+  "timed_out": false
+}

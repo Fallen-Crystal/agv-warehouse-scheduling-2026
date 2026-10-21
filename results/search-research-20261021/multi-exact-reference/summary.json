@@ -1,0 +1,229 @@
+{
+  "rows": [
+    {
+      "size": "medium",
+      "seed": 62,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.998750119263429,
+      "feasible_F": 0.998750119263429,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "lower_fraction": [
+        1744649999999999944,
+        1746833333333333255
+      ],
+      "actual_fraction": [
+        1744649999999999944,
+        1746833333333333255
+      ]
+    },
+    {
+      "size": "medium",
+      "seed": 63,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.8772933799202531,
+      "feasible_F": 0.8772933799202531,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          1,
+          0
+        ],
+        [
+          2
+        ]
+      ],
+      "lower_fraction": [
+        1292247300000000026649,
+        1472993333333333379800
+      ],
+      "actual_fraction": [
+        1292247300000000026649,
+        1472993333333333379800
+      ]
+    },
+    {
+      "size": "large",
+      "seed": 62,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.7772962109379267,
+      "feasible_F": 0.7772962109379268,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "lower_fraction": [
+        94885066666666668651,
+        122070666666666670630
+      ],
+      "actual_fraction": [
+        94885066666666668651,
+        122070666666666670630
+      ]
+    },
+    {
+      "size": "large",
+      "seed": 63,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.8297151994706515,
+      "feasible_F": 0.8297151994706514,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          0,
+          2
+        ],
+        [
+          1
+        ]
+      ],
+      "lower_fraction": [
+        150473,
+        181355
+      ],
+      "actual_fraction": [
+        150473,
+        181355
+      ]
+    },
+    {
+      "size": "xlarge",
+      "seed": 62,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.8473411859458371,
+      "feasible_F": 0.8473411859458371,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "lower_fraction": [
+        210416,
+        248325
+      ],
+      "actual_fraction": [
+        210416,
+        248325
+      ]
+    },
+    {
+      "size": "xlarge",
+      "seed": 63,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.8396930227959284,
+      "feasible_F": 0.8396930227959284,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          0,
+          2
+        ],
+        [
+          1
+        ]
+      ],
+      "lower_fraction": [
+        1358789850000000025747,
+        1618198333333333380580
+      ],
+      "actual_fraction": [
+        1358789850000000025747,
+        1618198333333333380580
+      ]
+    },
+    {
+      "size": "xxlarge",
+      "seed": 62,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.9546076516952128,
+      "feasible_F": 0.9546076516952127,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "lower_fraction": [
+        18547473,
+        19429420
+      ],
+      "actual_fraction": [
+        18547473,
+        19429420
+      ]
+    },
+    {
+      "size": "xxlarge",
+      "seed": 63,
+      "vehicles": 2,
+      "orders": 3,
+      "enumerations": 48,
+      "relaxed_lower_F": 0.983840113479535,
+      "feasible_F": 0.9838401134795349,
+      "certified_optimal": true,
+      "gap_pct": 0.0,
+      "chains": [
+        [
+          2,
+          1
+        ],
+        [
+          0
+        ]
+      ],
+      "lower_fraction": [
+        243641009,
+        247642890
+      ],
+      "actual_fraction": [
+        243641009,
+        247642890
+      ]
+    }
+  ],
+  "certified": 8
+}

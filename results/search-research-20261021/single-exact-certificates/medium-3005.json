@@ -1,0 +1,56 @@
+{
+  "order": [
+    0,
+    6,
+    5,
+    4,
+    2,
+    7,
+    3,
+    1
+  ],
+  "pickup_points": [
+    [
+      22,
+      9
+    ],
+    [
+      20,
+      25
+    ],
+    [
+      30,
+      10
+    ],
+    [
+      33,
+      26
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      34,
+      14
+    ],
+    [
+      20,
+      9
+    ],
+    [
+      38,
+      8
+    ]
+  ],
+  "optimal_score": 0.9582560713704797,
+  "exact_numerator": 6951707,
+  "exact_denominator": 7254540,
+  "states": 1025,
+  "reference": [
+    738.0,
+    368.625,
+    738.0
+  ],
+  "scope": "one_vehicle_closed_static_full_grid"
+}

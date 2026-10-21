@@ -1,0 +1,66 @@
+[
+  {
+    "case": "large-62",
+    "valid": true,
+    "F": 0.7772962109379268,
+    "optimal_F": 0.7772962109379267,
+    "gap_pct": 2.220446049250313e-14,
+    "reaches_optimum": true
+  },
+  {
+    "case": "large-63",
+    "valid": true,
+    "F": 0.8297151994706514,
+    "optimal_F": 0.8297151994706515,
+    "gap_pct": -1.1102230246251565e-14,
+    "reaches_optimum": true
+  },
+  {
+    "case": "medium-62",
+    "valid": true,
+    "F": 0.998750119263429,
+    "optimal_F": 0.998750119263429,
+    "gap_pct": 0.0,
+    "reaches_optimum": true
+  },
+  {
+    "case": "medium-63",
+    "valid": true,
+    "F": 0.8772933799202531,
+    "optimal_F": 0.8772933799202531,
+    "gap_pct": 0.0,
+    "reaches_optimum": true
+  },
+  {
+    "case": "xlarge-62",
+    "valid": true,
+    "F": 0.8473411859458371,
+    "optimal_F": 0.8473411859458371,
+    "gap_pct": 0.0,
+    "reaches_optimum": true
+  },
+  {
+    "case": "xlarge-63",
+    "valid": true,
+    "F": 0.8396930227959284,
+    "optimal_F": 0.8396930227959284,
+    "gap_pct": 0.0,
+    "reaches_optimum": true
+  },
+  {
+    "case": "xxlarge-62",
+    "valid": true,
+    "F": 0.9546076516952127,
+    "optimal_F": 0.9546076516952128,
+    "gap_pct": -1.1102230246251565e-14,
+    "reaches_optimum": true
+  },
+  {
+    "case": "xxlarge-63",
+    "valid": true,
+    "F": 0.9838401134795349,
+    "optimal_F": 0.983840113479535,
+    "gap_pct": -1.1102230246251565e-14,
+    "reaches_optimum": true
+  }
+]

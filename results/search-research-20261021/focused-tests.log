@@ -1,0 +1,12 @@
+test_exact_matches_exhaustive_orders_and_real_execution (tests.unit.test_research_search.ExactReferenceTests.test_exact_matches_exhaustive_orders_and_real_execution) ... ok
+test_exact_rejects_finite_horizon_and_future_close (tests.unit.test_research_search.ExactReferenceTests.test_exact_rejects_finite_horizon_and_future_close) ... ok
+test_layer_precedence_is_preserved (tests.unit.test_research_search.ExactReferenceTests.test_layer_precedence_is_preserved) ... ok
+test_pure_priority_event_skips_match_every_step_forecast (tests.unit.test_research_search.ExactReferenceTests.test_pure_priority_event_skips_match_every_step_forecast) ... ok
+test_pure_skip_requires_explicit_policy_contract (tests.unit.test_research_search.ExactReferenceTests.test_pure_skip_requires_explicit_policy_contract) ... ok
+test_rejects_dynamic_or_multi_vehicle_exact_claims (tests.unit.test_research_search.ExactReferenceTests.test_rejects_dynamic_or_multi_vehicle_exact_claims) ... ok
+test_search_action_cannot_depend_on_hidden_orders_or_stream_end (tests.unit.test_research_search.ExactReferenceTests.test_search_action_cannot_depend_on_hidden_orders_or_stream_end) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 7.371s
+
+OK

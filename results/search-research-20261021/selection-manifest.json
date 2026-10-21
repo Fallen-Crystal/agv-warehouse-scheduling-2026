@@ -1,0 +1,66 @@
+{
+  "selection": "8 small multi-car optimum witnesses; 4 single-car optimum witnesses; both P90 regression pairs; largest/smallest multi-car F gain pairs; 2 stress traces",
+  "cases": [
+    {
+      "map": "large",
+      "stratum": "multi_static",
+      "seed": 3002,
+      "reasons": [
+        "all GA-versus-greedy P90 regressions"
+      ]
+    },
+    {
+      "map": "xxlarge",
+      "stratum": "multi_static",
+      "seed": 3000,
+      "reasons": [
+        "all GA-versus-greedy P90 regressions"
+      ]
+    },
+    {
+      "map": "xxlarge",
+      "stratum": "multi_dynamic",
+      "seed": 3000,
+      "reasons": [
+        "largest multi-car F gain"
+      ]
+    },
+    {
+      "map": "xxlarge",
+      "stratum": "multi_static",
+      "seed": 3003,
+      "reasons": [
+        "smallest multi-car F gain"
+      ]
+    }
+  ],
+  "files": {
+    "paired/large-multi_static-3002-greedy.json": "59ca9e38cb7349e272378175e000ec281f1da093891d78ec967ff78930dd2fca",
+    "paired/large-multi_static-3002-ga.json": "ac2be9d2914376d79c292aa2b6b4df5e927b42df61364d6c2a82ba213cd4fc7f",
+    "paired/xxlarge-multi_static-3000-greedy.json": "bdc162a4b2049d757f405eea424041fc5d3db88f79f64ea55cfd75e71eb399f6",
+    "paired/xxlarge-multi_static-3000-ga.json": "e733c9a0de36d4a605ac237c876ce38d3a0b9861693a0c00a2b91cb22b7aeefe",
+    "paired/xxlarge-multi_dynamic-3000-greedy.json": "141bce0ce0d24977a20288eb662fdc7f5f0628ea1974e2a1a89256f1aabfd868",
+    "paired/xxlarge-multi_dynamic-3000-ga.json": "12003f2b0331c970fa28fd702ffcd138a63fe3ca4da1d69d84d9b5e86c3f1307",
+    "paired/xxlarge-multi_static-3003-greedy.json": "f7407ff088fdee9bcfdce513179f83676e3308ed34eb13537920f841cbfd809b",
+    "paired/xxlarge-multi_static-3003-ga.json": "7c66dd2ed6521f50576e10a401603a6419d33e3fd456e38f83cfc83d6b370ccb",
+    "multi-exact-reference/large-62.json": "0e409742e7b648beb83de7a6821791257fb8ba2bceac89122df1f927b09d9011",
+    "multi-exact-reference/large-63.json": "5ac15148e518af3ce75909c8e3b8b89c2f7ab33e984365c886c9aa2e8b82e219",
+    "multi-exact-reference/medium-62.json": "9e36f6d6b3267e37b74bef097314d3cb0e578b44b1f56cdded803782f0b94f85",
+    "multi-exact-reference/medium-63.json": "556b3b9ff993eac5cf0f2f028e6a50324fd562c555d74c1025aa728a1eff3dd0",
+    "multi-exact-reference/summary.json": "38677913b37c848372f0616f8550b698aecba5ffb0fd095ce0440b71cf0b4435",
+    "multi-exact-reference/xlarge-62.json": "73ae8a9c997159beb0e480fa4e54f57259b5372c7210f737ca0583060a76734a",
+    "multi-exact-reference/xlarge-63.json": "9de78915c4606b09fba8c7a0de331680702d63bb6c14c22d8b95a394f71959a0",
+    "multi-exact-reference/xxlarge-62.json": "ed70a68af62c81103a47008f452b6de292d9f0468d6eef165c48398124dfb983",
+    "multi-exact-reference/xxlarge-63.json": "4fcac2c1748410ed7c95a767db55724ddc17c292cf35ef3bab81b541de5ae4d8",
+    "single-exact-witnesses/oracle-witness-large-single_static-3000-greedy.json": "7b30bcdaf4783a964c73ae023513ec2617d8b4a4cfdc0bbfa8a46d02393cade3",
+    "single-exact-witnesses/oracle-witness-medium-single_static-3000-greedy.json": "0b7a138a82d18f1e438d45318bc184c47ebd49c2b6108d61497f2f3428398c98",
+    "single-exact-witnesses/oracle-witness-xlarge-single_static-3000-greedy.json": "96a5c5b522f2ae2dedfb8189079749403b0fb4587f729541c3b0e24fe8af411a",
+    "single-exact-witnesses/oracle-witness-xxlarge-single_static-3000-greedy.json": "826727c90d2d574269dd511f044dd9765eed26170ac59b81281761313cea5938",
+    "stress/stress-medium.json": "bfc56215f20c741ab5dc56168822c7e37875eca5f2d7e4e09e6f9979dcc7cdf3",
+    "stress/stress-xxlarge.json": "1b9d42d1f51b7cd0e26d98f6e10dff5c807b343d3db237e1b1da5c7f50858c91"
+  },
+  "archive_sha256": "48c89c4d401cc25ea7d188ca58d8965e2193e5de7d2257094b6e7b2d3d4ab563",
+  "complete_evaluation_runs": 208,
+  "full_trace_archive_committed": false,
+  "full_archive_sha256": "ad17ed46409bc21fde5967110d9ff0c235024163ce96434b69101d25a6e043a7"
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "size": "medium",
+    "seed": 2000,
+    "valid": true,
+    "F": 0.9833170656281105,
+    "T": 396,
+    "D": 1008,
+    "completed": 12
+  },
+  {
+    "size": "xxlarge",
+    "seed": 2001,
+    "valid": true,
+    "F": 0.9702713850412652,
+    "T": 532,
+    "D": 1972,
+    "completed": 12
+  }
+]

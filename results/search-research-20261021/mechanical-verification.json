@@ -1,0 +1,29 @@
+{
+  "type": "mechanical_evidence_check_not_cross_model_review",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "independently_revalidated_traces": 208,
+  "paired_scenes": 72,
+  "frozen_source_equal": true,
+  "certified_multi_optima": 8,
+  "single_oracle_execution_witnesses": [
+    {
+      "case": "large-single_static-3000-greedy",
+      "optimal_F": 0.9559363351993319
+    },
+    {
+      "case": "medium-single_static-3000-greedy",
+      "optimal_F": 0.8805447109038117
+    },
+    {
+      "case": "xlarge-single_static-3000-greedy",
+      "optimal_F": 0.9570925623907797
+    },
+    {
+      "case": "xxlarge-single_static-3000-greedy",
+      "optimal_F": 0.862349528932513
+    }
+  ],
+  "full_tests": 352,
+  "stress_valid": 2,
+  "external_reviewer": "unavailable"
+}

@@ -64,6 +64,24 @@ class VisibleWorldMixin:
                 )
             elif all(record is not None for record in self._active):
                 steps = min(record["delivery_end"] for record in self._active) - self.time
+            elif not any(
+                job.id not in self._assigned
+                and self.ruleset.dispatchable(job, self._records, self._assigned, self.time)[0]
+                for job in self._jobs.values()
+            ):
+                # This visible world contains no unreleased jobs. With no legal
+                # order, default/stateless-priority policies emit nothing until
+                # a pickup lock or active delivery changes. Still record EVERY
+                # intermediate physical tick through advance().
+                events = [
+                    r[key]
+                    for r in self._active
+                    if r is not None
+                    for key in ("pickup_end", "delivery_end")
+                    if r[key] > self.time
+                ]
+                if events:
+                    steps = min(events) - self.time
             steps = min(steps, max_steps - (self.time - origin))
             if self._scenario.horizon is not None:
                 steps = min(steps, self._scenario.horizon - self.time)

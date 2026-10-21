@@ -1,0 +1,9 @@
+{
+  "command": "\"C:/Users/XieBao/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe\" -B scripts/research_metric.py",
+  "cwd": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\work\\algorithm-research-20261021\\Fallen-Crystal-agv-warehouse-scheduling-2026-cd8d1be",
+  "duration_seconds": 86.735,
+  "returncode": 0,
+  "stderr": "",
+  "stdout": "{\"seed\": 60, \"vehicles\": 1, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 555, \"D\": 564}\r\n{\"seed\": 61, \"vehicles\": 1, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 607, \"D\": 586}\r\n{\"seed\": 60, \"vehicles\": 4, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 229, \"D\": 938}\r\n{\"seed\": 61, \"vehicles\": 4, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 235, \"D\": 894}\r\n{\"seed\": 60, \"vehicles\": 4, \"mode\": \"dynamic\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 240, \"D\": 936}\r\n{\"seed\": 61, \"vehicles\": 4, \"mode\": \"dynamic\", \"baseline\": 0.9995633187772927, \"candidate\": 0.9995633187772927, \"T\": 232, \"D\": 914}\r\n{\"ratio\": 1.0, \"rows\": [{\"seed\": 60, \"vehicles\": 1, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 555, \"D\": 564}, {\"seed\": 61, \"vehicles\": 1, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 607, \"D\": 586}, {\"seed\": 60, \"vehicles\": 4, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 229, \"D\": 938}, {\"seed\": 61, \"vehicles\": 4, \"mode\": \"static\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 235, \"D\": 894}, {\"seed\": 60, \"vehicles\": 4, \"mode\": \"dynamic\", \"baseline\": 1.0, \"candidate\": 1.0, \"T\": 240, \"D\": 936}, {\"seed\": 61, \"vehicles\": 4, \"mode\": \"dynamic\", \"baseline\": 0.9995633187772927, \"candidate\": 0.9995633187772927, \"T\": 232, \"D\": 914}]}\r\n",
+  "timed_out": false
+}

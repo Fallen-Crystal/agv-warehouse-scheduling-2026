@@ -204,7 +204,13 @@ class ShadowState:
             world_factory=self._world_factory,
         )
 
-    def preview(self, ordered_batch, depth=None, rollout_policy=None, budget=None):
+    def preview(
+        self, ordered_batch, depth=None, rollout_policy=None, budget=None, *, pure_empty_skips=False
+    ):
+        if type(pure_empty_skips) is not bool:
+            raise ValueError("pure_empty_skips must be boolean")
+        if pure_empty_skips and not getattr(rollout_policy, "pure_empty_decisions", False):
+            raise ValueError("Only a stateless empty-decision policy may skip observations")
         if depth is not None and (type(depth) is not int or depth < 0):
             raise ValueError("depth must be None or a nonnegative integer")
         limits = _budget_values(budget)
@@ -238,7 +244,7 @@ class ShadowState:
                         open_stream=open_stream,
                         skip_empty=(
                             self._event_driven
-                            and rollout_policy is None
+                            and (rollout_policy is None or pure_empty_skips)
                             and (depth is None or rounds < depth)
                         ),
                     )

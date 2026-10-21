@@ -1,0 +1,1485 @@
+{
+  "rows": [
+    {
+      "size": "medium",
+      "seed": 60,
+      "T": 113,
+      "R": 85.5,
+      "D": 248,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 83,
+        "R": 70.5,
+        "D": 208,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 83,
+              "min_flow": 83,
+              "min_loaded_distance": 46
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 58,
+              "min_flow": 58,
+              "min_loaded_distance": 36
+            }
+          ],
+          "T_individual": 83,
+          "T_workload": 81,
+          "D_loaded_only": 82,
+          "D_before_last_delivery": 153,
+          "D_closed_assignment": 208,
+          "service_steps": 8
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 61,
+      "T": 109,
+      "R": 92.5,
+      "D": 272,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 87,
+        "R": 81.5,
+        "D": 176,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 87,
+              "min_flow": 87,
+              "min_loaded_distance": 44
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 76,
+              "min_flow": 76,
+              "min_loaded_distance": 39
+            }
+          ],
+          "T_individual": 87,
+          "T_workload": 83,
+          "D_loaded_only": 83,
+          "D_before_last_delivery": 148,
+          "D_closed_assignment": 176,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 62,
+      "T": 83,
+      "R": 64.5,
+      "D": 198,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 73,
+        "R": 59.5,
+        "D": 136,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 46,
+              "min_flow": 46,
+              "min_loaded_distance": 16
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 73,
+              "min_flow": 73,
+              "min_loaded_distance": 26
+            }
+          ],
+          "T_individual": 73,
+          "T_workload": 59,
+          "D_loaded_only": 42,
+          "D_before_last_delivery": 102,
+          "D_closed_assignment": 136,
+          "service_steps": 16
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 63,
+      "T": 91,
+      "R": 76.5,
+      "D": 232,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 91,
+        "R": 76.5,
+        "D": 114,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 62,
+              "min_flow": 62,
+              "min_loaded_distance": 13
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 91,
+              "min_flow": 91,
+              "min_loaded_distance": 39
+            }
+          ],
+          "T_individual": 91,
+          "T_workload": 66,
+          "D_loaded_only": 52,
+          "D_before_last_delivery": 105,
+          "D_closed_assignment": 114,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 64,
+      "T": 95,
+      "R": 83.0,
+      "D": 272,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 95,
+        "R": 83.0,
+        "D": 132,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 95,
+              "min_flow": 95,
+              "min_loaded_distance": 48
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 71,
+              "min_flow": 71,
+              "min_loaded_distance": 18
+            }
+          ],
+          "T_individual": 95,
+          "T_workload": 67,
+          "D_loaded_only": 66,
+          "D_before_last_delivery": 116,
+          "D_closed_assignment": 132,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 65,
+      "T": 82,
+      "R": 62.0,
+      "D": 192,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 82,
+        "R": 62.0,
+        "D": 116,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 82,
+              "min_flow": 82,
+              "min_loaded_distance": 44
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 42,
+              "min_flow": 42,
+              "min_loaded_distance": 14
+            }
+          ],
+          "T_individual": 82,
+          "T_workload": 62,
+          "D_loaded_only": 58,
+          "D_before_last_delivery": 106,
+          "D_closed_assignment": 116,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 66,
+      "T": 80,
+      "R": 64.0,
+      "D": 194,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 80,
+        "R": 64.0,
+        "D": 128,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 80,
+              "min_flow": 80,
+              "min_loaded_distance": 49
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 48,
+              "min_flow": 48,
+              "min_loaded_distance": 15
+            }
+          ],
+          "T_individual": 80,
+          "T_workload": 57,
+          "D_loaded_only": 64,
+          "D_before_last_delivery": 93,
+          "D_closed_assignment": 128,
+          "service_steps": 20
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 67,
+      "T": 90,
+      "R": 72.0,
+      "D": 218,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 90,
+        "R": 72.0,
+        "D": 130,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 54,
+              "min_flow": 54,
+              "min_loaded_distance": 32
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 90,
+              "min_flow": 90,
+              "min_loaded_distance": 33
+            }
+          ],
+          "T_individual": 90,
+          "T_workload": 65,
+          "D_loaded_only": 65,
+          "D_before_last_delivery": 117,
+          "D_closed_assignment": 130,
+          "service_steps": 12
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 68,
+      "T": 114,
+      "R": 81.0,
+      "D": 218,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 114,
+        "R": 81.0,
+        "D": 150,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 114,
+              "min_flow": 114,
+              "min_loaded_distance": 65
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 48,
+              "min_flow": 48,
+              "min_loaded_distance": 21
+            }
+          ],
+          "T_individual": 114,
+          "T_workload": 80,
+          "D_loaded_only": 86,
+          "D_before_last_delivery": 150,
+          "D_closed_assignment": 150,
+          "service_steps": 10
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "medium",
+      "seed": 69,
+      "T": 90,
+      "R": 76.0,
+      "D": 192,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 76,
+        "R": 69.0,
+        "D": 162,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 62,
+              "min_flow": 62,
+              "min_loaded_distance": 34
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 76,
+              "min_flow": 76,
+              "min_loaded_distance": 36
+            }
+          ],
+          "T_individual": 76,
+          "T_workload": 76,
+          "D_loaded_only": 70,
+          "D_before_last_delivery": 125,
+          "D_closed_assignment": 162,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 60,
+      "T": 146,
+      "R": 126.5,
+      "D": 362,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 122,
+        "R": 114.5,
+        "D": 214,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 122,
+              "min_flow": 122,
+              "min_loaded_distance": 58
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 107,
+              "min_flow": 107,
+              "min_loaded_distance": 51
+            }
+          ],
+          "T_individual": 122,
+          "T_workload": 113,
+          "D_loaded_only": 109,
+          "D_before_last_delivery": 209,
+          "D_closed_assignment": 214,
+          "service_steps": 16
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 61,
+      "T": 105,
+      "R": 93.5,
+      "D": 276,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 89,
+        "R": 85.5,
+        "D": 102,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 82,
+              "min_flow": 82,
+              "min_loaded_distance": 28
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 89,
+              "min_flow": 89,
+              "min_loaded_distance": 21
+            }
+          ],
+          "T_individual": 89,
+          "T_workload": 60,
+          "D_loaded_only": 49,
+          "D_before_last_delivery": 102,
+          "D_closed_assignment": 102,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 62,
+      "T": 111,
+      "R": 86.5,
+      "D": 252,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 111,
+        "R": 86.5,
+        "D": 182,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 62,
+              "min_flow": 62,
+              "min_loaded_distance": 30
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 111,
+              "min_flow": 111,
+              "min_loaded_distance": 43
+            }
+          ],
+          "T_individual": 111,
+          "T_workload": 87,
+          "D_loaded_only": 73,
+          "D_before_last_delivery": 145,
+          "D_closed_assignment": 182,
+          "service_steps": 28
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 63,
+      "T": 198,
+      "R": 161.5,
+      "D": 386,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 164,
+        "R": 144.5,
+        "D": 280,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 125,
+              "min_flow": 125,
+              "min_loaded_distance": 47
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 164,
+              "min_flow": 164,
+              "min_loaded_distance": 93
+            }
+          ],
+          "T_individual": 164,
+          "T_workload": 143,
+          "D_loaded_only": 140,
+          "D_before_last_delivery": 259,
+          "D_closed_assignment": 280,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 64,
+      "T": 91,
+      "R": 89.0,
+      "D": 316,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 91,
+        "R": 89.0,
+        "D": 212,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 91,
+              "min_flow": 91,
+              "min_loaded_distance": 39
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 87,
+              "min_flow": 87,
+              "min_loaded_distance": 67
+            }
+          ],
+          "T_individual": 91,
+          "T_workload": 75,
+          "D_loaded_only": 106,
+          "D_before_last_delivery": 144,
+          "D_closed_assignment": 212,
+          "service_steps": 6
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 65,
+      "T": 98,
+      "R": 88.5,
+      "D": 302,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 97,
+        "R": 88.0,
+        "D": 162,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 97,
+              "min_flow": 97,
+              "min_loaded_distance": 37
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 79,
+              "min_flow": 79,
+              "min_loaded_distance": 49
+            }
+          ],
+          "T_individual": 97,
+          "T_workload": 82,
+          "D_loaded_only": 86,
+          "D_before_last_delivery": 146,
+          "D_closed_assignment": 162,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 66,
+      "T": 119,
+      "R": 101.0,
+      "D": 344,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 119,
+        "R": 101.0,
+        "D": 268,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 119,
+              "min_flow": 119,
+              "min_loaded_distance": 86
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 83,
+              "min_flow": 83,
+              "min_loaded_distance": 48
+            }
+          ],
+          "T_individual": 119,
+          "T_workload": 101,
+          "D_loaded_only": 134,
+          "D_before_last_delivery": 182,
+          "D_closed_assignment": 268,
+          "service_steps": 20
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 67,
+      "T": 113,
+      "R": 102.0,
+      "D": 336,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 113,
+        "R": 102.0,
+        "D": 206,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 91,
+              "min_flow": 91,
+              "min_loaded_distance": 67
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 113,
+              "min_flow": 113,
+              "min_loaded_distance": 46
+            }
+          ],
+          "T_individual": 113,
+          "T_workload": 95,
+          "D_loaded_only": 113,
+          "D_before_last_delivery": 178,
+          "D_closed_assignment": 206,
+          "service_steps": 12
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 68,
+      "T": 156,
+      "R": 120.5,
+      "D": 338,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 156,
+        "R": 120.5,
+        "D": 194,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 156,
+              "min_flow": 156,
+              "min_loaded_distance": 84
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 85,
+              "min_flow": 85,
+              "min_loaded_distance": 56
+            }
+          ],
+          "T_individual": 156,
+          "T_workload": 102,
+          "D_loaded_only": 140,
+          "D_before_last_delivery": 194,
+          "D_closed_assignment": 194,
+          "service_steps": 10
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "large",
+      "seed": 69,
+      "T": 113,
+      "R": 96.5,
+      "D": 274,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 95,
+        "R": 87.5,
+        "D": 214,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 80,
+              "min_flow": 80,
+              "min_loaded_distance": 50
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 95,
+              "min_flow": 95,
+              "min_loaded_distance": 53
+            }
+          ],
+          "T_individual": 95,
+          "T_workload": 93,
+          "D_loaded_only": 103,
+          "D_before_last_delivery": 160,
+          "D_closed_assignment": 214,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 60,
+      "T": 139,
+      "R": 100.5,
+      "D": 352,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 139,
+        "R": 100.5,
+        "D": 264,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 139,
+              "min_flow": 139,
+              "min_loaded_distance": 74
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 62,
+              "min_flow": 62,
+              "min_loaded_distance": 24
+            }
+          ],
+          "T_individual": 139,
+          "T_workload": 101,
+          "D_loaded_only": 98,
+          "D_before_last_delivery": 193,
+          "D_closed_assignment": 264,
+          "service_steps": 8
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 61,
+      "T": 163,
+      "R": 140.5,
+      "D": 440,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 143,
+        "R": 130.5,
+        "D": 292,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 143,
+              "min_flow": 143,
+              "min_loaded_distance": 66
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 118,
+              "min_flow": 118,
+              "min_loaded_distance": 69
+            }
+          ],
+          "T_individual": 143,
+          "T_workload": 125,
+          "D_loaded_only": 135,
+          "D_before_last_delivery": 232,
+          "D_closed_assignment": 292,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 62,
+      "T": 190,
+      "R": 143.0,
+      "D": 382,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 156,
+        "R": 126.0,
+        "D": 278,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 96,
+              "min_flow": 96,
+              "min_loaded_distance": 52
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 156,
+              "min_flow": 156,
+              "min_loaded_distance": 69
+            }
+          ],
+          "T_individual": 156,
+          "T_workload": 132,
+          "D_loaded_only": 121,
+          "D_before_last_delivery": 236,
+          "D_closed_assignment": 278,
+          "service_steps": 28
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 63,
+      "T": 230,
+      "R": 199.0,
+      "D": 478,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 210,
+        "R": 189.0,
+        "D": 346,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 168,
+              "min_flow": 168,
+              "min_loaded_distance": 64
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 210,
+              "min_flow": 210,
+              "min_loaded_distance": 109
+            }
+          ],
+          "T_individual": 210,
+          "T_workload": 181,
+          "D_loaded_only": 173,
+          "D_before_last_delivery": 335,
+          "D_closed_assignment": 346,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 64,
+      "T": 208,
+      "R": 163.5,
+      "D": 450,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 178,
+        "R": 148.5,
+        "D": 208,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 119,
+              "min_flow": 119,
+              "min_loaded_distance": 43
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 178,
+              "min_flow": 178,
+              "min_loaded_distance": 87
+            }
+          ],
+          "T_individual": 178,
+          "T_workload": 113,
+          "D_loaded_only": 130,
+          "D_before_last_delivery": 208,
+          "D_closed_assignment": 208,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 65,
+      "T": 142,
+      "R": 112.5,
+      "D": 366,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 142,
+        "R": 112.5,
+        "D": 172,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 142,
+              "min_flow": 142,
+              "min_loaded_distance": 68
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 83,
+              "min_flow": 83,
+              "min_loaded_distance": 33
+            }
+          ],
+          "T_individual": 142,
+          "T_workload": 95,
+          "D_loaded_only": 101,
+          "D_before_last_delivery": 172,
+          "D_closed_assignment": 172,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 66,
+      "T": 116,
+      "R": 101.5,
+      "D": 342,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 116,
+        "R": 101.5,
+        "D": 230,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 87,
+              "min_flow": 87,
+              "min_loaded_distance": 43
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 116,
+              "min_flow": 116,
+              "min_loaded_distance": 78
+            }
+          ],
+          "T_individual": 116,
+          "T_workload": 101,
+          "D_loaded_only": 121,
+          "D_before_last_delivery": 182,
+          "D_closed_assignment": 230,
+          "service_steps": 20
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 67,
+      "T": 160,
+      "R": 121.5,
+      "D": 386,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 160,
+        "R": 121.5,
+        "D": 240,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 83,
+              "min_flow": 83,
+              "min_loaded_distance": 58
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 160,
+              "min_flow": 160,
+              "min_loaded_distance": 78
+            }
+          ],
+          "T_individual": 160,
+          "T_workload": 117,
+          "D_loaded_only": 136,
+          "D_before_last_delivery": 217,
+          "D_closed_assignment": 240,
+          "service_steps": 16
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 68,
+      "T": 202,
+      "R": 138.5,
+      "D": 390,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 162,
+        "R": 118.5,
+        "D": 172,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 162,
+              "min_flow": 162,
+              "min_loaded_distance": 79
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 75,
+              "min_flow": 75,
+              "min_loaded_distance": 36
+            }
+          ],
+          "T_individual": 162,
+          "T_workload": 91,
+          "D_loaded_only": 115,
+          "D_before_last_delivery": 172,
+          "D_closed_assignment": 172,
+          "service_steps": 10
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xlarge",
+      "seed": 69,
+      "T": 124,
+      "R": 86.0,
+      "D": 270,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 124,
+        "R": 86.0,
+        "D": 176,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 48,
+              "min_flow": 48,
+              "min_loaded_distance": 20
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 124,
+              "min_flow": 124,
+              "min_loaded_distance": 54
+            }
+          ],
+          "T_individual": 124,
+          "T_workload": 86,
+          "D_loaded_only": 74,
+          "D_before_last_delivery": 146,
+          "D_closed_assignment": 176,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 60,
+      "T": 151,
+      "R": 107.5,
+      "D": 362,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 151,
+        "R": 107.5,
+        "D": 262,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 151,
+              "min_flow": 151,
+              "min_loaded_distance": 67
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 64,
+              "min_flow": 64,
+              "min_loaded_distance": 24
+            }
+          ],
+          "T_individual": 151,
+          "T_workload": 108,
+          "D_loaded_only": 91,
+          "D_before_last_delivery": 199,
+          "D_closed_assignment": 262,
+          "service_steps": 16
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 61,
+      "T": 161,
+      "R": 138.5,
+      "D": 440,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 147,
+        "R": 131.5,
+        "D": 284,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 147,
+              "min_flow": 147,
+              "min_loaded_distance": 59
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 116,
+              "min_flow": 116,
+              "min_loaded_distance": 65
+            }
+          ],
+          "T_individual": 147,
+          "T_workload": 121,
+          "D_loaded_only": 124,
+          "D_before_last_delivery": 224,
+          "D_closed_assignment": 284,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 62,
+      "T": 201,
+      "R": 150.5,
+      "D": 454,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 173,
+        "R": 136.5,
+        "D": 346,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 100,
+              "min_flow": 100,
+              "min_loaded_distance": 54
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 173,
+              "min_flow": 173,
+              "min_loaded_distance": 75
+            }
+          ],
+          "T_individual": 173,
+          "T_workload": 141,
+          "D_loaded_only": 129,
+          "D_before_last_delivery": 254,
+          "D_closed_assignment": 346,
+          "service_steps": 28
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 63,
+      "T": 204,
+      "R": 186.5,
+      "D": 546,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 190,
+        "R": 179.5,
+        "D": 284,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 190,
+              "min_flow": 190,
+              "min_loaded_distance": 76
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 169,
+              "min_flow": 169,
+              "min_loaded_distance": 64
+            }
+          ],
+          "T_individual": 190,
+          "T_workload": 155,
+          "D_loaded_only": 140,
+          "D_before_last_delivery": 284,
+          "D_closed_assignment": 284,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 64,
+      "T": 173,
+      "R": 146.0,
+      "D": 526,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 131,
+        "R": 125.0,
+        "D": 158,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 131,
+              "min_flow": 131,
+              "min_loaded_distance": 52
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 119,
+              "min_flow": 119,
+              "min_loaded_distance": 27
+            }
+          ],
+          "T_individual": 131,
+          "T_workload": 88,
+          "D_loaded_only": 79,
+          "D_before_last_delivery": 158,
+          "D_closed_assignment": 158,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 65,
+      "T": 158,
+      "R": 121.5,
+      "D": 388,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 158,
+        "R": 121.5,
+        "D": 180,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 158,
+              "min_flow": 158,
+              "min_loaded_distance": 73
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 85,
+              "min_flow": 85,
+              "min_loaded_distance": 33
+            }
+          ],
+          "T_individual": 158,
+          "T_workload": 99,
+          "D_loaded_only": 106,
+          "D_before_last_delivery": 180,
+          "D_closed_assignment": 180,
+          "service_steps": 18
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 66,
+      "T": 112,
+      "R": 100.5,
+      "D": 344,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 112,
+        "R": 100.5,
+        "D": 230,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 89,
+              "min_flow": 89,
+              "min_loaded_distance": 43
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 112,
+              "min_flow": 112,
+              "min_loaded_distance": 72
+            }
+          ],
+          "T_individual": 112,
+          "T_workload": 99,
+          "D_loaded_only": 115,
+          "D_before_last_delivery": 178,
+          "D_closed_assignment": 230,
+          "service_steps": 20
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 67,
+      "T": 176,
+      "R": 130.5,
+      "D": 408,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 176,
+        "R": 130.5,
+        "D": 226,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 85,
+              "min_flow": 85,
+              "min_loaded_distance": 58
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 176,
+              "min_flow": 176,
+              "min_loaded_distance": 72
+            }
+          ],
+          "T_individual": 176,
+          "T_workload": 111,
+          "D_loaded_only": 130,
+          "D_before_last_delivery": 205,
+          "D_closed_assignment": 226,
+          "service_steps": 16
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 68,
+      "T": 161,
+      "R": 143.0,
+      "D": 514,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 161,
+        "R": 143.0,
+        "D": 260,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 161,
+              "min_flow": 161,
+              "min_loaded_distance": 54
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 125,
+              "min_flow": 125,
+              "min_loaded_distance": 60
+            }
+          ],
+          "T_individual": 161,
+          "T_workload": 125,
+          "D_loaded_only": 114,
+          "D_before_last_delivery": 244,
+          "D_closed_assignment": 260,
+          "service_steps": 6
+        }
+      },
+      "tight": false
+    },
+    {
+      "size": "xxlarge",
+      "seed": 69,
+      "T": 134,
+      "R": 92.0,
+      "D": 286,
+      "lower": {
+        "method": "static-assignment-relaxation-v1",
+        "scope": "offline_complete_home_return",
+        "T": 134,
+        "R": 92.0,
+        "D": 182,
+        "details": {
+          "tasks": [
+            {
+              "task_id": 0,
+              "earliest_completion": 50,
+              "min_flow": 50,
+              "min_loaded_distance": 20
+            },
+            {
+              "task_id": 1,
+              "earliest_completion": 134,
+              "min_flow": 134,
+              "min_loaded_distance": 62
+            }
+          ],
+          "T_individual": 134,
+          "T_workload": 92,
+          "D_loaded_only": 82,
+          "D_before_last_delivery": 158,
+          "D_closed_assignment": 182,
+          "service_steps": 26
+        }
+      },
+      "tight": false
+    }
+  ],
+  "exact_certificates": []
+}
