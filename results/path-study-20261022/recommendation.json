@@ -1,0 +1,14 @@
+{
+  "static": "assignment__sipp",
+  "dynamic": "aco__sipp",
+  "status": "experimental_mean_F_candidate",
+  "selection_basis": "Pre-specified component-removal alternative; primary F mean, with separate robustness caveat",
+  "primary_F_gain_pct": 0.8944781515679177,
+  "primary_ci95": [
+    0.6409259231515516,
+    1.1831860977687667
+  ],
+  "robustness_F_gain_pct": 0.34959159535725565,
+  "robust_dynamic_vs_assignment_pct": -0.21319980745710398,
+  "caveat": "One of eight extra dynamic scenarios regressed relative to unified assignment, after averaging algorithm seeds 1/2. No global or per-instance dominance guarantee."
+}

@@ -9,14 +9,25 @@ if TYPE_CHECKING:
     from agv.registry import SolverSpec
 
 
-def run(spec: "SolverSpec", scenario, *, action=None, ranker=None, collect=None, budget=None):
+def run(
+    spec: "SolverSpec",
+    scenario,
+    *,
+    action=None,
+    ranker=None,
+    collect=None,
+    budget=None,
+    on_assignment=None,
+    world_factory=None,
+):
     # Construction is delegated to the composition root. Policies themselves do
     # not construct or inspect an Environment.
     from agv.registry import build_controller, validate_solver_profile
 
     validate_solver_profile(spec, scenario)
+    world_factory = world_factory or Environment
 
-    env = Environment(
+    env = world_factory(
         scenario,
         router_kind=spec.router,
         idle_hold_steps=spec.idle.hold_steps,
@@ -29,7 +40,7 @@ def run(spec: "SolverSpec", scenario, *, action=None, ranker=None, collect=None,
     controller = build_controller(
         spec,
         initial,
-        world_factory=Environment,
+        world_factory=world_factory,
         action=action,
         ranker=ranker,
         collect=collect,
@@ -53,6 +64,8 @@ def run(spec: "SolverSpec", scenario, *, action=None, ranker=None, collect=None,
                 raise
             env.record_execution_error("invalid_action", error)
             break
+        if on_assignment is not None:
+            on_assignment(observation, feedback, observe())
         # Never reuse the pre-assignment observation: available vehicles and
         # reservations may both have changed after the assignment commit.
         if controller.idle and controller.idle.due(observation):

@@ -1,5 +1,7 @@
 # AGV算法实验结果与使用说明
 
+> 此页保留2026-10-21遗传算法研究结果。2026-10-22新增的Portfolio、联合邻域、蚁群/粒子群和路径混合比较，请以[本轮算法实验报告](docs/本轮算法实验报告_20261022.md)为准；其中两类调度候选均使用SIPP，原默认入口未变。
+
 推荐主线：教材遗传算法搜索订单顺序，SIPP负责真实路线与避碰；小规模保留精确参照。
 
 ## 已完成的结果
@@ -62,6 +64,3 @@ python -B -m unittest tests.unit.test_research_search -v
 未获得跨模型外部审查，mechanical-verification.json只表示可复查机械证据，不是外部审稿通过。
 
 完整方法、精确参照证明与论文链接见 [方法说明](docs/order-search-research.md)；逐次CSV、冻结哈希、原始轨迹归档见 `results/search-research-20261021/`。
-
-
-GitHub分支仅提交紧凑统计和精选正反例，遵循CONTRIBUTING；完整208条轨迹已在本地重新验解，保存在2026-10-21完整代码下载包中。精选证据见results/search-research-20261021/selected-evidence.tar.gz，选择标准和文件哈希见selection-manifest.json。全场景汇总仍使用全部208次执行，未按收益删样本。

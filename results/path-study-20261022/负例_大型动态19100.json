@@ -1,0 +1,34 @@
+[
+  {
+    "variant": "assignment__sipp",
+    "optimizer_seed": 1,
+    "F": 0.9639778065044605,
+    "T": 213,
+    "R": 128.75,
+    "D": 744
+  },
+  {
+    "variant": "assignment__sipp",
+    "optimizer_seed": 2,
+    "F": 0.9639778065044605,
+    "T": 213,
+    "R": 128.75,
+    "D": 744
+  },
+  {
+    "variant": "aco__sipp",
+    "optimizer_seed": 1,
+    "F": 0.9968609877428081,
+    "T": 229,
+    "R": 126.375,
+    "D": 762
+  },
+  {
+    "variant": "aco__sipp",
+    "optimizer_seed": 2,
+    "F": 0.9639778065044605,
+    "T": 213,
+    "R": 128.75,
+    "D": 744
+  }
+]

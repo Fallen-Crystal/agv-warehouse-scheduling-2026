@@ -1,0 +1,42 @@
+{
+  "protocol": {
+    "phase": "robust",
+    "maps": [
+      "medium",
+      "large",
+      "xlarge",
+      "xxlarge"
+    ],
+    "seeds": [
+      19100,
+      19101
+    ],
+    "variants_by_mode": {
+      "static": [
+        "portfolio__sipp",
+        "assignment__sipp"
+      ],
+      "dynamic": [
+        "portfolio__sipp",
+        "assignment__sipp",
+        "aco__aco_sipp"
+      ]
+    },
+    "optimizer_seeds": [
+      1,
+      2
+    ],
+    "weights": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "routing_budget": "four timed alternatives and twelve spatial proposals per leg; actual counts retained",
+    "primary": "paired F against portfolio+SIPP; selection by development only",
+    "future_visibility": "geometry and committed reservations; published tasks only",
+    "regime": "known static or dynamic experimental setting; no future release timestamps supplied"
+  },
+  "runs": 80,
+  "valid": 80,
+  "source_unchanged": true
+}

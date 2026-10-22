@@ -1,0 +1,44 @@
+{
+  "protocol": {
+    "phase": "dev",
+    "maps": [
+      "medium",
+      "large"
+    ],
+    "modes": [
+      "static",
+      "dynamic"
+    ],
+    "seeds": [
+      8100,
+      8101,
+      8102
+    ],
+    "variants": [
+      "portfolio",
+      "assignment",
+      "priority",
+      "combined",
+      "random",
+      "aco",
+      "pso"
+    ],
+    "optimizer_seeds": [
+      0
+    ],
+    "candidate_budget": 8,
+    "proxy_budget": 192,
+    "weights": [
+      0.5,
+      0.3,
+      0.2
+    ],
+    "primary": "paired F gain against previous portfolio",
+    "selection": "development only; one candidate; no R or P90 guard",
+    "visibility": "published jobs only",
+    "budget_note": "same additional upper caps; priority has fewer unique permutations; count actual previews; portfolio internal proxy/route calls uninstrumented, not zero"
+  },
+  "runs": 84,
+  "valid": 84,
+  "source_unchanged": true
+}

@@ -1,0 +1,134 @@
+{
+  "source_files": 116,
+  "base_source_files": 107,
+  "changed_existing": [
+    "src/agv/runner/environment.py",
+    "src/agv/runner/run.py"
+  ],
+  "added_sources": [
+    "src/agv/experiments/joint_benchmark.py",
+    "src/agv/experiments/path_benchmark.py",
+    "src/agv/planning/hybrid_routes.py",
+    "src/agv/planning/joint_meta.py",
+    "src/agv/planning/joint_orders.py",
+    "src/agv/policy/joint_orders.py",
+    "src/agv/policy/routing_contract.py",
+    "src/agv/runner/joint_research.py",
+    "src/agv/runner/path_research.py"
+  ],
+  "phases": [
+    {
+      "directory": "results\\joint-study-20261022\\pilot",
+      "runs": 14,
+      "valid": 14,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\joint-study-20261022\\development",
+      "runs": 84,
+      "valid": 84,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\development",
+      "runs": 180,
+      "valid": 180,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\tiny",
+      "runs": 144,
+      "valid": 144,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\stress",
+      "runs": 12,
+      "valid": 12,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\confirmation",
+      "runs": 120,
+      "valid": 120,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\path-ablation",
+      "runs": 24,
+      "valid": 24,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\robustness",
+      "runs": 80,
+      "valid": 80,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\robust-path-ablation",
+      "runs": 16,
+      "valid": 16,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\matched-arrivals",
+      "runs": 48,
+      "valid": 48,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\release-tiny",
+      "runs": 8,
+      "valid": 8,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\release-stress",
+      "runs": 2,
+      "valid": 2,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\recommendation-stress",
+      "runs": 2,
+      "valid": 2,
+      "source_verified": true
+    },
+    {
+      "directory": "results\\path-study-20261022\\interface-replay",
+      "runs": 12,
+      "valid": 12,
+      "source_verified": true
+    }
+  ],
+  "archived_complete_runs": 746,
+  "official_score_reconstructions": 518,
+  "shared_control_pairs_equal": 24,
+  "matched_arrival_pairs": 8,
+  "tiny_certified_runs": 144,
+  "distinct_tiny_cases": 8,
+  "fresh_tiny_certified_runs": 8,
+  "feedback": {
+    "accepted": 480,
+    "rejected_batches": 0,
+    "prediction_mismatch_batches": 0
+  },
+  "auxiliary_means": {
+    "baseline/empty_moves": 578.5208333333334,
+    "baseline/loaded_moves": 491.6875,
+    "baseline/traffic_wait_steps": 1.5,
+    "baseline/mean_dispatch_wait": 65.1875,
+    "baseline/workload_cv": 0.0924879866374374,
+    "candidate/empty_moves": 568.8541666666666,
+    "candidate/loaded_moves": 491.6875,
+    "candidate/traffic_wait_steps": 2.0208333333333335,
+    "candidate/mean_dispatch_wait": 65.13628472222223,
+    "candidate/workload_cv": 0.08941777460740155
+  },
+  "candidate_bound_upper_mean_pct": 32.54886101648397,
+  "bound_note": "Conservative upper bound from relaxed lower bounds, not measured distance to true optimum",
+  "prototype_failures": 30,
+  "interrupted_valid_traces": 3,
+  "all_checks_passed": true
+}

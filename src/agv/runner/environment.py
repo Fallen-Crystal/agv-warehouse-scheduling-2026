@@ -15,11 +15,13 @@ from agv.world.state import WorldState
 
 
 class Environment(WorldState):
-    def __init__(self, scenario, router_kind="astar", **options):
+    def __init__(self, scenario, router_kind="astar", *, router_factory=None, **options):
         super().__init__(
             scenario,
             router_kind,
-            services=KernelServices(create_router, plan_task, validate, score, build_result),
+            services=KernelServices(
+                router_factory or create_router, plan_task, validate, score, build_result
+            ),
             **options,
         )
 

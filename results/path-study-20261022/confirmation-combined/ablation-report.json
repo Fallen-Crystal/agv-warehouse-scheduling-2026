@@ -1,0 +1,506 @@
+{
+  "actual_parent_runs": 144,
+  "distinct_scenes": 48,
+  "same_sources": true,
+  "same_scenes": true,
+  "secondary_selection": {
+    "static": "assignment__sipp",
+    "dynamic": "aco__sipp"
+  },
+  "comparisons": {
+    "route_addition_vs_aco_sipp": {
+      "cases": 24,
+      "mean_gain_pct": -0.033789521579156524,
+      "cluster_ci95": [
+        -0.0832000694908704,
+        0.0
+      ],
+      "seed_clusters": 6,
+      "wins": 1,
+      "losses": 2,
+      "ties": 21,
+      "mean_cpu_ratio": 1.1596480505716447,
+      "pairs": [
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.444923076923077
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.2974333165576246
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.052086488377534046,
+          "cpu_ratio": 1.2677165354330708
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.370651486401012
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0151199165797706
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0559662090813093
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.2263736263736265
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.4668227946916472
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": -0.6450130633181006,
+          "cpu_ratio": 1.1252420916720465
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.5112414467253177
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.444649446494465
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0651340996168583
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.1650893796004207
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.87863121614968
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.3321998430551922
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.1091087811271299
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0737373737373737
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": -0.21802194295919008,
+          "cpu_ratio": 1.085459499628437
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.016945516945517
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.861132660977502
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.116923076923077
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.9853939518617568
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.1130548302872063
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.8026030368763557
+        }
+      ]
+    },
+    "aco_dispatch_vs_assignment": {
+      "cases": 24,
+      "mean_gain_pct": 0.3996167996233734,
+      "cluster_ci95": [
+        0.027998533619556787,
+        0.9627642056245334
+      ],
+      "seed_clusters": 6,
+      "wins": 4,
+      "losses": 0,
+      "ties": 20,
+      "mean_cpu_ratio": 1.0428399717374544,
+      "pairs": [
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.7485029940119761
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0354351224596143
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.4803598357824068,
+          "cpu_ratio": 0.8531669865642995
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.7671033478893741
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.2438391699092088
+        },
+        {
+          "map": "large",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0688487584650113
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.89157413455258
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.8626262626262626
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.021094264996704
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.7386281588447653
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.7832369942196532
+        },
+        {
+          "map": "medium",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.6719648068693629,
+          "cpu_ratio": 1.0585168018539977
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0314533622559654
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.3454786353097052
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0340816878550176
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.0126078301260784
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 0.0,
+          "cpu_ratio": 0.9760105159382189
+        },
+        {
+          "map": "xlarge",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.120144284128746
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18100,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.2892699115044248
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18101,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.131694468832309
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18102,
+          "gain_pct": 6.613391439666194,
+          "cpu_ratio": 1.143182288433685
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18103,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.1440338903271359
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18104,
+          "gain_pct": 1.8250871086429976,
+          "cpu_ratio": 1.199874686716792
+        },
+        {
+          "map": "xxlarge",
+          "mode": "dynamic",
+          "seed": 18105,
+          "gain_pct": 0.0,
+          "cpu_ratio": 1.5277547638773818
+        }
+      ]
+    },
+    "simplified_profile_vs_portfolio": {
+      "cases": 48,
+      "mean_gain_pct": 0.8944781515679177,
+      "cluster_ci95": [
+        0.6409259231515516,
+        1.1831860977687667
+      ],
+      "seed_clusters": 6,
+      "wins": 27,
+      "losses": 0,
+      "ties": 21,
+      "mean_cpu_ratio": 1.9466792521802088,
+      "means": {
+        "F": 0.894603241994838,
+        "T": 255.47916666666666,
+        "R": 159.41666666666666,
+        "D": 1060.5416666666667,
+        "p90": 247.75,
+        "cpu_seconds": 40.795572916666664,
+        "anchor_previews": 14.1875,
+        "additional_previews": 13.5
+      },
+      "baseline_means": {
+        "F": 0.9029086504881829,
+        "T": 259.5208333333333,
+        "R": 160.3125,
+        "D": 1070.2083333333333,
+        "p90": 251.02083333333334,
+        "cpu_seconds": 20.5390625
+      },
+      "contributions": {
+        "T": 0.5961411531043346,
+        "R": 0.14750512160471632,
+        "D": 0.15083187685886706
+      },
+      "by_mode": {
+        "static": {
+          "cases": 24,
+          "mean_gain_pct": 1.3727354396734204,
+          "cluster_ci95": [
+            1.1107715432821754,
+            1.7642499244909429
+          ],
+          "seed_clusters": 6,
+          "wins": 22,
+          "losses": 0,
+          "ties": 2,
+          "mean_cpu_ratio": 1.8177118339557075
+        },
+        "dynamic": {
+          "cases": 24,
+          "mean_gain_pct": 0.416220863462415,
+          "cluster_ci95": [
+            0.0446025974585984,
+            0.9787903823303579
+          ],
+          "seed_clusters": 6,
+          "wins": 5,
+          "losses": 0,
+          "ties": 19,
+          "mean_cpu_ratio": 2.07564667040471
+        }
+      }
+    },
+    "simplified_profile_vs_assignment": {
+      "cases": 48,
+      "mean_gain_pct": 0.1998083998116867,
+      "cluster_ci95": [
+        0.013999266809778393,
+        0.4813821028122667
+      ],
+      "seed_clusters": 6,
+      "wins": 4,
+      "losses": 0,
+      "ties": 44,
+      "mean_cpu_ratio": 1.0214199858687272,
+      "means": {
+        "F": 0.894603241994838,
+        "T": 255.47916666666666,
+        "R": 159.41666666666666,
+        "D": 1060.5416666666667,
+        "p90": 247.75,
+        "cpu_seconds": 40.795572916666664,
+        "anchor_previews": 14.1875,
+        "additional_previews": 13.5
+      },
+      "baseline_means": {
+        "F": 0.8966917377939407,
+        "T": 256.4375,
+        "R": 159.43489583333334,
+        "D": 1064.3333333333333,
+        "p90": 249.22916666666666,
+        "cpu_seconds": 39.057942708333336
+      },
+      "contributions": {
+        "T": 0.15639276577175745,
+        "R": -0.010302987753303136,
+        "D": 0.053718621793232633
+      },
+      "by_mode": {
+        "static": {
+          "cases": 24,
+          "mean_gain_pct": 0.0,
+          "cluster_ci95": [
+            0.0,
+            0.0
+          ],
+          "seed_clusters": 6,
+          "wins": 0,
+          "losses": 0,
+          "ties": 24,
+          "mean_cpu_ratio": 1.0
+        },
+        "dynamic": {
+          "cases": 24,
+          "mean_gain_pct": 0.3996167996233734,
+          "cluster_ci95": [
+            0.027998533619556787,
+            0.9627642056245334
+          ],
+          "seed_clusters": 6,
+          "wins": 4,
+          "losses": 0,
+          "ties": 20,
+          "mean_cpu_ratio": 1.0428399717374544
+        }
+      }
+    }
+  }
+}

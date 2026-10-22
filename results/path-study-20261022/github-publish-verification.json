@@ -1,0 +1,24 @@
+{
+  "target_branch": "codex/ga-sipp-research-20261021",
+  "parent_commit": "a2b9d5ea38a3ed3b1cb70d2921fd34c97e521944",
+  "verification_date": "2026-10-23",
+  "source_files_equal_delivered_study": 116,
+  "full_unittest": {
+    "tests": 373,
+    "passed": true,
+    "seconds": 426.275
+  },
+  "ruff_check": "passed",
+  "ruff_format": {
+    "files": 205,
+    "passed": true
+  },
+  "architecture": "passed",
+  "viewer_contracts": {
+    "checks": 8,
+    "passed": true
+  },
+  "remote_CI": "not_yet_run_at_local_verification",
+  "evidence_policy": "Complete statistics and 18 deliberately selected replay files; full evidence manifest retained; complete package hash recorded in README",
+  "defaults_and_objective": "unchanged"
+}

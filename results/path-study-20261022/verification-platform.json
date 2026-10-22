@@ -1,0 +1,14 @@
+{
+  "platform": "Windows",
+  "python": "3.12.14",
+  "unit_tests": 373,
+  "ruff_python_files": 205,
+  "architecture_gate": true,
+  "viewer_contract_checks": 8,
+  "viewer_syntax": true,
+  "wheel_build": true,
+  "wheel_independent_legacy": true,
+  "wheel_independent_v91": true,
+  "wheel_independent_hybrid": true,
+  "note": "Local verification only; no remote CI or GitHub upload claimed."
+}

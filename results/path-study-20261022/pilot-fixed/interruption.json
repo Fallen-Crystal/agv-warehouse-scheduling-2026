@@ -1,0 +1,6 @@
+{
+  "status": "interrupted_for_compute_cost",
+  "completed_traces": 3,
+  "selection_used": false,
+  "note": "All-leg spatial metaheuristics too costly. Retain partial traces. Next version searches alternatives only when incumbent has actual waiting/detour."
+}

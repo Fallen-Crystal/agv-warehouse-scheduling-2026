@@ -1,0 +1,19 @@
+{
+  "runs": 48,
+  "valid": 48,
+  "source_unchanged": true,
+  "by_variant": {
+    "portfolio__sipp": {
+      "static": 0.0,
+      "dynamic": 0.0
+    },
+    "assignment__sipp": {
+      "static": 0.2705237681733738,
+      "dynamic": 0.0
+    },
+    "aco__aco_sipp": {
+      "static": 0.0,
+      "dynamic": 0.0
+    }
+  }
+}
