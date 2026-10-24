@@ -38,5 +38,10 @@
     "file": "archives/Selected_20261022_source_and_evidence.tar.gz",
     "sha256": "5ba57ac4686985e2e6c293391a4bd964c3d9b0bd0b903e61f7f4213a8298533f",
     "scope": "Selected code, documentation, protocols, CSV and compact statistics; historical raw traces/runs and unrelated earlier results omitted. Recent 20261024 archives retain all raw evidence."
+  },
+  {
+    "file": "archives/AGV_Hungarian_GA_SIPP_20261024.zip",
+    "sha256": "54a6c556a6b9312182b9f2edc5d4f45933aa5b8e4611ffa5750248baf9050f64",
+    "scope": "Original latest experiment package before portability-only selector rename"
   }
 ]

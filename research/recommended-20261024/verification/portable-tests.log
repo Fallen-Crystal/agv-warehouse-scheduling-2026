@@ -1,0 +1,35 @@
+test_F_surrogate_threshold_matching_against_exhaustive (test_hungarian.HungarianTests.test_F_surrogate_threshold_matching_against_exhaustive) ... ok
+test_additive_assignment_matches_old_exact_dp (test_hungarian.HungarianTests.test_additive_assignment_matches_old_exact_dp) ... ok
+test_all_three_arms_have_independently_valid_traces (test_hungarian.HungarianTests.test_all_three_arms_have_independently_valid_traces) ... ok
+test_new_methods_do_not_see_unpublished_requests (test_hungarian.HungarianTests.test_new_methods_do_not_see_unpublished_requests) ... ok
+test_new_methods_replay_exactly (test_hungarian.HungarianTests.test_new_methods_replay_exactly) ... ok
+test_no_ga_calls_for_hungarian_and_seeded_GA_is_exercised (test_hungarian.HungarianTests.test_no_ga_calls_for_hungarian_and_seeded_GA_is_exercised) ... ok
+test_rectangular_forbidden_and_negative_costs_against_exhaustive (test_hungarian.HungarianTests.test_rectangular_forbidden_and_negative_costs_against_exhaustive) ... ok
+test_seeds_are_complete_deterministic_and_do_not_change_physics (test_hungarian.HungarianTests.test_seeds_are_complete_deterministic_and_do_not_change_physics) ... ok
+test_all_four_arms_have_valid_mixed_and_layer_traces (test_coupled.CoupledTests.test_all_four_arms_have_valid_mixed_and_layer_traces) ... ok
+test_coordination_is_actually_exercised_and_rejects_worse (test_coupled.CoupledTests.test_coordination_is_actually_exercised_and_rejects_worse) ... ok
+test_delayed_trip_keeps_assignment_time_and_safe_prefix (test_coupled.CoupledTests.test_delayed_trip_keeps_assignment_time_and_safe_prefix) ... ok
+test_joint_return_moves_and_tail_safety (test_coupled.CoupledTests.test_joint_return_moves_and_tail_safety) ... ok
+test_targeted_neighbors_keep_all_jobs_and_valid_owners (test_coupled.CoupledTests.test_targeted_neighbors_keep_all_jobs_and_valid_owners) ... ok
+test_actual_final_return_and_full_scoring_are_unchanged (test_boundary.BoundaryTests.test_actual_final_return_and_full_scoring_are_unchanged) ... ok
+test_closed_forecast_still_returns_home (test_boundary.BoundaryTests.test_closed_forecast_still_returns_home) ... ok
+test_closed_static_problem_has_exact_same_execution (test_boundary.BoundaryTests.test_closed_static_problem_has_exact_same_execution) ... ok
+test_empty_known_prefix_has_zero_cost_and_no_ghost_return (test_boundary.BoundaryTests.test_empty_known_prefix_has_zero_cost_and_no_ghost_return) ... ok
+test_open_fast_and_tick_rollouts_agree (test_boundary.BoundaryTests.test_open_fast_and_tick_rollouts_agree) ... ok
+test_open_policy_does_not_read_unpublished_jobs_or_close_time (test_boundary.BoundaryTests.test_open_policy_does_not_read_unpublished_jobs_or_close_time) ... ok
+test_open_rollout_ends_in_executor_stable_safe_standby (test_boundary.BoundaryTests.test_open_rollout_ends_in_executor_stable_safe_standby) ... ok
+test_proxy_preserves_closed_and_reduces_open_terminal_distance_only (test_boundary.BoundaryTests.test_proxy_preserves_closed_and_reduces_open_terminal_distance_only) ... ok
+test_pruning_preserves_strictly_better_open_candidate (test_boundary.BoundaryTests.test_pruning_preserves_strictly_better_open_candidate) ... ok
+test_repeated_snapshots_preserve_public_open_flag (test_boundary.BoundaryTests.test_repeated_snapshots_preserve_public_open_flag) ... ok
+test_baseline_repeat_is_exact (test_variants.VariantTests.test_baseline_repeat_is_exact) ... ok
+test_checked_score_rejects_illegal_result (test_variants.VariantTests.test_checked_score_rejects_illegal_result) ... ok
+test_every_profile_has_valid_physical_trace_and_fixed_objective (test_variants.VariantTests.test_every_profile_has_valid_physical_trace_and_fixed_objective) ... ok
+test_gate_uses_published_state_only (test_variants.VariantTests.test_gate_uses_published_state_only) ... ok
+test_guided_guarded_profile_replays_exactly (test_variants.VariantTests.test_guided_guarded_profile_replays_exactly) ... ok
+test_linear_batch_matching_agrees_with_exhaustive_assignments (test_variants.VariantTests.test_linear_batch_matching_agrees_with_exhaustive_assignments) ... ok
+test_rule_controls_independent_of_search_profiles (test_variants.VariantTests.test_rule_controls_independent_of_search_profiles) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 21.348s
+
+OK

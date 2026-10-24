@@ -2,7 +2,7 @@
 import hashlib,json,os,subprocess,sys,zipfile
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-EXPECTED='54a6c556a6b9312182b9f2edc5d4f45933aa5b8e4611ffa5750248baf9050f64'
+EXPECTED='3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b'
 def main():
     archive=HERE/'runtime.zip'
     if hashlib.sha256(archive.read_bytes()).hexdigest()!=EXPECTED:

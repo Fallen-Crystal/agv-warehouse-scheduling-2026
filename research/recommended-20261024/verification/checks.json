@@ -1,5 +1,5 @@
 {
-  "runtime_archive_sha256": "54a6c556a6b9312182b9f2edc5d4f45933aa5b8e4611ffa5750248baf9050f64",
+  "runtime_archive_sha256": "3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b",
   "fresh_unit_tests": 30,
   "independently_revalidated": 52,
   "original_requests_verified": 411830,
@@ -11,5 +11,6 @@
   "recommended": "gate",
   "scope": "Package delivery checks, not a new algorithm quality experiment",
   "text_files_canonical_lf": true,
-  "correction": "Cross-platform text line endings only; algorithm and archived experiment bytes unchanged"
+  "correction": "Canonical Git text plus selector filename portability only; algorithm and original experiment payloads unchanged",
+  "packaging_tool_rename": "select.py -> select_method.py"
 }
