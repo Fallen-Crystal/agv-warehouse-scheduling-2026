@@ -1,5 +1,19 @@
 # Warehouse AGV Scheduling
 
+## 最新真实订单研究交付（2026-10-24）
+
+当前真实入/出库研究推荐 **联合GA＋SIPP（gate）**。完整可运行代码、原始WEPAStacks请求、数学模型、规则与接口、实验对比、负例和参考文献已汇总到 [推荐方案材料](research/recommended-20261024/README.md)。
+
+```bash
+python research/recommended-20261024/current/run.py --case wepa-day45-bin4335 --seed 0 --output my-result.json
+```
+
+本入口采用独立线性目标 `F=0.5T/900+0.3R/900+0.2D/5400`（主场景6车、5层、大型地图），不使用其他算法作分母。最新四窗口验证平均F=0.896406；是已比较方案中的推荐启发式，尚无六车动态全局最优证明。[模型](research/recommended-20261024/docs/数学模型与规则.md) · [数据](research/recommended-20261024/data/README.md) · [工作和实验总览](research/recommended-20261024/docs/工作与实验总览.md) · [参考文献](research/recommended-20261024/docs/参考文献与借鉴边界.md)。
+
+下方保留原通用程序与历史实验。其CLI/网页默认尚未切换为本研究入口，历史相对F也不能与当前线性F混比；复现最新真实订单结果请使用上方命令。
+
+---
+
 仓库多车在线取送货调度实验：可安装的 Python 包、独立仿真与验解、SIPP 安全区间规划、拥堵关联路线修复，以及公开数据训练的可解释候选排序器。运行核心只依赖 Python 标准库，支持 Python 3.10+。
 
 

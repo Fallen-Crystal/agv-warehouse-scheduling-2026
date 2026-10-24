@@ -1,0 +1,13 @@
+{
+  "runtime_archive_sha256": "54a6c556a6b9312182b9f2edc5d4f45933aa5b8e4611ffa5750248baf9050f64",
+  "fresh_unit_tests": 30,
+  "independently_revalidated": 52,
+  "original_requests_verified": 411830,
+  "input_selection_and_prefix_ledger_reproduced": true,
+  "upstream_files_verified": 3,
+  "wrapper_replays_preserved_full_trace": true,
+  "fresh_simulation_case": "wepa-day45-bin4335",
+  "source_or_solver_changes": false,
+  "recommended": "gate",
+  "scope": "Package delivery checks, not a new algorithm quality experiment"
+}

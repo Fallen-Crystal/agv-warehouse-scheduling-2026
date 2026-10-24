@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/malerinc/slapstack",
+  "commit": "da6280a8f8be1010eae64264c69a90258a288173",
+  "orders_rows": 411830,
+  "files": {
+    "2_orders.json": {
+      "bytes": 40119428,
+      "sha256": "caab14a69aa34734f3ceb04f6c595f712b7dc4a1ee65adbe92268a16a7159432"
+    },
+    "3_initial_fill_lvl.json": {
+      "bytes": 884,
+      "sha256": "9f2237b8dab891d51b6925242a6691f9af826c58b0a1c09a92ad0fb8fb9ec92c"
+    },
+    "1_layout.csv": {
+      "bytes": 21320,
+      "sha256": "13713221805ce421dec37e73779a86776d8019a3586ae7f2fb636d5e99704989"
+    },
+    "LICENSE": {
+      "bytes": 1073,
+      "sha256": "8676481283654494ea7a9f158265a477803095c8bf986a31c8bf55669c82ce89"
+    },
+    "README.md": {
+      "bytes": 14445,
+      "sha256": "2092b1e3ecda441c21e4a499428b46d9ab4fc71eff596231cf7bfb19ad5f71fd"
+    }
+  },
+  "compressed_orders_sha256": "afa093e9b62ada0a4344b91387b61448893dd3417282b579169278e0eba0b3e2"
+}

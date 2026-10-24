@@ -1,0 +1,23 @@
+name: recommended-research-materials
+on:
+  push:
+    paths: ['research/recommended-20261024/**', '.github/workflows/recommended-research.yml']
+  pull_request:
+    paths: ['research/recommended-20261024/**', '.github/workflows/recommended-research.yml']
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python research/recommended-20261024/verification/verify.py
+      - run: python research/recommended-20261024/data/unpack.py
+      - run: python research/recommended-20261024/current/run.py --case wepa-day45-bin4335 --seed 0 --output /tmp/recommended-smoke.json
+      - run: python research/recommended-20261024/current/_runtime/verify_input.py --raw research/recommended-20261024/data/raw
+      - run: python -m unittest test_hungarian test_boundary test_variants -v
+        working-directory: research/recommended-20261024/current/_runtime
+      - run: python research/recommended-20261024/current/_runtime/analyze.py

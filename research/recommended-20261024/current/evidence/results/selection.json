@@ -1,0 +1,45 @@
+{
+  "selected": "gate",
+  "ranked": [
+    {
+      "profile": "gate",
+      "F": 0.9061942653884998,
+      "cpu": 49.203125
+    },
+    {
+      "profile": "hga",
+      "F": 0.9067031376453907,
+      "cpu": 52.81640625
+    },
+    {
+      "profile": "hungarian",
+      "F": 0.9263620505161643,
+      "cpu": 2.015625
+    }
+  ],
+  "source": {
+    "improved/__init__.py": "1cbc164eff6d627d1faf5abb998619da7e8df99c9a01dcdb76a38c32d6b2013d",
+    "improved/compound.py": "f8b40ac8928d7a4f8a3e6736a7d827fc9409da5e1c6c8bf79a4f5b1d8aba30b1",
+    "improved/coordination.py": "9cdb39c10e286f7dac27b4547b44d5973efd15b1ae23cda314d5eb7190bd6a73",
+    "improved/execute.py": "80db24ab4f511f6a88e5f62e1939e728422ad374e8445c86818cfb7524cab1e2",
+    "improved/forecast.py": "1ae36c3bccbf00b1a39c58459abbd3eedf3daaea88dcb0743248b9e2a19b0f8f",
+    "improved/genetic.py": "e2592755b545f9832e0a6fe153e01bb13c65ac824440d4c12861e9d7d47aa63f",
+    "improved/hungarian.py": "2e78bde0e64769f79bbc60b44f8beee228b20f32557bacbcad24f439388caeb9",
+    "improved/hungarian_seed.py": "75e72e23ff36b8e7a8ad7f83199706fb92a7f7853919a288412f225c9be8362e",
+    "improved/matching.py": "5a6f108d978c12f2dc53d68b7bc9c142b2d8a919490b0ede85fd9e1bf9eb875d",
+    "improved/order_ga.py": "f51be774f3e6f627e4baf8b2024880254f3a380f3acb7e75f40c904e0f5d0e8e",
+    "improved/policy.py": "2123c9c116933504d20356088d7a8519382a059dd27cc9b0904ff7fc1dd7a2a4",
+    "improved/profiles.py": "e6eca921659033ffa31f2f077d3f6e55fa59168b734220b3f2174e95b614a3c4",
+    "improved/proxy.py": "1a36cdef90266900419cf06fa27d0fb2dffdc42145b84492b70e1bca313b7009",
+    "improved/targeted.py": "b62bb14cfb7a17a7fa9b2e50226c1f189348d7278a0b794c6c9016e0735e1f9c",
+    "exact/fixtures.py": "3ee633aa89d61afc87cdbcb9936776358db8938ae1ac641869c2dc22ce1cbc2a",
+    "exact/joint.py": "4c523fb7c98a26bcf6af3484f48ffa4c4d5bb45f938e5c593ab60d9b77f9b844",
+    "paths.py": "0e2ffcff08a8a821247332351f48b6455038d11bf1477376922155c7dcba1bc6",
+    "run_trial.py": "aa1d4b526a07fb5f2c5ff2223d4d253e88e15ad41ad769e760aaf8ed2df569f6",
+    "batch.py": "8820ae629cc6e0b11bd77639555893a0df01fe85feda69774ec9b944e33ecfd7",
+    "data/protocol.json": "074fe72eea5e393b375476fe9ed05d8e3bd5e890d321724444c357de51d3d76e",
+    "data/input-selection.json": "c47f83a17038f49c07294b3fb41aa41774fc0bca4f8ac7c8caaf28147120ce53"
+  },
+  "validation_read": false,
+  "criterion": "Minimum mean development F; CPU and profile name break ties; validation must confirm paired mean improvement"
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "file": "archives/AGV_Linear_Objective_20261024.zip",
+    "sha256": "77669ba794891298c1560d2c6bf02885205ca46b6f5a9e81ae38e9cbed3d9ff6",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_Simple_Routing_20261024.zip",
+    "sha256": "8abd0536fcc0a1b04d96a8490b80c5146f0687cf92edb4c13fcb6267d264a83c",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_Search_Diagnosis_20261024.zip",
+    "sha256": "40d33f373777ae5b3ed25c50d957713fb46c3b91e37b13839a3652c5df7bcd8d",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_Open_Forecast_20261024.zip",
+    "sha256": "054169b71bdcfc8515a6bf984581e6646accda3b854f776433b8cd4cee323f5d",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_Coupled_Study_20261024.zip",
+    "sha256": "99f00db5f108227c034fcb59b8aac02ec4a8edbe978fb1f00c5ef1a979edb7ee",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_Compound_Study_20261024.zip",
+    "sha256": "f2caa456a00a92ae7b1907278045f424c208f441099eaa3a0136a75def3b0c04",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/AGV_F_Reference_Audit_20261024.zip",
+    "sha256": "08e48e0d90dcdd0e9512b2b1d859201dc584a01a5dc5fa1ef4156f9e30073b5f",
+    "scope": "Frozen historical experiment; use its own protocol and objective"
+  },
+  {
+    "file": "archives/Selected_20261022_source_and_evidence.tar.gz",
+    "sha256": "5ba57ac4686985e2e6c293391a4bd964c3d9b0bd0b903e61f7f4213a8298533f",
+    "scope": "Selected code, documentation, protocols, CSV and compact statistics; historical raw traces/runs and unrelated earlier results omitted. Recent 20261024 archives retain all raw evidence."
+  }
+]

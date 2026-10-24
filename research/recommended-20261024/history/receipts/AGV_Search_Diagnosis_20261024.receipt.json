@@ -1,0 +1,18 @@
+{
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-search-diagnosis-20261024",
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Search_Diagnosis_20261024.zip",
+  "files": 389,
+  "archive_sha256": "40d33f373777ae5b3ed25c50d957713fb46c3b91e37b13839a3652c5df7bcd8d",
+  "bytes": 1208594,
+  "selected": "gate",
+  "zip_crc_verified": true,
+  "payload_hashes_verified": true,
+  "original_archive_unchanged": true,
+  "baseline_files_unchanged": 191,
+  "physical_traces_independently_revalidated": 73,
+  "targeted_tests_passed": 7,
+  "delivered_entry_exact_replay": true,
+  "no_inherited_pythonpath": true,
+  "validation_reselection": false,
+  "github_uploaded": false
+}

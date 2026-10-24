@@ -1,0 +1,18 @@
+{
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-linear-objective-20261024",
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Linear_Objective_20261024.zip",
+  "files": 191,
+  "archive_sha256": "77669ba794891298c1560d2c6bf02885205ca46b6f5a9e81ae38e9cbed3d9ff6",
+  "bytes": 424151,
+  "zip_crc_verified": true,
+  "payload_hashes_verified": true,
+  "original_archive_unchanged": true,
+  "engine_files_verified": 135,
+  "tests_passed": 16,
+  "study_executions": 12,
+  "all_independently_valid": true,
+  "delivered_entry_exact_replay": true,
+  "no_inherited_pythonpath": true,
+  "new_heldout_performance_claim": false,
+  "github_uploaded": false
+}

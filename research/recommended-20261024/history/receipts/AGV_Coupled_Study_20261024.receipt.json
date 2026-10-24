@@ -1,0 +1,38 @@
+{
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Coupled_Study_20261024.zip",
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-coupled-study-20261024",
+  "archive_sha256": "99f00db5f108227c034fcb59b8aac02ec4a8edbe978fb1f00c5ef1a979edb7ee",
+  "bytes": 1631534,
+  "files": 366,
+  "recommended": "gate",
+  "primary_executions": 48,
+  "independently_revalidated": 80,
+  "primary_exact_optimal": 4,
+  "secondary_exact_statuses": [
+    "FEASIBLE",
+    "OPTIMAL"
+  ],
+  "targeted_tests": 22,
+  "baseline_files_unchanged": 191,
+  "original_archive_unchanged": true,
+  "external_cwd_entry_exact": true,
+  "zip_crc_verified": true,
+  "payload_hashes_verified": true,
+  "wall_budget_overruns": [
+    {
+      "case": "wepa-day62-bin6004",
+      "profile": "lns",
+      "seed": 1,
+      "wall": 2955.6178508999874,
+      "cpu": 180.671875
+    },
+    {
+      "case": "wepa-day62-bin6004",
+      "profile": "coupled",
+      "seed": 0,
+      "wall": 2977.966948200017,
+      "cpu": 188.328125
+    }
+  ],
+  "github_uploaded": false
+}

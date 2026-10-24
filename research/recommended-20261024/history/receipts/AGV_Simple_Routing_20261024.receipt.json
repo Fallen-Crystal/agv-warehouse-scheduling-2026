@@ -1,0 +1,18 @@
+{
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-simple-routing-20261024",
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Simple_Routing_20261024.zip",
+  "files": 355,
+  "archive_sha256": "8abd0536fcc0a1b04d96a8490b80c5146f0687cf92edb4c13fcb6267d264a83c",
+  "bytes": 2586937,
+  "zip_crc_verified": true,
+  "archived_hashes_verified": true,
+  "delivered_entry_smoke": {
+    "case": "wepa-day69-bin6683",
+    "seed": 0,
+    "valid": true,
+    "exact_match": true,
+    "no_inherited_pythonpath": true,
+    "all_package_files_unchanged": true,
+    "archive_sha256_unchanged": true
+  }
+}

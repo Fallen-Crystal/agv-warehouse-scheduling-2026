@@ -1,0 +1,13 @@
+{
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_F_Reference_Audit_20261024.zip",
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-f-reference-audit-20261024",
+  "sha256": "08e48e0d90dcdd0e9512b2b1d859201dc584a01a5dc5fa1ef4156f9e30073b5f",
+  "bytes": 2995260,
+  "files": 453,
+  "delivered_tests_passed": 8,
+  "full_new_replays_revalidated": 57,
+  "old_formal_validation_trajectories_checked": 36,
+  "zip_crc_and_hashes_verified": true,
+  "original_full_optimum_claimed": false,
+  "finite_domain_proof_note_included": true
+}

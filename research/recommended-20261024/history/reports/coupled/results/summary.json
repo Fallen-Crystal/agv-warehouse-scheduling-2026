@@ -1,0 +1,814 @@
+{
+  "executions": 48,
+  "independently_revalidated": 80,
+  "main_traces_revalidated": 48,
+  "micro_traces_revalidated": 30,
+  "exact_cases": 4,
+  "exact_optimal_cases": 4,
+  "exact": [
+    {
+      "case": "cross_out",
+      "status": "OPTIMAL",
+      "optimal": true,
+      "objective_integer": 382.0,
+      "bound_integer": 382.0,
+      "coefficient_scale": 18000,
+      "coefficients": [
+        10,
+        3,
+        2
+      ],
+      "incumbent_integer": 382,
+      "derived_work_horizon": 38,
+      "exact_joint_tail_states": 463,
+      "solver_seconds": 2.6067742000000003,
+      "total_wall": 2.6796672999626026,
+      "branches": 33015,
+      "exported_model_sha256": "d47c24a243a2d5d5d26166e455ad3fbf71c13423f3ff6dcb1bdbc48d48fcde1f",
+      "solver_version": "ortools-9.15.6755",
+      "scope": "static two-car reduced geometry; fixed WMS slots; joint assignment, paths and exact return; no fixed-SIPP-strategy certificate",
+      "objective_integer_verified": 382,
+      "F_reference": 0.021222222222222222,
+      "profiles": {
+        "gate": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        },
+        "lns": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        },
+        "coord": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        },
+        "coupled": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    {
+      "case": "mixed",
+      "status": "OPTIMAL",
+      "optimal": true,
+      "objective_integer": 312.0,
+      "bound_integer": 312.0,
+      "coefficient_scale": 18000,
+      "coefficients": [
+        10,
+        3,
+        2
+      ],
+      "incumbent_integer": 312,
+      "derived_work_horizon": 31,
+      "exact_joint_tail_states": 463,
+      "solver_seconds": 1.1687036000000002,
+      "total_wall": 1.2193382999976166,
+      "branches": 17282,
+      "exported_model_sha256": "955896c10c90bcf3c59da4f89e4a61cf442cf429ba026096f3cc1c07e865d1bf",
+      "solver_version": "ortools-9.15.6755",
+      "scope": "static two-car reduced geometry; fixed WMS slots; joint assignment, paths and exact return; no fixed-SIPP-strategy certificate",
+      "objective_integer_verified": 312,
+      "F_reference": 0.017333333333333333,
+      "profiles": {
+        "gate": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        },
+        "lns": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        },
+        "coord": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        },
+        "coupled": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    {
+      "case": "layers",
+      "status": "OPTIMAL",
+      "optimal": true,
+      "objective_integer": 258.0,
+      "bound_integer": 258.0,
+      "coefficient_scale": 9000,
+      "coefficients": [
+        5,
+        1,
+        1
+      ],
+      "incumbent_integer": 258,
+      "derived_work_horizon": 51,
+      "exact_joint_tail_states": 463,
+      "solver_seconds": 2.9893517000000003,
+      "total_wall": 3.098634800000582,
+      "branches": 53850,
+      "exported_model_sha256": "82b48eb28c59d9cc0b71f90b92a369f5f273864c12d5e050388f5b944b7e6f2c",
+      "solver_version": "ortools-9.15.6755",
+      "scope": "static two-car reduced geometry; fixed WMS slots; joint assignment, paths and exact return; no fixed-SIPP-strategy certificate",
+      "objective_integer_verified": 258,
+      "F_reference": 0.028666666666666667,
+      "profiles": {
+        "gate": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        },
+        "lns": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        },
+        "coord": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        },
+        "coupled": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    {
+      "case": "mixed_burst",
+      "status": "OPTIMAL",
+      "optimal": true,
+      "objective_integer": 240.0,
+      "bound_integer": 240.0,
+      "coefficient_scale": 9000,
+      "coefficients": [
+        5,
+        1,
+        1
+      ],
+      "incumbent_integer": 240,
+      "derived_work_horizon": 48,
+      "exact_joint_tail_states": 463,
+      "solver_seconds": 4.6339081,
+      "total_wall": 4.742763699963689,
+      "branches": 65358,
+      "exported_model_sha256": "06460e6af140cd3cc3452db81a5f24b65ca0dd8d1a5749f7c2cebb1769aad698",
+      "solver_version": "ortools-9.15.6755",
+      "scope": "static two-car reduced geometry; fixed WMS slots; joint assignment, paths and exact return; no fixed-SIPP-strategy certificate",
+      "objective_integer_verified": 240,
+      "F_reference": 0.02666666666666667,
+      "profiles": {
+        "gate": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        },
+        "lns": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        },
+        "coord": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        },
+        "coupled": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        }
+      }
+    }
+  ],
+  "secondary_exact": [
+    {
+      "case": "four_out",
+      "status": "FEASIBLE",
+      "optimal": false,
+      "F_reference": 0.035611111111111114,
+      "objective_integer": 1282.0,
+      "bound_integer": 1089.0,
+      "profiles": {
+        "gate": {
+          "F": 0.035722222222222225,
+          "gap_percent": null
+        },
+        "lns": {
+          "F": 0.035722222222222225,
+          "gap_percent": null
+        },
+        "coord": {
+          "F": 0.035722222222222225,
+          "gap_percent": null
+        },
+        "coupled": {
+          "F": 0.035722222222222225,
+          "gap_percent": null
+        }
+      }
+    },
+    {
+      "case": "four_mixed",
+      "status": "OPTIMAL",
+      "optimal": true,
+      "F_reference": 0.029722222222222223,
+      "objective_integer": 1070.0,
+      "bound_integer": 1070.0,
+      "profiles": {
+        "gate": {
+          "F": 0.030444444444444444,
+          "gap_percent": 2.4299065420560817
+        },
+        "lns": {
+          "F": 0.030444444444444444,
+          "gap_percent": 2.4299065420560817
+        },
+        "coord": {
+          "F": 0.030444444444444444,
+          "gap_percent": 2.4299065420560817
+        },
+        "coupled": {
+          "F": 0.030444444444444444,
+          "gap_percent": 2.4299065420560817
+        }
+      }
+    }
+  ],
+  "groups": {
+    "development": {
+      "aggregates": {
+        "gate": {
+          "F": 0.9061942653884998,
+          "J": 815.5748388496498,
+          "T": 1206.5,
+          "R": 227.08279616549953,
+          "D": 4326,
+          "cpu": 34.6640625,
+          "wall": 36.13399032499001,
+          "p90": 510.5,
+          "empty_distance": 2206.25,
+          "traffic_wait": 13.25
+        },
+        "lns": {
+          "F": 0.9108738920826338,
+          "J": 819.7865028743704,
+          "T": 1218.25,
+          "R": 226.37167624790152,
+          "D": 4282.5,
+          "cpu": 34.66796875,
+          "wall": 36.00963142499677,
+          "p90": 499,
+          "empty_distance": 2162.75,
+          "traffic_wait": 14.25
+        },
+        "coord": {
+          "F": 0.9109496486787668,
+          "J": 819.8546838108902,
+          "T": 1214,
+          "R": 228.5711682585228,
+          "D": 4328.5,
+          "cpu": 38.2578125,
+          "wall": 39.95625767498859,
+          "p90": 505.75,
+          "empty_distance": 2208.75,
+          "traffic_wait": 13.25
+        },
+        "coupled": {
+          "F": 0.9163530049163978,
+          "J": 824.717704424758,
+          "T": 1227,
+          "R": 227.83679252697127,
+          "D": 4286,
+          "cpu": 36.5078125,
+          "wall": 38.063380075021996,
+          "p90": 495.25,
+          "empty_distance": 2166.25,
+          "traffic_wait": 13.75
+        }
+      },
+      "comparisons": {
+        "gate": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9589119611414694,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9391676413255361,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.0833178294573642,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": 0.0,
+          "improved_cases": 0,
+          "worsened_cases": 0
+        },
+        "lns": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9708063145112326,
+              "gain_percent": -1.2404009806702578
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9494035087719298,
+              "gain_percent": -1.0898871507057954
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.0799061154177434,
+              "gain_percent": 0.31493195688745845
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": -0.5038390436221487,
+          "improved_cases": 1,
+          "worsened_cases": 2
+        },
+        "coord": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9589119611414694,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9391676413255361,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.1023393626184324,
+              "gain_percent": -1.7558589588243052
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": -0.4389647397060763,
+          "improved_cases": 0,
+          "worsened_cases": 1
+        },
+        "coupled": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9708063145112326,
+              "gain_percent": -1.2404009806702578
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9494035087719298,
+              "gain_percent": -1.0898871507057954
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.1018225667527994,
+              "gain_percent": -1.708154042355629
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": -1.0096105434329206,
+          "improved_cases": 0,
+          "worsened_cases": 3
+        }
+      },
+      "factorial_effects": [
+        {
+          "case": "wepa-day12-bin1164",
+          "order_cost_effect_percent": 1.2404009806702578,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        },
+        {
+          "case": "wepa-day32-bin3113",
+          "order_cost_effect_percent": 1.0898871507057954,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        },
+        {
+          "case": "wepa-day33-bin3229",
+          "order_cost_effect_percent": -0.18131843667806738,
+          "path_cost_effect_percent": 1.8894724790336963,
+          "interaction_cost_percent": 0.2672270404187821
+        },
+        {
+          "case": "wepa-day45-bin4335",
+          "order_cost_effect_percent": 0.0,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        }
+      ],
+      "factorial_average": {
+        "order_cost_effect_percent": 0.5372424236744965,
+        "path_cost_effect_percent": 0.4723681197584241,
+        "interaction_cost_percent": 0.06680676010469552
+      }
+    },
+    "validation": {
+      "aggregates": {
+        "gate": {
+          "F": 0.8856272618319053,
+          "J": 797.0645356487148,
+          "T": 1073.625,
+          "R": 326.0623410512716,
+          "D": 4873,
+          "cpu": 67.638671875,
+          "wall": 73.33752583750174,
+          "p90": 715.0,
+          "empty_distance": 2566.75,
+          "traffic_wait": 19.125
+        },
+        "lns": {
+          "F": 0.8821271318265351,
+          "J": 793.9144186438816,
+          "T": 1069.875,
+          "R": 325.9786177018276,
+          "D": 4835.5,
+          "cpu": 68.583984375,
+          "wall": 420.93793978749454,
+          "p90": 709.25,
+          "empty_distance": 2530.75,
+          "traffic_wait": 18.5
+        },
+        "coord": {
+          "F": 0.8842763359059794,
+          "J": 795.8487023153814,
+          "T": 1072.75,
+          "R": 324.71789660682714,
+          "D": 4861.75,
+          "cpu": 70.111328125,
+          "wall": 77.26195385000756,
+          "p90": 713.5,
+          "empty_distance": 2555.5,
+          "traffic_wait": 21.125
+        },
+        "coupled": {
+          "F": 0.8813771318265351,
+          "J": 793.2394186438815,
+          "T": 1068.875,
+          "R": 324.67306214627206,
+          "D": 4842,
+          "cpu": 71.814453125,
+          "wall": 423.7069599249953,
+          "p90": 713.375,
+          "empty_distance": 2537.25,
+          "traffic_wait": 20.125
+        }
+      },
+      "comparisons": {
+        "gate": {
+          "cases": [
+            {
+              "case": "wepa-day61-bin5901",
+              "gate": 0.7646435185185185,
+              "F": 0.7646435185185185,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day62-bin6004",
+              "gate": 0.9435672514619884,
+              "F": 0.9435672514619884,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day66-bin6396",
+              "gate": 0.7876703703703704,
+              "F": 0.7876703703703704,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day69-bin6683",
+              "gate": 1.0466279069767441,
+              "F": 1.0466279069767441,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": 0.0,
+          "improved_cases": 0,
+          "worsened_cases": 0
+        },
+        "lns": {
+          "cases": [
+            {
+              "case": "wepa-day61-bin5901",
+              "gate": 0.7646435185185185,
+              "F": 0.7568582621082621,
+              "gain_percent": 1.018155025408465
+            },
+            {
+              "case": "wepa-day62-bin6004",
+              "gate": 0.9435672514619884,
+              "F": 0.9372641325536062,
+              "gain_percent": 0.668009503150515
+            },
+            {
+              "case": "wepa-day66-bin6396",
+              "gate": 0.7876703703703704,
+              "F": 0.7852074074074074,
+              "gain_percent": 0.3126895533476638
+            },
+            {
+              "case": "wepa-day69-bin6683",
+              "gate": 1.0466279069767441,
+              "F": 1.0491787252368647,
+              "gain_percent": -0.24371777621416707
+            }
+          ],
+          "mean_paired_gain_percent": 0.4387840764231192,
+          "improved_cases": 3,
+          "worsened_cases": 1
+        },
+        "coord": {
+          "cases": [
+            {
+              "case": "wepa-day61-bin5901",
+              "gate": 0.7646435185185185,
+              "F": 0.7646435185185185,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day62-bin6004",
+              "gate": 0.9435672514619884,
+              "F": 0.9435672514619884,
+              "gain_percent": 0.0
+            },
+            {
+              "case": "wepa-day66-bin6396",
+              "gate": 0.7876703703703704,
+              "F": 0.7822666666666667,
+              "gain_percent": 0.6860361779462154
+            },
+            {
+              "case": "wepa-day69-bin6683",
+              "gate": 1.0466279069767441,
+              "F": 1.0466279069767441,
+              "gain_percent": 0.0
+            }
+          ],
+          "mean_paired_gain_percent": 0.17150904448655385,
+          "improved_cases": 1,
+          "worsened_cases": 0
+        },
+        "coupled": {
+          "cases": [
+            {
+              "case": "wepa-day61-bin5901",
+              "gate": 0.7646435185185185,
+              "F": 0.7568582621082621,
+              "gain_percent": 1.018155025408465
+            },
+            {
+              "case": "wepa-day62-bin6004",
+              "gate": 0.9435672514619884,
+              "F": 0.9372641325536062,
+              "gain_percent": 0.668009503150515
+            },
+            {
+              "case": "wepa-day66-bin6396",
+              "gate": 0.7876703703703704,
+              "F": 0.7822074074074074,
+              "gain_percent": 0.6935595356207526
+            },
+            {
+              "case": "wepa-day69-bin6683",
+              "gate": 1.0466279069767441,
+              "F": 1.0491787252368647,
+              "gain_percent": -0.24371777621416707
+            }
+          ],
+          "mean_paired_gain_percent": 0.5340015719913914,
+          "improved_cases": 3,
+          "worsened_cases": 1
+        }
+      },
+      "factorial_effects": [
+        {
+          "case": "wepa-day61-bin5901",
+          "order_cost_effect_percent": -1.018155025408465,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        },
+        {
+          "case": "wepa-day62-bin6004",
+          "order_cost_effect_percent": -0.668009503150515,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        },
+        {
+          "case": "wepa-day66-bin6396",
+          "order_cost_effect_percent": -0.16010645551110048,
+          "path_cost_effect_percent": -0.5334530801096521,
+          "interaction_cost_percent": 0.30516619567312664
+        },
+        {
+          "case": "wepa-day69-bin6683",
+          "order_cost_effect_percent": 0.24371777621416707,
+          "path_cost_effect_percent": 0.0,
+          "interaction_cost_percent": 0.0
+        }
+      ],
+      "factorial_average": {
+        "order_cost_effect_percent": -0.40063830196397837,
+        "path_cost_effect_percent": -0.13336327002741302,
+        "interaction_cost_percent": 0.07629154891828166
+      }
+    }
+  },
+  "activity": {
+    "gate": {
+      "coord_attempts": 0,
+      "coord_accepted": 0,
+      "coord_router_calls": 0,
+      "target_previews": 0,
+      "known_work_target_improvements": 0
+    },
+    "coupled": {
+      "coord_attempts": 12,
+      "coord_accepted": 3,
+      "coord_router_calls": 2088,
+      "target_previews": 153,
+      "known_work_target_improvements": 59
+    },
+    "lns": {
+      "coord_attempts": 0,
+      "coord_accepted": 0,
+      "coord_router_calls": 0,
+      "target_previews": 154,
+      "known_work_target_improvements": 62
+    },
+    "coord": {
+      "coord_attempts": 11,
+      "coord_accepted": 3,
+      "coord_router_calls": 1986,
+      "target_previews": 0,
+      "known_work_target_improvements": 0
+    }
+  },
+  "control_regression": [
+    {
+      "case": "wepa-day12-bin1164",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day32-bin3113",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day33-bin3229",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day45-bin4335",
+      "exact_physical_replay": true
+    }
+  ],
+  "selected_before_validation": "gate",
+  "recommended": "gate",
+  "source": {
+    "improved/__init__.py": "1cbc164eff6d627d1faf5abb998619da7e8df99c9a01dcdb76a38c32d6b2013d",
+    "improved/coordination.py": "9cdb39c10e286f7dac27b4547b44d5973efd15b1ae23cda314d5eb7190bd6a73",
+    "improved/execute.py": "80db24ab4f511f6a88e5f62e1939e728422ad374e8445c86818cfb7524cab1e2",
+    "improved/forecast.py": "1ae36c3bccbf00b1a39c58459abbd3eedf3daaea88dcb0743248b9e2a19b0f8f",
+    "improved/genetic.py": "e61e87798fd961af88725ee4a93c990c1715779f99f86b6b19044f0664675a6f",
+    "improved/matching.py": "5a6f108d978c12f2dc53d68b7bc9c142b2d8a919490b0ede85fd9e1bf9eb875d",
+    "improved/order_ga.py": "f51be774f3e6f627e4baf8b2024880254f3a380f3acb7e75f40c904e0f5d0e8e",
+    "improved/policy.py": "62a7888a8a92f150990898fe606ceed85e019509fe7d0ef417f4f9ed3b2ca583",
+    "improved/profiles.py": "08672d63d65595d48359c14063ef695339ee8d98bcc463a883c36e98b38b9d8d",
+    "improved/proxy.py": "1a36cdef90266900419cf06fa27d0fb2dffdc42145b84492b70e1bca313b7009",
+    "improved/targeted.py": "b62bb14cfb7a17a7fa9b2e50226c1f189348d7278a0b794c6c9016e0735e1f9c",
+    "exact/fixtures.py": "3ee633aa89d61afc87cdbcb9936776358db8938ae1ac641869c2dc22ce1cbc2a",
+    "exact/joint.py": "4c523fb7c98a26bcf6af3484f48ffa4c4d5bb45f938e5c593ab60d9b77f9b844",
+    "paths.py": "511dfdfa389ea14b7486a6c238794a27c85099c6b9bfa7bc7e23df7ed73fd5cb",
+    "run_trial.py": "aa1d4b526a07fb5f2c5ff2223d4d253e88e15ad41ad769e760aaf8ed2df569f6",
+    "data/protocol.json": "c49eef16e03ca6f7d5932deecd54ea6b6b6c6b869c693594a4f53cac5b8eeff5"
+  },
+  "compound_pilot": {
+    "secondary_diagnostic_only": true,
+    "main_validation_arm": false,
+    "used_exact_as_input": false,
+    "proposals": 16,
+    "proxy_evaluations": 16,
+    "full_previews": 6,
+    "anchor_F": 0.030444444444444444,
+    "candidate_F": 0.029722222222222223,
+    "predicted_proxy_F": 0.029722222222222223,
+    "order": [
+      0,
+      2,
+      1,
+      3
+    ],
+    "owners": {
+      "2": 1,
+      "0": 0,
+      "3": 0,
+      "1": 1
+    },
+    "kind": "compound_exchange_and_adjacent_priorities",
+    "improvement_percent": 2.3722627737226247,
+    "attains_proven_micro_optimum": true,
+    "usage": {
+      "route_calls": 12,
+      "reason": "complete",
+      "backend": "sipp",
+      "terminal": "home",
+      "observed_closed": true
+    },
+    "script_sha256": "a7a2fdec3d78ec58249bc4041168c83c5fc3e9bcf3bd316a304f017f3994690e",
+    "scope": "Post-diagnosis four-job static pilot only; no untouched real-data evaluation",
+    "scoring": {
+      "F_linear_v2": 0.029722222222222223,
+      "J_equivalent_seconds": 26.75,
+      "weighted_terms": {
+        "T": 0.016666666666666666,
+        "R": 0.0075,
+        "D": 0.005555555555555556
+      },
+      "objective": {
+        "version": "linear-physical-v2-20261024",
+        "horizon_seconds": 900.0,
+        "vehicles": 2,
+        "speed_cells_per_second": 1.0,
+        "seconds_per_step": 1.0,
+        "weights": [
+          0.5,
+          0.3,
+          0.2
+        ]
+      },
+      "objective_sha256": "a047e0e0a447d8d3a4fba5fc502c6bdc1e13d4eccedf927067214ff701c47009",
+      "audit": {
+        "valid": true,
+        "tasks": 4,
+        "vertices_checked": 74,
+        "final_inventory_units": 6,
+        "distance": 50
+      }
+    }
+  },
+  "wall_budget_overruns": [
+    {
+      "case": "wepa-day62-bin6004",
+      "profile": "lns",
+      "seed": 1,
+      "wall": 2955.6178508999874,
+      "cpu": 180.671875
+    },
+    {
+      "case": "wepa-day62-bin6004",
+      "profile": "coupled",
+      "seed": 0,
+      "wall": 2977.966948200017,
+      "cpu": 188.328125
+    }
+  ],
+  "outlier_replay": {
+    "case": "wepa-day62-bin6004",
+    "profile": "lns",
+    "seed": 1,
+    "exact_physical_replay": true,
+    "original_wall": 2955.6178508999874,
+    "repeat_wall": 160.9711810000008,
+    "original_cpu": 180.671875,
+    "repeat_cpu": 147.234375,
+    "original_retained": true
+  },
+  "baseline_files_unchanged": 191,
+  "validation_retuning": false,
+  "scope": "Four new source-day validation clusters, two seeds per arm; reduced static two-car exact certificates are a separate scope."
+}
