@@ -9,5 +9,7 @@
   "fresh_simulation_case": "wepa-day45-bin4335",
   "source_or_solver_changes": false,
   "recommended": "gate",
-  "scope": "Package delivery checks, not a new algorithm quality experiment"
+  "scope": "Package delivery checks, not a new algorithm quality experiment",
+  "text_files_canonical_lf": true,
+  "correction": "Cross-platform text line endings only; algorithm and archived experiment bytes unchanged"
 }
