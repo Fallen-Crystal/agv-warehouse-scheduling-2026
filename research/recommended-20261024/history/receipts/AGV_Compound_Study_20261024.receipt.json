@@ -1,0 +1,17 @@
+{
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Compound_Study_20261024.zip",
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-compound-study-20261024",
+  "archive_sha256": "f2caa456a00a92ae7b1907278045f424c208f441099eaa3a0136a75def3b0c04",
+  "files": 320,
+  "bytes": 1057476,
+  "main_executions": 36,
+  "independently_revalidated": 40,
+  "tests_passed": 29,
+  "baseline_files_unchanged": 191,
+  "recommended": "gate",
+  "external_cwd_exact_replay": true,
+  "zip_crc_verified": true,
+  "payload_hashes_verified": true,
+  "prior_archive_unchanged": true,
+  "github_uploaded": false
+}

@@ -1,0 +1,16 @@
+{
+  "runtime_archive_sha256": "3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b",
+  "fresh_unit_tests": 30,
+  "independently_revalidated": 52,
+  "original_requests_verified": 411830,
+  "input_selection_and_prefix_ledger_reproduced": true,
+  "upstream_files_verified": 3,
+  "wrapper_replays_preserved_full_trace": true,
+  "fresh_simulation_case": "wepa-day45-bin4335",
+  "source_or_solver_changes": false,
+  "recommended": "gate",
+  "scope": "Package delivery checks, not a new algorithm quality experiment",
+  "text_files_canonical_lf": true,
+  "correction": "Canonical Git text plus selector filename portability only; algorithm and original experiment payloads unchanged",
+  "packaging_tool_rename": "select.py -> select_method.py"
+}

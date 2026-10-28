@@ -1,0 +1,561 @@
+{
+  "executions": 36,
+  "independently_revalidated": 40,
+  "groups": {
+    "development": {
+      "aggregates": {
+        "gate": {
+          "F": 0.9061942653884998,
+          "J": 815.5748388496498,
+          "T": 1206.5,
+          "R": 227.08279616549953,
+          "D": 4326,
+          "cpu": 52.5234375,
+          "wall": 63.282839375009644,
+          "p90": 510.5,
+          "empty_distance": 2206.25,
+          "traffic_wait": 13.25
+        },
+        "compound": {
+          "F": 0.9083478718864239,
+          "J": 817.5130846977814,
+          "T": 1214.25,
+          "R": 226.849171214827,
+          "D": 4270,
+          "cpu": 57.26953125,
+          "wall": 68.36877837499196,
+          "p90": 502.5,
+          "empty_distance": 2150.25,
+          "traffic_wait": 13.75
+        },
+        "compound_only": {
+          "F": 0.9251790004395811,
+          "J": 832.6611003956231,
+          "T": 1244.75,
+          "R": 224.731445763188,
+          "D": 4286,
+          "cpu": 59.0078125,
+          "wall": 71.9670780000015,
+          "p90": 519.25,
+          "empty_distance": 2165.75,
+          "traffic_wait": 13.75
+        }
+      },
+      "comparisons": {
+        "gate": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9589119611414694,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9391676413255361,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.0833178294573642,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": 0.0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "compound": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9612987249544627,
+              "gain_percent": -0.24890333103699555,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -0.24890333103699555
+                }
+              ]
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9488070175438597,
+              "gain_percent": -1.0263743973034032,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -1.0263743973034032
+                }
+              ]
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.0799061154177434,
+              "gain_percent": 0.31493195688745845,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.31493195688745845
+                }
+              ]
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": -0.24008644286323508,
+          "improved": 1,
+          "worsened": 2
+        },
+        "compound_only": {
+          "cases": [
+            {
+              "case": "wepa-day12-bin1164",
+              "gate": 0.9589119611414694,
+              "F": 0.9797377049180328,
+              "gain_percent": -2.1718097823884572,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -2.1718097823884572
+                }
+              ]
+            },
+            {
+              "case": "wepa-day32-bin3113",
+              "gate": 0.9391676413255361,
+              "F": 0.9650818713450292,
+              "gain_percent": -2.7592762867040337,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -2.7592762867040337
+                }
+              ]
+            },
+            {
+              "case": "wepa-day33-bin3229",
+              "gate": 1.0833178294573642,
+              "F": 1.112516795865633,
+              "gain_percent": -2.6953277804810627,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -2.6953277804810627
+                }
+              ]
+            },
+            {
+              "case": "wepa-day45-bin4335",
+              "gate": 0.6433796296296296,
+              "F": 0.6433796296296296,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": -1.9066034623933885,
+          "improved": 0,
+          "worsened": 3
+        }
+      }
+    },
+    "validation": {
+      "aggregates": {
+        "gate": {
+          "F": 1.1736699609851953,
+          "J": 1056.302964886676,
+          "T": 1491.375,
+          "R": 350.80154962225276,
+          "D": 6161.25,
+          "cpu": 126.322265625,
+          "wall": 149.44839077500365,
+          "p90": 807.125,
+          "empty_distance": 3189,
+          "traffic_wait": 21.875
+        },
+        "compound": {
+          "F": 1.1722713163283476,
+          "J": 1055.0441846955127,
+          "T": 1488.75,
+          "R": 350.67506009615386,
+          "D": 6164,
+          "cpu": 128.1328125,
+          "wall": 150.23175478750636,
+          "p90": 798.5,
+          "empty_distance": 3192.25,
+          "traffic_wait": 23.875
+        },
+        "compound_only": {
+          "F": 1.2123114328958078,
+          "J": 1091.080289606227,
+          "T": 1559.5,
+          "R": 352.37874313186813,
+          "D": 6168.5,
+          "cpu": 137.083984375,
+          "wall": 161.3318447749989,
+          "p90": 764.75,
+          "empty_distance": 3196.5,
+          "traffic_wait": 28.5
+        }
+      },
+      "comparisons": {
+        "gate": {
+          "cases": [
+            {
+              "case": "wepa-day38-bin3708",
+              "gate": 0.9857222222222222,
+              "F": 0.9857222222222222,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day40-bin3882",
+              "gate": 1.4853515625,
+              "F": 1.4853515625,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day47-bin4572",
+              "gate": 1.0905561253561253,
+              "F": 1.0905561253561253,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.0
+                }
+              ]
+            },
+            {
+              "case": "wepa-day58-bin5580",
+              "gate": 1.1330499338624338,
+              "F": 1.1330499338624338,
+              "gain_percent": 0.0,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.0
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": 0.0,
+          "improved": 0,
+          "worsened": 0
+        },
+        "compound": {
+          "cases": [
+            {
+              "case": "wepa-day38-bin3708",
+              "gate": 0.9857222222222222,
+              "F": 0.9936537698412697,
+              "gain_percent": -0.8046432798447632,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.0
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": -1.6131841908621785
+                }
+              ]
+            },
+            {
+              "case": "wepa-day40-bin3882",
+              "gate": 1.4853515625,
+              "F": 1.476759837962963,
+              "gain_percent": 0.5784303698833622,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.10323799755199062
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 1.0462217878857243
+                }
+              ]
+            },
+            {
+              "case": "wepa-day47-bin4572",
+              "gate": 1.0905561253561253,
+              "F": 1.0890985754985754,
+              "gain_percent": 0.1336519802751105,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -0.20816168363314208
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.4711923633087973
+                }
+              ]
+            },
+            {
+              "case": "wepa-day58-bin5580",
+              "gate": 1.1330499338624338,
+              "F": 1.129573082010582,
+              "gain_percent": 0.3068577781033516,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": 0.2913937334931213
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.32242704099831127
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": 0.053574212104265245,
+          "improved": 3,
+          "worsened": 1
+        },
+        "compound_only": {
+          "cases": [
+            {
+              "case": "wepa-day38-bin3708",
+              "gate": 0.9857222222222222,
+              "F": 1.0288809523809523,
+              "gain_percent": -4.3783866474505055,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -4.126804786839197
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": -4.631187151561293
+                }
+              ]
+            },
+            {
+              "case": "wepa-day40-bin3882",
+              "gate": 1.4853515625,
+              "F": 1.4963125,
+              "gain_percent": -0.737935568704795,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -1.534825840364753
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": 0.04654341681253448
+                }
+              ]
+            },
+            {
+              "case": "wepa-day47-bin4572",
+              "gate": 1.0905561253561253,
+              "F": 1.1602837606837608,
+              "gain_percent": -6.393768620103404,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -7.067244268455491
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": -5.728712619388205
+                }
+              ]
+            },
+            {
+              "case": "wepa-day58-bin5580",
+              "gate": 1.1330499338624338,
+              "F": 1.1637685185185185,
+              "gain_percent": -2.7111412955445524,
+              "seed_pairs": [
+                {
+                  "seed": 0,
+                  "gain_percent": -2.3640763708710892
+                },
+                {
+                  "seed": 1,
+                  "gain_percent": -3.0605676707296507
+                }
+              ]
+            }
+          ],
+          "mean_paired_gain_percent": -3.555308032950814,
+          "improved": 0,
+          "worsened": 4
+        }
+      }
+    }
+  },
+  "activity": {
+    "gate": {
+      "searches": 164,
+      "compound_previews": 0,
+      "compound_forecast_improvements": 0,
+      "proxy_evaluations": 25954,
+      "previews": 984
+    },
+    "compound_only": {
+      "searches": 172,
+      "compound_previews": 814,
+      "compound_forecast_improvements": 80,
+      "proxy_evaluations": 7614,
+      "previews": 1014
+    },
+    "compound": {
+      "searches": 162,
+      "compound_previews": 483,
+      "compound_forecast_improvements": 68,
+      "proxy_evaluations": 30155,
+      "previews": 969
+    }
+  },
+  "selected_before_validation": "gate",
+  "recommended": "gate",
+  "source": {
+    "improved/__init__.py": "1cbc164eff6d627d1faf5abb998619da7e8df99c9a01dcdb76a38c32d6b2013d",
+    "improved/compound.py": "f8b40ac8928d7a4f8a3e6736a7d827fc9409da5e1c6c8bf79a4f5b1d8aba30b1",
+    "improved/coordination.py": "9cdb39c10e286f7dac27b4547b44d5973efd15b1ae23cda314d5eb7190bd6a73",
+    "improved/execute.py": "80db24ab4f511f6a88e5f62e1939e728422ad374e8445c86818cfb7524cab1e2",
+    "improved/forecast.py": "1ae36c3bccbf00b1a39c58459abbd3eedf3daaea88dcb0743248b9e2a19b0f8f",
+    "improved/genetic.py": "e61e87798fd961af88725ee4a93c990c1715779f99f86b6b19044f0664675a6f",
+    "improved/matching.py": "5a6f108d978c12f2dc53d68b7bc9c142b2d8a919490b0ede85fd9e1bf9eb875d",
+    "improved/order_ga.py": "f51be774f3e6f627e4baf8b2024880254f3a380f3acb7e75f40c904e0f5d0e8e",
+    "improved/policy.py": "d8bcec44df4091ad85103fb11a5ca5d2464f7699318593d4088e96fb6ff8f6b7",
+    "improved/profiles.py": "88127b67395df7a0c689638cff47500fc5f38d1cd8870a132cbe5ffe87dedd18",
+    "improved/proxy.py": "1a36cdef90266900419cf06fa27d0fb2dffdc42145b84492b70e1bca313b7009",
+    "improved/targeted.py": "b62bb14cfb7a17a7fa9b2e50226c1f189348d7278a0b794c6c9016e0735e1f9c",
+    "exact/fixtures.py": "3ee633aa89d61afc87cdbcb9936776358db8938ae1ac641869c2dc22ce1cbc2a",
+    "exact/joint.py": "4c523fb7c98a26bcf6af3484f48ffa4c4d5bb45f938e5c593ab60d9b77f9b844",
+    "paths.py": "511dfdfa389ea14b7486a6c238794a27c85099c6b9bfa7bc7e23df7ed73fd5cb",
+    "run_trial.py": "aa1d4b526a07fb5f2c5ff2223d4d253e88e15ad41ad769e760aaf8ed2df569f6",
+    "data/protocol.json": "5a8e9959ddbd78349bee05066db0b85c727b7874104a98cd333cb757e9721a02"
+  },
+  "baseline_files_unchanged": 191,
+  "control_regression": [
+    {
+      "case": "wepa-day12-bin1164",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day32-bin3113",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day33-bin3229",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day45-bin4335",
+      "exact_physical_replay": true
+    }
+  ],
+  "validation_retuning": false,
+  "validation_scope": "Previously untested windows, but reused source dates; dates are the analysis clusters.",
+  "wall_budget_overruns": [],
+  "micro": [
+    {
+      "profile": "gate",
+      "F": 0.030444444444444444,
+      "T": 32,
+      "R": 22.0,
+      "D": 48,
+      "optimality_gap_percent": 2.4299065420560817
+    },
+    {
+      "profile": "compound",
+      "F": 0.029722222222222223,
+      "T": 30,
+      "R": 22.5,
+      "D": 50,
+      "optimality_gap_percent": 0.0
+    },
+    {
+      "profile": "compound_only",
+      "F": 0.029722222222222223,
+      "T": 30,
+      "R": 22.5,
+      "D": 50,
+      "optimality_gap_percent": 0.0
+    }
+  ],
+  "caution": "Four reused-date clusters of new windows; no fresh-date external evidence, no production optimality guarantee"
+}

@@ -1,0 +1,670 @@
+{
+  "selected": "gate",
+  "objective": {
+    "version": "linear-physical-v2-20261024",
+    "horizon_seconds": 900.0,
+    "vehicles": 6,
+    "speed_cells_per_second": 1.0,
+    "seconds_per_step": 1.0,
+    "weights": [
+      0.5,
+      0.3,
+      0.2
+    ]
+  },
+  "development": {
+    "gate": {
+      "F": 0.9061942653884998,
+      "J": 815.5748388496498,
+      "T": 1206.5,
+      "R": 227.08279616549953,
+      "D": 4326,
+      "cpu": 40.32421875,
+      "p90": 510.5,
+      "empty_distance": 2206.25,
+      "traffic_wait": 13.25
+    },
+    "wide": {
+      "F": 0.9069157931662776,
+      "J": 816.2242138496498,
+      "T": 1207.75,
+      "R": 227.16404616549954,
+      "D": 4326,
+      "cpu": 36.62890625,
+      "p90": 510.25,
+      "empty_distance": 2205.75,
+      "traffic_wait": 14.25
+    },
+    "guided_gate": {
+      "F": 0.9146437077929606,
+      "J": 823.1793370136645,
+      "T": 1225.25,
+      "R": 226.18112337888184,
+      "D": 4281,
+      "cpu": 41.76171875,
+      "p90": 517,
+      "empty_distance": 2160.75,
+      "traffic_wait": 11.5
+    },
+    "restored": {
+      "F": 0.9149070860356614,
+      "J": 823.4163774320953,
+      "T": 1210.25,
+      "R": 244.69348032920655,
+      "D": 4346.5,
+      "cpu": 27.66015625,
+      "p90": 494.5,
+      "empty_distance": 2225.25,
+      "traffic_wait": 21.5
+    },
+    "guided": {
+      "F": 0.9153652355707383,
+      "J": 823.8287120136645,
+      "T": 1226.5,
+      "R": 226.26237337888185,
+      "D": 4281,
+      "cpu": 43.47265625,
+      "p90": 516.75,
+      "empty_distance": 2160.25,
+      "traffic_wait": 12.5
+    },
+    "anchor": {
+      "F": 0.9204286593693589,
+      "J": 828.385793432423,
+      "T": 1224.75,
+      "R": 239.81375588585456,
+      "D": 4322,
+      "cpu": 33.78515625,
+      "p90": 515,
+      "empty_distance": 2201.25,
+      "traffic_wait": 16.75
+    },
+    "simple": {
+      "F": 0.9358986885162296,
+      "J": 842.3088196646066,
+      "T": 1261.75,
+      "R": 228.44606554868872,
+      "D": 4287,
+      "cpu": 24.58203125,
+      "p90": 517.5,
+      "empty_distance": 2166.75,
+      "traffic_wait": 12.25
+    },
+    "eta": {
+      "F": 0.9424284174975234,
+      "J": 848.185575747771,
+      "T": 1270.75,
+      "R": 226.47969693701467,
+      "D": 4346,
+      "cpu": 1.3984375,
+      "p90": 520.75,
+      "empty_distance": 2226.25,
+      "traffic_wait": 8.5
+    },
+    "fcfs": {
+      "F": 0.958929574045648,
+      "J": 863.0366166410832,
+      "T": 1273.5,
+      "R": 259.066499914722,
+      "D": 4457,
+      "cpu": 1.3984375,
+      "p90": 482,
+      "empty_distance": 2336.75,
+      "traffic_wait": 19.5
+    }
+  },
+  "validation": {
+    "simple": {
+      "F": 1.0045730572424652,
+      "J": 904.1157515182186,
+      "T": 1286.5,
+      "R": 304.3025050607288,
+      "D": 5087.25,
+      "cpu": 43.2890625,
+      "p90": 715.25,
+      "empty_distance": 2630,
+      "traffic_wait": 20.375
+    },
+    "gate": {
+      "F": 0.995688507459889,
+      "J": 896.1196567139001,
+      "T": 1270.125,
+      "R": 306.579411268556,
+      "D": 5072.5,
+      "cpu": 76.515625,
+      "p90": 724.5,
+      "empty_distance": 2616.375,
+      "traffic_wait": 22.625
+    },
+    "eta": {
+      "F": 1.0053902384165543,
+      "J": 904.8512145748989,
+      "T": 1285.75,
+      "R": 306.25404858299595,
+      "D": 5103,
+      "cpu": 1.87890625,
+      "p90": 723.5,
+      "empty_distance": 2647.5,
+      "traffic_wait": 17
+    },
+    "fcfs": {
+      "F": 1.0264281563952617,
+      "J": 923.7853407557355,
+      "T": 1285,
+      "R": 368.56224696356276,
+      "D": 5121.5,
+      "cpu": 1.83203125,
+      "p90": 642,
+      "empty_distance": 2667.75,
+      "traffic_wait": 41
+    }
+  },
+  "development_comparisons": {
+    "simple": {
+      "mean_paired_gain_percent": 2.9054886140771314,
+      "worse_cases": [],
+      "paired": [
+        {
+          "case": "wepa-day12-bin1164",
+          "gain_percent": 1.8020157805398263
+        },
+        {
+          "case": "wepa-day32-bin3113",
+          "gain_percent": 5.481300994834547
+        },
+        {
+          "case": "wepa-day33-bin3229",
+          "gain_percent": 3.8920549628400245
+        },
+        {
+          "case": "wepa-day45-bin4335",
+          "gain_percent": 0.44658271809412714
+        }
+      ]
+    },
+    "eta": {
+      "mean_paired_gain_percent": 3.467557470156061,
+      "worse_cases": [
+        "wepa-day45-bin4335"
+      ],
+      "paired": [
+        {
+          "case": "wepa-day12-bin1164",
+          "gain_percent": 2.56865509125736
+        },
+        {
+          "case": "wepa-day32-bin3113",
+          "gain_percent": 7.247612813799463
+        },
+        {
+          "case": "wepa-day33-bin3229",
+          "gain_percent": 4.146874011637444
+        },
+        {
+          "case": "wepa-day45-bin4335",
+          "gain_percent": -0.09291203607002384
+        }
+      ]
+    },
+    "fcfs": {
+      "mean_paired_gain_percent": 4.999183784719098,
+      "worse_cases": [
+        "wepa-day45-bin4335"
+      ],
+      "paired": [
+        {
+          "case": "wepa-day12-bin1164",
+          "gain_percent": 7.6705781111885445
+        },
+        {
+          "case": "wepa-day32-bin3113",
+          "gain_percent": 11.2615483224542
+        },
+        {
+          "case": "wepa-day33-bin3229",
+          "gain_percent": 1.1575207413036737
+        },
+        {
+          "case": "wepa-day45-bin4335",
+          "gain_percent": -0.09291203607002384
+        }
+      ]
+    }
+  },
+  "validation_comparisons": {
+    "simple": {
+      "mean_paired_gain_percent": 0.8996466640802327,
+      "worse_cases": [],
+      "paired": [
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": 1.0575162796956123
+        },
+        {
+          "case": "wepa-day82-bin7913",
+          "gain_percent": 0.5506358352739237
+        },
+        {
+          "case": "wepa-day83-bin7980",
+          "gain_percent": 1.2315146860763775
+        },
+        {
+          "case": "wepa-day87-bin8382",
+          "gain_percent": 0.7589198552750174
+        }
+      ]
+    },
+    "eta": {
+      "mean_paired_gain_percent": 0.8024468825449507,
+      "worse_cases": [
+        "wepa-day75-bin7248"
+      ],
+      "paired": [
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": -1.231242437197032
+        },
+        {
+          "case": "wepa-day82-bin7913",
+          "gain_percent": 1.0849543719216899
+        },
+        {
+          "case": "wepa-day83-bin7980",
+          "gain_percent": 1.2434354704128254
+        },
+        {
+          "case": "wepa-day87-bin8382",
+          "gain_percent": 2.1126401250423195
+        }
+      ]
+    },
+    "fcfs": {
+      "mean_paired_gain_percent": 2.5950302614050376,
+      "worse_cases": [
+        "wepa-day75-bin7248"
+      ],
+      "paired": [
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": -2.6322845578026426
+        },
+        {
+          "case": "wepa-day82-bin7913",
+          "gain_percent": 5.782855519235422
+        },
+        {
+          "case": "wepa-day83-bin7980",
+          "gain_percent": 5.319848754043096
+        },
+        {
+          "case": "wepa-day87-bin8382",
+          "gain_percent": 1.9097013301442745
+        }
+      ]
+    }
+  },
+  "counts": {
+    "development_new_executions": 24,
+    "baseline_reproduction": 1,
+    "validation_executions": 24,
+    "validation_scenarios": 4,
+    "validation_advanced_seeds": 2,
+    "small_exact_scenarios": 6,
+    "small_exact_executions": 24,
+    "physically_revalidated": 73,
+    "baseline_files_unchanged": 191,
+    "source_unchanged_since_selection": true
+  },
+  "exact": [
+    {
+      "case": "wepa-day12-bin1164-onecar-static-4",
+      "origin": "wepa-day12-bin1164",
+      "source_batch_size": 33,
+      "subset_size": 4,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          12,
+          13,
+          14,
+          15
+        ],
+        "F": 0.3657222222222222,
+        "numerator": 13166,
+        "denominator": 36000,
+        "states": 5,
+        "legal_permutations_crosschecked": 1,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.3657222222222222,
+          "gap_percent": 0.0,
+          "T": 365,
+          "R": 223.5,
+          "D": 398
+        },
+        {
+          "profile": "eta",
+          "F": 0.3657222222222222,
+          "gap_percent": 0.0,
+          "T": 365,
+          "R": 223.5,
+          "D": 398
+        },
+        {
+          "profile": "simple",
+          "F": 0.3657222222222222,
+          "gap_percent": 0.0,
+          "T": 365,
+          "R": 223.5,
+          "D": 398
+        },
+        {
+          "profile": "gate",
+          "F": 0.3657222222222222,
+          "gap_percent": 0.0,
+          "T": 365,
+          "R": 223.5,
+          "D": 398
+        }
+      ]
+    },
+    {
+      "case": "wepa-day12-bin1164-onecar-static-8",
+      "origin": "wepa-day12-bin1164",
+      "source_batch_size": 33,
+      "subset_size": 8,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "F": 0.7503333333333333,
+        "numerator": 54024,
+        "denominator": 72000,
+        "states": 39,
+        "legal_permutations_crosschecked": 56,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.7503333333333333,
+          "gap_percent": 0.0,
+          "T": 783,
+          "R": 422.0,
+          "D": 786
+        },
+        {
+          "profile": "eta",
+          "F": 0.7503333333333333,
+          "gap_percent": 0.0,
+          "T": 783,
+          "R": 422.0,
+          "D": 786
+        },
+        {
+          "profile": "simple",
+          "F": 0.7503333333333333,
+          "gap_percent": 0.0,
+          "T": 783,
+          "R": 422.0,
+          "D": 786
+        },
+        {
+          "profile": "gate",
+          "F": 0.7503333333333333,
+          "gap_percent": 0.0,
+          "T": 783,
+          "R": 422.0,
+          "D": 786
+        }
+      ]
+    },
+    {
+      "case": "wepa-day32-bin3113-onecar-static-4",
+      "origin": "wepa-day32-bin3113",
+      "source_batch_size": 33,
+      "subset_size": 4,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          13,
+          14,
+          15,
+          16
+        ],
+        "F": 0.33705555555555555,
+        "numerator": 12134,
+        "denominator": 36000,
+        "states": 11,
+        "legal_permutations_crosschecked": 4,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.33705555555555555,
+          "gap_percent": 0.0,
+          "T": 337,
+          "R": 213.5,
+          "D": 354
+        },
+        {
+          "profile": "eta",
+          "F": 0.33866666666666667,
+          "gap_percent": 0.4779957145211844,
+          "T": 347,
+          "R": 195.0,
+          "D": 364
+        },
+        {
+          "profile": "simple",
+          "F": 0.33705555555555555,
+          "gap_percent": 0.0,
+          "T": 337,
+          "R": 213.5,
+          "D": 354
+        },
+        {
+          "profile": "gate",
+          "F": 0.33705555555555555,
+          "gap_percent": 0.0,
+          "T": 337,
+          "R": 213.5,
+          "D": 354
+        }
+      ]
+    },
+    {
+      "case": "wepa-day32-bin3113-onecar-static-8",
+      "origin": "wepa-day32-bin3113",
+      "source_batch_size": 33,
+      "subset_size": 8,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "F": 0.6905277777777777,
+        "numerator": 49718,
+        "denominator": 72000,
+        "states": 73,
+        "legal_permutations_crosschecked": 168,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.6905277777777777,
+          "gap_percent": 0.0,
+          "T": 725,
+          "R": 387.25,
+          "D": 714
+        },
+        {
+          "profile": "eta",
+          "F": 0.6928888888888889,
+          "gap_percent": 0.3419284766080777,
+          "T": 735,
+          "R": 371.0,
+          "D": 724
+        },
+        {
+          "profile": "simple",
+          "F": 0.6905277777777777,
+          "gap_percent": 0.0,
+          "T": 725,
+          "R": 387.25,
+          "D": 714
+        },
+        {
+          "profile": "gate",
+          "F": 0.6905277777777777,
+          "gap_percent": 0.0,
+          "T": 725,
+          "R": 387.25,
+          "D": 714
+        }
+      ]
+    },
+    {
+      "case": "wepa-day33-bin3229-onecar-static-4",
+      "origin": "wepa-day33-bin3229",
+      "source_batch_size": 33,
+      "subset_size": 4,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          8,
+          11,
+          10,
+          9
+        ],
+        "F": 0.4741111111111111,
+        "numerator": 17068,
+        "denominator": 36000,
+        "states": 33,
+        "legal_permutations_crosschecked": 24,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.4741111111111111,
+          "gap_percent": 0.0,
+          "T": 472,
+          "R": 273.0,
+          "D": 544
+        },
+        {
+          "profile": "eta",
+          "F": 0.4741111111111111,
+          "gap_percent": 0.0,
+          "T": 472,
+          "R": 273.0,
+          "D": 544
+        },
+        {
+          "profile": "simple",
+          "F": 0.4741111111111111,
+          "gap_percent": 0.0,
+          "T": 472,
+          "R": 273.0,
+          "D": 544
+        },
+        {
+          "profile": "gate",
+          "F": 0.4741111111111111,
+          "gap_percent": 0.0,
+          "T": 472,
+          "R": 273.0,
+          "D": 544
+        }
+      ]
+    },
+    {
+      "case": "wepa-day33-bin3229-onecar-static-8",
+      "origin": "wepa-day33-bin3229",
+      "source_batch_size": 33,
+      "subset_size": 8,
+      "vehicles": 1,
+      "release_set_to_zero": true,
+      "proof": {
+        "order": [
+          8,
+          12,
+          13,
+          11,
+          10,
+          9,
+          14,
+          15
+        ],
+        "F": 0.9308611111111111,
+        "numerator": 67022,
+        "denominator": 72000,
+        "states": 705,
+        "legal_permutations_crosschecked": 20160,
+        "global_scope": "one-car closed static outbound, original map/WMS/layer/service/terminal/final-return rules"
+      },
+      "rows": [
+        {
+          "profile": "exact_dp",
+          "F": 0.9308611111111111,
+          "gap_percent": 0.0,
+          "T": 974,
+          "R": 489.25,
+          "D": 1020
+        },
+        {
+          "profile": "eta",
+          "F": 0.9308611111111111,
+          "gap_percent": 0.0,
+          "T": 974,
+          "R": 489.25,
+          "D": 1020
+        },
+        {
+          "profile": "simple",
+          "F": 0.9308611111111111,
+          "gap_percent": 0.0,
+          "T": 974,
+          "R": 489.25,
+          "D": 1020
+        },
+        {
+          "profile": "gate",
+          "F": 0.9308611111111111,
+          "gap_percent": 0.0,
+          "T": 974,
+          "R": 489.25,
+          "D": 1020
+        }
+      ]
+    }
+  ],
+  "selection_changed_after_validation": false,
+  "optimality_claim": "Only the explicitly reduced one-car closed static cases; no full dynamic optimum claim"
+}

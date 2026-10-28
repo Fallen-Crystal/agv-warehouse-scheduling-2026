@@ -1,0 +1,16 @@
+{
+  "archive": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\AGV_Open_Forecast_20261024.zip",
+  "directory": "C:\\Users\\XieBao\\Documents\\Codex\\2026-10-10\\new-chat\\outputs\\agv-open-forecast-20261024",
+  "archive_sha256": "054169b71bdcfc8515a6bf984581e6646accda3b854f776433b8cd4cee323f5d",
+  "bytes": 841314,
+  "files": 285,
+  "recommended": "gate",
+  "targeted_tests": 17,
+  "independently_revalidated": 24,
+  "baseline_files_unchanged": 191,
+  "original_package_unchanged": true,
+  "zip_crc_verified": true,
+  "payload_hashes_verified": true,
+  "external_cwd_main_exact_replay": true,
+  "github_uploaded": false
+}

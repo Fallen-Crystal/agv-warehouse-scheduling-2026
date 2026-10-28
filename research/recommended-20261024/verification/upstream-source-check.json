@@ -1,0 +1,17 @@
+{
+  "2_orders.json": {
+    "url": "https://raw.githubusercontent.com/malerinc/slapstack/da6280a8f8be1010eae64264c69a90258a288173/1_environment/slapstack/slapstack/use_cases/wepastacks/2_orders.json",
+    "sha256": "caab14a69aa34734f3ceb04f6c595f712b7dc4a1ee65adbe92268a16a7159432",
+    "bytes": 40119428
+  },
+  "3_initial_fill_lvl.json": {
+    "url": "https://raw.githubusercontent.com/malerinc/slapstack/da6280a8f8be1010eae64264c69a90258a288173/1_environment/slapstack/slapstack/use_cases/wepastacks/3_initial_fill_lvl.json",
+    "sha256": "9f2237b8dab891d51b6925242a6691f9af826c58b0a1c09a92ad0fb8fb9ec92c",
+    "bytes": 884
+  },
+  "1_layout.csv": {
+    "url": "https://raw.githubusercontent.com/malerinc/slapstack/da6280a8f8be1010eae64264c69a90258a288173/1_environment/slapstack/slapstack/use_cases/wepastacks/1_layout.csv",
+    "sha256": "13713221805ce421dec37e73779a86776d8019a3586ae7f2fb636d5e99704989",
+    "bytes": 21320
+  }
+}

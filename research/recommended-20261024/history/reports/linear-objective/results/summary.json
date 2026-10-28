@@ -1,0 +1,55 @@
+{
+  "objective": {
+    "version": "linear-physical-v2-20261024",
+    "horizon_seconds": 900.0,
+    "vehicles": 6,
+    "speed_cells_per_second": 1.0,
+    "seconds_per_step": 1.0,
+    "weights": [
+      0.5,
+      0.3,
+      0.2
+    ]
+  },
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "mean_over_equal_weight_development_cases": {
+    "fcfs": {
+      "T": 1273.5,
+      "R": 259.066499914722,
+      "D": 4457,
+      "F_linear_v2": 0.958929574045648,
+      "J_equivalent_seconds": 863.0366166410832,
+      "solve_cpu": 1.3984375,
+      "improvement_vs_fcfs_percent": 0.0,
+      "improvement_vs_eta_percent": -1.7561886066580477
+    },
+    "eta": {
+      "T": 1270.75,
+      "R": 226.47969693701467,
+      "D": 4346,
+      "F_linear_v2": 0.9424284174975234,
+      "J_equivalent_seconds": 848.185575747771,
+      "solve_cpu": 1.3984375,
+      "improvement_vs_fcfs_percent": 1.6113324148361097,
+      "improvement_vs_eta_percent": 0.0
+    },
+    "soft_ga": {
+      "T": 1261.75,
+      "R": 228.44606554868872,
+      "D": 4287,
+      "F_linear_v2": 0.9358986885162296,
+      "J_equivalent_seconds": 842.3088196646066,
+      "solve_cpu": 24.58203125,
+      "improvement_vs_fcfs_percent": 2.1761301138759404,
+      "improvement_vs_eta_percent": 0.5931686445702548
+    }
+  },
+  "executions": 12,
+  "independently_revalidated": 12,
+  "source_unchanged": true,
+  "unchanged_engine_files": 135,
+  "all_valid": true,
+  "new_heldout_evidence": false,
+  "algorithm_reselected": false,
+  "seed_count": 1
+}

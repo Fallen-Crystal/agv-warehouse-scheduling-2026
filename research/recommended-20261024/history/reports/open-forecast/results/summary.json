@@ -1,0 +1,244 @@
+{
+  "executions": 24,
+  "independently_revalidated": 24,
+  "baseline_files_unchanged": 191,
+  "regression": [
+    {
+      "case": "wepa-day12-bin1164",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day32-bin3113",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day33-bin3229",
+      "exact_physical_replay": true
+    },
+    {
+      "case": "wepa-day45-bin4335",
+      "exact_physical_replay": true
+    }
+  ],
+  "groups": {
+    "development": {
+      "cases": [
+        {
+          "case": "wepa-day12-bin1164",
+          "gate": 0.9589119611414694,
+          "open_gate": 0.9589119611414694,
+          "gain_percent": 0.0,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.9589119611414694,
+              "open_gate": 0.9589119611414694,
+              "gain_percent": 0.0
+            }
+          ]
+        },
+        {
+          "case": "wepa-day32-bin3113",
+          "gate": 0.9391676413255361,
+          "open_gate": 0.9550896686159844,
+          "gain_percent": -1.6953338882051,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.9391676413255361,
+              "open_gate": 0.9550896686159844,
+              "gain_percent": -1.6953338882051
+            }
+          ]
+        },
+        {
+          "case": "wepa-day33-bin3229",
+          "gate": 1.0833178294573642,
+          "open_gate": 1.1114298018949182,
+          "gain_percent": -2.5949884395085947,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 1.0833178294573642,
+              "open_gate": 1.1114298018949182,
+              "gain_percent": -2.5949884395085947
+            }
+          ]
+        },
+        {
+          "case": "wepa-day45-bin4335",
+          "gate": 0.6433796296296296,
+          "open_gate": 0.6433796296296296,
+          "gain_percent": 0.0,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.6433796296296296,
+              "open_gate": 0.6433796296296296,
+              "gain_percent": 0.0
+            }
+          ]
+        }
+      ],
+      "mean_paired_gain_percent": -1.0725805819284235,
+      "improved_cases": 0,
+      "worsened_cases": 2,
+      "aggregates": {
+        "gate": {
+          "F": 0.9061942653884998,
+          "J": 815.5748388496498,
+          "T": 1206.5,
+          "R": 227.08279616549953,
+          "D": 4326,
+          "p90": 510.5,
+          "empty_distance": 2206.25,
+          "traffic_wait": 13.25,
+          "cpu": 37.67578125,
+          "wall": 41.32212012499804
+        },
+        "open_gate": {
+          "F": 0.9172027653205004,
+          "J": 825.4824887884504,
+          "T": 1225,
+          "R": 229.4416292948345,
+          "D": 4324.5,
+          "p90": 511.25,
+          "empty_distance": 2204.75,
+          "traffic_wait": 9.5,
+          "cpu": 39.22265625,
+          "wall": 42.41768779999984
+        }
+      }
+    },
+    "validation": {
+      "cases": [
+        {
+          "case": "wepa-day47-bin4568",
+          "gate": 0.7959398148148149,
+          "open_gate": 0.7910078347578348,
+          "gain_percent": 0.6196423354104519,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.7898874643874645,
+              "open_gate": 0.7867051282051283,
+              "gain_percent": 0.4028847558435456
+            },
+            {
+              "seed": 1,
+              "gate": 0.8019921652421653,
+              "open_gate": 0.7953105413105412,
+              "gain_percent": 0.8331283298268298
+            }
+          ]
+        },
+        {
+          "case": "wepa-day48-bin4624",
+          "gate": 0.8269664351851852,
+          "open_gate": 0.8626354166666668,
+          "gain_percent": -4.313232068904235,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.8387361111111111,
+              "open_gate": 0.8424351851851852,
+              "gain_percent": -0.4410295473237436
+            },
+            {
+              "seed": 1,
+              "gate": 0.8151967592592593,
+              "open_gate": 0.8828356481481482,
+              "gain_percent": -8.29724702909148
+            }
+          ]
+        },
+        {
+          "case": "wepa-day54-bin5220",
+          "gate": 0.8920148148148148,
+          "open_gate": 0.8920148148148148,
+          "gain_percent": 0.0,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 0.89578,
+              "open_gate": 0.89578,
+              "gain_percent": 0.0
+            },
+            {
+              "seed": 1,
+              "gate": 0.8882496296296296,
+              "open_gate": 0.8882496296296296,
+              "gain_percent": 0.0
+            }
+          ]
+        },
+        {
+          "case": "wepa-day58-bin5578",
+          "gate": 1.2172806712962965,
+          "open_gate": 1.217443287037037,
+          "gain_percent": -0.013358935582821764,
+          "seeds": [
+            {
+              "seed": 0,
+              "gate": 1.2152025462962963,
+              "open_gate": 1.2152025462962963,
+              "gain_percent": 0.0
+            },
+            {
+              "seed": 1,
+              "gate": 1.2193587962962964,
+              "open_gate": 1.2196840277777778,
+              "gain_percent": -0.02667233651565983
+            }
+          ]
+        }
+      ],
+      "mean_paired_gain_percent": -0.9267371672691513,
+      "improved_cases": 1,
+      "worsened_cases": 2,
+      "aggregates": {
+        "gate": {
+          "F": 0.9330504340277779,
+          "J": 839.745390625,
+          "T": 1195.375,
+          "R": 253.60963541666666,
+          "D": 4979.25,
+          "p90": 583.625,
+          "empty_distance": 2588,
+          "traffic_wait": 15.625,
+          "cpu": 51.3125,
+          "wall": 55.47525978750491
+        },
+        "open_gate": {
+          "F": 0.9407753383190883,
+          "J": 846.6978044871795,
+          "T": 1208.375,
+          "R": 253.9232371794872,
+          "D": 4990,
+          "p90": 581.25,
+          "empty_distance": 2599.5,
+          "traffic_wait": 14.5,
+          "cpu": 51.62890625,
+          "wall": 66.86052221251157
+        }
+      }
+    }
+  },
+  "recommended": "gate",
+  "source": {
+    "improved/__init__.py": "1cbc164eff6d627d1faf5abb998619da7e8df99c9a01dcdb76a38c32d6b2013d",
+    "improved/execute.py": "b0a40dc7b25faac6c88a98397048111ee88d91c09380a6afb3467b5966b3f8bb",
+    "improved/forecast.py": "1ae36c3bccbf00b1a39c58459abbd3eedf3daaea88dcb0743248b9e2a19b0f8f",
+    "improved/genetic.py": "e61e87798fd961af88725ee4a93c990c1715779f99f86b6b19044f0664675a6f",
+    "improved/matching.py": "5a6f108d978c12f2dc53d68b7bc9c142b2d8a919490b0ede85fd9e1bf9eb875d",
+    "improved/order_ga.py": "f51be774f3e6f627e4baf8b2024880254f3a380f3acb7e75f40c904e0f5d0e8e",
+    "improved/policy.py": "a5a66343d1d9ea79ae1ddd3f9152a574535e6faf1a6adcf8804ac30cbe109491",
+    "improved/profiles.py": "773ccee05f20b3fc1f96d446edd3907f6189d19ec4795daf622e2521c0f196ad",
+    "improved/proxy.py": "1a36cdef90266900419cf06fa27d0fb2dffdc42145b84492b70e1bca313b7009",
+    "paths.py": "a81efed961970171e9df836e72a01704de783fbf798de8ed491ec9057698cb0f",
+    "run_trial.py": "aa1d4b526a07fb5f2c5ff2223d4d253e88e15ad41ad769e760aaf8ed2df569f6",
+    "data/protocol.json": "8d7a68a7668c215023f6eee9e4cddce83a4df09cd8478cff8679870d67d71dbd"
+  },
+  "validation_reselection": false,
+  "scope": "Four independent new source days, two random seeds each; no significance or global optimality claim."
+}
