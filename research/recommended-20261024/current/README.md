@@ -1,24 +1,11 @@
-# 当前推荐方案：联合 GA＋SIPP（gate）
+# 当前推荐方案：源码中的 gate＋SIPP
 
-这里固定提供推荐入口，避免把历史实验配置当成默认策略。Python 3.12 标准库即可运行，不需要商业求解器或训练模型。
-
-```bash
-python current/run.py --case wepa-day45-bin4335 --seed 0 --output my-result.json
-```
-
-在本材料目录运行；也可从任意目录用 run.py 的绝对路径。输出路径必须不存在。首轮会校验并解压 runtime.zip 到 current/_runtime/；此后逐文件验证，源码被修改会拒绝沿用旧实验身份。输出包含完整轨迹、任务记录、搜索日志、T/R/D、F及独立验解结果。
-
-runtime.zip 是可移植交付包：仅将根目录工具脚本select.py重命名为select_method.py，避免Linux标准库遮蔽；其余程序、协议和结果内容未改。原完整包另存history/archives/AGV_Hungarian_GA_SIPP_20261024.zip。它含全部代码、191文件冻结依赖、开发/验证原始结果、微型最优参照、30项测试、协议和文档。解压后 improved/policy.py、improved/genetic.py、improved/forecast.py 是调度核心；baseline/engine/wepa/kernel.py 是真实执行；baseline/engine/src/agv/planning/sipp.py 是底层路径规划；baseline/objective.py 是当前目标。`code-guide/`额外展示主线源码，供GitHub直接阅读；运行时使用经验证的完整包。
-
-首次运行或手动解压后：
+先在仓库根目录运行 `python -m pip install -e .`，随后可在任意工作目录使用：
 
 ```bash
-cd current/_runtime
-python -m unittest test_hungarian test_boundary test_variants -v
-python analyze.py
-python verify_input.py --raw ../../data/raw
+agv run --profile wepa --case wepa-day45-bin4335 --algorithm gate --output my-result.json
 ```
 
-上面的原始数据核对前，先在材料根目录执行 `python data/unpack.py`。22项标准库测试可直接运行；完整30项还包括历史CP-SAT模型，需要 `pip install -r requirements-exact.txt`，然后 `python -m unittest test_hungarian test_coupled test_boundary test_variants -v`。OR-Tools只用于微型参照和相关测试，不是六车算法运行依赖。
+原来的 `python current/run.py --case ... --seed 0 --output ...` 保留为薄兼容入口，调用已安装源码，不再隐式解压ZIP。可评审的策略位于 `src/agv/policy/wepa/`，物理状态位于 `src/agv/world/`，数据与独立验解分别位于 `src/agv/data/wepa/` 和 `src/agv/evaluation/wepa.py`。
 
-新一轮大规模重跑入口是包内 batch.py/select_method.py，须遵守原协议的开发冻结和验证隔离；不要覆盖本次证据。新增业务窗口应新建协议和结果目录。
+`runtime.zip`与原MANIFEST仍保留2026-10-24的历史实验身份，未按新代码重签。旧code-guide副本已经移除；历史字节仍由原ZIP保存。新代码使用自己的源码指纹和冻结协议，细节见仓库主README及集成报告。

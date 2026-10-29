@@ -1,0 +1,13 @@
+{
+  "old_baseline_commit": "cabc2120c15d5810823bdc1ea84b0a18eb846065",
+  "new_baseline_commit": "81dc59313898687be0e64ff9ba19b236a9f8dc06",
+  "old_payload_sha256": "84778973f426532476b99bb1f0d7bb24dfd1c6fc8acc641e0b282f1d770a2640",
+  "new_payload_sha256": "84778973f426532476b99bb1f0d7bb24dfd1c6fc8acc641e0b282f1d770a2640",
+  "case_count": 580,
+  "changed_case_count": 0,
+  "unchanged_case_count": 580,
+  "changed_scenes": [],
+  "changed_fields": {},
+  "changes": [],
+  "interpretation": "Both expected datasets were independently recorded from git archives of accepted upstream commits; differences are upstream changes, not refactor output."
+}

@@ -1,0 +1,94 @@
+{
+  "source_archive_sha256": "3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b",
+  "scope": "Previously certified static two-car reduced warehouse references; no six-car or full WEPA optimality guarantee",
+  "cases": {
+    "cross_out": {
+      "optimal": true,
+      "objective_integer": 382.0,
+      "bound_integer": 382.0,
+      "coefficient_scale": 18000,
+      "F_reference": 0.021222222222222222,
+      "exported_model_sha256": "d47c24a243a2d5d5d26166e455ad3fbf71c13423f3ff6dcb1bdbc48d48fcde1f",
+      "profiles": {
+        "gate": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        },
+        "hungarian": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        },
+        "hga": {
+          "F": 0.021222222222222222,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    "mixed": {
+      "optimal": true,
+      "objective_integer": 312.0,
+      "bound_integer": 312.0,
+      "coefficient_scale": 18000,
+      "F_reference": 0.017333333333333333,
+      "exported_model_sha256": "955896c10c90bcf3c59da4f89e4a61cf442cf429ba026096f3cc1c07e865d1bf",
+      "profiles": {
+        "gate": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        },
+        "hungarian": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        },
+        "hga": {
+          "F": 0.017333333333333333,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    "layers": {
+      "optimal": true,
+      "objective_integer": 258.0,
+      "bound_integer": 258.0,
+      "coefficient_scale": 9000,
+      "F_reference": 0.028666666666666667,
+      "exported_model_sha256": "82b48eb28c59d9cc0b71f90b92a369f5f273864c12d5e050388f5b944b7e6f2c",
+      "profiles": {
+        "gate": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        },
+        "hungarian": {
+          "F": 0.030222222222222223,
+          "gap_percent": 5.4263565891472965
+        },
+        "hga": {
+          "F": 0.028666666666666667,
+          "gap_percent": 0.0
+        }
+      }
+    },
+    "mixed_burst": {
+      "optimal": true,
+      "objective_integer": 240.0,
+      "bound_integer": 240.0,
+      "coefficient_scale": 9000,
+      "F_reference": 0.02666666666666667,
+      "exported_model_sha256": "06460e6af140cd3cc3452db81a5f24b65ca0dd8d1a5749f7c2cebb1769aad698",
+      "profiles": {
+        "gate": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        },
+        "hungarian": {
+          "F": 0.028222222222222225,
+          "gap_percent": 5.833333333333335
+        },
+        "hga": {
+          "F": 0.026666666666666665,
+          "gap_percent": -1.1102230246251565e-14
+        }
+      }
+    }
+  }
+}

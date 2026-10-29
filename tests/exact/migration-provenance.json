@@ -1,0 +1,12 @@
+{
+  "source_archive_sha256": "3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b",
+  "files": {
+    "test_hungarian.py": "6f772a5e0d8900419b242f42be8fae5db287935209cf624cd4c88d20d2d3dc3a",
+    "test_boundary.py": "f6d1d6f8d95cabf6147db2c6e01ebb1d472278e96db771b6e1d4ed420f0cb00c",
+    "test_variants.py": "3e6b48444d1132ec1e5a48da90a0bb4c8d05c6eb9b0727fe57745841a52511c8",
+    "test_coupled.py": "ac7cec46b10adabed2cbfa43c554c5e4736835a731829c108c0921e7e5eeb2bc",
+    "exact/fixtures.py": "3ee633aa89d61afc87cdbcb9936776358db8938ae1ac641869c2dc22ce1cbc2a",
+    "exact/joint.py": "4c523fb7c98a26bcf6af3484f48ffa4c4d5bb45f938e5c593ab60d9b77f9b844"
+  },
+  "changes": "Namespace imports and injected World factory; independent archive v2 rule controls recorded separately; original assertions retained."
+}

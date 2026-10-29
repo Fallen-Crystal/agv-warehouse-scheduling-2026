@@ -8,11 +8,12 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-from agv.dispatch.greedy import greedy_action, run
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.exports import SUMMARY_FIELDS, export_details
 from agv.io.scenes import save_scene, scenario_id
+from agv.runner.compat import greedy_action
+from agv.runner.compat import run_baseline as run
+from agv.warehouse.scenarios import example
 
 COMPARE_FIELDS = (
     "makespan",

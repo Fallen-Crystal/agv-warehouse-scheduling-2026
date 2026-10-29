@@ -1,0 +1,15 @@
+{
+  "validation_dates": 3,
+  "windows_per_date": {
+    "32": 6,
+    "83": 5,
+    "45": 5
+  },
+  "mean_window_gain_percent": 0.49240943832010525,
+  "date_cluster_bootstrap95": [
+    0.059600875332173654,
+    0.7852863999641697
+  ],
+  "method": "Resample source dates with replacement, retain all selected windows from each sampled date;4000 draws, seed20261029",
+  "inference": "Date clustering addresses same-day dependence; selected source dates are not fresh-source or unseen-map evidence"
+}

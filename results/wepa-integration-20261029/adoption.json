@@ -1,0 +1,15 @@
+{
+  "default": "gate",
+  "selected_candidate": "gate_anchor",
+  "adopt_default": false,
+  "validation_mean_paired_gain_percent": 0.49240943832010525,
+  "mean_cpu_increase_percent": 15.157643857020586,
+  "regressed_windows": 2,
+  "reason": "Two window regressions and CPU increase above 10 percent; keep as opt-in",
+  "sealed_windows_run": 0,
+  "F_term_deltas": {
+    "T": -0.0046875,
+    "R": 0.00014193714171407615,
+    "D": 9.259259259259259e-06
+  }
+}

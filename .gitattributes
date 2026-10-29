@@ -1,5 +1,11 @@
-* text=auto eol=lf
-*.map -text
-*.png binary
-*.jpg binary
-*.pdf binary
+src/** text=auto eol=lf
+tests/** text=auto eol=lf
+scripts/** text=auto eol=lf
+protocols/** text=auto eol=lf
+docs/** text=auto eol=lf
+.github/** text=auto eol=lf
+*.toml text=auto eol=lf
+# Historical release identities cover exact bytes.
+research/** -text
+*.zip binary
+*.gz binary

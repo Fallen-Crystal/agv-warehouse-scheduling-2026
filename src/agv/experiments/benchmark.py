@@ -9,12 +9,12 @@ import time
 from functools import partial
 from pathlib import Path
 
-from agv.dispatch.registry import SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.movingai import derived_scene
 from agv.io.scenes import pack_scene, scenario_id
 from agv.io.storage import write_json
+from agv.registry import SOLVERS, run_named
+from agv.warehouse.scenarios import example
 
 CONFIGS = {
     "static_small_wide": dict(

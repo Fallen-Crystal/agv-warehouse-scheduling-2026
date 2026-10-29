@@ -13,6 +13,7 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["ruff>=0.11,<1", "build>=1.2,<2"]
 plots = ["matplotlib>=3.8,<4"]
+exact = ["ortools==9.15.6755"]
 
 [project.scripts]
 agv = "agv.cli:main"

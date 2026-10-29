@@ -1,0 +1,1385 @@
+{
+  "schema": "agv-planning-cache-performance-v1",
+  "status": "verified",
+  "created_at": "2026-10-20T12:42:00.960339+00:00",
+  "environment": {
+    "python": "3.12.13",
+    "implementation": "CPython",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "processor": "arm",
+    "logical_cpus": 10,
+    "workers": 1
+  },
+  "source_hashes": {
+    "scripts/verify_v91.py": "f06f4731dc52c11c94867c31a38db4c598bbd41a5f914849ba8e165312db71be",
+    "src/agv/__init__.py": "2fd96b9934bceaed326a0040e9d08243132639f63d3f4cfacbce15e982a35a32",
+    "src/agv/__main__.py": "e7d30120ec4887445dd712ed8600765e0a3d6c475f162a327d8433f883d5b84d",
+    "src/agv/cli.py": "afcc32df84516ba98f76abd4837c807c3829c406b7593ab5a69ba1d80c391b34",
+    "src/agv/core/__init__.py": "b126d773cf0ac4a6c8b6bfc22595c877f92e16c18025dcd3e282f2eaf44ce9e6",
+    "src/agv/core/features.py": "3bed9f1cba35b4dba121532231af8d48aeaeb832a34cc18c45181c0bf8ed6c1b",
+    "src/agv/core/model.py": "16e443e1dc6011f798b83b1bc65636a3a8d90142908a27b78592c21a9a329a4b",
+    "src/agv/dispatch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/dispatch/assignment.py": "887ea7406193a71603816d758b6e706bbd60ea2ccc8b0551184d4567aa70bd81",
+    "src/agv/dispatch/bcrd.py": "e3a10a110cc911e422c550c2b1001ee59df9575796cc2a3d92bd25bdbd91957c",
+    "src/agv/dispatch/candidates.py": "1ff115e0e8a9642d437b51866221d5fe293d6b12f14e8975947f597d1331477a",
+    "src/agv/dispatch/greedy.py": "ecbc5231f5c77903cdffa3046cb43b1b3c1a13c0a1faa5377896faacfc450cb6",
+    "src/agv/dispatch/idle.py": "412d971c9c584571c61e5f4381c322b09c48e220e6886011c606f9d8678f155c",
+    "src/agv/dispatch/optimized.py": "5cc6882eb36ed5d9c4c93c88b824bf2acdeb844d43eaa9ffe96a40e0e8a5b80f",
+    "src/agv/dispatch/order_stream.py": "1b34d79b6b3a72b9aa8e63caf8327014c8cfa007a69d42f9408e6f9cebda0d0b",
+    "src/agv/dispatch/positioning.py": "5651ff1532ec78de1c4c9e2a9e31c29f67bdfa08e66d113a30a51e7771c85989",
+    "src/agv/dispatch/registry.py": "70a0dfdb3055e4d08fa3816ec2c9b483fd83ef24e11c2001dbe523650f94db9f",
+    "src/agv/dispatch/shadow.py": "074fa3b1ed2f462856476735efc9dfb3a6912a755a9cc6b70e704788470050dc",
+    "src/agv/dispatch/stream.py": "f3ac909833ccbe37a30146e431eed749dedc878c89b9951054c08e13e1e7582b",
+    "src/agv/domain.py": "b65b88e3bbc32f589087ab5e5fa3e1d9e822cf922c719bd6dc602cf41e579fa0",
+    "src/agv/evaluation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/evaluation/bounds.py": "de004a8a66645665ba27187ebaaa501c8db7c48facfd33f358dee100affb9e3f",
+    "src/agv/evaluation/diagnostics.py": "ce60cff899424edbc4ce001f58281be598dd57bdeb0c5c6d3ac16c1c546528e2",
+    "src/agv/evaluation/dispatch_analysis.py": "505079241afd68ed8fd472b4b0faf1c5f11804f42ad0d094b85cf898b0ba7cbd",
+    "src/agv/evaluation/execution.py": "4f004a01d362a137a26dece615deffd4473ff3c97f7362e74910be30877b823d",
+    "src/agv/evaluation/metrics.py": "e464e43943d53cba34e4975dab4da37cd4403c6771daa2c0e393a9bbde5f8532",
+    "src/agv/evaluation/objective.py": "e18565aca2847de63a42cd04abab3c4ea441cec8a116623329495d5d1c5b55ba",
+    "src/agv/evaluation/reference.py": "c1cca72926b5a5c1a35d8250aa473b3a32567cf607eb1725ee1054940346adcc",
+    "src/agv/evaluation/validation.py": "abd45b5e6090df3922896b1a115d940533d429591428af82f87639a318aefcc6",
+    "src/agv/experiments/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/experiments/architecture_options.py": "f84eb475eaa424064dcb90e0567c6dd919d7ccb1194cfa439c74277998cf6bd5",
+    "src/agv/experiments/batch.py": "047a75d0a3cb73c11b7cf63bc2c4050ff67cd4e80ad1eb541d8a872e0b8c6bf0",
+    "src/agv/experiments/bcrd.py": "47ee4e41137c6205c8602f3f389d0400184c0d75e8f7dea05b476b808accd814",
+    "src/agv/experiments/benchmark.py": "9bb67052682e7ba3d2878e61514b7e6f75717ccc7d89870c4480e15ba67b3df3",
+    "src/agv/experiments/cache.py": "58212134a8dc7e1c78d4671cbf09b354fef3b1960479377b72fb7be83d4b4266",
+    "src/agv/experiments/routing_benchmark.py": "1b02adad7b431f26e82b0e380bf7b63727ecf59917f005275eb015f8fce99e96",
+    "src/agv/experiments/v4.py": "41ac9a3bfe13eb4b25ef0ee6be6e4299023961f59c23aa2e5e1b14d18e3df718",
+    "src/agv/experiments/v91_bench.py": "dcfe0821af73f7f0f2c7e3a2e5fc7f5bf64a09b323c9d27c71c09bb45d5a12e2",
+    "src/agv/io/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/io/exports.py": "92ed2bb4e19f4577b6c4bd56d6542ef665ff9fd50bc1cd2d717623f7fed2e4f0",
+    "src/agv/io/movingai.py": "97aa6d60c1e43f48844f85c56a84e6f3f0ff85103047fc04c6b42a8258792f82",
+    "src/agv/io/scenes.py": "1b997962f0bf930c96bb41e1d2650530baa9906575532a3a9a1a9e2412d6b545",
+    "src/agv/io/storage.py": "079b6e7ca6e5504cae410181a6cb450a7e55ded6ab5ba17e1cc2c53bf98dd965",
+    "src/agv/learning/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/learning/ranker.py": "cf193c72e341144939aff0fda56c57e3bf709cc536ba4a27d9a14fb4282b2a32",
+    "src/agv/learning/train.py": "9b854441f3a3061798a777a01de23af7d732f9077b4bac44e4a4e3b8da8ce364",
+    "src/agv/models/candidate-ranker.json": "3778d7857681aa9e5bb190c511282e4fb70afdbeb3e1ffdc424f7150ff5107f8",
+    "src/agv/orders/__init__.py": "d913c017462dec7908e2bdc3f2c702880ed41b7c3e2f3dc332dbce03df283af3",
+    "src/agv/orders/publisher.py": "efef4ff9934fc15c30d8cfeca874547ee247d519687c09026106b99983988a4f",
+    "src/agv/orders/source.py": "aad7f55e501d1e8b3bd9368252d77f745d9b4e038a728330fd3c561bef692e7c",
+    "src/agv/planning/__init__.py": "db86414d3646a6bbd7e82ee3819a6a2cb4d2b114dcc3aa33965832faffd456a0",
+    "src/agv/planning/astar.py": "c5d6a53484c72ea5e8fa18685eef320fdd0a2688710d29e8e2a6bfd187f82675",
+    "src/agv/planning/cache.py": "8b62ef590d727963dccbee060f7ace540e80af83c89ea9abd9baa9c9ead2211e",
+    "src/agv/planning/demo_cases.py": "ee4ee4d4d58fd6a6698b0312ac897b698685b2cb82f56a9a95f01cba2275098a",
+    "src/agv/planning/distance.py": "0c19ebc82b2c8121a3772afc0b2e1f202806875e0a1f308d9adb3a4bc3235ae8",
+    "src/agv/planning/joint.py": "d1c522c94f958499bfd73ae9ef3d7b8dcfd1c86c6b6d8fe80dd216b6f6f95dba",
+    "src/agv/planning/pickup.py": "39a69a9d45792f2002488d0e661f0c379f0661ca3e130c2e79ad8e2885083fb3",
+    "src/agv/planning/reposition.py": "9c4c66dec47c3dd7b8e73f78ca37b3c783752dc7fd94fb8a6331991b6558fc78",
+    "src/agv/planning/reservations.py": "68749b136258117f2ad3bbbaec39bb4b85e4c10b9f258add83ecdec0a448a52d",
+    "src/agv/planning/sipp.py": "5321317e2769e8e16d5dea4c71e3eac0a5a1124ee05fe414c50accbf6de1a252",
+    "src/agv/policy/__init__.py": "f36db7647086823cb31603448f817c3f17f0a3a9d174dd90a0e3a64937881690",
+    "src/agv/policy/assignment.py": "1d4cf12301f75d036c8759cf45b810624aa7e236b74da2ec8da38b89217863cd",
+    "src/agv/policy/bcrd.py": "6dd5da6a77ae4c48ff5eedfb4de7868a6a034afbd6e0f87afe8c20b776fb51ca",
+    "src/agv/policy/candidates.py": "c40b074968091f19473e360b2eff020344a63a13288b33912ce8615fbe25470a",
+    "src/agv/policy/controller.py": "6fd92a97e9ddea4944599f0f5f05c3662939de4997bdbd402c6ef5904607b5d5",
+    "src/agv/policy/forecast.py": "141671a754bdf5d473ddff0da70c65718868f97000da880c94406dd7e4e8d89e",
+    "src/agv/policy/greedy.py": "23ab9db01a88987d08a353a4a1744d5ea7071dab5ac37c844ab6488cdc61fa3e",
+    "src/agv/policy/idle.py": "8068e2bd1af0acf172ab077d36175813955e9b97e481d51f0ac13457fe2b8c5b",
+    "src/agv/policy/optimized.py": "b26e3545b760ddae210028414f088873e9fd68de295bcb7b2242016855900c89",
+    "src/agv/policy/positioning.py": "5807bdf8ba3dd7dff7af4993b08378d9916366de171cdad3628b61343849da7c",
+    "src/agv/policy/stream.py": "3e23325e10b42e02e59efe0905cbcb031830e2863e61b867faaf8ec721efdfed",
+    "src/agv/registry.py": "89a17707bf765fab5de7c928b2780fd464bea258b2f4078b04c7aa210b3e3c36",
+    "src/agv/rules/__init__.py": "388c3af4abfb57bedfe6e2a173c7ebf2567aacfe7521d87c64415faa8d902c43",
+    "src/agv/rules/profiles.py": "c0428f933f9d72b9a7fb3a2534977263663fda9d861dfc3538d5a2094462a3f8",
+    "src/agv/runner/__init__.py": "43c5e2cf27c132c2a9ad065ccb9c17c5e59448a73373bda153fae8081135371e",
+    "src/agv/runner/batch.py": "fa333b12f495ec4924cf2950ad59dac1fbfee52f08fd47eb2081e16dd2eb630e",
+    "src/agv/runner/compat.py": "5875e4c09602dfa2222f41ca784148b6ebf4ec42a4a8cfe079f66bc55cf77cbb",
+    "src/agv/runner/environment.py": "a1bddc7ae6049f982293c30aa399a422d84b57990eb2f172f485b573edaac8fd",
+    "src/agv/runner/run.py": "0dee0deec8c73d72a1771f5a5aea1a1df3f60737fc15cd34580ae4aae3c767d7",
+    "src/agv/simulation.py": "aa5f8fb2dd3e145344595f66fd59d8f3fda574ae50188b7f89e416e0e654ea8b",
+    "src/agv/warehouse/__init__.py": "eb9f09aba0227e0adf8a8549854d1678278c206281c34af426fc0ffd94087a36",
+    "src/agv/warehouse/layout.py": "57e6b0a72ed994471b8e2637d45f2380039d7f7006d2d5ce9659ca64a662a221",
+    "src/agv/warehouse/mixed.py": "fb17aa107ce6f8c9d72816bac07cf2e997019471c5889e1cdb3e9726e9d7797b",
+    "src/agv/warehouse/rules.py": "84321dee6d568336fad6ca0ccb46956e86af68a211aab3db250f3c2488dee749",
+    "src/agv/warehouse/scenarios.py": "60832cfb48b5a37862988ef8bef8fa916aea0c25e6faaeec46487879945874cd",
+    "src/agv/web/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/agv/web/app.py": "825d32ee418056d03a195f02d6fdfa111581f09ee5aa93a38046f1971a3f8f6f",
+    "src/agv/web/static/app.js": "f1d1ff75e11aebb178834e527050131673db4f57d1ca8f235e78403bdfe96ee7",
+    "src/agv/web/static/style.css": "09121fe5232617bc090279fcb82f396bf0dbb7a3a41daa1463559591c5e0cd77",
+    "src/agv/web/templates/index.html": "51e20c4233057ec3accc9590dafe01d50dae151d811252f2000edf27a37bbb65",
+    "src/agv/world/__init__.py": "8a921a4d0267774ddace7b50c4527c60d86324ed1801c40c56b4a583a8feb8b3",
+    "src/agv/world/commands.py": "f4a8dc7092662c0920aba63fa23bc5502e183a8216d397b80e9b4c7e298a270a",
+    "src/agv/world/itinerary.py": "6c238abe0bf714c55d4bc434d0469b1f8fddc6692d1c72f16ffd763bc40cf321",
+    "src/agv/world/observation.py": "6b24c1d98c8649100e9d7e613cb3cb7fcc9fa22a6da5811de355e00d3ee9be9b",
+    "src/agv/world/reservations.py": "799571e62a0fcc0c153afc878647ec2770c57afd5bf428dc38ad2a5c5d3fb381",
+    "src/agv/world/restore.py": "374b47a7ede475f66a5012b2c343687e9b1f5dd2d26ced8262e742ad00045638",
+    "src/agv/world/services.py": "b6a6691e0dcf9068fed3fc99b1281b54fb8369145b2afa4dbd647bba12167924",
+    "src/agv/world/state.py": "ef232110da1078a59759352d86ce4efb4a3edd446d9628c9855186a761cf9266",
+    "src/agv/world/tasks.py": "7fd87f0f711d13df0c1429f98f1cc0a1935bec66830dbb1f7b055f181b5a6068"
+  },
+  "script_sha256": "26e860c412b3c1fb1a15f3746834d0e1a2ba8919fb95175f2c6728a0694c57a2",
+  "git_commit": "82ec928fac5efe4ea6b859e6a7eff47bc415801f",
+  "seed": 10,
+  "timed_scope": "Entire raw runner execution; validation, scoring and reference excluded",
+  "data_origin": "Synthetic medium V9.1 map, four vehicles, twelve jobs, three workloads",
+  "comparison": "Same scene/spec except the named cache; order rotates between repetitions",
+  "limitation": "Descriptive same-process warm static-cache reuse on one seed/template; background machine load, including concurrent development experiments, is uncontrolled. No cold-start, cross-machine or unseen-scene speed guarantee. A failed 40% ETA call target is reported, not hidden.",
+  "rows": [
+    {
+      "solver": "sipp_stream_matching",
+      "mechanism": "eta",
+      "scenario_sha256": "5e0a4158f7ca00d8b694f9b0cf2c33b8dd40997a5b3310b777026983faa1de86",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 1.0606499999999999,
+            "wall_seconds": 1.0824790420010686,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.0373399999999995,
+            "wall_seconds": 1.0509917499730363,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.0606790000000004,
+            "wall_seconds": 1.0900870420737192,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.0417960000000002,
+            "wall_seconds": 1.0511891250498593,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.0480230000000006,
+            "wall_seconds": 1.0624260839540511,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.0567669999999998,
+            "wall_seconds": 1.0722100420389324,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.0606499999999999,
+        "on": 1.0480230000000006
+      },
+      "cpu_speedup": 1.012048399701151,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "3ef8263970a00fa23d9db8d5156cafd85361ad24c3aa57eb94d830e45f9fb6f5",
+      "full_paths_sha256": "07f2c419b604fb6ec47c60e1b7433b04141d9d950013a26b8fd456db59acc514",
+      "full_assignments_sha256": "a003895b6165935e8333ce079b3330ea7b1433953b289c88a7d675f9f76109ce",
+      "F_equal": true,
+      "F": 0.9952246784309864,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "dense_static",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "eta",
+      "scenario_sha256": "5e0a4158f7ca00d8b694f9b0cf2c33b8dd40997a5b3310b777026983faa1de86",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 1.0600449999999988,
+            "wall_seconds": 1.0851993329124525,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.0530160000000013,
+            "wall_seconds": 1.0720989999826998,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.0636779999999995,
+            "wall_seconds": 1.077692291000858,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.0519759999999998,
+            "wall_seconds": 1.0703403750667349,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.0487529999999996,
+            "wall_seconds": 1.0628591250861064,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.0536750000000001,
+            "wall_seconds": 1.070985250058584,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": {
+              "requests": 84,
+              "hits": 0,
+              "misses": 84,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 84,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.0600449999999988,
+        "on": 1.0519759999999998
+      },
+      "cpu_speedup": 1.0076703270797043,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "6f4be3320572deb46dae773146fbf4795fe6fe64e09db61da578256ef1dff067",
+      "full_paths_sha256": "1e03b86413a233113dbf2feb666b440cf1a195dab806351e11d2ca31c8bdb9ba",
+      "full_assignments_sha256": "3204456b07b1ee8b8fcb51027b08219b60754bcc0373bf0cc50ccd6061162faf",
+      "F_equal": true,
+      "F": 0.9952246784309864,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "dense_static",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "static_distance",
+      "scenario_sha256": "5e0a4158f7ca00d8b694f9b0cf2c33b8dd40997a5b3310b777026983faa1de86",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 1.1914140000000017,
+            "wall_seconds": 1.2051026669796556,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.2922009999999986,
+            "wall_seconds": 1.3792222919873893,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.2753979999999991,
+            "wall_seconds": 1.3636134170228615,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.0437399999999997,
+            "wall_seconds": 1.0677118339808658,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.087766000000002,
+            "wall_seconds": 1.1750664579449221,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.1017200000000003,
+            "wall_seconds": 1.155916374991648,
+            "execution_route_calls": 44,
+            "decision_route_calls": 320,
+            "total_route_calls": 364,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.2753979999999991,
+        "on": 1.087766000000002
+      },
+      "cpu_speedup": 1.1724929810271665,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": null,
+      "requested_call_reduction_metric": null,
+      "requested_call_reduction_met": null,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [],
+      "full_compared_result_sha256": "62d4aa7b6148c40bf4975cda6a96e159bbea741b37ee4777e89596f75ac279e1",
+      "full_paths_sha256": "1e03b86413a233113dbf2feb666b440cf1a195dab806351e11d2ca31c8bdb9ba",
+      "full_assignments_sha256": "3204456b07b1ee8b8fcb51027b08219b60754bcc0373bf0cc50ccd6061162faf",
+      "F_equal": true,
+      "F": 0.9952246784309864,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "dense_static",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_stream_matching",
+      "mechanism": "eta",
+      "scenario_sha256": "48bd882e7287efde1661f393e2337b3c5b03527511eaf64566df8afa83bb8f14",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 1.4404019999999988,
+            "wall_seconds": 1.4575543339597061,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.472881999999995,
+            "wall_seconds": 1.4932933340314776,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.428964999999998,
+            "wall_seconds": 1.4511340419994667,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.4873890000000003,
+            "wall_seconds": 1.5097910419572145,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": {
+              "requests": 47,
+              "hits": 0,
+              "misses": 47,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 47,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.5029269999999997,
+            "wall_seconds": 1.5430473340675235,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": {
+              "requests": 47,
+              "hits": 0,
+              "misses": 47,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 47,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.4790810000000008,
+            "wall_seconds": 1.4952698749257252,
+            "execution_route_calls": 42,
+            "decision_route_calls": 165,
+            "total_route_calls": 207,
+            "eta_cache": {
+              "requests": 47,
+              "hits": 0,
+              "misses": 47,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 47,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.4404019999999988,
+        "on": 1.4873890000000003
+      },
+      "cpu_speedup": 0.9684097435169943,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "f475221c2fd8a269f57dcb79f525f22e9507ceee521dbba74f605cb4cd10e6a0",
+      "full_paths_sha256": "0c7b9689633605c5b51576ed56f12d8e1f242fe7048306923c38fd8d54cc99bd",
+      "full_assignments_sha256": "44f8c3e4e049cdcb35b8533692a7443a04ee65764835274be39b5a5951eace93",
+      "F_equal": true,
+      "F": 1.0,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "sparse_uniform",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "eta",
+      "scenario_sha256": "48bd882e7287efde1661f393e2337b3c5b03527511eaf64566df8afa83bb8f14",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 1.6293409999999966,
+            "wall_seconds": 1.6636507080402225,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.7519649999999984,
+            "wall_seconds": 1.7902148750144988,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.7684709999999981,
+            "wall_seconds": 1.834375875070691,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.666768999999995,
+            "wall_seconds": 1.6882932919543236,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": {
+              "requests": 48,
+              "hits": 0,
+              "misses": 48,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 48,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.7540400000000034,
+            "wall_seconds": 1.8112900000996888,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": {
+              "requests": 48,
+              "hits": 0,
+              "misses": 48,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 48,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.7591919999999988,
+            "wall_seconds": 1.7867385840509087,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": {
+              "requests": 48,
+              "hits": 0,
+              "misses": 48,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 48,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.7519649999999984,
+        "on": 1.7540400000000034
+      },
+      "cpu_speedup": 0.9988170167156936,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "9e533f154742b69b7108d3c59f922378bba770c78a334fe944adb2d20a4eaf8e",
+      "full_paths_sha256": "6774a305981851caad4baa6a346503e9e04103a2df1a2bdd639509c8fa60fdb3",
+      "full_assignments_sha256": "1f578a541fd874b049cdc2faa52b347d141657e491332d54073affd74808af97",
+      "F_equal": true,
+      "F": 0.9861463228164491,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "sparse_uniform",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "static_distance",
+      "scenario_sha256": "48bd882e7287efde1661f393e2337b3c5b03527511eaf64566df8afa83bb8f14",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 2.0199719999999957,
+            "wall_seconds": 2.0929263329599053,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.8921199999999985,
+            "wall_seconds": 1.906565541983582,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.8164199999999937,
+            "wall_seconds": 1.821486874949187,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 1.7191169999999971,
+            "wall_seconds": 1.736919792019762,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 1.6521830000000008,
+            "wall_seconds": 1.6717445419635624,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 1.6726089999999942,
+            "wall_seconds": 1.6862680410267785,
+            "execution_route_calls": 86,
+            "decision_route_calls": 168,
+            "total_route_calls": 254,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 1.8921199999999985,
+        "on": 1.6726089999999942
+      },
+      "cpu_speedup": 1.1312386816046098,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": null,
+      "requested_call_reduction_metric": null,
+      "requested_call_reduction_met": null,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [],
+      "full_compared_result_sha256": "e3f00f6c77002ee87c5eb23d015c6f7110fd864c43caf4245379e1e2728fd1eb",
+      "full_paths_sha256": "6774a305981851caad4baa6a346503e9e04103a2df1a2bdd639509c8fa60fdb3",
+      "full_assignments_sha256": "1f578a541fd874b049cdc2faa52b347d141657e491332d54073affd74808af97",
+      "F_equal": true,
+      "F": 0.9861463228164491,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "sparse_uniform",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_stream_matching",
+      "mechanism": "eta",
+      "scenario_sha256": "1112a92eaf202285a92f7ded54906e326ca6d2b40414f2feb3d912fef390f764",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 0.8061939999999908,
+            "wall_seconds": 0.8123031669529155,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.8262529999999941,
+            "wall_seconds": 0.8347925419220701,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.8274749999999926,
+            "wall_seconds": 0.8632989170728251,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 0.8203379999999925,
+            "wall_seconds": 0.8266749160829931,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.8664389999999997,
+            "wall_seconds": 0.8798527920152992,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.8122910000000019,
+            "wall_seconds": 0.817947292001918,
+            "execution_route_calls": 42,
+            "decision_route_calls": 192,
+            "total_route_calls": 234,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 0.8262529999999941,
+        "on": 0.8203379999999925
+      },
+      "cpu_speedup": 1.0072104425249127,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "a70a42c1124ffea12b3f4792096125528fb4e8267c48d25fc0ac47b0a34cc3d2",
+      "full_paths_sha256": "59abb336c78c48cbba68ee514ebb6dafdd0f57af3b981a3995dea9a7548489ee",
+      "full_assignments_sha256": "a3cc4db7674a8ef865b0c08824a955c85c30b58825e19f4cf1a6fc34fc96d28c",
+      "F_equal": true,
+      "F": 0.9980980232281923,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "shared_bursts",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "eta",
+      "scenario_sha256": "1112a92eaf202285a92f7ded54906e326ca6d2b40414f2feb3d912fef390f764",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 0.7617860000000007,
+            "wall_seconds": 0.7638070000102744,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.7664979999999986,
+            "wall_seconds": 0.7840306669240817,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.7719980000000106,
+            "wall_seconds": 0.7733124579535797,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 0.737244000000004,
+            "wall_seconds": 0.7386332080932334,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 0,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.750511000000003,
+            "wall_seconds": 0.7529537909431383,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 1,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.756805,
+            "wall_seconds": 0.7580264169955626,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": {
+              "requests": 54,
+              "hits": 0,
+              "misses": 54,
+              "invalidations": 0,
+              "evictions": 0,
+              "capacity": 256,
+              "entries": 54,
+              "time_bucket": 1
+            },
+            "repeat": 2,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 0.7664979999999986,
+        "on": 0.750511000000003
+      },
+      "cpu_speedup": 1.0213014865871326,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": 0.4,
+      "requested_call_reduction_metric": "total_route_calls",
+      "requested_call_reduction_met": false,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [
+        "decision_routing_stats",
+        "eta_cache_stats"
+      ],
+      "full_compared_result_sha256": "5cfcbecee23212fb52111cfa16300d81f3489761eb66b7729c3e92ccee8f5088",
+      "full_paths_sha256": "0280a0c3475bee63a1a6d23743f054964119a8d2ec49c2b4b67cf27aa72a2039",
+      "full_assignments_sha256": "da230f8729bcd974a95df15e41d279fd414008614b17718cb4c305032e0b59f8",
+      "F_equal": true,
+      "F": 0.9803131572844123,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "shared_bursts",
+      "seed": 10,
+      "map": "medium"
+    },
+    {
+      "solver": "sipp_position_delay_dispatch",
+      "mechanism": "static_distance",
+      "scenario_sha256": "1112a92eaf202285a92f7ded54906e326ca6d2b40414f2feb3d912fef390f764",
+      "vehicles": 4,
+      "jobs": 12,
+      "repetitions_per_backend": 3,
+      "samples": {
+        "off": [
+          {
+            "cpu_seconds": 0.9475099999999941,
+            "wall_seconds": 0.9691575840115547,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.902276999999998,
+            "wall_seconds": 0.9242869160370901,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.8996960000000058,
+            "wall_seconds": 0.9014942499343306,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 0
+          }
+        ],
+        "on": [
+          {
+            "cpu_seconds": 0.7706830000000053,
+            "wall_seconds": 0.7722290829988196,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 0,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          },
+          {
+            "cpu_seconds": 0.7536410000000018,
+            "wall_seconds": 0.7566446660785004,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 1,
+            "order": [
+              "on",
+              "off"
+            ],
+            "measurement_position": 0
+          },
+          {
+            "cpu_seconds": 0.794077999999999,
+            "wall_seconds": 0.7983336660545319,
+            "execution_route_calls": 56,
+            "decision_route_calls": 192,
+            "total_route_calls": 248,
+            "eta_cache": null,
+            "repeat": 2,
+            "order": [
+              "off",
+              "on"
+            ],
+            "measurement_position": 1
+          }
+        ]
+      },
+      "cpu_medians": {
+        "off": 0.902276999999998,
+        "on": 0.7706830000000053
+      },
+      "cpu_speedup": 1.1707498413744584,
+      "decision_route_call_reduction": 0.0,
+      "total_route_call_reduction": 0.0,
+      "requested_call_reduction": null,
+      "requested_call_reduction_metric": null,
+      "requested_call_reduction_met": null,
+      "independently_audited_executions": 6,
+      "full_raw_equal_after_listed_diagnostics": true,
+      "ignored_diagnostic_fields": [],
+      "full_compared_result_sha256": "0c0085a459b1820e0d19ded130dcd2f727d127a294c2ddb0454749cf95598f7a",
+      "full_paths_sha256": "0280a0c3475bee63a1a6d23743f054964119a8d2ec49c2b4b67cf27aa72a2039",
+      "full_assignments_sha256": "da230f8729bcd974a95df15e41d279fd414008614b17718cb4c305032e0b59f8",
+      "F_equal": true,
+      "F": 0.9803131572844123,
+      "warmup": "One separate untimed run with static sharing enabled",
+      "workload": "shared_bursts",
+      "seed": 10,
+      "map": "medium"
+    }
+  ],
+  "command": ".venv/bin/python scripts/benchmark_planning_cache.py --output results/architecture-options-2026/planning-cache-final.json --repeats 3 --seed 10"
+}

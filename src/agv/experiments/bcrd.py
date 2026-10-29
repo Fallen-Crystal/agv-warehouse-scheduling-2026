@@ -20,13 +20,13 @@ from collections import Counter
 from dataclasses import replace
 from pathlib import Path
 
-from agv.dispatch.bcrd import run as run_dispatch
 from agv.evaluation.objective import reference_context, score_result
 from agv.evaluation.validation import validate
 from agv.experiments.benchmark import source_hashes
 from agv.experiments.v4 import CONFIGS
 from agv.io.scenes import pack_scene, scenario_id
 from agv.io.storage import write_json
+from agv.runner.compat import run_dispatch
 from agv.warehouse.layout import generate
 
 PROTOCOL_SCHEMA = "agv-bcrd-protocol-v1"

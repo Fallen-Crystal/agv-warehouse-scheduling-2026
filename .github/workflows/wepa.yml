@@ -1,0 +1,60 @@
+name: integrated-wepa
+on:
+  push:
+    paths:
+      - 'src/agv/**'
+      - 'tests/**'
+      - 'scripts/check_architecture.py'
+      - 'pyproject.toml'
+      - '.github/workflows/wepa.yml'
+  pull_request:
+    paths:
+      - 'src/agv/**'
+      - 'tests/**'
+      - 'scripts/check_architecture.py'
+      - 'pyproject.toml'
+      - '.github/workflows/wepa.yml'
+  workflow_dispatch:
+    inputs:
+      exact:
+        description: 'Run the optional two-car CP-SAT certificates'
+        type: boolean
+        default: false
+      full_golden:
+        description: 'Replay all four original development windows'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e ".[dev]"
+      - run: python scripts/check_architecture.py
+      - run: python -m unittest tests.unit.test_wepa_ported_hungarian tests.unit.test_wepa_ported_boundary tests.unit.test_wepa_ported_variants -v
+      - name: Compact original-runtime golden replay
+        if: ${{ !inputs.full_golden }}
+        run: python tests/golden/record_wepa.py --module agv.wepa --cases wepa-day33-bin3229,wepa-day45-bin4335 --profiles gate,hungarian,hga --repeats 2 --jobs 2 --timeout 240 --out runs/ci-wepa-golden --expect tests/golden/wepa/fixture.json
+      - name: Full original-runtime golden replay
+        if: ${{ inputs.full_golden }}
+        run: python tests/golden/record_wepa.py --module agv.wepa --profiles gate,hungarian,hga --repeats 2 --jobs 2 --timeout 240 --out runs/ci-wepa-golden --expect tests/golden/wepa/fixture.json
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: integrated-wepa-golden
+          path: runs/ci-wepa-golden/
+  exact:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.exact }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e ".[dev,exact]"
+      - run: python -m unittest tests.exact.test_optimality tests.exact.test_coupled -v

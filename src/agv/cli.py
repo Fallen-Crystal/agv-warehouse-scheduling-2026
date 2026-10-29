@@ -7,11 +7,11 @@ import sys
 import webbrowser
 from pathlib import Path
 
-from agv.dispatch.registry import SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.scenes import load_scene, pack_scene
 from agv.io.storage import write_json
+from agv.registry import SOLVERS, WEPA_SOLVERS, run_named
+from agv.warehouse.scenarios import example
 
 
 def main(argv=None):
@@ -19,18 +19,31 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="Generate or load a scene and save validated results")
     run.add_argument("--input", type=Path)
-    run.add_argument("--algorithm", choices=SOLVERS, default=None)
+    run.add_argument("--algorithm", choices=(*SOLVERS, *WEPA_SOLVERS), default=None)
+    run.add_argument("--case", help="Pinned real-request WEPA replay window")
+    run.add_argument("--latency", choices=("none", "fixed", "measured"), default="none")
+    run.add_argument(
+        "--latency-scale",
+        type=float,
+        default=0.0,
+        help="WEPA decision steps, or simulation steps per decision CPU second",
+    )
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
-    run.add_argument("--tasks", type=int, default=12)
-    run.add_argument("--profile", choices=("legacy", "v4", "v9", "v9.1"), default="legacy")
-    run.add_argument("--mode", choices=("static", "dynamic"), default="static")
+    run.add_argument("--tasks", type=int, default=None)
+    run.add_argument(
+        "--profile",
+        choices=("legacy", "v4", "v9", "v9.1", "wepa"),
+        default=None,
+        help="Defaults to WEPA; an explicit historical algorithm/input keeps its profile",
+    )
+    run.add_argument("--mode", choices=("static", "dynamic"), default=None)
     run.add_argument(
         "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default=None
     )
-    run.add_argument("--vehicles", type=int, default=4)
-    run.add_argument("--layers", type=int, default=3)
-    run.add_argument("--work-width", type=int, default=2)
+    run.add_argument("--vehicles", type=int, default=None)
+    run.add_argument("--layers", type=int, default=None)
+    run.add_argument("--work-width", type=int, default=None)
     run.add_argument("--obstacles", choices=("none", "columns", "columns_equipment"), default=None)
     run.add_argument(
         "--horizon",
@@ -59,18 +72,90 @@ def main(argv=None):
     benchmark_v91.add_argument("--protocol", type=Path, required=True)
     benchmark_v91.add_argument("--output", type=Path, required=True)
     benchmark_v91.add_argument("--workers", type=int, default=1)
+    benchmark_v91.add_argument("--cache-dir", type=Path, help="Local reusable experiment cache")
+    cache_mode = benchmark_v91.add_mutually_exclusive_group()
+    cache_mode.add_argument("--no-cache", action="store_true", help="Measure every execution anew")
+    cache_mode.add_argument("--refresh", action="store_true", help="Replace cached executions")
     data = sub.add_parser("fetch-data", help="Fetch the attributed public MovingAI warehouse map")
     data.add_argument("--output", type=Path, required=True)
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
     training.add_argument("--map", type=Path, required=True)
     training.add_argument("--output", type=Path, required=True)
+    experiment = sub.add_parser(
+        "experiment", help="Frozen WEPA windows: freeze, run, select, analyze"
+    )
+    experiment.add_argument("experiment_args", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
     try:
-        if args.command == "benchmark-v91":
+        if args.command == "experiment":
+            from agv.experiments.wepa import main as experiment_main
+
+            return experiment_main(args.experiment_args) or 0
+        elif args.command == "benchmark-v91":
             from agv.experiments.v91_bench import run_benchmark
 
-            run_benchmark(args.output, args.protocol, workers=args.workers)
+            run_benchmark(
+                args.output,
+                args.protocol,
+                workers=args.workers,
+                cache_dir=args.cache_dir,
+                no_cache=args.no_cache,
+                refresh=args.refresh,
+            )
         elif args.command == "run":
+            use_wepa = (
+                args.profile == "wepa"
+                or args.case is not None
+                or (args.profile is None and args.input is None and args.algorithm not in SOLVERS)
+            )
+            if use_wepa:
+                from agv.experiments.wepa import run_case
+
+                if args.input is not None or args.profile not in (None, "wepa"):
+                    raise ValueError("WEPA replay uses --case and its own inventory model")
+                if any(
+                    getattr(args, key) is not None
+                    for key in (
+                        "tasks",
+                        "mode",
+                        "vehicles",
+                        "layers",
+                        "work_width",
+                        "size",
+                        "obstacles",
+                        "horizon",
+                    )
+                ):
+                    raise ValueError(
+                        "WEPA --case fixes source arrivals and model settings; use a new protocol for sensitivity studies"
+                    )
+                scale = args.latency_scale
+                if args.latency == "fixed" and scale.is_integer():
+                    scale = int(scale)
+                trace = run_case(
+                    args.case or "wepa-day45-bin4335",
+                    args.algorithm or "gate",
+                    args.seed,
+                    args.output,
+                    overwrite=args.overwrite,
+                    latency=None
+                    if args.latency == "none"
+                    else dict(kind=args.latency, scale=scale),
+                )
+                print(json.dumps(trace["row"], ensure_ascii=False))
+                if not trace["row"]["valid"]:
+                    raise ValueError(
+                        "WEPA execution failed independent validation; partial trace was saved"
+                    )
+                return 0
+            args.profile = args.profile or "legacy"
+            args.tasks = 12 if args.tasks is None else args.tasks
+            args.vehicles = 4 if args.vehicles is None else args.vehicles
+            args.layers = 3 if args.layers is None else args.layers
+            args.work_width = 2 if args.work_width is None else args.work_width
+            args.mode = args.mode or "static"
+            if args.latency != "none":
+                raise ValueError("Decision latency currently requires the WEPA command contract")
             if args.input:
                 scenario = load_scene(args.input)
             elif args.profile in ("v4", "v9", "v9.1"):

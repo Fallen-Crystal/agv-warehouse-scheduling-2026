@@ -9,10 +9,11 @@ import random
 from copy import deepcopy
 from itertools import islice
 
-from agv.domain import Scenario, Task
+from agv.core import Task
 from agv.planning import create_router
 from agv.planning.pickup import plan_task
-from agv.planning.reservations import reservations
+from agv.warehouse.scenarios import Scenario
+from agv.world.reservations import reservations
 
 
 def score(plans, records, now):
@@ -178,7 +179,7 @@ class JointPlanner:
         # Whole-fleet fallback keeps an opportunity for three-way coordination.
         full = [ranked, ranked[::-1]]
         if self.ranker is not None:
-            from agv.learning.ranker import features
+            from agv.core.features import features as features
 
             orders.sort(
                 key=lambda order: self.ranker.predict(features(vehicles, plans, order, now)),
@@ -221,7 +222,7 @@ class JointPlanner:
         if self.neighborhoods == "conflict":
             trials = self.conflict_orders(vehicles, plans, moving, now)
         for order in trials:
-            from agv.learning.ranker import features
+            from agv.core.features import features as features
 
             row_features = (
                 features(vehicles, plans, order, now) if self.collect is not None else None

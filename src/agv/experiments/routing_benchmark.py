@@ -3,13 +3,13 @@
 from statistics import median
 from time import perf_counter
 
-from agv.dispatch.greedy import greedy_action
-from agv.domain import Scenario, example
 from agv.io.storage import write_json
 from agv.planning.astar import Router
-from agv.planning.reservations import VertexReservations, reservations
 from agv.planning.sipp import SafeIntervalRouter
-from agv.simulation import Environment
+from agv.runner.compat import greedy_action
+from agv.runner.environment import Environment
+from agv.warehouse.scenarios import Scenario, example
+from agv.world.reservations import VertexReservations, reservations
 
 
 def run_routing_benchmark(output):

@@ -51,7 +51,7 @@ class V91BenchmarkTests(unittest.TestCase):
             patch("agv.experiments.v91_bench.source_hashes", return_value=FIXTURE_HASHES),
             patch("agv.experiments.v91_bench._raw", side_effect=lambda name, s: run_greedy(s)),
         ):
-            cls.rows, cls.summary = run_benchmark(cls.output, cls.protocol)
+            cls.rows, cls.summary = run_benchmark(cls.output, cls.protocol, no_cache=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -85,7 +85,7 @@ class V91BenchmarkTests(unittest.TestCase):
             protocol["solvers"]["G1"] = name
             output = Path(self.temporary.name) / name
             with self.assertRaises(ValueError):
-                run_benchmark(output, protocol)
+                run_benchmark(output, protocol, no_cache=True)
             self.assertFalse(output.exists())
 
     def test_violated_bound_is_retained_as_failure_without_negative_gaps(self):
@@ -100,7 +100,7 @@ class V91BenchmarkTests(unittest.TestCase):
                 return_value={"T": 1e9, "R": 0, "D": 0, "method": "invalid-fixture"},
             ),
         ):
-            rows, _ = run_benchmark(output, protocol)
+            rows, _ = run_benchmark(output, protocol, no_cache=True)
         row = rows[0]
         self.assertFalse(row["comparison_valid"])
         self.assertTrue(row["reason"].startswith("bound_error:"))
@@ -164,7 +164,7 @@ class V91BenchmarkTests(unittest.TestCase):
             patch("agv.experiments.v91_bench.source_hashes", return_value=FIXTURE_HASHES),
             patch("agv.experiments.v91_bench._raw", side_effect=fail_matching),
         ):
-            rows, summary = run_benchmark(output, protocol)
+            rows, summary = run_benchmark(output, protocol, no_cache=True)
         failed = next(r for r in rows if r["solver"] == "G1")
         self.assertFalse(failed["comparison_valid"])
         self.assertIsNone(failed["weighted_score"])
@@ -188,7 +188,7 @@ class V91BenchmarkTests(unittest.TestCase):
             patch("agv.experiments.v91_bench._raw", side_effect=lambda name, s: run_greedy(s)),
         ):
             with self.assertRaisesRegex(RuntimeError, "Source changed"):
-                run_benchmark(output, protocol)
+                run_benchmark(output, protocol, no_cache=True)
         manifest = json.loads((output / "manifest.json").read_text())
         self.assertEqual(manifest["status"], "source_changed")
         self.assertEqual(manifest["recorded_runs"], 2)
