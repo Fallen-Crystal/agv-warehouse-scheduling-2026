@@ -33,7 +33,9 @@ def reference_protocol():
 def source_identity():
     package = Path(__file__).resolve().parents[1]
     return {
-        path.relative_to(package).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+        path.relative_to(package).as_posix(): hashlib.sha256(
+            path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        ).hexdigest()
         for path in sorted(package.rglob("*"))
         if path.is_file() and path.suffix in (".py", ".json", ".js", ".html", ".css")
     }
