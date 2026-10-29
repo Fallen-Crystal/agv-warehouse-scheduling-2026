@@ -1,0 +1,23 @@
+{
+  "source_archive_sha256": "3a71aa51cf8c6ac5ded1d98444d834f73dff794142b5a5f792ca5b722f868a7b",
+  "runner": "baseline/v2/runner.py",
+  "runner_sha256": "ea5cfc0ab96cfce1f8e3c56fea100c0f440f1a451c8ce77a13171f4201949969",
+  "cases": {
+    "eta": {
+      "paths": "2ea717ddaa488d7abe0c841894f474ce3603294ad0f08250d427e6c61d7c0fa2",
+      "records": "9f88626c510431bb65a1a99d578c733d9dca53343bf98630ca6819f3223a874b",
+      "decisions": "092f52e325eea2012cdc50f030a1b7c970a3d00e02648cb35d9fa8eaa1c1bdfb",
+      "T": "f0bc318fb8965cad8d73d578cd03c63b7987dc6a79b906aada091e1b6a13443f",
+      "R": "02e64968e3004879d7a14857f51bfb32bec0204685a54d4dddcad4cc92df7987",
+      "D": "e3f6959781c353c201d378e02d9da532601673e08a1706fa15a5ebbd9ea1bd36"
+    },
+    "fcfs": {
+      "paths": "2ea717ddaa488d7abe0c841894f474ce3603294ad0f08250d427e6c61d7c0fa2",
+      "records": "9f88626c510431bb65a1a99d578c733d9dca53343bf98630ca6819f3223a874b",
+      "decisions": "092f52e325eea2012cdc50f030a1b7c970a3d00e02648cb35d9fa8eaa1c1bdfb",
+      "T": "f0bc318fb8965cad8d73d578cd03c63b7987dc6a79b906aada091e1b6a13443f",
+      "R": "02e64968e3004879d7a14857f51bfb32bec0204685a54d4dddcad4cc92df7987",
+      "D": "e3f6959781c353c201d378e02d9da532601673e08a1706fa15a5ebbd9ea1bd36"
+    }
+  }
+}

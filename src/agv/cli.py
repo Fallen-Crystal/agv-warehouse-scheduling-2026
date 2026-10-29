@@ -10,7 +10,7 @@ from pathlib import Path
 from agv.evaluation.validation import validate
 from agv.io.scenes import load_scene, pack_scene
 from agv.io.storage import write_json
-from agv.registry import SOLVERS, run_named
+from agv.registry import SOLVERS, WEPA_SOLVERS, run_named
 from agv.warehouse.scenarios import example
 
 
@@ -19,11 +19,24 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("run", help="Generate or load a scene and save validated results")
     run.add_argument("--input", type=Path)
-    run.add_argument("--algorithm", choices=SOLVERS, default=None)
+    run.add_argument("--algorithm", choices=(*SOLVERS, *WEPA_SOLVERS), default=None)
+    run.add_argument("--case", help="Pinned real-request WEPA replay window")
+    run.add_argument("--latency", choices=("none", "fixed", "measured"), default="none")
+    run.add_argument(
+        "--latency-scale",
+        type=float,
+        default=0,
+        help="WEPA decision steps, or simulation steps per decision CPU second",
+    )
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
     run.add_argument("--tasks", type=int, default=12)
-    run.add_argument("--profile", choices=("legacy", "v4", "v9", "v9.1"), default="legacy")
+    run.add_argument(
+        "--profile",
+        choices=("legacy", "v4", "v9", "v9.1", "wepa"),
+        default=None,
+        help="Defaults to WEPA; an explicit historical algorithm/input keeps its profile",
+    )
     run.add_argument("--mode", choices=("static", "dynamic"), default="static")
     run.add_argument(
         "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default=None
@@ -68,9 +81,17 @@ def main(argv=None):
     training = sub.add_parser("train", help="Train a transparent candidate ranker")
     training.add_argument("--map", type=Path, required=True)
     training.add_argument("--output", type=Path, required=True)
+    experiment = sub.add_parser(
+        "experiment", help="Frozen WEPA windows: freeze, run, select, analyze"
+    )
+    experiment.add_argument("experiment_args", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
     try:
-        if args.command == "benchmark-v91":
+        if args.command == "experiment":
+            from agv.experiments.wepa import main as experiment_main
+
+            return experiment_main(args.experiment_args) or 0
+        elif args.command == "benchmark-v91":
             from agv.experiments.v91_bench import run_benchmark
 
             run_benchmark(
@@ -82,6 +103,34 @@ def main(argv=None):
                 refresh=args.refresh,
             )
         elif args.command == "run":
+            use_wepa = (
+                args.profile == "wepa"
+                or args.case is not None
+                or (args.profile is None and args.input is None and args.algorithm not in SOLVERS)
+            )
+            if use_wepa:
+                from agv.experiments.wepa import run_case
+
+                if args.input is not None or args.profile not in (None, "wepa"):
+                    raise ValueError("WEPA replay uses --case and its own inventory model")
+                scale = args.latency_scale
+                if args.latency == "fixed" and scale.is_integer():
+                    scale = int(scale)
+                trace = run_case(
+                    args.case or "wepa-day45-bin4335",
+                    args.algorithm or "gate",
+                    args.seed,
+                    args.output,
+                    overwrite=args.overwrite,
+                    latency=None
+                    if args.latency == "none"
+                    else dict(kind=args.latency, scale=scale),
+                )
+                print(json.dumps(trace["row"], ensure_ascii=False))
+                return 0
+            args.profile = args.profile or "legacy"
+            if args.latency != "none":
+                raise ValueError("Decision latency currently requires the WEPA command contract")
             if args.input:
                 scenario = load_scene(args.input)
             elif args.profile in ("v4", "v9", "v9.1"):

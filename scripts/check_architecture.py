@@ -21,6 +21,7 @@ ALLOWED_LAYERS = {
     "warehouse": frozenset(("core", "warehouse")),
     "rules": frozenset(("core", "warehouse", "rules")),
     "orders": frozenset(("core", "orders")),
+    "data": frozenset(("core", "warehouse", "rules", "orders", "data")),
     "world": frozenset(("core", "warehouse", "rules", "orders", "world")),
     "planning": frozenset(("core", "warehouse", "rules", "world", "planning")),
     "policy": frozenset(
@@ -176,6 +177,13 @@ def check_architecture(root):
             continue
         layer = module.split(".")[1] if "." in module else ""
         for line, imported in _imports(tree, module, is_package):
+            if imported.split(".")[0] in {"wepa", "improved", "v2", "simple", "paths", "objective"}:
+                report(
+                    path,
+                    line,
+                    "research-namespace",
+                    f"production import still depends on archive namespace {imported}",
+                )
             if not _inside(imported, "agv") or _compatibility(module):
                 continue
             target_layer = imported.split(".")[1] if "." in imported else ""
@@ -208,7 +216,9 @@ def check_architecture(root):
                     "ranker-independence",
                     "candidate ranker may only depend on core data and pure functions",
                 )
-            if module == "agv.evaluation.validation" and target_layer in (
+            if (
+                _inside(module, "agv.evaluation.validation") or module == "agv.evaluation.wepa"
+            ) and target_layer in (
                 "world",
                 "planning",
                 "policy",

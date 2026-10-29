@@ -11,6 +11,7 @@ from agv.world.itinerary import Itinerary
 from agv.world.observation import Observation, freeze
 from agv.world.reservations import ReservationTable
 from agv.world.tasks import TaskBook
+from agv.world.transit import advance_fleet
 
 
 class WorldState:
@@ -185,14 +186,14 @@ class WorldState:
         for _ in range(steps):
             if self.ruleset.stream and self.done:
                 break
-            for k, plan in enumerate(self._plans):
-                self._interval_states[k].append(self._state(k))
-                if len(plan) > 1:
-                    self._plans[k] = (
-                        plan.advance() if isinstance(plan, Itinerary) else Itinerary(plan, 1)
-                    )
-                self._paths[k].append(self._plans[k][0])
-            self.time += 1
+            self.time, _ = advance_fleet(
+                self._plans,
+                self._paths,
+                self._interval_states,
+                self._state,
+                self.time,
+                coerce_itineraries=True,
+            )
             for k, r in enumerate(self._active):
                 if r is not None and r["delivery_end"] <= self.time:
                     self._active[k] = None

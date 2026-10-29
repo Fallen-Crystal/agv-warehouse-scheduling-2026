@@ -58,6 +58,25 @@ class ArchitectureGateTests(unittest.TestCase):
         )
         self.assertIn("validator-independence", self.codes())
 
+    def test_wepa_and_package_validators_keep_the_independent_boundary(self):
+        for module in ("evaluation/wepa.py", "evaluation/validation/wepa.py"):
+            with self.subTest(module=module):
+                self.write(
+                    module,
+                    "def validate():\n    from agv.planning.sipp import SafeIntervalRouter\n",
+                )
+                self.assertIn("validator-independence", self.codes())
+
+    def test_production_cannot_import_archive_top_level_modules(self):
+        self.write(
+            "policy/wepa/broken.py",
+            "from improved.forecast import rollout\n"
+            "def build():\n    from wepa.kernel import World\n",
+        )
+        violations = check_architecture(self.root)
+        self.assertEqual([v.code for v in violations], ["research-namespace", "research-namespace"])
+        self.assertEqual([v.line for v in violations], [1, 3])
+
     def test_ranker_accepts_pure_core_helpers_but_rejects_runtime_dependencies(self):
         self.write("learning/ranker.py", "from agv.core.features import features\n")
         self.assertEqual(self.codes(), set())

@@ -259,6 +259,29 @@ STREAM_SOLVERS = {
 }
 
 
+@dataclass(frozen=True)
+class WepaSolverSpec:
+    """A separate physical model; never silently convert it into fixed-pickup tasks."""
+
+    method: str = "gate"
+    objective_family: str = "linear-physical-v2-20261024"
+
+
+WEPA_SOLVERS = {
+    name: WepaSolverSpec(name)
+    for name in (
+        "gate",
+        "hungarian",
+        "hga",
+        "gate_anchor",
+        "gate_tail",
+        "gate_trigger",
+        "eta",
+        "fcfs",
+    )
+}
+
+
 def scenario_profile(scenario) -> Profile:
     if scenario.is_v9_1:
         return Profile.V91
