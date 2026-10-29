@@ -1,6 +1,5 @@
 """Fixed-objective, SIPP-checked diagnostic interventions on dispatch search."""
 
-from agv.policy.wepa.base_policy import LinearPolicy
 from agv.policy.wepa.common import values
 from agv.policy.wepa.compound import compound_neighbors
 from agv.policy.wepa.forecast import rollout, snapshot
@@ -12,6 +11,7 @@ from agv.policy.wepa.neighborhoods import neighbors
 from agv.policy.wepa.order_ga import order_candidates
 from agv.policy.wepa.profiles import PROFILES
 from agv.policy.wepa.proxy import MixedCosts
+from agv.policy.wepa.state import RollingPolicyState
 from agv.policy.wepa.targeted import neighborhoods
 
 
@@ -27,7 +27,7 @@ def plan_from_prediction(prediction, pending):
     return order, owners
 
 
-class ResearchPolicy(LinearPolicy):
+class ResearchPolicy(RollingPolicyState):
     def __init__(self, profile, seed, *, objective):
         super().__init__("soft_ga", seed, objective=objective)
         self.profile = profile

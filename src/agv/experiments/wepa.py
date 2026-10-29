@@ -13,6 +13,7 @@ import subprocess
 import sys
 import time
 from importlib.resources import files
+from math import isfinite
 from pathlib import Path
 
 from agv.core.objectives import LinearObjective
@@ -133,7 +134,11 @@ def freeze_protocol(config, output):
         "baseline",
         "timeout_seconds",
     }
-    if not required <= set(config) or set(config) - required - {"input_audit"}:
+    if not required <= set(config) or set(config) - required - {
+        "input_audit",
+        "latency",
+        "validation_controls",
+    }:
         raise ValueError(f"Protocol needs exactly {sorted(required)}")
     ids = [case["case"] for case in config["cases"]]
     if len(ids) != len(set(ids)):
@@ -150,6 +155,9 @@ def freeze_protocol(config, output):
         method not in PROFILES and method not in ("eta", "fcfs") for method in config["methods"]
     ):
         raise ValueError("Unknown method")
+    controls = config.get("validation_controls", [])
+    if len(set(controls)) != len(controls) or any(m not in config["methods"] for m in controls):
+        raise ValueError("Validation controls must be unique declared methods")
     if (
         not config["seeds"]
         or len(set(config["seeds"])) != len(config["seeds"])
@@ -161,6 +169,18 @@ def freeze_protocol(config, output):
         or not 0 < config["timeout_seconds"] <= 3600
     ):
         raise ValueError("Timeout must be positive and at most one hour")
+    if "latency" in config:
+        latency = config["latency"]
+        if (
+            not isinstance(latency, dict)
+            or set(latency) != {"kind", "scale"}
+            or latency["kind"] not in ("none", "fixed", "measured")
+            or type(latency["scale"]) not in (int, float)
+            or not isfinite(latency["scale"])
+            or latency["scale"] < 0
+            or (latency["kind"] == "fixed" and type(latency["scale"]) is not int)
+        ):
+            raise ValueError("Invalid frozen decision latency model")
     objective = LinearObjective(**config["objective"])
     if objective.vehicles != config["configuration"]["vehicles"]:
         raise ValueError("Objective and model fleets differ")
@@ -206,8 +226,12 @@ def audit_trace(trace, frozen, *, expected=None):
         or (expected is not None and (row["case"], row["profile"], row["seed"]) != expected)
     ):
         raise ValueError("Trace solver, seed or cache query identity differs")
-    if "decision_latency" in result:
-        raise ValueError("This frozen protocol declares no decision latency")
+    latency = config.get("latency", dict(kind="none", scale=0))
+    if latency["kind"] == "none":
+        if "decision_latency" in result:
+            raise ValueError("This frozen protocol declares no decision latency")
+    elif result.get("decision_latency", {}).get("model") != latency:
+        raise ValueError("Trace decision latency differs from frozen protocol")
     if any(
         row[key] != result[key] for key in ("T", "R", "D", "p90", "empty_distance", "traffic_wait")
     ):
@@ -314,7 +338,7 @@ def benchmark(protocol_path, split, output, *, workers=1, cache_dir=None):
         ):
             raise ValueError("Validation requires a frozen development selection")
         selection_record = json.loads(selection.read_text(encoding="utf-8"))
-        methods = list(dict.fromkeys((config["baseline"], selection_record["selected"])))
+        methods = _validation_methods(config, selection_record)
         if any(method not in config["methods"] for method in methods):
             raise ValueError("Selection is not part of declared methods")
     output.mkdir(parents=True, exist_ok=False)
@@ -357,6 +381,26 @@ def benchmark(protocol_path, split, output, *, workers=1, cache_dir=None):
     return rows
 
 
+def _validation_methods(config, selection):
+    return list(
+        dict.fromkeys(
+            (config["baseline"], *config.get("validation_controls", []), selection["selected"])
+        )
+    )
+
+
+def _selection_mean(config, sample):
+    groups = {}
+    by_id = {case["case"]: case for case in config["cases"]}
+    date_based = config.get("input_audit", {}).get("selection_unit") == "source_day"
+    for case in config["development"]:
+        key = by_id[case]["source_day"] if date_based else case
+        groups.setdefault(key, []).append(
+            statistics.mean(row["F"] for row in sample if row["case"] == case)
+        )
+    return statistics.mean(statistics.mean(values) for values in groups.values())
+
+
 def select(protocol_path, development, output):
     frozen = load_protocol(protocol_path)
     data = json.loads(Path(development).read_text(encoding="utf-8"))
@@ -393,10 +437,7 @@ def select(protocol_path, development, output):
         ranked.append(
             dict(
                 method=method,
-                F=statistics.mean(
-                    statistics.mean(r["F"] for r in sample if r["case"] == case)
-                    for case in config["development"]
-                ),
+                F=_selection_mean(config, sample),
                 cpu=statistics.mean(r["cpu"] for r in sample),
             )
         )
@@ -409,6 +450,7 @@ def select(protocol_path, development, output):
         selected=ranked[0]["method"],
         ranked=ranked,
         validation_read=False,
+        selection_unit=config.get("input_audit", {}).get("selection_unit", "window"),
     )
     write_json(output, value)
     return value
@@ -431,8 +473,8 @@ def analyze(protocol_path, input_path, output):
         raise ValueError("Invalid phase methods")
     if data["split"] == "validation":
         choice = data["selection"]
-        if choice["protocol_sha256"] != frozen["protocol_sha256"] or methods != list(
-            dict.fromkeys((config["baseline"], choice["selected"]))
+        if choice["protocol_sha256"] != frozen["protocol_sha256"] or methods != _validation_methods(
+            config, choice
         ):
             raise ValueError("Validation methods differ from development selection")
     elif methods != config["methods"]:
@@ -499,12 +541,25 @@ def analyze(protocol_path, input_path, output):
             improved=sum(x > 1e-10 for x in gains),
             worsened=sum(x < -1e-10 for x in gains),
         )
+    if config.get("input_audit", {}).get("selection_unit") == "source_day":
+        from agv.experiments.wepa_dates import summarize_dates
+
+        declared = [case for case in config["cases"] if case["case"] in cases]
+        for group in groups.values():
+            # Failed dates cannot support a complete paired improvement claim.
+            group["date_analysis"] = (
+                summarize_dates(group["pairs"], declared)
+                if group["comparable_windows"] == len(cases)
+                else None
+            )
     report = dict(
         protocol_sha256=frozen["protocol_sha256"],
         objective_id=frozen["objective_id"],
         split=data["split"],
         groups=groups,
-        inference="Paired windows; seeds are not independent observations; historical windows are not fresh holdout",
+        inference="Equal-weight source dates; windows are supplementary; historical source is not fresh holdout"
+        if config.get("input_audit", {}).get("selection_unit") == "source_day"
+        else "Paired windows; seeds are not independent observations; historical windows are not fresh holdout",
     )
     write_json(output, report)
     return report
@@ -549,6 +604,7 @@ def main(argv=None):
             args.seed,
             configuration=config["configuration"],
             objective=LinearObjective(**config["objective"]),
+            latency=config.get("latency"),
         )
         load_protocol(args.protocol)
         result.update(

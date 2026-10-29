@@ -51,6 +51,51 @@ class ArchitectureGateTests(unittest.TestCase):
         self.write("policy/greedy.py", "from agv.dispatch.greedy import run\n")
         self.assertIn("compat-import", self.codes())
 
+    def test_runner_and_registry_cannot_import_root_compatibility_facades(self):
+        for module in ("runner/new.py", "registry.py"):
+            for facade in ("domain", "simulation", "dispatch.registry", "wepa"):
+                with self.subTest(module=module, facade=facade):
+                    self.write(module, f"import agv.{facade}\n")
+                    violations = [
+                        v
+                        for v in check_architecture(self.root)
+                        if v.path == Path("src/agv") / module
+                    ]
+                    self.assertIn("compat-import", {v.code for v in violations})
+
+    def test_active_policies_cannot_import_the_historical_wepa_optimizer(self):
+        self.write(
+            "policy/wepa/current.py", "from agv.policy.wepa.legacy.genetic import candidates\n"
+        )
+        self.assertIn("legacy-import", self.codes())
+
+    def test_historical_simple_factory_is_the_only_runner_legacy_boundary(self):
+        self.write(
+            "runner/wepa.py",
+            "def _legacy_simple_policy():\n"
+            "    from agv.policy.wepa.legacy.policy import LinearPolicy\n",
+        )
+        self.assertEqual(self.codes(), set())
+        self.write(
+            "runner/wepa.py",
+            "def run():\n    from agv.policy.wepa.legacy.policy import LinearPolicy\n",
+        )
+        self.assertIn("legacy-import", self.codes())
+
+    def test_legacy_implementation_and_old_import_shims_can_import_each_other(self):
+        self.write(
+            "policy/wepa/legacy/policy.py",
+            "from agv.policy.wepa.legacy.genetic import candidates\n",
+        )
+        self.write(
+            "policy/wepa/base_policy.py", "from agv.policy.wepa.legacy.policy import LinearPolicy\n"
+        )
+        self.assertEqual(self.codes(), set())
+        self.write(
+            "policy/wepa/current.py", "from agv.policy.wepa.base_policy import LinearPolicy\n"
+        )
+        self.assertIn("compat-import", self.codes())
+
     def test_validator_cannot_depend_on_runtime_even_through_local_import(self):
         self.write(
             "evaluation/validation.py",

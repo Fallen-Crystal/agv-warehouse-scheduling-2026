@@ -1,0 +1,52 @@
+{
+  "schema": "agv-wepa-measured-latency-plan-v1",
+  "base_protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "supplemental_protocol_sha256": "3a547bac0ba6c25c4116ed530c6e4deedac10c0486c6a9ac2131c744fa3b5127",
+  "none_control_protocol_sha256": "cbcb953f43e3b12d3f10d245d8e79c3cdf9a67efd8e722a4120ffb0ffebc059b",
+  "none_control_methods": [
+    "hungarian"
+  ],
+  "none_gate_and_anchor": "reuse independently audited base validation traces",
+  "sources_sha256": "df8c8e41c741a07572dd12c904dc3bda614b724e46eda39b5fbc0dfe3279ae65",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "case_ids": [
+    "wepa-day41-bin3988",
+    "wepa-day18-bin1785",
+    "wepa-day58-bin5580",
+    "wepa-day58-bin5578",
+    "wepa-day59-bin5712",
+    "wepa-day75-bin7248",
+    "wepa-day19-bin1864",
+    "wepa-day19-bin1873",
+    "wepa-day53-bin5143",
+    "wepa-day53-bin5141",
+    "wepa-day54-bin5219",
+    "wepa-day54-bin5244",
+    "wepa-day76-bin7355",
+    "wepa-day76-bin7357",
+    "wepa-day26-bin2502"
+  ],
+  "methods": [
+    "gate",
+    "gate_anchor",
+    "hungarian"
+  ],
+  "seeds": [
+    0
+  ],
+  "latency": {
+    "kind": "measured",
+    "scale": 1
+  },
+  "timeout_seconds": 360,
+  "serial_workers": 1,
+  "cache": false,
+  "nondeterministic": true,
+  "not_for_adoption": true,
+  "environment": {
+    "python": "3.12.13",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "harness_sha256": "d6e699445b4d41a970e214de4997a57e197be6808c7f312e5b3fd185265959c2"
+}

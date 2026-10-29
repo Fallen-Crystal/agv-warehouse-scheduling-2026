@@ -32,7 +32,15 @@ class WepaExactOptimalityTests(unittest.TestCase):
         exact_score = checked_score(model, result, objective)
         self.assertTrue(exact_score["audit"]["valid"])
         self.assertAlmostEqual(exact_score["F_linear_v2"], expected["F_reference"], places=12)
-        for profile in ("gate", "hungarian", "hga", "gate_anchor", "gate_tail", "gate_trigger"):
+        for profile in (
+            "gate",
+            "hungarian",
+            "hga",
+            "gate_anchor",
+            "gate_anchor_tail",
+            "gate_tail",
+            "gate_trigger",
+        ):
             with self.subTest(profile=profile):
                 candidate = run(model, profile, seed=0, objective=objective)
                 score = checked_score(model, candidate, objective)

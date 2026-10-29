@@ -1,0 +1,65 @@
+{
+  "source_snapshot": "6daa04c",
+  "protocol_commit": "f6cd41e",
+  "protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "source_files": 144,
+  "local_full_suite": {
+    "tests": 435,
+    "success": true
+  },
+  "additional_latency_harness_tests": 3,
+  "additional_anchor_tail_exact_tests": 4,
+  "historical_golden": {
+    "runs": 580,
+    "differences": 0
+  },
+  "wepa_golden": {
+    "runs": 24,
+    "unique_pairs": 12,
+    "deterministic": true,
+    "differences": 0
+  },
+  "viewer_contracts": 8,
+  "wheel": "Installed without dependencies in a fresh venv, outside-tree new profile smoke and independent audit valid",
+  "development": {
+    "windows": 11,
+    "dates": 6,
+    "executions": 33,
+    "all_valid": true
+  },
+  "validation": {
+    "windows": 15,
+    "dates": 10,
+    "executions": 45,
+    "all_valid": true
+  },
+  "sealed": {
+    "old_windows": 8,
+    "new_windows": 7,
+    "new_dates": 6,
+    "algorithm_executions": 0
+  },
+  "source_unchanged_since_freeze": true,
+  "attempts_not_used": [
+    {
+      "attempt": "baseline full test during concurrent source editing",
+      "reason": "source identity guard fired; rerun stable source:435 passed"
+    },
+    {
+      "attempt": "golden recorder with archive-default module",
+      "reason": "run_main unavailable in installed package; rerun with explicit --module agv.wepa:24 passed"
+    }
+  ],
+  "source_mode": "No algorithm parameters were changed after development or validation measurement",
+  "measured_latency": {
+    "new_executions": 60,
+    "reused_none_executions": 30,
+    "all_independent_audits_valid": true,
+    "solver_workers": 1,
+    "cpu": "Apple M5",
+    "model": "Mac17,4",
+    "python": "3.12.13",
+    "not_for_adoption": true
+  },
+  "CI": "Must be checked at the final pushed revision"
+}

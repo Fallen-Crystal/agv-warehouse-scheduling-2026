@@ -9,3 +9,6 @@ build/
 .coverage
 runs/
 results/cache/
+
+.codex/
+results/**/*.log

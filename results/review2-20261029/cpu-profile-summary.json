@@ -1,0 +1,63 @@
+{
+  "rows": [
+    {
+      "case": "wepa-day40-bin3870",
+      "before_cpu": 51.373266,
+      "after_cpu": 35.725182,
+      "cpu_reduction_pct": 30.45958573083518,
+      "full_semantic_json_equal": true,
+      "profile_cumulative_seconds_not_additive": {
+        "before": {
+          "total": 51.48677341700002,
+          "sipp_leg": 31.908481079,
+          "hold_advance": 13.590445495,
+          "proxy_ga": 0.253631916,
+          "snapshot": 0.001985922,
+          "reservation_table": 6.367024929
+        },
+        "after": {
+          "total": 35.80992799900001,
+          "sipp_leg": 20.893215258,
+          "hold_advance": 9.227368824000001,
+          "proxy_ga": 0.23963066800000002,
+          "snapshot": 0.001715458,
+          "reservation_table": 2.7602492420000004
+        }
+      }
+    },
+    {
+      "case": "wepa-day38-bin3704",
+      "before_cpu": 46.650035,
+      "after_cpu": 33.47551800000001,
+      "cpu_reduction_pct": 28.241172809409456,
+      "full_semantic_json_equal": true,
+      "profile_cumulative_seconds_not_additive": {
+        "before": {
+          "total": 46.70955241699999,
+          "sipp_leg": 24.411055724,
+          "hold_advance": 15.380004060000001,
+          "proxy_ga": 0.312204668,
+          "snapshot": 0.0024462480000000003,
+          "reservation_table": 7.001771963
+        },
+        "after": {
+          "total": 33.55767900099998,
+          "sipp_leg": 15.627582473,
+          "hold_advance": 11.035407602000001,
+          "proxy_ga": 0.304440248,
+          "snapshot": 0.002595327,
+          "reservation_table": 3.134662968
+        }
+      }
+    }
+  ],
+  "warning": "cProfile perturbs runtime and reductions must be supplemented by unprofiled independent subprocess comparison",
+  "optimization": [
+    "finite reservation horizon endpoints without tick enumeration",
+    "revision-scoped immutable reverse-edge lookup shared by legs",
+    "single reservation table per simultaneous idle-hold pass with immediate accepted-hold update"
+  ],
+  "rejected_shortcut": "Matching owner maps does not imply equality of dynamic Hungarian rollout and fixed-order GA rollout; no unsafe local forecast or allocation-only skip",
+  "anchor_counters": "Existing candidates logs distinguish every full Hungarian rollout; dedup skipped=0 and local=0; no unproven skip applied",
+  "golden_scope": "All fields including paths, records, decisions, search logs, route counts, stock, score; only row cpu/wall excluded"
+}

@@ -8,7 +8,7 @@ from agv.core.objectives import LinearObjective
 from agv.evaluation.objectives.linear_f import checked_score
 from agv.policy.wepa.common import values
 from agv.policy.wepa.forecast import rollout, snapshot
-from agv.policy.wepa.legacy_proxy import MixedCosts as OldCosts
+from agv.policy.wepa.legacy.proxy import MixedCosts as OldCosts
 from agv.policy.wepa.proxy import MixedCosts, standby_distance
 from agv.runner.wepa import run
 from agv.world.wepa_snapshot import ShadowWorld

@@ -41,6 +41,8 @@ class SafeIntervalRouter(Router):
         horizon = self.search_limit(
             max(time, not_before or time), distances, vertices, edges, service, service_blocked
         )
+        if hasattr(edges, "materialized"):
+            edges = edges.materialized()
         if terminal and start == goal and not_before is not None and time < not_before:
             return None
         if hasattr(vertices, "timeline"):

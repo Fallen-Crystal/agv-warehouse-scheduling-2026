@@ -1,0 +1,241 @@
+{
+  "baseline_commit": "1b369024f38d95a4d4506f68d3820f2078b627ae",
+  "baseline_source": "independent subprocess imports git archive src/agv",
+  "rows": [
+    {
+      "version": "before",
+      "case": "wepa-day40-bin3870",
+      "profile": "gate",
+      "seed": 0,
+      "valid": true,
+      "cpu": 20.681366999999998,
+      "wall": 20.835060709156096,
+      "T": 1036,
+      "R": 370.26190476190476,
+      "D": 4964,
+      "p90": 708,
+      "empty_distance": 2602,
+      "traffic_wait": 5,
+      "F": 0.8828280423280424,
+      "J": 794.5452380952381,
+      "tasks": 42,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "after",
+      "case": "wepa-day40-bin3870",
+      "profile": "gate",
+      "seed": 0,
+      "valid": true,
+      "cpu": 16.754718,
+      "wall": 16.98772754194215,
+      "T": 1036,
+      "R": 370.26190476190476,
+      "D": 4964,
+      "p90": 708,
+      "empty_distance": 2602,
+      "traffic_wait": 5,
+      "F": 0.8828280423280424,
+      "J": 794.5452380952381,
+      "tasks": 42,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "before",
+      "case": "wepa-day40-bin3870",
+      "profile": "gate_anchor",
+      "seed": 0,
+      "valid": true,
+      "cpu": 28.182105,
+      "wall": 28.58773766690865,
+      "T": 988,
+      "R": 348.04761904761904,
+      "D": 4888,
+      "p90": 675,
+      "empty_distance": 2522,
+      "traffic_wait": 19,
+      "F": 0.845941798941799,
+      "J": 761.3476190476191,
+      "tasks": 42,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "after",
+      "case": "wepa-day40-bin3870",
+      "profile": "gate_anchor",
+      "seed": 0,
+      "valid": true,
+      "cpu": 29.110424000000002,
+      "wall": 30.4278309578076,
+      "T": 988,
+      "R": 348.04761904761904,
+      "D": 4888,
+      "p90": 675,
+      "empty_distance": 2522,
+      "traffic_wait": 19,
+      "F": 0.845941798941799,
+      "J": 761.3476190476191,
+      "tasks": 42,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "after",
+      "case": "wepa-day38-bin3704",
+      "profile": "gate",
+      "seed": 0,
+      "valid": true,
+      "cpu": 23.730321,
+      "wall": 24.191236041020602,
+      "T": 1418,
+      "R": 308.76785714285717,
+      "D": 4956,
+      "p90": 671,
+      "empty_distance": 2484,
+      "traffic_wait": 21,
+      "F": 1.0742559523809525,
+      "J": 966.8303571428572,
+      "tasks": 56,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "before",
+      "case": "wepa-day38-bin3704",
+      "profile": "gate",
+      "seed": 0,
+      "valid": true,
+      "cpu": 32.97578,
+      "wall": 33.68287408305332,
+      "T": 1418,
+      "R": 308.76785714285717,
+      "D": 4956,
+      "p90": 671,
+      "empty_distance": 2484,
+      "traffic_wait": 21,
+      "F": 1.0742559523809525,
+      "J": 966.8303571428572,
+      "tasks": 56,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "after",
+      "case": "wepa-day38-bin3704",
+      "profile": "gate_anchor",
+      "seed": 0,
+      "valid": true,
+      "cpu": 34.476734,
+      "wall": 35.69625412509777,
+      "T": 1418,
+      "R": 308.76785714285717,
+      "D": 4956,
+      "p90": 671,
+      "empty_distance": 2484,
+      "traffic_wait": 21,
+      "F": 1.0742559523809525,
+      "J": 966.8303571428572,
+      "tasks": 56,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    },
+    {
+      "version": "before",
+      "case": "wepa-day38-bin3704",
+      "profile": "gate_anchor",
+      "seed": 0,
+      "valid": true,
+      "cpu": 47.942926,
+      "wall": 48.74082720908336,
+      "T": 1418,
+      "R": 308.76785714285717,
+      "D": 4956,
+      "p90": 671,
+      "empty_distance": 2484,
+      "traffic_wait": 21,
+      "F": 1.0742559523809525,
+      "J": 966.8303571428572,
+      "tasks": 56,
+      "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48"
+    }
+  ],
+  "full_trace_semantics_identical": true,
+  "excluded_fields": [
+    "row.cpu",
+    "row.wall"
+  ],
+  "sealed_run": false,
+  "concurrent_other_benchmarks": true,
+  "current_source_snapshot": "f6cd41e",
+  "pairs": [
+    {
+      "case": "wepa-day40-bin3870",
+      "method": "gate",
+      "cpu_before": 20.681366999999998,
+      "cpu_after": 16.754718,
+      "cpu_reduction_pct": 18.98640936065782,
+      "semantic_sha256": "1693076f058efca1e24c887833a506ecbe66567c1f768f9df8c746113cd117fc",
+      "F": 0.8828280423280424,
+      "anchor_previews": {
+        "skipped": 0,
+        "local": 0,
+        "full_attempts": 0,
+        "outcomes": {}
+      }
+    },
+    {
+      "case": "wepa-day40-bin3870",
+      "method": "gate_anchor",
+      "cpu_before": 28.182105,
+      "cpu_after": 29.110424000000002,
+      "cpu_reduction_pct": -3.2940016368543157,
+      "semantic_sha256": "deb0d421baab94f27f7cc6b1f767e01af93064f497716d013fa5c28503059933",
+      "F": 0.845941798941799,
+      "anchor_previews": {
+        "skipped": 0,
+        "local": 0,
+        "full_attempts": 10,
+        "outcomes": {
+          "complete": 2,
+          "bound_pruned": 8
+        }
+      }
+    },
+    {
+      "case": "wepa-day38-bin3704",
+      "method": "gate",
+      "cpu_before": 32.97578,
+      "cpu_after": 23.730321,
+      "cpu_reduction_pct": 28.037119971081804,
+      "semantic_sha256": "ff21020d79200c01f78766c9be5d87a87c017f682bd4fbfd4fd2e2e591921ac1",
+      "F": 1.0742559523809525,
+      "anchor_previews": {
+        "skipped": 0,
+        "local": 0,
+        "full_attempts": 0,
+        "outcomes": {}
+      }
+    },
+    {
+      "case": "wepa-day38-bin3704",
+      "method": "gate_anchor",
+      "cpu_before": 47.942926,
+      "cpu_after": 34.476734,
+      "cpu_reduction_pct": 28.087964426701863,
+      "semantic_sha256": "35a712c99e72277a456eaec8d3b938c03196b7a3d486345008f2723b9da6840e",
+      "F": 1.0742559523809525,
+      "anchor_previews": {
+        "skipped": 0,
+        "local": 0,
+        "full_attempts": 13,
+        "outcomes": {
+          "bound_pruned": 13
+        }
+      }
+    }
+  ],
+  "weighted_cpu_reduction_pct": 19.810101353053255,
+  "timing_limitations": [
+    "One observation per case/method/version; not a confidence interval",
+    "Concurrent formal date evaluation and other Python workers, changing CPU power/frequency; this is a supplemental measurement, not a 30 percent acceptance certificate",
+    "Process CPU excludes independent audit and model build, as in execute_case; wall-clock and cProfile timings are not substituted"
+  ],
+  "validation": "All eight traces pass their independent audit, and all four paired full JSON hashes match excluding only row.cpu and row.wall",
+  "adoption": "Behavior-preserving engineering optimization retained; >=30 percent whole-window CPU target not demonstrated"
+}

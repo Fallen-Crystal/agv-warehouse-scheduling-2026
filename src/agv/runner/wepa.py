@@ -4,9 +4,15 @@ from time import process_time
 from agv.core.objectives import LinearObjective
 from agv.planning.sipp import SafeIntervalRouter
 from agv.policy.wepa import PROFILES, Coordinator, ResearchPolicy, batch, before_action
-from agv.policy.wepa.base_policy import LinearPolicy
 from agv.world.wepa import World
 from agv.world.wepa_snapshot import observation, snapshot
+
+
+def _legacy_simple_policy(seed, objective):
+    """Select the historical baseline only for the explicit simple arm."""
+    from agv.policy.wepa.legacy.policy import LinearPolicy
+
+    return LinearPolicy("soft_ga", seed, objective=objective)
 
 
 def run(model, method="simple", seed=0, max_time=None, *, objective=None, latency=None):
@@ -26,7 +32,7 @@ def run(model, method="simple", seed=0, max_time=None, *, objective=None, latenc
     w.route_kind, w.route_seed = router, seed
     w.router = SafeIntervalRouter(w.scene)
     policy = (
-        LinearPolicy("soft_ga", seed, objective=objective)
+        _legacy_simple_policy(seed, objective)
         if method == "simple"
         else ResearchPolicy(method, seed, objective=objective)
         if method in PROFILES
