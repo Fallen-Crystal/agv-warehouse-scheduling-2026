@@ -21538,8 +21538,8 @@
     "core/objectives.py": "7658a932e085a33f87b7f67ca050d233fd37364c6245ddde2fa0d5041aa0522c",
     "data/__init__.py": "9db44a7d4011fd8b3ae9a9acc4466d67813b18d6ce96323851988dc61ed3a403",
     "data/wepa/__init__.py": "8691403fe24c1121592e68668f49eb80a07f2504db08879534e9830b336f57bb",
-    "data/wepa/resources/input-selection.json": "c47f83a17038f49c07294b3fb41aa41774fc0bca4f8ac7c8caaf28147120ce53",
-    "data/wepa/resources/protocol.json": "074fe72eea5e393b375476fe9ed05d8e3bd5e890d321724444c357de51d3d76e",
+    "data/wepa/resources/input-selection.json": "7e184a3fbc79a1d652e541f47a1b5e2789805c68af537ea06f975d9bd4165fdb",
+    "data/wepa/resources/protocol.json": "0c9294a6cc41e999386f506fd14a5b84974ca3044cd154c30957f5b6ae6d15f4",
     "data/wepa/windows.py": "9e74cdfb90dc7b06b45731da540e16a8208f64e62bef54f3c8b0f519f7dca837",
     "dispatch/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "dispatch/assignment.py": "887ea7406193a71603816d758b6e706bbd60ea2ccc8b0551184d4567aa70bd81",
@@ -21576,7 +21576,7 @@
     "experiments/routing_benchmark.py": "1b02adad7b431f26e82b0e380bf7b63727ecf59917f005275eb015f8fce99e96",
     "experiments/v4.py": "41ac9a3bfe13eb4b25ef0ee6be6e4299023961f59c23aa2e5e1b14d18e3df718",
     "experiments/v91_bench.py": "dcfe0821af73f7f0f2c7e3a2e5fc7f5bf64a09b323c9d27c71c09bb45d5a12e2",
-    "experiments/wepa.py": "67e7de3ddc669ae5d59af93d92faa2d7ef6cbae755f328c3d3069a31241dd44a",
+    "experiments/wepa.py": "7d8dfeac0450c12941e46f6602b6ac0b70e99eb3401696f4aeb6418a71bb2ed8",
     "io/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "io/exports.py": "92ed2bb4e19f4577b6c4bd56d6542ef665ff9fd50bc1cd2d717623f7fed2e4f0",
     "io/movingai.py": "97aa6d60c1e43f48844f85c56a84e6f3f0ff85103047fc04c6b42a8258792f82",
@@ -21668,5 +21668,5 @@
     "world/wepa_snapshot.py": "14d1912450dbba2fd422e8151115a9aa8258c7595480a46369661f21913c4185"
   },
   "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
-  "protocol_sha256": "4edee1aadaf95d26bc835972a0b0ec3cccbf01e4b4529933c79b46957c78ff89"
+  "protocol_sha256": "1e5df23f31e97bf90cbdb2743c7880af821d983234b970738dd9ca94449d6028"
 }
