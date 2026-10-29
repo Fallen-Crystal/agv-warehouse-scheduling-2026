@@ -56,7 +56,12 @@ class ArchitectureGateTests(unittest.TestCase):
             for facade in ("domain", "simulation", "dispatch.registry", "wepa"):
                 with self.subTest(module=module, facade=facade):
                     self.write(module, f"import agv.{facade}\n")
-                    self.assertIn("compat-import", self.codes())
+                    violations = [
+                        v
+                        for v in check_architecture(self.root)
+                        if v.path == Path("src/agv") / module
+                    ]
+                    self.assertIn("compat-import", {v.code for v in violations})
 
     def test_active_policies_cannot_import_the_historical_wepa_optimizer(self):
         self.write(
