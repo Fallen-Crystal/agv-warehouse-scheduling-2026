@@ -1,0 +1,60 @@
+{
+  "client_date": "2026-10-29",
+  "measured_source_commit": "ccff577",
+  "protocol_sha256": "7c3ef001b193b896205464e5863f0fc782af1818b508e2976eb93bfd903eda0b",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "measured_source_files": 137,
+  "publish_source_files": 137,
+  "publish_source_identity_sha256": "4d8a749b6af64adccae62c9ad43eb9ce0103edf28ea0b3c04769878fcbe74b72",
+  "post_measurement_interface_only_files": [
+    "cli.py",
+    "experiments/wepa.py",
+    "wepa.py"
+  ],
+  "all_policy_planning_world_data_objective_sources_unchanged": true,
+  "historical_golden": {
+    "runs": 580,
+    "differences": 0
+  },
+  "wepa_archive_repeats": 24,
+  "wepa_integrated_repeats": 24,
+  "wepa_unique_case_profile_pairs": 12,
+  "wepa_full_semantic_replay_equal": true,
+  "local_tests": 413,
+  "exact_certificates": 4,
+  "optional_coupled_tests": 5,
+  "formal_development": {
+    "windows": 8,
+    "executions": 32,
+    "all_valid": true,
+    "source_dates": 2
+  },
+  "formal_validation": {
+    "windows": 16,
+    "executions": 32,
+    "all_valid": true,
+    "source_dates": 3
+  },
+  "sealed": {
+    "windows": 8,
+    "source_dates": 5,
+    "algorithm_executions": 0
+  },
+  "discarded_migration_attempt": {
+    "golden_passed": 22,
+    "golden_failed": 2,
+    "reason": "Missing diagnostic command in read-only observation; initial development aborted before validation; repaired and entirely rerun under new freeze"
+  },
+  "cache": {
+    "independently_checked_hits": true,
+    "modified_metrics_with_rehashed_integrity_rejected": true,
+    "historical_cpu_preserved": true
+  },
+  "prototype_trigger_micro_regressions": 2,
+  "prototype_trigger_closed_stream_guard_fixed": true,
+  "M4_status": "Shared SIPP, reservations and physical fleet step; business TaskBook/CommandGate adapters are not fully unified",
+  "adoption": "gate_anchor remains opt-in; gate stays default",
+  "wheel": "Latest publish wheel reinstalled without dependencies and run from /tmp: WEPA fixed zero latency independently valid, T946/R53.25/D2702/F0.6433796296296296",
+  "full_raw_traces": "Local ignored runs only; compact rows and hashes are committed",
+  "CI": "GitHub workflow status must be checked at final pushed revision; local success is not a remote CI claim"
+}
