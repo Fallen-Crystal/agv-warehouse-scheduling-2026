@@ -1,5 +1,31 @@
 # Architecture and contracts
 
+The original fixed-pickup profiles retain WorldState and their runner contract.
+The integrated WEPA profile adds dynamic SKU/slot inventory lifecycle and a
+separate command adapter in world/wepa.py. Both execute physical movement through
+world/transit.advance_fleet and share the same SIPP and ReservationTable.
+WEPA forecasting uses a released-only copy of that state and its physical hooks;
+its quiet jump is a prediction optimization, never an executable audit trace.
+
+This is a staged merge: the two business TaskBook/CommandGate adapters and their
+runner compositions are not yet one generic model. Renaming a class would not
+complete M4. Gate cannot yet be freely combined with legacy positioning/joint
+repair. Independent validation stays outside execution. The CLI now defaults
+to WEPA gate, while explicit historical algorithms and inputs retain their old
+entry path; the browser still serves historical profiles.
+
+WEPA source: data/wepa (pinned window mapping), world/wepa and wepa_snapshot
+(inventory, checked commands, public view), policy/wepa (candidate generation
+and SIPP previews), runner/wepa (execution/optional decision latency), and
+evaluation/wepa plus evaluation/objectives/linear_f (independent audit/objective).
+All new result envelopes carry a configuration-sensitive objective_id, and
+experiments/wepa rejects incompatible or stale identities. Original history
+and archived ZIP manifests are not re-signed by this integration.
+
+The historical contracts below remain the compatibility specification for the
+original profiles; statements about their sole runner refer to those profiles.
+
+
 ## Directory and ownership
 
 ```text

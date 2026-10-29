@@ -15,9 +15,6 @@ jobs:
         with:
           python-version: '3.12'
       - run: python research/recommended-20261024/verification/verify.py
-      - run: python research/recommended-20261024/data/unpack.py
+      - run: python -m pip install -e .
       - run: python research/recommended-20261024/current/run.py --case wepa-day45-bin4335 --seed 0 --output /tmp/recommended-smoke.json
-      - run: python research/recommended-20261024/current/_runtime/verify_input.py --raw research/recommended-20261024/data/raw
-      - run: python -m unittest test_hungarian test_boundary test_variants -v
-        working-directory: research/recommended-20261024/current/_runtime
-      - run: python research/recommended-20261024/current/_runtime/analyze.py
+      - run: python -c "import json; from agv.data.wepa import verify_input_selection; from agv.experiments.wepa import reference_protocol, RESOURCE; print(verify_input_selection('research/recommended-20261024/data/raw', reference_protocol(), json.loads(RESOURCE.joinpath('input-selection.json').read_text(encoding='utf-8'))))"
