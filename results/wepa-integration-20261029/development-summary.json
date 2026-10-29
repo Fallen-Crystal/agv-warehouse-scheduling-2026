@@ -1,0 +1,516 @@
+{
+  "protocol_sha256": "7c3ef001b193b896205464e5863f0fc782af1818b508e2976eb93bfd903eda0b",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "split": "development",
+  "groups": {
+    "gate": {
+      "pairs": [
+        {
+          "case": "wepa-day38-bin3681",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day38-bin3695",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day38-bin3683",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day38-bin3704",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day38-bin3708",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day40-bin3870",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day40-bin3892",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day40-bin3869",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        }
+      ],
+      "expected_windows": 8,
+      "comparable_windows": 8,
+      "failures": 0,
+      "mean_gain_percent": 0.0,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "improved": 0,
+      "worsened": 0
+    },
+    "gate_anchor": {
+      "pairs": [
+        {
+          "case": "wepa-day38-bin3681",
+          "gain_percent": 0.7183487161101542,
+          "deltas": {
+            "F": -0.010408869395711395,
+            "T": -9,
+            "R": -6.6710526315789025,
+            "D": -86,
+            "p90": -47,
+            "empty_distance": -86,
+            "traffic_wait": 11,
+            "cpu": 4.643203999999997
+          }
+        },
+        {
+          "case": "wepa-day38-bin3695",
+          "gain_percent": -0.9660599509713068,
+          "deltas": {
+            "F": 0.014791423001949244,
+            "T": 23,
+            "R": 4.263157894736878,
+            "D": 16,
+            "p90": 28,
+            "empty_distance": 16,
+            "traffic_wait": 4,
+            "cpu": 7.365333000000003
+          }
+        },
+        {
+          "case": "wepa-day38-bin3683",
+          "gain_percent": -2.408669739701662,
+          "deltas": {
+            "F": 0.027443469785575214,
+            "T": 48,
+            "R": 2.5526315789473415,
+            "D": -2,
+            "p90": 0,
+            "empty_distance": -2,
+            "traffic_wait": -6,
+            "cpu": 3.3950609999999983
+          }
+        },
+        {
+          "case": "wepa-day38-bin3704",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 1.9960330000000006
+          }
+        },
+        {
+          "case": "wepa-day38-bin3708",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 2.4395950000000006
+          }
+        },
+        {
+          "case": "wepa-day40-bin3870",
+          "gain_percent": 4.17819117854178,
+          "deltas": {
+            "F": -0.036886243386243356,
+            "T": -48,
+            "R": -22.214285714285722,
+            "D": -76,
+            "p90": -33,
+            "empty_distance": -80,
+            "traffic_wait": 14,
+            "cpu": -1.0054459999999956
+          }
+        },
+        {
+          "case": "wepa-day40-bin3892",
+          "gain_percent": -0.3460406389884518,
+          "deltas": {
+            "F": 0.002923371647509554,
+            "T": 5,
+            "R": -4.896551724137964,
+            "D": 48,
+            "p90": 87,
+            "empty_distance": 40,
+            "traffic_wait": -2,
+            "cpu": 3.4801520000000004
+          }
+        },
+        {
+          "case": "wepa-day40-bin3869",
+          "gain_percent": 2.2189598067548415,
+          "deltas": {
+            "F": -0.0353053053053054,
+            "T": -46,
+            "R": -17.027027027026975,
+            "D": -110,
+            "p90": 5,
+            "empty_distance": -112,
+            "traffic_wait": -11,
+            "cpu": -0.41065899999999544
+          }
+        }
+      ],
+      "expected_windows": 8,
+      "comparable_windows": 8,
+      "failures": 0,
+      "mean_gain_percent": 0.42434117146816935,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        -0.7776025747728255,
+        1.7788749253516938
+      ],
+      "improved": 3,
+      "worsened": 3
+    },
+    "gate_tail": {
+      "pairs": [
+        {
+          "case": "wepa-day38-bin3681",
+          "gain_percent": 0.14734237208102827,
+          "deltas": {
+            "F": -0.0021349902534113507,
+            "T": -5,
+            "R": 3.0394736842105203,
+            "D": -10,
+            "p90": -60,
+            "empty_distance": -10,
+            "traffic_wait": -1,
+            "cpu": -1.2784509999999898
+          }
+        },
+        {
+          "case": "wepa-day38-bin3695",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.4011899999999997
+          }
+        },
+        {
+          "case": "wepa-day38-bin3683",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -1.7055320000000016
+          }
+        },
+        {
+          "case": "wepa-day38-bin3704",
+          "gain_percent": 2.3962075387480635,
+          "deltas": {
+            "F": -0.02574140211640219,
+            "T": -49,
+            "R": -0.44642857142861203,
+            "D": 44,
+            "p90": -48,
+            "empty_distance": 46,
+            "traffic_wait": 9,
+            "cpu": -1.4738880000000023
+          }
+        },
+        {
+          "case": "wepa-day38-bin3708",
+          "gain_percent": 0.2934378750385652,
+          "deltas": {
+            "F": -0.0028994708994708462,
+            "T": -11,
+            "R": -0.14285714285716722,
+            "D": 88,
+            "p90": 30,
+            "empty_distance": 86,
+            "traffic_wait": 7,
+            "cpu": -0.37027199999999993
+          }
+        },
+        {
+          "case": "wepa-day40-bin3870",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.8172000000000033
+          }
+        },
+        {
+          "case": "wepa-day40-bin3892",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.10819100000000148
+          }
+        },
+        {
+          "case": "wepa-day40-bin3869",
+          "gain_percent": -1.9259715498776833,
+          "deltas": {
+            "F": 0.030643643643643692,
+            "T": 67,
+            "R": -1.5135135135135442,
+            "D": -164,
+            "p90": 31,
+            "empty_distance": -162,
+            "traffic_wait": 1,
+            "cpu": 7.416473999999994
+          }
+        }
+      ],
+      "expected_windows": 8,
+      "comparable_windows": 8,
+      "failures": 0,
+      "mean_gain_percent": 0.11387702949874672,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        -0.667141800314182,
+        0.953675357920473
+      ],
+      "improved": 3,
+      "worsened": 1
+    },
+    "gate_trigger": {
+      "pairs": [
+        {
+          "case": "wepa-day38-bin3681",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.4151039999999995
+          }
+        },
+        {
+          "case": "wepa-day38-bin3695",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.06484299999999976
+          }
+        },
+        {
+          "case": "wepa-day38-bin3683",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -1.650616000000003
+          }
+        },
+        {
+          "case": "wepa-day38-bin3704",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.6790460000000031
+          }
+        },
+        {
+          "case": "wepa-day38-bin3708",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.06130899999999784
+          }
+        },
+        {
+          "case": "wepa-day40-bin3870",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.17472099999999813
+          }
+        },
+        {
+          "case": "wepa-day40-bin3892",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": -0.6078639999999993
+          }
+        },
+        {
+          "case": "wepa-day40-bin3869",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 10.346159999999998
+          }
+        }
+      ],
+      "expected_windows": 8,
+      "comparable_windows": 8,
+      "failures": 0,
+      "mean_gain_percent": 0.0,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "improved": 0,
+      "worsened": 0
+    }
+  },
+  "inference": "Paired windows; seeds are not independent observations; historical windows are not fresh holdout"
+}
