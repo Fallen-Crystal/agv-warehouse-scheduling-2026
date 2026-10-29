@@ -169,7 +169,32 @@ class ReservationView:
     def __init__(self, table, excluded, start, edges):
         self.table, self.excluded, self.start, self.edges = table, excluded, start, edges
         self._timeline = None
+        self._materialized = None
         self._version = table.version
+
+    def end_time(self):
+        """Latest finite reservation endpoint, without enumerating every tick."""
+        return max(
+            [self.start]
+            + [
+                max(self.start, route["origin"] + len(route["path"]) - 1)
+                for peer, route in self.table.routes.items()
+                if peer != self.excluded
+            ]
+        )
+
+    def materialized(self):
+        """A revision-scoped immutable lookup for a planner's repeated queries."""
+        self._refresh()
+        if self._materialized is None:
+            self._materialized = frozenset(self)
+        return self._materialized
+
+    def _refresh(self):
+        if self._version != self.table.version:
+            self._timeline = None
+            self._materialized = None
+            self._version = self.table.version
 
     def __contains__(self, value):
         time, point = value[:2]
@@ -198,9 +223,7 @@ class ReservationView:
                 yield (time, point, self.table.at(peer, time + 1)) if self.edges else (time, point)
 
     def timeline(self):
-        if self._version != self.table.version:
-            self._timeline = None
-            self._version = self.table.version
+        self._refresh()
         if self._timeline is None:
             index = defaultdict(set)
             for time, point in self:

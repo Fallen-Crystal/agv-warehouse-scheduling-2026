@@ -187,12 +187,16 @@ class World:
 
     def advance(self):
         held_vehicles = set()
+        table = None
         if not (self.closed and len(self.completed) == len(self.tasks)):
             for k, plan in enumerate(self.plans):
                 if self.active[k] is None and len(plan) > 1 and self.ordinary(plan[0]):
                     held = [plan[0]] + plan
-                    if self.table().conflict(held, self.time, k) is None:
+                    if table is None:
+                        table = self.table()
+                    if table.conflict(held, self.time, k) is None:
                         self.plans[k] = held
+                        table.hold(k, self.time, 1)
                         self.holds += 1
                         held_vehicles.add(k)
 

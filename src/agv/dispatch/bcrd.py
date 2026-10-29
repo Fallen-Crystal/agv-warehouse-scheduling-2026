@@ -2,7 +2,7 @@
 
 from agv.policy.bcrd import DEFAULT_BUDGET, WEIGHTS, fallback
 from agv.policy.bcrd import bcrd_action as _bcrd_action
-from agv.simulation import Environment
+from agv.runner.environment import Environment
 
 __all__ = ["fallback", "bcrd_action", "DEFAULT_BUDGET", "WEIGHTS", "run"]
 

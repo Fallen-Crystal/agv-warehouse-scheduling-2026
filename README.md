@@ -25,6 +25,22 @@ flowchart LR
   audit --> objective[明确版本的线性目标]
 ```
 
+## 复现历史实验
+
+已发布实验绑定 **`ccff577`**，精确源码保护会拒绝用最新源码运行旧协议。独立工作树可保留当前项目环境，并复现旧结果；新实验应另行冻结协议。
+
+```bash
+git worktree add --detach ../agv-wepa-repro ccff577
+cd ../agv-wepa-repro
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+python -m pip install -e .
+agv experiment run --protocol protocols/wepa-20261029-frozen.json \
+  --split development --output runs/repro/development --workers 1
+```
+
+后续选型与验证命令见[实验报告](docs/experiments/wepa-integration-20261029.md#复现与尚未实施部分)。完整历史提交保留在 Git 中，不能用当前指纹重签旧报告。
+
 ## 模型、运行与结果
 
 - [WEPA模型与数据边界](docs/model/wepa.md)

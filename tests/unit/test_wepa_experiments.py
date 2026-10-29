@@ -67,6 +67,55 @@ class WepaExperimentTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 run(make("cross_out"), "gate", latency=value)
 
+    def test_frozen_latency_is_validated_and_cannot_be_swapped(self):
+        from agv.experiments.wepa import audit_trace, execute_case
+
+        config = self.config()
+        config["latency"] = dict(kind="fixed", scale=0)
+        case = next(c for c in reference_protocol()["cases"] if c["case"] == "wepa-day45-bin4335")
+        config.update(
+            cases=[case],
+            development=[case["case"]],
+            validation=[],
+            sealed=[],
+            methods=["hungarian"],
+            baseline="hungarian",
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            frozen = freeze_protocol(config, Path(directory) / "protocol.json")
+            trace = execute_case(case, "hungarian", 0, latency=config["latency"])
+            trace.update(
+                implementation_sha256=frozen["sources"], protocol_sha256=frozen["protocol_sha256"]
+            )
+            audit_trace(trace, frozen)
+            trace["result"]["decision_latency"]["model"]["scale"] = 1
+            with self.assertRaisesRegex(ValueError, "latency differs"):
+                audit_trace(trace, frozen)
+            for bad in (
+                dict(kind="fixed", scale=0.5),
+                dict(kind="measured", scale=float("nan")),
+                dict(kind="measured", scale=True),
+            ):
+                config["latency"] = bad
+                with self.assertRaisesRegex(ValueError, "Invalid frozen"):
+                    freeze_protocol(config, Path(directory) / "bad.json")
+
+    def test_date_selection_gives_each_source_day_equal_weight(self):
+        from agv.experiments.wepa import _selection_mean
+
+        config = dict(
+            development=["a", "b", "c"],
+            cases=[
+                dict(case="a", source_day=1),
+                dict(case="b", source_day=1),
+                dict(case="c", source_day=2),
+            ],
+        )
+        sample = [dict(case=case, F=value) for case, value in zip("abc", (1, 3, 9))]
+        self.assertEqual(_selection_mean(config, sample), 13 / 3)
+        config["input_audit"] = dict(selection_unit="source_day")
+        self.assertEqual(_selection_mean(config, sample), 5.5)
+
     def test_failed_plan_records_diagnostics_through_public_command(self):
         from agv.planning.sipp import SafeIntervalRouter
         from agv.policy.wepa import owned_batch

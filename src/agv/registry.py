@@ -274,6 +274,7 @@ WEPA_SOLVERS = {
         "hungarian",
         "hga",
         "gate_anchor",
+        "gate_anchor_tail",
         "gate_tail",
         "gate_trigger",
         "eta",

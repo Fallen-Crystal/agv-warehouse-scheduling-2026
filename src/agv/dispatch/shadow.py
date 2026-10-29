@@ -6,7 +6,7 @@ adapter preserves standalone ``ShadowState.from_observation`` callers.
 
 from agv.policy.forecast import ShadowState as VisiblePreview
 from agv.policy.forecast import _safe_greedy, _task
-from agv.simulation import Environment
+from agv.runner.environment import Environment
 
 
 class ShadowState(VisiblePreview):

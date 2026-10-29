@@ -13,9 +13,17 @@ class Router(DistanceOracle):
     def search_limit(self, time, distances, vertices, edges, service, service_blocked):
         if self.s.horizon is not None:
             return self.s.horizon
-        end = max(
-            [time] + [t for t, _ in vertices] + [t + 1 for t, _, _ in edges] + list(service_blocked)
+        vertex_end = (
+            vertices.end_time()
+            if hasattr(vertices, "end_time")
+            else max((t for t, _ in vertices), default=time)
         )
+        edge_end = (
+            edges.end_time()
+            if hasattr(edges, "end_time")
+            else max((t + 1 for t, _, _ in edges), default=time)
+        )
+        end = max([time, vertex_end, edge_end] + list(service_blocked))
         # After finite reservations expire, a simple static path suffices.
         return end + len(distances) + service + 1
 

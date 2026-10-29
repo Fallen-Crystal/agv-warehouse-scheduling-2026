@@ -2,7 +2,14 @@
 
 import argparse
 import json
+import warnings
 from pathlib import Path
+
+warnings.warn(
+    "agv.wepa is a deprecated launcher; use agv run --profile wepa --algorithm <method> --case <case> --output <path>.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 
 
 def main(argv=None):

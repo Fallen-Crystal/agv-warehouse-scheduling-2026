@@ -73,6 +73,9 @@ PROFILES = {
 # Independent interventions retain the existing gate as the comparison arm.
 PROFILES.update(
     gate_anchor=dict(PROFILES["gate"], previews=7, base_previews=6, second_anchor=True),
+    gate_anchor_tail=dict(
+        PROFILES["gate"], previews=7, base_previews=6, second_anchor=True, tail=True
+    ),
     gate_tail=dict(PROFILES["gate"], tail=True),
     gate_trigger=dict(PROFILES["gate"], trigger_ratio=3),
 )

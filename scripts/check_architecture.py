@@ -12,9 +12,23 @@ import ast
 from dataclasses import dataclass
 from pathlib import Path
 
-COMPATIBILITY_MODULES = frozenset(
-    ("agv.domain", "agv.simulation", "agv.planning.reservations", "agv.planning.reposition")
+WEPA_COMPATIBILITY_MODULES = frozenset(
+    f"agv.policy.wepa.{name}"
+    for name in ("base_policy", "base_forecast", "base_genetic", "legacy_proxy")
 )
+COMPATIBILITY_MODULES = (
+    frozenset(
+        (
+            "agv.domain",
+            "agv.simulation",
+            "agv.wepa",
+            "agv.planning.reservations",
+            "agv.planning.reposition",
+        )
+    )
+    | WEPA_COMPATIBILITY_MODULES
+)
+WEPA_LEGACY = "agv.policy.wepa.legacy"
 COMPOSITION_MODULES = frozenset(("agv.registry", "agv.evaluation.reference"))
 ALLOWED_LAYERS = {
     "core": frozenset(("core",)),
@@ -39,7 +53,6 @@ ALLOWED_LAYERS = {
             "registry",
             "evaluation",
             "runner",
-            "simulation",
         )
     ),
 }
@@ -95,6 +108,22 @@ def _inside(module, prefix):
 def _compatibility(module):
     return _inside(module, "agv.dispatch") or any(
         _inside(module, prefix) for prefix in COMPATIBILITY_MODULES
+    )
+
+
+def _historical_wepa_import(tree, module, imported, line):
+    if _inside(module, WEPA_LEGACY) or module in WEPA_COMPATIBILITY_MODULES:
+        return True
+    # Only the explicit simple comparison arm may instantiate the old optimizer.
+    return (
+        module == "agv.runner.wepa"
+        and _inside(imported, WEPA_LEGACY + ".policy")
+        and any(
+            isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+            and node.name == "_legacy_simple_policy"
+            and node.lineno <= line <= node.end_lineno
+            for node in ast.walk(tree)
+        )
     )
 
 
@@ -184,12 +213,19 @@ def check_architecture(root):
                     "research-namespace",
                     f"production import still depends on archive namespace {imported}",
                 )
+            if _inside(imported, WEPA_LEGACY) and not _historical_wepa_import(
+                tree, module, imported, line
+            ):
+                report(
+                    path,
+                    line,
+                    "legacy-import",
+                    f"current code imports historical implementation {imported}",
+                )
             if not _inside(imported, "agv") or _compatibility(module):
                 continue
             target_layer = imported.split(".")[1] if "." in imported else ""
-            if _compatibility(imported) and not (
-                layer == "runner" and _inside(imported, "agv.simulation")
-            ):
+            if _compatibility(imported):
                 report(
                     path, line, "compat-import", f"{module} imports compatibility facade {imported}"
                 )

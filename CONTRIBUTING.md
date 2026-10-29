@@ -26,11 +26,22 @@ The ordinary package source is authoritative; do not edit or re-sign `runtime.zi
 Use `src/agv/registry.py` for typed compositions; the 23 historical solver names
 retain their original order, while WEPA has a separate explicit model registry.
 Algorithm PRs include a frozen protocol, independent validation, F/T/R/D/P90,
-empty moves, CPU, per-window regressions and paired uncertainty. Windows are
-independent units; random seeds are repeated measurements, not extra windows.
+empty moves, CPU, per-window regressions and paired uncertainty. For date-based protocols, source dates are the primary independent units;
+window-level results are supplementary and random seeds are repeated measurements.
+Historical window-level protocols retain their original inference boundary.
 A refactor PR includes both the historical 580-case replay and the WEPA full
 trajectory hashes. Never replace expected hashes using refactored output.
 Keep sealed windows unopened. Select on development before validation starts;
 retain failed or timed-out runs and disqualify methods with invalid runs.
 Different objective_id values must never be pooled. A measured-latency result
 also needs its machine identity/calibration and is not a deterministic golden.
+
+## Local environments and generated evidence
+
+Keep editor/tool-specific settings such as `.codex/` local. On macOS use an
+explicit Python 3.12 interpreter when the system Python is older than 3.10;
+create a fresh `.venv` per worktree rather than sharing an editable installation.
+Use `.venv/bin/python` (Windows: `.venv\Scripts\python`) for that checkout.
+`uv sync --python 3.12 --all-extras --inexact` is an optional equivalent setup.
+Keep full test logs and traces in ignored `runs/`; commit structured verification
+JSON with the command, revision, success/failure counts and evidence hashes.
