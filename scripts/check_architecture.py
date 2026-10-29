@@ -307,7 +307,7 @@ def main(argv=None):
         print(f"Architecture check failed: {len(violations)} violation(s).")
         return 1
     print(
-        "Architecture check passed: dependency direction, state ownership, one runner/kernel/reservation owner."
+        "Architecture check passed: dependency direction, state ownership, historical runner/kernel contract, shared reservation owner."
     )
     return 0
 

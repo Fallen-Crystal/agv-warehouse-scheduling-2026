@@ -14,8 +14,13 @@ def main(argv=None):
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args(argv)
-    trace = run_case(args.case, args.profile, args.seed, args.output)
+    try:
+        trace = run_case(args.case, args.profile, args.seed, args.output)
+    except (ValueError, OSError) as error:
+        parser.exit(2, f"agv-wepa: {error}\n")
     print(json.dumps(trace["row"], ensure_ascii=False))
+    if not trace["row"]["valid"]:
+        parser.exit(1, "WEPA execution did not pass independent validation; trace preserved\n")
 
 
 if __name__ == "__main__":

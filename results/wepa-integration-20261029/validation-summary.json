@@ -1,0 +1,486 @@
+{
+  "protocol_sha256": "7c3ef001b193b896205464e5863f0fc782af1818b508e2976eb93bfd903eda0b",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "split": "validation",
+  "groups": {
+    "gate": {
+      "pairs": [
+        {
+          "case": "wepa-day32-bin3133",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day32-bin3129",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day32-bin3139",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day32-bin3121",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day32-bin3119",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day32-bin3123",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day83-bin8016",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day83-bin8014",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day83-bin8017",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day83-bin7980",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day83-bin8012",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day45-bin4338",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day45-bin4378",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day45-bin4365",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day45-bin4334",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day45-bin4373",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        }
+      ],
+      "expected_windows": 16,
+      "comparable_windows": 16,
+      "failures": 0,
+      "mean_gain_percent": 0.0,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "improved": 0,
+      "worsened": 0
+    },
+    "gate_anchor": {
+      "pairs": [
+        {
+          "case": "wepa-day32-bin3133",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 8.399675000000002
+          }
+        },
+        {
+          "case": "wepa-day32-bin3129",
+          "gain_percent": 1.2201982098244493,
+          "deltas": {
+            "F": -0.010243055555555491,
+            "T": -8,
+            "R": -9.395833333333314,
+            "D": -72,
+            "p90": -23,
+            "empty_distance": -72,
+            "traffic_wait": 6,
+            "cpu": 1.054876000000001
+          }
+        },
+        {
+          "case": "wepa-day32-bin3139",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 4.042454000000003
+          }
+        },
+        {
+          "case": "wepa-day32-bin3121",
+          "gain_percent": -1.087489727867734,
+          "deltas": {
+            "F": 0.012594576719576756,
+            "T": 16,
+            "R": 3.3392857142857224,
+            "D": 70,
+            "p90": 21,
+            "empty_distance": 72,
+            "traffic_wait": 0,
+            "cpu": 2.1102000000000025
+          }
+        },
+        {
+          "case": "wepa-day32-bin3119",
+          "gain_percent": 1.2634862665177407,
+          "deltas": {
+            "F": -0.015214611872146122,
+            "T": -38,
+            "R": 8.356164383561634,
+            "D": 84,
+            "p90": 10,
+            "empty_distance": 80,
+            "traffic_wait": 18,
+            "cpu": 6.267602000000004
+          }
+        },
+        {
+          "case": "wepa-day32-bin3123",
+          "gain_percent": 3.3155236513105626,
+          "deltas": {
+            "F": -0.027897037037037165,
+            "T": -48,
+            "R": -2.580000000000041,
+            "D": -10,
+            "p90": -14,
+            "empty_distance": -14,
+            "traffic_wait": 2,
+            "cpu": 2.9579039999999956
+          }
+        },
+        {
+          "case": "wepa-day83-bin8016",
+          "gain_percent": 1.1518799011108227,
+          "deltas": {
+            "F": -0.011917824074074046,
+            "T": -11,
+            "R": -8.53125,
+            "D": -80,
+            "p90": -50,
+            "empty_distance": -64,
+            "traffic_wait": -15,
+            "cpu": 3.9526380000000003
+          }
+        },
+        {
+          "case": "wepa-day83-bin8014",
+          "gain_percent": 0.6526339811831697,
+          "deltas": {
+            "F": -0.0051160027952480425,
+            "T": -4,
+            "R": -5.792452830188694,
+            "D": -26,
+            "p90": -12,
+            "empty_distance": -28,
+            "traffic_wait": 0,
+            "cpu": 4.719915
+          }
+        },
+        {
+          "case": "wepa-day83-bin8017",
+          "gain_percent": -0.31706980371743043,
+          "deltas": {
+            "F": 0.0024282828282827795,
+            "T": 1,
+            "R": 3.6181818181818244,
+            "D": 18,
+            "p90": -1,
+            "empty_distance": 18,
+            "traffic_wait": 9,
+            "cpu": 1.917147
+          }
+        },
+        {
+          "case": "wepa-day83-bin7980",
+          "gain_percent": 1.3813841580992356,
+          "deltas": {
+            "F": -0.013978557504873312,
+            "T": -25,
+            "R": -1.1578947368420813,
+            "D": 8,
+            "p90": 20,
+            "empty_distance": 8,
+            "traffic_wait": 5,
+            "cpu": 9.794148999999997
+          }
+        },
+        {
+          "case": "wepa-day83-bin8012",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 6.495522999999995
+          }
+        },
+        {
+          "case": "wepa-day45-bin4338",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.31665399999999977
+          }
+        },
+        {
+          "case": "wepa-day45-bin4378",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.5521379999999998
+          }
+        },
+        {
+          "case": "wepa-day45-bin4365",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.1824829999999995
+          }
+        },
+        {
+          "case": "wepa-day45-bin4334",
+          "gain_percent": 0.26540515616043825,
+          "deltas": {
+            "F": -0.002858954845256223,
+            "T": -8,
+            "R": 6.534246575342479,
+            "D": -16,
+            "p90": -40,
+            "empty_distance": -6,
+            "traffic_wait": -14,
+            "cpu": 6.0681280000000015
+          }
+        },
+        {
+          "case": "wepa-day45-bin4373",
+          "gain_percent": 0.03259922050043002,
+          "deltas": {
+            "F": -0.0003776734480962496,
+            "T": -10,
+            "R": 12.422535211267586,
+            "D": 28,
+            "p90": -4,
+            "empty_distance": 18,
+            "traffic_wait": 18,
+            "cpu": 5.559799999999996
+          }
+        }
+      ],
+      "expected_windows": 16,
+      "comparable_windows": 16,
+      "failures": 0,
+      "mean_gain_percent": 0.49240943832010525,
+      "median_gain_percent": 0.01629961025021501,
+      "bootstrap95": [
+        0.05592898524110495,
+        0.9924670976336513
+      ],
+      "improved": 8,
+      "worsened": 2
+    }
+  },
+  "inference": "Paired windows; seeds are not independent observations; historical windows are not fresh holdout"
+}

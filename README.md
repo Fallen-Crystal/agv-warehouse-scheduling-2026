@@ -30,7 +30,7 @@ flowchart LR
 - [WEPA模型与数据边界](docs/model/wepa.md)
 - [集成、优化与验证报告](docs/experiments/wepa-integration-20261029.md)
 - [架构与未合并的业务边界](docs/architecture.md)
-- [日期隔离的冻结协议](protocols/wepa-20261029-frozen.json)：8个开发窗口、16个验证窗口、8个封存窗口；封存集不开放给日常实验。
+- [日期隔离的冻结协议](protocols/wepa-20261029-frozen.json)：8个开发窗口、16个验证窗口、8个封存窗口；封存集不开放给日常实验。该测量协议绑定`ccff577`源码快照，复现需检出该提交；当前代码的新实验应另行冻结协议。
 - [原始数据许可与字节哈希](research/recommended-20261024/data/README.md)
 - [原研究归档与来源身份](archive/INDEX.md)
 

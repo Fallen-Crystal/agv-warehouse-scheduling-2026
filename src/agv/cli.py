@@ -25,25 +25,25 @@ def main(argv=None):
     run.add_argument(
         "--latency-scale",
         type=float,
-        default=0,
+        default=0.0,
         help="WEPA decision steps, or simulation steps per decision CPU second",
     )
     run.add_argument("--output", type=Path, required=True)
     run.add_argument("--seed", type=int, default=0)
-    run.add_argument("--tasks", type=int, default=12)
+    run.add_argument("--tasks", type=int, default=None)
     run.add_argument(
         "--profile",
         choices=("legacy", "v4", "v9", "v9.1", "wepa"),
         default=None,
         help="Defaults to WEPA; an explicit historical algorithm/input keeps its profile",
     )
-    run.add_argument("--mode", choices=("static", "dynamic"), default="static")
+    run.add_argument("--mode", choices=("static", "dynamic"), default=None)
     run.add_argument(
         "--size", choices=("small", "medium", "large", "xlarge", "xxlarge"), default=None
     )
-    run.add_argument("--vehicles", type=int, default=4)
-    run.add_argument("--layers", type=int, default=3)
-    run.add_argument("--work-width", type=int, default=2)
+    run.add_argument("--vehicles", type=int, default=None)
+    run.add_argument("--layers", type=int, default=None)
+    run.add_argument("--work-width", type=int, default=None)
     run.add_argument("--obstacles", choices=("none", "columns", "columns_equipment"), default=None)
     run.add_argument(
         "--horizon",
@@ -113,6 +113,22 @@ def main(argv=None):
 
                 if args.input is not None or args.profile not in (None, "wepa"):
                     raise ValueError("WEPA replay uses --case and its own inventory model")
+                if any(
+                    getattr(args, key) is not None
+                    for key in (
+                        "tasks",
+                        "mode",
+                        "vehicles",
+                        "layers",
+                        "work_width",
+                        "size",
+                        "obstacles",
+                        "horizon",
+                    )
+                ):
+                    raise ValueError(
+                        "WEPA --case fixes source arrivals and model settings; use a new protocol for sensitivity studies"
+                    )
                 scale = args.latency_scale
                 if args.latency == "fixed" and scale.is_integer():
                     scale = int(scale)
@@ -127,8 +143,17 @@ def main(argv=None):
                     else dict(kind=args.latency, scale=scale),
                 )
                 print(json.dumps(trace["row"], ensure_ascii=False))
+                if not trace["row"]["valid"]:
+                    raise ValueError(
+                        "WEPA execution failed independent validation; partial trace was saved"
+                    )
                 return 0
             args.profile = args.profile or "legacy"
+            args.tasks = 12 if args.tasks is None else args.tasks
+            args.vehicles = 4 if args.vehicles is None else args.vehicles
+            args.layers = 3 if args.layers is None else args.layers
+            args.work_width = 2 if args.work_width is None else args.work_width
+            args.mode = args.mode or "static"
             if args.latency != "none":
                 raise ValueError("Decision latency currently requires the WEPA command contract")
             if args.input:

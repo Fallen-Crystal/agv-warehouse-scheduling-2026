@@ -135,6 +135,36 @@ class WepaExperimentTests(unittest.TestCase):
                 cache_key(dict(objective_id=b.objective_id)),
             )
 
+    def test_cache_rejects_another_solver_latency_and_forged_row_metrics(self):
+        from agv.experiments.wepa import audit_trace, execute_case
+
+        config = self.config()
+        case = next(c for c in reference_protocol()["cases"] if c["case"] == "wepa-day45-bin4335")
+        config.update(
+            cases=[case],
+            development=[case["case"]],
+            validation=[],
+            sealed=[],
+            methods=["gate", "hungarian"],
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            frozen = freeze_protocol(config, Path(directory) / "protocol.json")
+            trace = execute_case(case, "hungarian", 0)
+            trace.update(
+                implementation_sha256=frozen["sources"], protocol_sha256=frozen["protocol_sha256"]
+            )
+            audit_trace(trace, frozen, expected=(case["case"], "hungarian", 0))
+            with self.assertRaisesRegex(ValueError, "identity"):
+                audit_trace(trace, frozen, expected=(case["case"], "gate", 0))
+            changed = copy.deepcopy(trace)
+            changed["row"]["T"] += 1
+            with self.assertRaisesRegex(ValueError, "row metrics"):
+                audit_trace(changed, frozen)
+            changed = copy.deepcopy(trace)
+            changed["result"]["decision_latency"] = dict(model=dict(kind="fixed", scale=1))
+            with self.assertRaisesRegex(ValueError, "latency"):
+                audit_trace(changed, frozen)
+
 
 if __name__ == "__main__":
     unittest.main()

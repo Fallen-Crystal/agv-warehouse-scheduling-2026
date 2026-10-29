@@ -7,6 +7,7 @@ package source under its own identity and never re-signs an archived result.
 import argparse
 import hashlib
 import json
+import platform
 import statistics
 import subprocess
 import sys
@@ -84,6 +85,11 @@ def execute_case(case, method, seed, *, configuration=None, objective=None, late
         model_profile="wepa",
         geometry_source="reviewed-mixed-grid-with-inbound-terminals",
         archive_source_sha256=ARCHIVE_SHA256,
+        execution_environment=dict(
+            python=platform.python_version(),
+            platform=platform.platform(),
+            implementation=platform.python_implementation(),
+        ),
     )
 
 
@@ -182,7 +188,7 @@ def load_protocol(path):
     return value
 
 
-def audit_trace(trace, frozen):
+def audit_trace(trace, frozen, *, expected=None):
     config = frozen["config"]
     declared = next((c for c in config["cases"] if c["case"] == trace["row"]["case"]), None)
     if (
@@ -192,6 +198,20 @@ def audit_trace(trace, frozen):
         or declared != trace["case"]
     ):
         raise ValueError("Trace input, objective or implementation identity differs")
+    row, result = trace["row"], trace["result"]
+    if (
+        row["profile"] not in config["methods"]
+        or row["seed"] not in config["seeds"]
+        or result["method"] != row["profile"]
+        or (expected is not None and (row["case"], row["profile"], row["seed"]) != expected)
+    ):
+        raise ValueError("Trace solver, seed or cache query identity differs")
+    if "decision_latency" in result:
+        raise ValueError("This frozen protocol declares no decision latency")
+    if any(
+        row[key] != result[key] for key in ("T", "R", "D", "p90", "empty_distance", "traffic_wait")
+    ):
+        raise ValueError("Trace row metrics differ from physical result")
     score = checked_score(
         build(declared, **config["configuration"]),
         trace["result"],
@@ -235,7 +255,9 @@ def _trial(payload):
     try:
         status = "disabled"
         if cache:
-            trace, status = cache.load(identity, lambda value: audit_trace(value, frozen))
+            trace, status = cache.load(
+                identity, lambda value: audit_trace(value, frozen, expected=(case_id, method, seed))
+            )
             if trace is not None:
                 write_json(target, trace)
                 return dict(
@@ -251,7 +273,7 @@ def _trial(payload):
         if process.returncode:
             raise ValueError(process.stderr[-4000:])
         trace = json.loads(target.read_text(encoding="utf-8"))
-        audit_trace(trace, frozen)
+        audit_trace(trace, frozen, expected=(case_id, method, seed))
         if cache:
             cache.store(identity, trace)
         return dict(
