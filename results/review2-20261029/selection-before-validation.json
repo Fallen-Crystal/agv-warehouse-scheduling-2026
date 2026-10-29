@@ -1,0 +1,24 @@
+{
+  "protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "selected": "gate_anchor_tail",
+  "ranked": [
+    {
+      "method": "gate_anchor_tail",
+      "F": 1.3192731678476886,
+      "cpu": 68.12599281818183
+    },
+    {
+      "method": "gate_anchor",
+      "F": 1.3218320812421316,
+      "cpu": 68.77347381818181
+    },
+    {
+      "method": "gate",
+      "F": 1.3232071226893676,
+      "cpu": 59.176424545454545
+    }
+  ],
+  "validation_read": false,
+  "selection_unit": "source_day"
+}
