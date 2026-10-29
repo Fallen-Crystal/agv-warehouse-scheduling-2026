@@ -1,0 +1,2747 @@
+{
+  "schema": "agv-wepa-latency-sensitivity-v1",
+  "plan_sha256": "913484878f2703ad6b5401843e87196bcdf85fefdcdb054143768f656a88107d",
+  "source_protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "not_for_adoption": true,
+  "machine": {
+    "model": "Mac17,4",
+    "cpu": "Apple M5",
+    "python": "3.12.13",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64"
+  },
+  "dates": 10,
+  "windows": 15,
+  "new_executions": 60,
+  "reused_none_executions": 30,
+  "all_independent_audits_valid": true,
+  "equal_date_means": {
+    "none": {
+      "gate": {
+        "F": 1.0185450291669038,
+        "T": 1289.55,
+        "R": 293.6961986118222,
+        "D": 5514.2,
+        "p90": 683.45,
+        "empty_distance": 2860.2,
+        "traffic_wait": 22.35,
+        "cpu": 26.54569355
+      },
+      "gate_anchor": {
+        "F": 1.0167029752757504,
+        "T": 1287.2,
+        "R": 293.04225916058465,
+        "D": 5505.6,
+        "p90": 682.75,
+        "empty_distance": 2851.2,
+        "traffic_wait": 23.7,
+        "cpu": 30.5581324
+      },
+      "hungarian": {
+        "F": 1.0391144385905058,
+        "T": 1325.55,
+        "R": 294.1266491048505,
+        "D": 5525.7,
+        "p90": 693.5,
+        "empty_distance": 2871.3,
+        "traffic_wait": 26.2,
+        "cpu": 0.70659615
+      }
+    },
+    "measured": {
+      "gate": {
+        "F": 1.019183981296315,
+        "T": 1288.2,
+        "R": 297.47416611116716,
+        "D": 5517.7,
+        "p90": 678.9,
+        "empty_distance": 2864.45,
+        "traffic_wait": 21.4,
+        "cpu": 22.3833324
+      },
+      "gate_anchor": {
+        "F": 1.0238302893609679,
+        "T": 1295.7,
+        "R": 298.2464236384589,
+        "D": 5523.7,
+        "p90": 690.5,
+        "empty_distance": 2863.65,
+        "traffic_wait": 23.85,
+        "cpu": 25.359663649999998
+      },
+      "hungarian": {
+        "F": 1.0418764202971378,
+        "T": 1328.8,
+        "R": 295.45148311363545,
+        "D": 5539.6,
+        "p90": 695.0,
+        "empty_distance": 2885.65,
+        "traffic_wait": 29.1,
+        "cpu": 1.035995
+      }
+    }
+  },
+  "gain_against_hungarian": {
+    "none": {
+      "gate": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 1.7621734479069602,
+              "deltas": {
+                "F": -0.013349673202614376,
+                "T": -21,
+                "R": -0.3823529411764923,
+                "D": -42,
+                "p90": -14,
+                "empty_distance": -40,
+                "traffic_wait": -10,
+                "cpu": 5.222713
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": -1.0360136684363364,
+              "deltas": {
+                "F": 0.013929539295392979,
+                "T": 25.5,
+                "R": -1.155826558265602,
+                "D": 4,
+                "p90": -7.5,
+                "empty_distance": 3,
+                "traffic_wait": 7.5,
+                "cpu": 72.09196399999999
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.2570541339464603,
+              "deltas": {
+                "F": -0.012880837359098507,
+                "T": -26,
+                "R": 0.2463768115941889,
+                "D": 40,
+                "p90": 0,
+                "empty_distance": 42,
+                "traffic_wait": -5,
+                "cpu": 21.058291999999998
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 2.9906373699040163,
+              "deltas": {
+                "F": -0.040405895691609794,
+                "T": -71,
+                "R": -3.5510204081632537,
+                "D": 6,
+                "p90": -70,
+                "empty_distance": 8,
+                "traffic_wait": -32,
+                "cpu": 64.302685
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 2.051603592919797,
+              "deltas": {
+                "F": -0.022389793929267654,
+                "T": -39,
+                "R": -2.391604010025077,
+                "D": 2,
+                "p90": -1.5,
+                "empty_distance": 0.5,
+                "traffic_wait": -18.5,
+                "cpu": 26.394979
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 1.465790742772693,
+              "deltas": {
+                "F": -0.01440824915824912,
+                "T": -27.5,
+                "R": -1.6136363636363598,
+                "D": 38,
+                "p90": 10,
+                "empty_distance": 38,
+                "traffic_wait": -1.5,
+                "cpu": 9.980845
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.11057813778856906,
+              "deltas": {
+                "F": -0.0016270667989417564,
+                "T": -10.5,
+                "R": 4.729910714285708,
+                "D": 71,
+                "p90": 19,
+                "empty_distance": 71,
+                "traffic_wait": -11,
+                "cpu": 17.333998
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 1.4223312814353164,
+              "deltas": {
+                "F": -0.010953929539295304,
+                "T": -25,
+                "R": 2.8048780487804947,
+                "D": 54,
+                "p90": 13,
+                "empty_distance": 50,
+                "traffic_wait": 15,
+                "cpu": 8.469712999999999
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 8.053942252006287,
+              "deltas": {
+                "F": -0.06933618233618233,
+                "T": -112,
+                "R": -5.564102564102569,
+                "D": -142,
+                "p90": -33,
+                "empty_distance": -142,
+                "traffic_wait": 11,
+                "cpu": 9.757398
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 2.6374115706587267,
+              "deltas": {
+                "F": -0.03427200551615445,
+                "T": -53.5,
+                "R": 2.572872340425562,
+                "D": -146,
+                "p90": -16.5,
+                "empty_distance": -141.5,
+                "traffic_wait": 6,
+                "cpu": 23.778387000000002
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 2.071550886090249,
+          "median_gain_percent": 1.6139820953398267,
+          "bootstrap95": [
+            0.82907912882509,
+            3.597106389704279
+          ],
+          "improved": 9,
+          "worsened": 1,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.021484375,
+          "mean_deltas": {
+            "F": -0.020569409423602032,
+            "T": -36.0,
+            "R": -0.43045049302834004,
+            "D": -11.5,
+            "p90": -10.05,
+            "empty_distance": -11.1,
+            "traffic_wait": -3.85,
+            "cpu": 25.8390974
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 1.7621734479069602,
+              "deltas": {
+                "F": -0.013349673202614376,
+                "T": -21,
+                "R": -0.3823529411764923,
+                "D": -42,
+                "p90": -14,
+                "empty_distance": -40,
+                "traffic_wait": -10,
+                "cpu": 5.222713
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": -0.8532787234950266,
+              "deltas": {
+                "F": 0.011111111111111072,
+                "T": 21,
+                "R": -2.5555555555555998,
+                "D": 8,
+                "p90": 6,
+                "empty_distance": 6,
+                "traffic_wait": 7,
+                "cpu": 66.750839
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.2570541339464603,
+              "deltas": {
+                "F": -0.012880837359098507,
+                "T": -26,
+                "R": 0.2463768115941889,
+                "D": 40,
+                "p90": 0,
+                "empty_distance": 42,
+                "traffic_wait": -5,
+                "cpu": 21.058291999999998
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 1.8733665569377542,
+              "deltas": {
+                "F": -0.022409090909090823,
+                "T": -44,
+                "R": 0.7727272727272805,
+                "D": 48,
+                "p90": 9,
+                "empty_distance": 46,
+                "traffic_wait": -3,
+                "cpu": 17.520557
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.11057813778856906,
+              "deltas": {
+                "F": -0.0016270667989417564,
+                "T": -10.5,
+                "R": 4.729910714285708,
+                "D": 71,
+                "p90": 19,
+                "empty_distance": 71,
+                "traffic_wait": -11,
+                "cpu": 17.333998
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 8.053942252006287,
+              "deltas": {
+                "F": -0.06933618233618233,
+                "T": -112,
+                "R": -5.564102564102569,
+                "D": -142,
+                "p90": -33,
+                "empty_distance": -142,
+                "traffic_wait": 11,
+                "cpu": 9.757398
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 2.033972634181834,
+          "median_gain_percent": 1.5096137909267102,
+          "bootstrap95": [
+            0.17918147718623492,
+            4.651324149775357
+          ],
+          "improved": 5,
+          "worsened": 1,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.21875,
+          "mean_deltas": {
+            "F": -0.018081956582469454,
+            "T": -32.083333333333336,
+            "R": -0.4588327103712473,
+            "D": -2.8333333333333335,
+            "p90": -2.1666666666666665,
+            "empty_distance": -2.8333333333333335,
+            "traffic_wait": -1.8333333333333333,
+            "cpu": 22.940632833333332
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      },
+      "gate_anchor": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 2.379617167638699,
+              "deltas": {
+                "F": -0.01802723311546839,
+                "T": -27,
+                "R": -1.970588235294116,
+                "D": -64,
+                "p90": -3,
+                "empty_distance": -64,
+                "traffic_wait": -5,
+                "cpu": 5.894271
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.990486990053123,
+              "deltas": {
+                "F": -0.013180612014453419,
+                "T": -22.5,
+                "R": -0.5973915989160048,
+                "D": -13,
+                "p90": -4,
+                "empty_distance": -12,
+                "traffic_wait": 0,
+                "cpu": 80.809493
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.2570541339464603,
+              "deltas": {
+                "F": -0.012880837359098507,
+                "T": -26,
+                "R": 0.2463768115941889,
+                "D": 40,
+                "p90": 0,
+                "empty_distance": 42,
+                "traffic_wait": -5,
+                "cpu": 23.713598
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 2.9906373699040163,
+              "deltas": {
+                "F": -0.040405895691609794,
+                "T": -71,
+                "R": -3.5510204081632537,
+                "D": 6,
+                "p90": -70,
+                "empty_distance": 8,
+                "traffic_wait": -32,
+                "cpu": 74.292888
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 2.396803485562735,
+              "deltas": {
+                "F": -0.026817703982177754,
+                "T": -47.5,
+                "R": 0.6024436090225436,
+                "D": -17,
+                "p90": 11,
+                "empty_distance": -17.5,
+                "traffic_wait": 1,
+                "cpu": 30.074182
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 1.3008455392018838,
+              "deltas": {
+                "F": -0.01243518518518516,
+                "T": -23,
+                "R": -1.4166666666666572,
+                "D": 22,
+                "p90": 7,
+                "empty_distance": 23,
+                "traffic_wait": -1,
+                "cpu": 11.4198955
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.6126177554229026,
+              "deltas": {
+                "F": -0.007096519510581989,
+                "T": -14.5,
+                "R": 3.099330357142861,
+                "D": -2,
+                "p90": 9.5,
+                "empty_distance": -2,
+                "traffic_wait": -2,
+                "cpu": 21.4564455
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 1.5017406726221605,
+              "deltas": {
+                "F": -0.011565492321589765,
+                "T": -25,
+                "R": -0.5853658536585158,
+                "D": 68,
+                "p90": 0,
+                "empty_distance": 66,
+                "traffic_wait": 0,
+                "cpu": 9.622528999999998
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 8.053942252006287,
+              "deltas": {
+                "F": -0.06933618233618233,
+                "T": -112,
+                "R": -5.564102564102569,
+                "D": -142,
+                "p90": -33,
+                "empty_distance": -142,
+                "traffic_wait": 11,
+                "cpu": 11.168991
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 1.0471573436711947,
+              "deltas": {
+                "F": -0.01236897163120565,
+                "T": -15,
+                "R": -1.1069148936170166,
+                "D": -99,
+                "p90": -25,
+                "empty_distance": -102.5,
+                "traffic_wait": 8,
+                "cpu": 30.063069500000005
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 2.253090271002946,
+          "median_gain_percent": 1.4012931059120222,
+          "bootstrap95": [
+            1.2670828954823212,
+            3.693646631814023
+          ],
+          "improved": 10,
+          "worsened": 0,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.001953125,
+          "mean_deltas": {
+            "F": -0.022411463314755277,
+            "T": -38.35,
+            "R": -1.084389944265854,
+            "D": -20.1,
+            "p90": -10.75,
+            "empty_distance": -20.1,
+            "traffic_wait": -2.5,
+            "cpu": 29.851536250000002
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 2.379617167638699,
+              "deltas": {
+                "F": -0.01802723311546839,
+                "T": -27,
+                "R": -1.970588235294116,
+                "D": -64,
+                "p90": -3,
+                "empty_distance": -64,
+                "traffic_wait": -5,
+                "cpu": 5.894271
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 1.1956568112974164,
+              "deltas": {
+                "F": -0.015569444444444525,
+                "T": -28,
+                "R": 0.40277777777777146,
+                "D": -4,
+                "p90": 4,
+                "empty_distance": 0,
+                "traffic_wait": 8,
+                "cpu": 73.02118200000001
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.2570541339464603,
+              "deltas": {
+                "F": -0.012880837359098507,
+                "T": -26,
+                "R": 0.2463768115941889,
+                "D": 40,
+                "p90": 0,
+                "empty_distance": 42,
+                "traffic_wait": -5,
+                "cpu": 23.713598
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 1.5434761497961358,
+              "deltas": {
+                "F": -0.018462962962962903,
+                "T": -35,
+                "R": 1.1666666666666856,
+                "D": 16,
+                "p90": 3,
+                "empty_distance": 16,
+                "traffic_wait": -2,
+                "cpu": 20.02108
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.6126177554229026,
+              "deltas": {
+                "F": -0.007096519510581989,
+                "T": -14.5,
+                "R": 3.099330357142861,
+                "D": -2,
+                "p90": 9.5,
+                "empty_distance": -2,
+                "traffic_wait": -2,
+                "cpu": 21.4564455
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 8.053942252006287,
+              "deltas": {
+                "F": -0.06933618233618233,
+                "T": -112,
+                "R": -5.564102564102569,
+                "D": -142,
+                "p90": -33,
+                "empty_distance": -142,
+                "traffic_wait": 11,
+                "cpu": 11.168991
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 2.5070607116846504,
+          "median_gain_percent": 1.400265141871298,
+          "bootstrap95": [
+            1.0797461233053798,
+            4.832359144816906
+          ],
+          "improved": 6,
+          "worsened": 0,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.03125,
+          "mean_deltas": {
+            "F": -0.02356219662145644,
+            "T": -40.416666666666664,
+            "R": -0.43658986436919633,
+            "D": -26,
+            "p90": -3.25,
+            "empty_distance": -25,
+            "traffic_wait": 0.8333333333333334,
+            "cpu": 25.879261250000003
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      },
+      "hungarian": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 10,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 6,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      }
+    },
+    "measured": {
+      "gate": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 3.3114296062503294,
+              "deltas": {
+                "F": -0.02509803921568632,
+                "T": -39,
+                "R": -2.294117647058812,
+                "D": -72,
+                "p90": -11,
+                "empty_distance": -70,
+                "traffic_wait": -11,
+                "cpu": 4.554985
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.16997341159565155,
+              "deltas": {
+                "F": -0.002254573170731744,
+                "T": -7.5,
+                "R": 5.2918360433604335,
+                "D": 4,
+                "p90": 23.5,
+                "empty_distance": -0.5,
+                "traffic_wait": 5.5,
+                "cpu": 54.57440650000001
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.6059210726655113,
+              "deltas": {
+                "F": -0.01613526570048296,
+                "T": -21,
+                "R": -2.0724637681159663,
+                "D": -102,
+                "p90": -18,
+                "empty_distance": -108,
+                "traffic_wait": -6,
+                "cpu": 15.881612999999998
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 5.792215668576249,
+              "deltas": {
+                "F": -0.08005706727135298,
+                "T": -138,
+                "R": -3.9489795918366895,
+                "D": -56,
+                "p90": -22,
+                "empty_distance": -56,
+                "traffic_wait": -46,
+                "cpu": 55.408603
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 2.2022171148544607,
+              "deltas": {
+                "F": -0.023326441102756945,
+                "T": -42.5,
+                "R": -1.1459899749373506,
+                "D": 18,
+                "p90": 31,
+                "empty_distance": 16.5,
+                "traffic_wait": -17,
+                "cpu": 20.786092
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 1.2349979728236011,
+              "deltas": {
+                "F": -0.01175432900432899,
+                "T": -25,
+                "R": 2.7370129870129887,
+                "D": 33,
+                "p90": 14,
+                "empty_distance": 35,
+                "traffic_wait": 3,
+                "cpu": 8.377590000000001
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": -0.09915999669624742,
+              "deltas": {
+                "F": 0.00047110615079359874,
+                "T": -10,
+                "R": 9.746651785714278,
+                "D": 75,
+                "p90": 26.5,
+                "empty_distance": 73,
+                "traffic_wait": -9,
+                "cpu": 16.864049
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 1.415087709434394,
+              "deltas": {
+                "F": -0.010913279132791387,
+                "T": -25,
+                "R": 4.926829268292693,
+                "D": 36,
+                "p90": 8,
+                "empty_distance": 28,
+                "traffic_wait": 4,
+                "cpu": 7.487071
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 4.2729926167936645,
+              "deltas": {
+                "F": -0.03599430199430198,
+                "T": -56,
+                "R": -2.87179487179489,
+                "D": -106,
+                "p90": -70,
+                "empty_distance": -106,
+                "traffic_wait": 5,
+                "cpu": 8.602477
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 1.6356229672470448,
+              "deltas": {
+                "F": -0.02186219956658786,
+                "T": -42,
+                "R": 9.857845744680816,
+                "D": -49,
+                "p90": -143,
+                "empty_distance": -24,
+                "traffic_wait": -5.5,
+                "cpu": 20.936487500000002
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 2.154129814354466,
+          "median_gain_percent": 1.620772019956278,
+          "bootstrap95": [
+            1.1634206929037776,
+            3.339258046292827
+          ],
+          "improved": 9,
+          "worsened": 1,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.021484375,
+          "mean_deltas": {
+            "F": -0.022692439000822757,
+            "T": -40.6,
+            "R": 2.02268299753175,
+            "D": -21.9,
+            "p90": -16.1,
+            "empty_distance": -21.2,
+            "traffic_wait": -7.7,
+            "cpu": 21.3473374
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 3.3114296062503294,
+              "deltas": {
+                "F": -0.02509803921568632,
+                "T": -39,
+                "R": -2.294117647058812,
+                "D": -72,
+                "p90": -11,
+                "empty_distance": -70,
+                "traffic_wait": -11,
+                "cpu": 4.554985
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 0.22798325514562076,
+              "deltas": {
+                "F": -0.002967592592592494,
+                "T": -6,
+                "R": 1.9861111111110858,
+                "D": -8,
+                "p90": 6,
+                "empty_distance": -8,
+                "traffic_wait": -7,
+                "cpu": 47.250769000000005
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 1.6059210726655113,
+              "deltas": {
+                "F": -0.01613526570048296,
+                "T": -21,
+                "R": -2.0724637681159663,
+                "D": -102,
+                "p90": -18,
+                "empty_distance": -108,
+                "traffic_wait": -6,
+                "cpu": 15.881612999999998
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 1.4369182641387621,
+              "deltas": {
+                "F": -0.017244107744107673,
+                "T": -39,
+                "R": 9.045454545454561,
+                "D": 38,
+                "p90": 19,
+                "empty_distance": 40,
+                "traffic_wait": 5,
+                "cpu": 14.904952000000002
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": -0.09915999669624742,
+              "deltas": {
+                "F": 0.00047110615079359874,
+                "T": -10,
+                "R": 9.746651785714278,
+                "D": 75,
+                "p90": 26.5,
+                "empty_distance": 73,
+                "traffic_wait": -9,
+                "cpu": 16.864049
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 4.2729926167936645,
+              "deltas": {
+                "F": -0.03599430199430198,
+                "T": -56,
+                "R": -2.87179487179489,
+                "D": -106,
+                "p90": -70,
+                "empty_distance": -106,
+                "traffic_wait": 5,
+                "cpu": 8.602477
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 1.7926808030496069,
+          "median_gain_percent": 1.5214196684021366,
+          "bootstrap95": [
+            0.5783193544088048,
+            3.154312465830965
+          ],
+          "improved": 5,
+          "worsened": 1,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.21875,
+          "mean_deltas": {
+            "F": -0.016161366849396303,
+            "T": -28.5,
+            "R": 2.2566401925517092,
+            "D": -29.166666666666668,
+            "p90": -7.916666666666667,
+            "empty_distance": -29.833333333333332,
+            "traffic_wait": -3.8333333333333335,
+            "cpu": 18.0098075
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      },
+      "gate_anchor": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": -1.708605692669446,
+              "deltas": {
+                "F": 0.012949891067538188,
+                "T": 23,
+                "R": 4.29411764705884,
+                "D": -34,
+                "p90": -17,
+                "empty_distance": -34,
+                "traffic_wait": -5,
+                "cpu": 4.976256
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.3019186314459147,
+              "deltas": {
+                "F": -0.0041305894308942825,
+                "T": -10.5,
+                "R": 6.3304539295392885,
+                "D": -11,
+                "p90": -24,
+                "empty_distance": -15,
+                "traffic_wait": 7.5,
+                "cpu": 61.062870000000004
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.7737911116595843,
+              "deltas": {
+                "F": -0.0077745571658613954,
+                "T": -7,
+                "R": -0.7681159420289987,
+                "D": -98,
+                "p90": -18,
+                "empty_distance": -102,
+                "traffic_wait": 4,
+                "cpu": 21.835251999999997
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 5.690060092962674,
+              "deltas": {
+                "F": -0.07864512471655338,
+                "T": -143,
+                "R": 4.397959183673493,
+                "D": -18,
+                "p90": 112,
+                "empty_distance": -18,
+                "traffic_wait": -45,
+                "cpu": 61.115975
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 2.4258586213875017,
+              "deltas": {
+                "F": -0.02648207323865226,
+                "T": -42,
+                "R": -6.223997493734316,
+                "D": -29,
+                "p90": -3.5,
+                "empty_distance": -11,
+                "traffic_wait": -9,
+                "cpu": 25.3183145
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 0.5100156835461322,
+              "deltas": {
+                "F": -0.0030539923039923367,
+                "T": -9.5,
+                "R": 2.115800865800864,
+                "D": 41,
+                "p90": 24.5,
+                "empty_distance": 43,
+                "traffic_wait": 3,
+                "cpu": 9.90404
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 2.772475079612348,
+              "deltas": {
+                "F": -0.03353323412698406,
+                "T": -63,
+                "R": 3.0669642857142776,
+                "D": 12,
+                "p90": -5.5,
+                "empty_distance": 12,
+                "traffic_wait": -5.5,
+                "cpu": 16.044207999999998
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": -0.05470126316577094,
+              "deltas": {
+                "F": 0.00042186088527540466,
+                "T": 0,
+                "R": 1.4878048780487347,
+                "D": -2,
+                "p90": 0,
+                "empty_distance": -2,
+                "traffic_wait": -8,
+                "cpu": 7.807568
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 4.2729926167936645,
+              "deltas": {
+                "F": -0.03599430199430198,
+                "T": -56,
+                "R": -2.87179487179489,
+                "D": -106,
+                "p90": -70,
+                "empty_distance": -106,
+                "traffic_wait": 5,
+                "cpu": 9.828189
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 0.45389111234393714,
+              "deltas": {
+                "F": -0.004219188337273416,
+                "T": -23,
+                "R": 16.120212765957433,
+                "D": 86,
+                "p90": -43.5,
+                "empty_distance": 13,
+                "traffic_wait": 0.5,
+                "cpu": 25.344014
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 1.543769599391654,
+          "median_gain_percent": 0.6419033976028583,
+          "bootstrap95": [
+            0.292448108871846,
+            2.9221445133509225
+          ],
+          "improved": 8,
+          "worsened": 2,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.109375,
+          "mean_deltas": {
+            "F": -0.01804613093616995,
+            "T": -33.1,
+            "R": 2.7949405248234727,
+            "D": -15.9,
+            "p90": -4.5,
+            "empty_distance": -22,
+            "traffic_wait": -5.25,
+            "cpu": 24.32366865
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": -1.708605692669446,
+              "deltas": {
+                "F": 0.012949891067538188,
+                "T": 23,
+                "R": 4.29411764705884,
+                "D": -34,
+                "p90": -17,
+                "empty_distance": -34,
+                "traffic_wait": -5,
+                "cpu": 4.976256
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 0.07006661663600132,
+              "deltas": {
+                "F": -0.0009120370370367947,
+                "T": -10,
+                "R": 12.819444444444457,
+                "D": 10,
+                "p90": -64,
+                "empty_distance": 2,
+                "traffic_wait": -2,
+                "cpu": 51.478737
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.7737911116595843,
+              "deltas": {
+                "F": -0.0077745571658613954,
+                "T": -7,
+                "R": -0.7681159420289987,
+                "D": -98,
+                "p90": -18,
+                "empty_distance": -102,
+                "traffic_wait": 4,
+                "cpu": 21.835251999999997
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": -0.013046314416175434,
+              "deltas": {
+                "F": 0.0001565656565656326,
+                "T": -8,
+                "R": 7.803030303030312,
+                "D": 54,
+                "p90": 40,
+                "empty_distance": 56,
+                "traffic_wait": 5,
+                "cpu": 17.592534
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 2.772475079612348,
+              "deltas": {
+                "F": -0.03353323412698406,
+                "T": -63,
+                "R": 3.0669642857142776,
+                "D": 12,
+                "p90": -5.5,
+                "empty_distance": 12,
+                "traffic_wait": -5.5,
+                "cpu": 16.044207999999998
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 4.2729926167936645,
+              "deltas": {
+                "F": -0.03599430199430198,
+                "T": -56,
+                "R": -2.87179487179489,
+                "D": -106,
+                "p90": -70,
+                "empty_distance": -106,
+                "traffic_wait": 5,
+                "cpu": 9.828189
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 1.0279455696026627,
+          "median_gain_percent": 0.4219288641477928,
+          "bootstrap95": [
+            -0.44709320282130566,
+            2.7253662878727916
+          ],
+          "improved": 4,
+          "worsened": 2,
+          "tied": 0,
+          "sign_test_two_sided_p": 0.6875,
+          "mean_deltas": {
+            "F": -0.010851278933346734,
+            "T": -20.166666666666668,
+            "R": 4.057274311070667,
+            "D": -27,
+            "p90": -22.416666666666668,
+            "empty_distance": -28.666666666666668,
+            "traffic_wait": 0.25,
+            "cpu": 20.292529333333334
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      },
+      "hungarian": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 10,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 6,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      }
+    }
+  },
+  "measured_change_from_none": {
+    "gate": {
+      "all": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": 1.531192503436082,
+            "deltas": {
+              "F": -0.011395424836601387,
+              "T": -18,
+              "R": -0.8529411764705799,
+              "D": -30,
+              "p90": 4,
+              "empty_distance": -30,
+              "traffic_wait": -2,
+              "cpu": -0.4919279999999997
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 2,
+            "gain_percent": 1.1173759356873076,
+            "deltas": {
+              "F": -0.015111111111111186,
+              "T": -35.5,
+              "R": 7.611111111111114,
+              "D": 56,
+              "p90": 46,
+              "empty_distance": 55.5,
+              "traffic_wait": -2.5,
+              "cpu": -16.91579849999999
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 2.2932217147040372,
+            "deltas": {
+              "F": -0.023202898550724438,
+              "T": -38,
+              "R": 1.0579710144927503,
+              "D": -66,
+              "p90": -22,
+              "empty_distance": -72,
+              "traffic_wait": -2,
+              "cpu": -4.915336
+            }
+          },
+          {
+            "source_day": 41,
+            "windows": 1,
+            "gain_percent": 0.6547496671754067,
+            "deltas": {
+              "F": -0.008581632653061222,
+              "T": -14,
+              "R": 0.25510204081632537,
+              "D": -24,
+              "p90": 44,
+              "empty_distance": -24,
+              "traffic_wait": 8,
+              "cpu": -8.50829799999999
+            }
+          },
+          {
+            "source_day": 53,
+            "windows": 2,
+            "gain_percent": -0.8441554493113297,
+            "deltas": {
+              "F": 0.00873353522695619,
+              "T": 12,
+              "R": 3.6450501253132757,
+              "D": 23,
+              "p90": 26.5,
+              "empty_distance": 23,
+              "traffic_wait": 4,
+              "cpu": -5.1954055
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 2,
+            "gain_percent": -0.4728182363256516,
+            "deltas": {
+              "F": 0.005047378547378467,
+              "T": 6.5,
+              "R": 5.086580086580099,
+              "D": -7,
+              "p90": 12.5,
+              "empty_distance": -4,
+              "traffic_wait": 0.5,
+              "cpu": -1.4022044999999994
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": -2.1718497380268484,
+            "deltas": {
+              "F": 0.025445477843915265,
+              "T": 40.5,
+              "R": 6.947544642857139,
+              "D": 17,
+              "p90": 13,
+              "empty_distance": 16,
+              "traffic_wait": 2,
+              "cpu": -0.03201900000000091
+            }
+          },
+          {
+            "source_day": 59,
+            "windows": 1,
+            "gain_percent": -0.14623675361546562,
+            "deltas": {
+              "F": 0.0011102077687443757,
+              "T": 1,
+              "R": 3.219512195121979,
+              "D": -14,
+              "p90": -4,
+              "empty_distance": -18,
+              "traffic_wait": -13,
+              "cpu": -0.7595899999999993
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": -1.871234316400197,
+            "deltas": {
+              "F": 0.014811965811965755,
+              "T": 22,
+              "R": 3.102564102564088,
+              "D": 42,
+              "p90": -47,
+              "empty_distance": 42,
+              "traffic_wait": 2,
+              "cpu": -0.9240259999999996
+            }
+          },
+          {
+            "source_day": 76,
+            "windows": 2,
+            "gain_percent": -0.8112144435300758,
+            "deltas": {
+              "F": 0.009532023246650811,
+              "T": 10,
+              "R": 7.707180851063782,
+              "D": 38,
+              "p90": -118.5,
+              "empty_distance": 54,
+              "traffic_wait": -6.5,
+              "cpu": -2.479006000000002
+            }
+          }
+        ],
+        "comparable_dates": 10,
+        "comparable_windows": 15,
+        "mean_gain_percent": -0.07209691162067344,
+        "median_gain_percent": -0.30952749497055865,
+        "bootstrap95": [
+          -0.9227479017604975,
+          0.7708232180130634
+        ],
+        "improved": 4,
+        "worsened": 6,
+        "tied": 0,
+        "sign_test_two_sided_p": 0.75390625,
+        "mean_deltas": {
+          "F": 0.0006389521294112632,
+          "T": -1.35,
+          "R": 3.777967499344997,
+          "D": 3.5,
+          "p90": -4.55,
+          "empty_distance": 4.25,
+          "traffic_wait": -0.95,
+          "cpu": -4.162361149999998
+        }
+      },
+      "original_filter_subset": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": 1.531192503436082,
+            "deltas": {
+              "F": -0.011395424836601387,
+              "T": -18,
+              "R": -0.8529411764705799,
+              "D": -30,
+              "p90": 4,
+              "empty_distance": -30,
+              "traffic_wait": -2,
+              "cpu": -0.4919279999999997
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 1,
+            "gain_percent": 1.1097480152854744,
+            "deltas": {
+              "F": -0.014574074074074073,
+              "T": -28,
+              "R": 4.7222222222222285,
+              "D": -16,
+              "p90": 20,
+              "empty_distance": -10,
+              "traffic_wait": -1,
+              "cpu": -18.918356999999993
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 2.2932217147040372,
+            "deltas": {
+              "F": -0.023202898550724438,
+              "T": -38,
+              "R": 1.0579710144927503,
+              "D": -66,
+              "p90": -22,
+              "empty_distance": -72,
+              "traffic_wait": -2,
+              "cpu": -4.915336
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 1,
+            "gain_percent": -0.7707665211379856,
+            "deltas": {
+              "F": 0.00904713804713797,
+              "T": 12,
+              "R": 8.696969696969717,
+              "D": -14,
+              "p90": 24,
+              "empty_distance": -8,
+              "traffic_wait": 1,
+              "cpu": -2.299147999999999
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": -2.1718497380268484,
+            "deltas": {
+              "F": 0.025445477843915265,
+              "T": 40.5,
+              "R": 6.947544642857139,
+              "D": 17,
+              "p90": 13,
+              "empty_distance": 16,
+              "traffic_wait": 2,
+              "cpu": -0.03201900000000091
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": -1.871234316400197,
+            "deltas": {
+              "F": 0.014811965811965755,
+              "T": 22,
+              "R": 3.102564102564088,
+              "D": 42,
+              "p90": -47,
+              "empty_distance": 42,
+              "traffic_wait": 2,
+              "cpu": -0.9240259999999996
+            }
+          }
+        ],
+        "comparable_dates": 6,
+        "comparable_windows": 7,
+        "mean_gain_percent": 0.02005194297676044,
+        "median_gain_percent": 0.1694907470737444,
+        "bootstrap95": [
+          -1.3413003393888756,
+          1.3880657755908459
+        ],
+        "improved": 3,
+        "worsened": 3,
+        "tied": 0,
+        "sign_test_two_sided_p": 1.0,
+        "mean_deltas": {
+          "F": 2.2030706936515543e-05,
+          "T": -1.5833333333333333,
+          "R": 3.945721750439224,
+          "D": -11.166666666666666,
+          "p90": -1.3333333333333333,
+          "empty_distance": -10.333333333333334,
+          "traffic_wait": 0,
+          "cpu": -4.596802333333332
+        }
+      },
+      "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+    },
+    "gate_anchor": {
+      "all": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": -4.236418082807606,
+            "deltas": {
+              "F": 0.03133006535947713,
+              "T": 50,
+              "R": 7.323529411764696,
+              "D": 30,
+              "p90": -13,
+              "empty_distance": 30,
+              "traffic_wait": -1,
+              "cpu": -0.7422149999999998
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 2,
+            "gain_percent": -0.7734866777024736,
+            "deltas": {
+              "F": 0.010123023938572673,
+              "T": 9.5,
+              "R": 8.091294037940372,
+              "D": 58,
+              "p90": -5,
+              "empty_distance": 56,
+              "traffic_wait": 7,
+              "cpu": -19.144864
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 1.466904333709975,
+            "deltas": {
+              "F": -0.014842190016102874,
+              "T": -24,
+              "R": 2.362318840579718,
+              "D": -62,
+              "p90": -22,
+              "empty_distance": -66,
+              "traffic_wait": 8,
+              "cpu": -1.617003000000004
+            }
+          },
+          {
+            "source_day": 41,
+            "windows": 1,
+            "gain_percent": 0.5470232058829797,
+            "deltas": {
+              "F": -0.007169690098261627,
+              "T": -19,
+              "R": 8.602040816326507,
+              "D": 14,
+              "p90": 178,
+              "empty_distance": 14,
+              "traffic_wait": 9,
+              "cpu": -12.791128999999998
+            }
+          },
+          {
+            "source_day": 53,
+            "windows": 2,
+            "gain_percent": -0.9734875612323224,
+            "deltas": {
+              "F": 0.010005813143970976,
+              "T": 21,
+              "R": -4.4270050125313105,
+              "D": -5,
+              "p90": -20.5,
+              "empty_distance": 13.5,
+              "traffic_wait": -7.5,
+              "cpu": -4.342385999999999
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 2,
+            "gain_percent": -1.0427333581962015,
+            "deltas": {
+              "F": 0.01177465127465116,
+              "T": 17.5,
+              "R": 4.268398268398272,
+              "D": 17,
+              "p90": 26,
+              "empty_distance": 19,
+              "traffic_wait": 0,
+              "cpu": -1.3148050000000007
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": 0.2518196168136186,
+            "deltas": {
+              "F": -0.0030894097222221584,
+              "T": -8.5,
+              "R": 1.8984374999999858,
+              "D": 27,
+              "p90": -9.5,
+              "empty_distance": 28,
+              "traffic_wait": -3.5,
+              "cpu": -4.974307500000001
+            }
+          },
+          {
+            "source_day": 59,
+            "windows": 1,
+            "gain_percent": -1.7212450029235122,
+            "deltas": {
+              "F": 0.013056910569105629,
+              "T": 26,
+              "R": 3.1707317073170316,
+              "D": -66,
+              "p90": 1,
+              "empty_distance": -64,
+              "traffic_wait": -10,
+              "cpu": -1.5919089999999994
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": -1.871234316400197,
+            "deltas": {
+              "F": 0.014811965811965755,
+              "T": 22,
+              "R": 3.102564102564088,
+              "D": 42,
+              "p90": -47,
+              "empty_distance": 42,
+              "traffic_wait": 2,
+              "cpu": -1.1099069999999998
+            }
+          },
+          {
+            "source_day": 76,
+            "windows": 2,
+            "gain_percent": -0.35698529368217113,
+            "deltas": {
+              "F": 0.005272000591016457,
+              "T": -9.5,
+              "R": 17.649335106382978,
+              "D": 126,
+              "p90": -10.5,
+              "empty_distance": 52,
+              "traffic_wait": -2.5,
+              "cpu": -4.356162000000003
+            }
+          }
+        ],
+        "comparable_dates": 10,
+        "comparable_windows": 15,
+        "mean_gain_percent": -0.870984313653791,
+        "median_gain_percent": -0.873487119467398,
+        "bootstrap95": [
+          -1.8718557017816255,
+          0.0022703681835081367
+        ],
+        "improved": 3,
+        "worsened": 7,
+        "tied": 0,
+        "sign_test_two_sided_p": 0.34375,
+        "mean_deltas": {
+          "F": 0.007127314085217312,
+          "T": 8.5,
+          "R": 5.204164477874234,
+          "D": 18.1,
+          "p90": 7.75,
+          "empty_distance": 12.45,
+          "traffic_wait": 0.15,
+          "cpu": -5.19846875
+        }
+      },
+      "original_filter_subset": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": -4.236418082807606,
+            "deltas": {
+              "F": 0.03133006535947713,
+              "T": 50,
+              "R": 7.323529411764696,
+              "D": 30,
+              "p90": -13,
+              "empty_distance": 30,
+              "traffic_wait": -1,
+              "cpu": -0.7422149999999998
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 1,
+            "gain_percent": -1.100735862974772,
+            "deltas": {
+              "F": 0.014162037037037223,
+              "T": 17,
+              "R": 12.597222222222229,
+              "D": 14,
+              "p90": -48,
+              "empty_distance": 6,
+              "traffic_wait": 3,
+              "cpu": -20.960732000000007
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 1.466904333709975,
+            "deltas": {
+              "F": -0.014842190016102874,
+              "T": -24,
+              "R": 2.362318840579718,
+              "D": -62,
+              "p90": -22,
+              "empty_distance": -66,
+              "traffic_wait": 8,
+              "cpu": -1.617003000000004
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 1,
+            "gain_percent": -1.9105967648790851,
+            "deltas": {
+              "F": 0.022501683501683356,
+              "T": 34,
+              "R": 7.060606060606062,
+              "D": 34,
+              "p90": 51,
+              "empty_distance": 38,
+              "traffic_wait": 0,
+              "cpu": -2.112089000000001
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": 0.2518196168136186,
+            "deltas": {
+              "F": -0.0030894097222221584,
+              "T": -8.5,
+              "R": 1.8984374999999858,
+              "D": 27,
+              "p90": -9.5,
+              "empty_distance": 28,
+              "traffic_wait": -3.5,
+              "cpu": -4.974307500000001
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": -1.871234316400197,
+            "deltas": {
+              "F": 0.014811965811965755,
+              "T": 22,
+              "R": 3.102564102564088,
+              "D": 42,
+              "p90": -47,
+              "empty_distance": 42,
+              "traffic_wait": 2,
+              "cpu": -1.1099069999999998
+            }
+          }
+        ],
+        "comparable_dates": 6,
+        "comparable_windows": 7,
+        "mean_gain_percent": -1.2333768460896777,
+        "median_gain_percent": -1.4859850896874844,
+        "bootstrap95": [
+          -2.7065442854814132,
+          0.1451169227773769
+        ],
+        "improved": 2,
+        "worsened": 4,
+        "tied": 0,
+        "sign_test_two_sided_p": 0.6875,
+        "mean_deltas": {
+          "F": 0.010812358661973073,
+          "T": 15.083333333333334,
+          "R": 5.7241130229561294,
+          "D": 14.166666666666666,
+          "p90": -14.75,
+          "empty_distance": 13,
+          "traffic_wait": 1.4166666666666667,
+          "cpu": -5.252708916666669
+        }
+      },
+      "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+    },
+    "hungarian": {
+      "all": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": -0.046588673775748914,
+            "deltas": {
+              "F": 0.0003529411764705559,
+              "T": 0,
+              "R": 1.0588235294117396,
+              "D": 0,
+              "p90": 1,
+              "empty_distance": 0,
+              "traffic_wait": -1,
+              "cpu": 0.17579999999999996
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 2,
+            "gain_percent": -0.07708527736362639,
+            "deltas": {
+              "F": 0.0010730013550135364,
+              "T": -2.5,
+              "R": 1.1634485094850788,
+              "D": 56,
+              "p90": 15,
+              "empty_distance": 59,
+              "traffic_wait": -0.5,
+              "cpu": 0.6017589999999999
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 1.9467916753754944,
+            "deltas": {
+              "F": -0.019948470209339986,
+              "T": -43,
+              "R": 3.3768115942029056,
+              "D": 76,
+              "p90": -4,
+              "empty_distance": 78,
+              "traffic_wait": -1,
+              "cpu": 0.261343
+            }
+          },
+          {
+            "source_day": 41,
+            "windows": 1,
+            "gain_percent": -2.299608079202085,
+            "deltas": {
+              "F": 0.03106953892668196,
+              "T": 53,
+              "R": 0.6530612244897611,
+              "D": 38,
+              "p90": -4,
+              "empty_distance": 40,
+              "traffic_wait": 22,
+              "cpu": 0.3857840000000001
+            }
+          },
+          {
+            "source_day": 53,
+            "windows": 2,
+            "gain_percent": -1.0205740542885646,
+            "deltas": {
+              "F": 0.009670182400445482,
+              "T": 15.5,
+              "R": 2.3994360902255494,
+              "D": 7,
+              "p90": -6,
+              "empty_distance": 7,
+              "traffic_wait": 2.5,
+              "cpu": 0.4134815
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 2,
+            "gain_percent": -0.23698412223383786,
+            "deltas": {
+              "F": 0.0023934583934583364,
+              "T": 4,
+              "R": 0.7359307359307508,
+              "D": -2,
+              "p90": 8.5,
+              "empty_distance": -1,
+              "traffic_wait": -4,
+              "cpu": 0.20105049999999994
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": -1.9652532554266149,
+            "deltas": {
+              "F": 0.02334730489417991,
+              "T": 40,
+              "R": 1.9308035714285694,
+              "D": 13,
+              "p90": 5.5,
+              "empty_distance": 14,
+              "traffic_wait": 0,
+              "cpu": 0.43793
+            }
+          },
+          {
+            "source_day": 59,
+            "windows": 1,
+            "gain_percent": -0.13887846257790656,
+            "deltas": {
+              "F": 0.0010695573622404586,
+              "T": 1,
+              "R": 1.097560975609781,
+              "D": 4,
+              "p90": 1,
+              "empty_distance": 4,
+              "traffic_wait": -2,
+              "cpu": 0.22305199999999992
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": 2.152395135269305,
+            "deltas": {
+              "F": -0.018529914529914593,
+              "T": -34,
+              "R": 0.4102564102564088,
+              "D": 6,
+              "p90": -10,
+              "empty_distance": 6,
+              "traffic_wait": 8,
+              "cpu": 0.23089499999999996
+            }
+          },
+          {
+            "source_day": 76,
+            "windows": 2,
+            "gain_percent": 0.2467473223469125,
+            "deltas": {
+              "F": -0.0028777827029157765,
+              "T": -1.5,
+              "R": 0.4222074468085282,
+              "D": -59,
+              "p90": 8,
+              "empty_distance": -63.5,
+              "traffic_wait": 5,
+              "cpu": 0.3628935000000001
+            }
+          }
+        ],
+        "comparable_dates": 10,
+        "comparable_windows": 15,
+        "mean_gain_percent": -0.14390377918766725,
+        "median_gain_percent": -0.10798186997076648,
+        "bootstrap95": [
+          -0.9926270954906081,
+          0.6880184985352223
+        ],
+        "improved": 3,
+        "worsened": 7,
+        "tied": 0,
+        "sign_test_two_sided_p": 0.34375,
+        "mean_deltas": {
+          "F": 0.0027619817066319883,
+          "T": 3.25,
+          "R": 1.3248340087849073,
+          "D": 13.9,
+          "p90": 1.5,
+          "empty_distance": 14.35,
+          "traffic_wait": 2.9,
+          "cpu": 0.32939884999999997
+        }
+      },
+      "original_filter_subset": {
+        "dates": [
+          {
+            "source_day": 18,
+            "windows": 1,
+            "gain_percent": -0.046588673775748914,
+            "deltas": {
+              "F": 0.0003529411764705559,
+              "T": 0,
+              "R": 1.0588235294117396,
+              "D": 0,
+              "p90": 1,
+              "empty_distance": 0,
+              "traffic_wait": -1,
+              "cpu": 0.17579999999999996
+            }
+          },
+          {
+            "source_day": 19,
+            "windows": 1,
+            "gain_percent": 0.038042009755830566,
+            "deltas": {
+              "F": -0.000495370370370507,
+              "T": -1,
+              "R": 0.18055555555554292,
+              "D": 0,
+              "p90": 20,
+              "empty_distance": 4,
+              "traffic_wait": 13,
+              "cpu": 0.581713
+            }
+          },
+          {
+            "source_day": 26,
+            "windows": 1,
+            "gain_percent": 1.9467916753754944,
+            "deltas": {
+              "F": -0.019948470209339986,
+              "T": -43,
+              "R": 3.3768115942029056,
+              "D": 76,
+              "p90": -4,
+              "empty_distance": 78,
+              "traffic_wait": -1,
+              "cpu": 0.261343
+            }
+          },
+          {
+            "source_day": 54,
+            "windows": 1,
+            "gain_percent": -0.3245423544661114,
+            "deltas": {
+              "F": 0.00388215488215482,
+              "T": 7,
+              "R": 0.4242424242424363,
+              "D": -4,
+              "p90": 14,
+              "empty_distance": -2,
+              "traffic_wait": -7,
+              "cpu": 0.3164569999999999
+            }
+          },
+          {
+            "source_day": 58,
+            "windows": 2,
+            "gain_percent": -1.9652532554266149,
+            "deltas": {
+              "F": 0.02334730489417991,
+              "T": 40,
+              "R": 1.9308035714285694,
+              "D": 13,
+              "p90": 5.5,
+              "empty_distance": 14,
+              "traffic_wait": 0,
+              "cpu": 0.43793
+            }
+          },
+          {
+            "source_day": 75,
+            "windows": 1,
+            "gain_percent": 2.152395135269305,
+            "deltas": {
+              "F": -0.018529914529914593,
+              "T": -34,
+              "R": 0.4102564102564088,
+              "D": 6,
+              "p90": -10,
+              "empty_distance": 6,
+              "traffic_wait": 8,
+              "cpu": 0.23089499999999996
+            }
+          }
+        ],
+        "comparable_dates": 6,
+        "comparable_windows": 7,
+        "mean_gain_percent": 0.3001407561220258,
+        "median_gain_percent": -0.004273332009959174,
+        "bootstrap95": [
+          -0.7646896473008952,
+          1.3649711595449467
+        ],
+        "improved": 3,
+        "worsened": 3,
+        "tied": 0,
+        "sign_test_two_sided_p": 1.0,
+        "mean_deltas": {
+          "F": -0.0018985590261366332,
+          "T": -5.166666666666667,
+          "R": 1.2302488475162672,
+          "D": 15.166666666666666,
+          "p90": 4.416666666666667,
+          "empty_distance": 16.666666666666668,
+          "traffic_wait": 2,
+          "cpu": 0.33402299999999996
+        }
+      },
+      "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+    }
+  }
+}

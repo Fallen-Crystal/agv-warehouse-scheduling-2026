@@ -1,0 +1,1568 @@
+{
+  "protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "split": "validation",
+  "groups": {
+    "gate": {
+      "pairs": [
+        {
+          "case": "wepa-day41-bin3988",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day18-bin1785",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day58-bin5580",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day58-bin5578",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day59-bin5712",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day19-bin1864",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day19-bin1873",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day53-bin5143",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day53-bin5141",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day54-bin5219",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day54-bin5244",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day76-bin7355",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day76-bin7357",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        {
+          "case": "wepa-day26-bin2502",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        }
+      ],
+      "expected_windows": 15,
+      "comparable_windows": 15,
+      "failures": 0,
+      "mean_gain_percent": 0.0,
+      "median_gain_percent": 0.0,
+      "bootstrap95": [
+        0.0,
+        0.0
+      ],
+      "improved": 0,
+      "worsened": 0,
+      "date_analysis": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 10,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 0.0
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 0.0,
+          "median_gain_percent": 0.0,
+          "bootstrap95": [
+            0.0,
+            0.0
+          ],
+          "improved": 0,
+          "worsened": 0,
+          "tied": 6,
+          "sign_test_two_sided_p": 1.0,
+          "mean_deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.0
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      }
+    },
+    "gate_anchor": {
+      "pairs": [
+        {
+          "case": "wepa-day41-bin3988",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 9.990203000000008
+          }
+        },
+        {
+          "case": "wepa-day18-bin1785",
+          "gain_percent": 0.6285193203091928,
+          "deltas": {
+            "F": -0.004677559912854012,
+            "T": -6,
+            "R": -1.5882352941176237,
+            "D": -22,
+            "p90": 11,
+            "empty_distance": -24,
+            "traffic_wait": 5,
+            "cpu": 0.6715580000000001
+          }
+        },
+        {
+          "case": "wepa-day58-bin5580",
+          "gain_percent": 1.4303249601507937,
+          "deltas": {
+            "F": -0.016261243386243462,
+            "T": -22,
+            "R": -2.339285714285694,
+            "D": -88,
+            "p90": 7,
+            "empty_distance": -86,
+            "traffic_wait": 10,
+            "cpu": 3.5699119999999986
+          }
+        },
+        {
+          "case": "wepa-day58-bin5578",
+          "gain_percent": -0.4379794939686771,
+          "deltas": {
+            "F": 0.0053223379629629974,
+            "T": 14,
+            "R": -0.921875,
+            "D": -58,
+            "p90": -26,
+            "empty_distance": -60,
+            "traffic_wait": 8,
+            "cpu": 4.674983000000001
+          }
+        },
+        {
+          "case": "wepa-day59-bin5712",
+          "gain_percent": 0.08055515231705755,
+          "deltas": {
+            "F": -0.0006115627822944614,
+            "T": 0,
+            "R": -3.3902439024390105,
+            "D": 14,
+            "p90": -13,
+            "empty_distance": 16,
+            "traffic_wait": -15,
+            "cpu": 1.1528159999999996
+          }
+        },
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 1.4115929999999999
+          }
+        },
+        {
+          "case": "wepa-day19-bin1864",
+          "gain_percent": 2.0316003215026046,
+          "deltas": {
+            "F": -0.026680555555555596,
+            "T": -49,
+            "R": 2.9583333333333712,
+            "D": -12,
+            "p90": -2,
+            "empty_distance": -6,
+            "traffic_wait": 1,
+            "cpu": 6.270343000000011
+          }
+        },
+        {
+          "case": "wepa-day19-bin1873",
+          "gain_percent": 1.9799353475919252,
+          "deltas": {
+            "F": -0.0275397470641372,
+            "T": -47,
+            "R": -1.8414634146341768,
+            "D": -22,
+            "p90": 9,
+            "empty_distance": -24,
+            "traffic_wait": -16,
+            "cpu": 11.164715000000001
+          }
+        },
+        {
+          "case": "wepa-day53-bin5143",
+          "gain_percent": 0.486081248376849,
+          "deltas": {
+            "F": -0.006731481481481394,
+            "T": -15,
+            "R": 7.25,
+            "D": -22,
+            "p90": 23,
+            "empty_distance": -22,
+            "traffic_wait": 35,
+            "cpu": 7.059836999999998
+          }
+        },
+        {
+          "case": "wepa-day53-bin5141",
+          "gain_percent": 0.21523649210086596,
+          "deltas": {
+            "F": -0.0021243386243388063,
+            "T": -2,
+            "R": -1.2619047619047592,
+            "D": -16,
+            "p90": 2,
+            "empty_distance": -14,
+            "traffic_wait": 4,
+            "cpu": 0.2985690000000041
+          }
+        },
+        {
+          "case": "wepa-day54-bin5219",
+          "gain_percent": -0.33618844911563855,
+          "deltas": {
+            "F": 0.00394612794612792,
+            "T": 9,
+            "R": 0.39393939393940514,
+            "D": -32,
+            "p90": -6,
+            "empty_distance": -30,
+            "traffic_wait": 1,
+            "cpu": 2.500523000000001
+          }
+        },
+        {
+          "case": "wepa-day54-bin5244",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.3775780000000002
+          }
+        },
+        {
+          "case": "wepa-day76-bin7355",
+          "gain_percent": -4.311246906442273,
+          "deltas": {
+            "F": 0.05047037037037039,
+            "T": 77,
+            "R": 1.2999999999999545,
+            "D": 196,
+            "p90": 3,
+            "empty_distance": 180,
+            "traffic_wait": 1,
+            "cpu": 10.980364000000002
+          }
+        },
+        {
+          "case": "wepa-day76-bin7357",
+          "gain_percent": 0.8719042091002978,
+          "deltas": {
+            "F": -0.0066643026004727934,
+            "T": 0,
+            "R": -8.659574468085111,
+            "D": -102,
+            "p90": -20,
+            "empty_distance": -102,
+            "traffic_wait": 3,
+            "cpu": 1.5890009999999997
+          }
+        },
+        {
+          "case": "wepa-day26-bin2502",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 2.655306000000003
+          }
+        }
+      ],
+      "expected_windows": 15,
+      "comparable_windows": 15,
+      "failures": 0,
+      "mean_gain_percent": 0.17591614679486653,
+      "median_gain_percent": 0.08055515231705755,
+      "bootstrap95": [
+        -0.6323133147145498,
+        0.7801903386520905
+      ],
+      "improved": 8,
+      "worsened": 3,
+      "date_analysis": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.6285193203091928,
+              "deltas": {
+                "F": -0.004677559912854012,
+                "T": -6,
+                "R": -1.5882352941176237,
+                "D": -22,
+                "p90": 11,
+                "empty_distance": -24,
+                "traffic_wait": 5,
+                "cpu": 0.6715580000000001
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 2.0057678345472647,
+              "deltas": {
+                "F": -0.027110151309846398,
+                "T": -48,
+                "R": 0.5584349593495972,
+                "D": -17,
+                "p90": 3.5,
+                "empty_distance": -15,
+                "traffic_wait": -7.5,
+                "cpu": 8.717529000000006
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 2.655306000000003
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 9.990203000000008
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 0.3506588702388575,
+              "deltas": {
+                "F": -0.0044279100529101,
+                "T": -8.5,
+                "R": 2.9940476190476204,
+                "D": -19,
+                "p90": 12.5,
+                "empty_distance": -18,
+                "traffic_wait": 19.5,
+                "cpu": 3.679203000000001
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": -0.16809422455781928,
+              "deltas": {
+                "F": 0.00197306397306396,
+                "T": 4.5,
+                "R": 0.19696969696970257,
+                "D": -16,
+                "p90": -3,
+                "empty_distance": -15,
+                "traffic_wait": 0.5,
+                "cpu": 1.4390505000000007
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.4961727330910583,
+              "deltas": {
+                "F": -0.0054694527116402325,
+                "T": -4,
+                "R": -1.630580357142847,
+                "D": -73,
+                "p90": -9.5,
+                "empty_distance": -73,
+                "traffic_wait": 9,
+                "cpu": 4.1224475
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 0.08055515231705755,
+              "deltas": {
+                "F": -0.0006115627822944614,
+                "T": 0,
+                "R": -3.3902439024390105,
+                "D": 14,
+                "p90": -13,
+                "empty_distance": 16,
+                "traffic_wait": -15,
+                "cpu": 1.1528159999999996
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 1.4115929999999999
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": -1.7196713486709876,
+              "deltas": {
+                "F": 0.021903033884948797,
+                "T": 38.5,
+                "R": -3.6797872340425783,
+                "D": 47,
+                "p90": -8.5,
+                "empty_distance": 39,
+                "traffic_wait": 2,
+                "cpu": 6.284682500000001
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 0.16739083372746238,
+          "median_gain_percent": 0.040277576158528776,
+          "bootstrap95": [
+            -0.39615235724441894,
+            0.7077036846506902
+          ],
+          "improved": 5,
+          "worsened": 2,
+          "tied": 3,
+          "sign_test_two_sided_p": 0.453125,
+          "mean_deltas": {
+            "F": -0.0018420538911532447,
+            "T": -2.35,
+            "R": -0.653939451237514,
+            "D": -8.6,
+            "p90": -0.7,
+            "empty_distance": -9,
+            "traffic_wait": 1.35,
+            "cpu": 4.012438850000002
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.6285193203091928,
+              "deltas": {
+                "F": -0.004677559912854012,
+                "T": -6,
+                "R": -1.5882352941176237,
+                "D": -22,
+                "p90": 11,
+                "empty_distance": -24,
+                "traffic_wait": 5,
+                "cpu": 0.6715580000000001
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 2.0316003215026046,
+              "deltas": {
+                "F": -0.026680555555555596,
+                "T": -49,
+                "R": 2.9583333333333712,
+                "D": -12,
+                "p90": -2,
+                "empty_distance": -6,
+                "traffic_wait": 1,
+                "cpu": 6.270343000000011
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 2.655306000000003
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": -0.33618844911563855,
+              "deltas": {
+                "F": 0.00394612794612792,
+                "T": 9,
+                "R": 0.39393939393940514,
+                "D": -32,
+                "p90": -6,
+                "empty_distance": -30,
+                "traffic_wait": 1,
+                "cpu": 2.500523000000001
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.4961727330910583,
+              "deltas": {
+                "F": -0.0054694527116402325,
+                "T": -4,
+                "R": -1.630580357142847,
+                "D": -73,
+                "p90": -9.5,
+                "empty_distance": -73,
+                "traffic_wait": 9,
+                "cpu": 4.1224475
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 1.4115929999999999
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 0.4700173209645362,
+          "median_gain_percent": 0.24808636654552915,
+          "bootstrap95": [
+            -0.05603140818593976,
+            1.1692751926684268
+          ],
+          "improved": 3,
+          "worsened": 1,
+          "tied": 2,
+          "sign_test_two_sided_p": 0.625,
+          "mean_deltas": {
+            "F": -0.005480240038986987,
+            "T": -8.333333333333334,
+            "R": 0.022242846002050953,
+            "D": -23.166666666666668,
+            "p90": -1.0833333333333333,
+            "empty_distance": -22.166666666666668,
+            "traffic_wait": 2.6666666666666665,
+            "cpu": 2.938628416666669
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      }
+    },
+    "gate_anchor_tail": {
+      "pairs": [
+        {
+          "case": "wepa-day41-bin3988",
+          "gain_percent": -0.8595337485723167,
+          "deltas": {
+            "F": 0.011265684051398273,
+            "T": 14,
+            "R": 8.908163265306086,
+            "D": 14,
+            "p90": 0,
+            "empty_distance": 14,
+            "traffic_wait": -8,
+            "cpu": 12.287716000000017
+          }
+        },
+        {
+          "case": "wepa-day18-bin1785",
+          "gain_percent": 0.6285193203091928,
+          "deltas": {
+            "F": -0.004677559912854012,
+            "T": -6,
+            "R": -1.5882352941176237,
+            "D": -22,
+            "p90": 11,
+            "empty_distance": -24,
+            "traffic_wait": 5,
+            "cpu": 0.5783920000000009
+          }
+        },
+        {
+          "case": "wepa-day58-bin5580",
+          "gain_percent": 1.4303249601507937,
+          "deltas": {
+            "F": -0.016261243386243462,
+            "T": -22,
+            "R": -2.339285714285694,
+            "D": -88,
+            "p90": 7,
+            "empty_distance": -86,
+            "traffic_wait": 10,
+            "cpu": 3.6252429999999993
+          }
+        },
+        {
+          "case": "wepa-day58-bin5578",
+          "gain_percent": -0.301828208412892,
+          "deltas": {
+            "F": 0.0036678240740739554,
+            "T": 13,
+            "R": -4.21875,
+            "D": -58,
+            "p90": -33,
+            "empty_distance": -60,
+            "traffic_wait": 11,
+            "cpu": 2.8522389999999973
+          }
+        },
+        {
+          "case": "wepa-day59-bin5712",
+          "gain_percent": 0.08055515231705755,
+          "deltas": {
+            "F": -0.0006115627822944614,
+            "T": 0,
+            "R": -3.3902439024390105,
+            "D": 14,
+            "p90": -13,
+            "empty_distance": 16,
+            "traffic_wait": -15,
+            "cpu": 1.1464820000000007
+          }
+        },
+        {
+          "case": "wepa-day75-bin7248",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 1.6915759999999995
+          }
+        },
+        {
+          "case": "wepa-day19-bin1864",
+          "gain_percent": 2.0316003215026046,
+          "deltas": {
+            "F": -0.026680555555555596,
+            "T": -49,
+            "R": 2.9583333333333712,
+            "D": -12,
+            "p90": -2,
+            "empty_distance": -6,
+            "traffic_wait": 1,
+            "cpu": 6.339994000000004
+          }
+        },
+        {
+          "case": "wepa-day19-bin1873",
+          "gain_percent": 2.15304533624286,
+          "deltas": {
+            "F": -0.029947606142728178,
+            "T": -52,
+            "R": -0.7317073170731874,
+            "D": -22,
+            "p90": 9,
+            "empty_distance": -24,
+            "traffic_wait": -16,
+            "cpu": 11.516861000000006
+          }
+        },
+        {
+          "case": "wepa-day53-bin5143",
+          "gain_percent": 0.6428180818142251,
+          "deltas": {
+            "F": -0.008902046783625606,
+            "T": -20,
+            "R": 3.9605263157894797,
+            "D": 24,
+            "p90": 15,
+            "empty_distance": 24,
+            "traffic_wait": 24,
+            "cpu": 6.726548000000001
+          }
+        },
+        {
+          "case": "wepa-day53-bin5141",
+          "gain_percent": 0.28037032470422696,
+          "deltas": {
+            "F": -0.0027671957671958625,
+            "T": -3,
+            "R": -1.5238095238095184,
+            "D": -16,
+            "p90": 2,
+            "empty_distance": -14,
+            "traffic_wait": 5,
+            "cpu": 0.3870760000000004
+          }
+        },
+        {
+          "case": "wepa-day54-bin5219",
+          "gain_percent": -0.34866643336182235,
+          "deltas": {
+            "F": 0.004092592592592537,
+            "T": 9,
+            "R": 0.1666666666666572,
+            "D": -26,
+            "p90": -6,
+            "empty_distance": -24,
+            "traffic_wait": -2,
+            "cpu": 2.4178820000000023
+          }
+        },
+        {
+          "case": "wepa-day54-bin5244",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 0.3670979999999999
+          }
+        },
+        {
+          "case": "wepa-day76-bin7355",
+          "gain_percent": -1.9202401921663736,
+          "deltas": {
+            "F": 0.02247962962962946,
+            "T": 25,
+            "R": 3.5499999999999545,
+            "D": 200,
+            "p90": -17,
+            "empty_distance": 184,
+            "traffic_wait": -7,
+            "cpu": 10.148549999999993
+          }
+        },
+        {
+          "case": "wepa-day76-bin7357",
+          "gain_percent": 0.8719042091002978,
+          "deltas": {
+            "F": -0.0066643026004727934,
+            "T": 0,
+            "R": -8.659574468085111,
+            "D": -102,
+            "p90": -20,
+            "empty_distance": -102,
+            "traffic_wait": 3,
+            "cpu": 1.5875979999999998
+          }
+        },
+        {
+          "case": "wepa-day26-bin2502",
+          "gain_percent": 0.0,
+          "deltas": {
+            "F": 0.0,
+            "T": 0,
+            "R": 0.0,
+            "D": 0,
+            "p90": 0,
+            "empty_distance": 0,
+            "traffic_wait": 0,
+            "cpu": 2.1623920000000005
+          }
+        }
+      ],
+      "expected_windows": 15,
+      "comparable_windows": 15,
+      "failures": 0,
+      "mean_gain_percent": 0.31259127490852356,
+      "median_gain_percent": 0.08055515231705755,
+      "bootstrap95": [
+        -0.21770939409565365,
+        0.8011057659341627
+      ],
+      "improved": 8,
+      "worsened": 4,
+      "date_analysis": {
+        "all": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.6285193203091928,
+              "deltas": {
+                "F": -0.004677559912854012,
+                "T": -6,
+                "R": -1.5882352941176237,
+                "D": -22,
+                "p90": 11,
+                "empty_distance": -24,
+                "traffic_wait": 5,
+                "cpu": 0.5783920000000009
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 2,
+              "gain_percent": 2.0923228288727325,
+              "deltas": {
+                "F": -0.028314080849141887,
+                "T": -50.5,
+                "R": 1.113313008130092,
+                "D": -17,
+                "p90": 3.5,
+                "empty_distance": -15,
+                "traffic_wait": -7.5,
+                "cpu": 8.928427500000005
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 2.1623920000000005
+              }
+            },
+            {
+              "source_day": 41,
+              "windows": 1,
+              "gain_percent": -0.8595337485723167,
+              "deltas": {
+                "F": 0.011265684051398273,
+                "T": 14,
+                "R": 8.908163265306086,
+                "D": 14,
+                "p90": 0,
+                "empty_distance": 14,
+                "traffic_wait": -8,
+                "cpu": 12.287716000000017
+              }
+            },
+            {
+              "source_day": 53,
+              "windows": 2,
+              "gain_percent": 0.461594203259226,
+              "deltas": {
+                "F": -0.005834621275410734,
+                "T": -11.5,
+                "R": 1.2183583959899806,
+                "D": 4,
+                "p90": 8.5,
+                "empty_distance": 5,
+                "traffic_wait": 14.5,
+                "cpu": 3.5568120000000008
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 2,
+              "gain_percent": -0.17433321668091117,
+              "deltas": {
+                "F": 0.0020462962962962683,
+                "T": 4.5,
+                "R": 0.0833333333333286,
+                "D": -13,
+                "p90": -3,
+                "empty_distance": -12,
+                "traffic_wait": -1,
+                "cpu": 1.3924900000000011
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.5642483758689508,
+              "deltas": {
+                "F": -0.0062967096560847535,
+                "T": -4.5,
+                "R": -3.279017857142847,
+                "D": -73,
+                "p90": -13,
+                "empty_distance": -73,
+                "traffic_wait": 10.5,
+                "cpu": 3.2387409999999983
+              }
+            },
+            {
+              "source_day": 59,
+              "windows": 1,
+              "gain_percent": 0.08055515231705755,
+              "deltas": {
+                "F": -0.0006115627822944614,
+                "T": 0,
+                "R": -3.3902439024390105,
+                "D": 14,
+                "p90": -13,
+                "empty_distance": 16,
+                "traffic_wait": -15,
+                "cpu": 1.1464820000000007
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 1.6915759999999995
+              }
+            },
+            {
+              "source_day": 76,
+              "windows": 2,
+              "gain_percent": -0.524167991533038,
+              "deltas": {
+                "F": 0.007907663514578334,
+                "T": 12.5,
+                "R": -2.5547872340425783,
+                "D": 49,
+                "p90": -18.5,
+                "empty_distance": 41,
+                "traffic_wait": -2,
+                "cpu": 5.8680739999999965
+              }
+            }
+          ],
+          "comparable_dates": 10,
+          "comparable_windows": 15,
+          "mean_gain_percent": 0.22692049238408937,
+          "median_gain_percent": 0.040277576158528776,
+          "bootstrap95": [
+            -0.2069814493843035,
+            0.7496534654871817
+          ],
+          "improved": 5,
+          "worsened": 3,
+          "tied": 2,
+          "sign_test_two_sided_p": 0.7265625,
+          "mean_deltas": {
+            "F": -0.0024514890613512976,
+            "T": -4.15,
+            "R": 0.051088371501742814,
+            "D": -4.4,
+            "p90": -2.45,
+            "empty_distance": -4.8,
+            "traffic_wait": -0.35,
+            "cpu": 4.085110250000002
+          }
+        },
+        "original_filter_subset": {
+          "dates": [
+            {
+              "source_day": 18,
+              "windows": 1,
+              "gain_percent": 0.6285193203091928,
+              "deltas": {
+                "F": -0.004677559912854012,
+                "T": -6,
+                "R": -1.5882352941176237,
+                "D": -22,
+                "p90": 11,
+                "empty_distance": -24,
+                "traffic_wait": 5,
+                "cpu": 0.5783920000000009
+              }
+            },
+            {
+              "source_day": 19,
+              "windows": 1,
+              "gain_percent": 2.0316003215026046,
+              "deltas": {
+                "F": -0.026680555555555596,
+                "T": -49,
+                "R": 2.9583333333333712,
+                "D": -12,
+                "p90": -2,
+                "empty_distance": -6,
+                "traffic_wait": 1,
+                "cpu": 6.339994000000004
+              }
+            },
+            {
+              "source_day": 26,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 2.1623920000000005
+              }
+            },
+            {
+              "source_day": 54,
+              "windows": 1,
+              "gain_percent": -0.34866643336182235,
+              "deltas": {
+                "F": 0.004092592592592537,
+                "T": 9,
+                "R": 0.1666666666666572,
+                "D": -26,
+                "p90": -6,
+                "empty_distance": -24,
+                "traffic_wait": -2,
+                "cpu": 2.4178820000000023
+              }
+            },
+            {
+              "source_day": 58,
+              "windows": 2,
+              "gain_percent": 0.5642483758689508,
+              "deltas": {
+                "F": -0.0062967096560847535,
+                "T": -4.5,
+                "R": -3.279017857142847,
+                "D": -73,
+                "p90": -13,
+                "empty_distance": -73,
+                "traffic_wait": 10.5,
+                "cpu": 3.2387409999999983
+              }
+            },
+            {
+              "source_day": 75,
+              "windows": 1,
+              "gain_percent": 0.0,
+              "deltas": {
+                "F": 0.0,
+                "T": 0,
+                "R": 0.0,
+                "D": 0,
+                "p90": 0,
+                "empty_distance": 0,
+                "traffic_wait": 0,
+                "cpu": 1.6915759999999995
+              }
+            }
+          ],
+          "comparable_dates": 6,
+          "comparable_windows": 7,
+          "mean_gain_percent": 0.4792835973864876,
+          "median_gain_percent": 0.2821241879344754,
+          "bootstrap95": [
+            -0.058111072226970394,
+            1.167195528627396
+          ],
+          "improved": 3,
+          "worsened": 1,
+          "tied": 2,
+          "sign_test_two_sided_p": 0.625,
+          "mean_deltas": {
+            "F": -0.005593705421983637,
+            "T": -8.416666666666666,
+            "R": -0.2903755252100737,
+            "D": -22.166666666666668,
+            "p90": -1.6666666666666667,
+            "empty_distance": -21.166666666666668,
+            "traffic_wait": 2.4166666666666665,
+            "cpu": 2.7381628333333343
+          }
+        },
+        "inference": "Mean window improvement within each date, then equal date weights; percentile bootstrap over dates; exact two-sided binomial sign test excludes ties. Reused dates are not fresh holdout."
+      }
+    }
+  },
+  "inference": "Equal-weight source dates; windows are supplementary; historical source is not fresh holdout"
+}

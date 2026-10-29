@@ -1,0 +1,22 @@
+{
+  "default": "gate",
+  "candidate_selected_before_validation": "gate_anchor_tail",
+  "protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
+  "all_runs_valid": true,
+  "date_mean_gain_percent": 0.22692049238408937,
+  "date_bootstrap95": [
+    -0.2069814493843035,
+    0.7496534654871817
+  ],
+  "date_sign_test_two_sided_p": 0.7265625,
+  "cpu_ratio": 1.1525048158638223,
+  "window_regressions": 4,
+  "guards": {
+    "date_interval_lower_above_zero": false,
+    "cpu_ratio_at_most_1_10": false,
+    "no_window_regression": false
+  },
+  "decision": "Keep default gate; retain behavior-preserving reservation acceleration and opt-in anchor/tail combination",
+  "measured_latency_used_for_selection": false,
+  "sealed_runs": 0
+}

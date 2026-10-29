@@ -9,7 +9,7 @@ agv run --profile wepa --case wepa-day45-bin4335 --algorithm gate --output runs/
 
 源码直接位于 [`src/agv/`](src/agv/)，无需解压研究包。结果含完整轨迹、独立验解、T/R/D/P90、空驶、真实CPU计时，以及明确的`objective_id`。默认拒绝覆盖已有结果。
 
-当前线性目标为 `F=0.5*T/900+0.3*R/900+0.2*D/5400`（6车、1格/秒）。历史profile的相对F使用同场景参照分母，与这个目标不能混比。`gate_anchor`、`gate_tail`、`gate_trigger`是独立实验选项，不替换默认gate。
+当前线性目标为 `F=0.5*T/900+0.3*R/900+0.2*D/5400`（6车、1格/秒）。历史profile的相对F使用同场景参照分母，与这个目标不能混比。`gate_anchor`、`gate_anchor_tail`、`gate_tail`、`gate_trigger`是独立实验选项，不替换默认gate。
 
 ```mermaid
 flowchart LR
@@ -45,6 +45,7 @@ agv experiment run --protocol protocols/wepa-20261029-frozen.json \
 
 - [WEPA模型与数据边界](docs/model/wepa.md)
 - [集成、优化与验证报告](docs/experiments/wepa-integration-20261029.md)
+- [第二轮审核、跨日期验证和性能分析](docs/experiments/review2-20261029.md)
 - [架构与未合并的业务边界](docs/architecture.md)
 - [日期隔离的冻结协议](protocols/wepa-20261029-frozen.json)：8个开发窗口、16个验证窗口、8个封存窗口；封存集不开放给日常实验。该测量协议绑定`ccff577`源码快照，复现需检出该提交；当前代码的新实验应另行冻结协议。
 - [原始数据许可与字节哈希](research/recommended-20261024/data/README.md)
