@@ -21614,7 +21614,7 @@
     "policy/wepa/base_forecast.py": "ac0de63fe4d266539d38398aae69d0d6e99fbc8e80fc6b69d10332ad56f54d89",
     "policy/wepa/base_genetic.py": "00b65ac454f8cc769975d1f63e297da1b8d94968e3eb5330265b280ee44b7f28",
     "policy/wepa/base_policy.py": "3020833ac0696c156ab24458a4078b7423b0c893db145d840eecae580fb38de2",
-    "policy/wepa/common.py": "4cd5b4adeafbda6449a36d967303aad2fbeb17bc2360404a734380d75a76c829",
+    "policy/wepa/common.py": "2363064f334dbb2802d484048156a53ea22ff549b67598730f64d55c39b4345f",
     "policy/wepa/compound.py": "fb4204b3193bb7400f62a952ae1b1b440633469df986124ca4bcae097e471456",
     "policy/wepa/coordination.py": "d9b2721a23ad810a5858e5bf8b9a80251f09e274675c71b3d4baffa90ea7ece3",
     "policy/wepa/exact_matching.py": "5975936ed838451c011fec504682a95913db5d8ccf139d0feba64fb7f6af676f",
@@ -21664,9 +21664,9 @@
     "world/state.py": "f676914edb45a5cd365574789c7b47770a019d49a8613c572e67fccbdd3d2413",
     "world/tasks.py": "7fd87f0f711d13df0c1429f98f1cc0a1935bec66830dbb1f7b055f181b5a6068",
     "world/transit.py": "d23a072b3a1a7022ae323cf29800e41940632923b728f18e4de46dd5d0a1b627",
-    "world/wepa.py": "e9f51ff9e38c55dc6c45fc99325b8bc938ec57ae6edc18cbade618f4de6b28b5",
-    "world/wepa_snapshot.py": "14d1912450dbba2fd422e8151115a9aa8258c7595480a46369661f21913c4185"
+    "world/wepa.py": "b130056fed3f2638b4631b336eb94fdfc554bfc4f5c8e8b61c6d3beb18e05dee",
+    "world/wepa_snapshot.py": "00af9839e2142171ce06e3997d69b2f746553513e5f90893daed3cf3f3e30a5f"
   },
   "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
-  "protocol_sha256": "1e5df23f31e97bf90cbdb2743c7880af821d983234b970738dd9ca94449d6028"
+  "protocol_sha256": "7c3ef001b193b896205464e5863f0fc782af1818b508e2976eb93bfd903eda0b"
 }
