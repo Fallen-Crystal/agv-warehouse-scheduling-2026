@@ -67,8 +67,8 @@ class LatencyBenchmarkTests(unittest.TestCase):
 
             with patch.object(bench, "_trial", side_effect=failed_trial):
                 summary = bench.run(base, protocol, plan, root / "output")
-            self.assertEqual(summary["failed"], 3)
-            self.assertEqual(len(observed), 3)
+            self.assertEqual(summary["failed"], 4)
+            self.assertEqual(len(observed), 4)
             self.assertTrue(all(item[1] in self.config()["validation"] for item in observed))
             self.assertTrue(all(item[-1] is None for item in observed))
             with self.assertRaises(FileExistsError):

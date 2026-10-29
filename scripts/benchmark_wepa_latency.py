@@ -18,9 +18,14 @@ METHODS = ["gate", "gate_anchor", "hungarian"]
 LATENCY = dict(kind="measured", scale=1)
 
 
-def configuration(base):
+def configuration(base, *, measured=True):
     config = copy.deepcopy(base["config"])
-    config.update(methods=METHODS[:], baseline="gate", latency=LATENCY.copy(), timeout_seconds=360)
+    config.update(
+        methods=METHODS[:],
+        baseline="gate",
+        latency=LATENCY.copy() if measured else dict(kind="none", scale=0),
+        timeout_seconds=360,
+    )
     config.pop("validation_controls", None)
     return config
 
@@ -32,11 +37,14 @@ def ignored(path):
     return path
 
 
-def measurement_plan(base, frozen):
+def measurement_plan(base, frozen, control):
     return dict(
         schema="agv-wepa-measured-latency-plan-v1",
         base_protocol_sha256=base["protocol_sha256"],
         supplemental_protocol_sha256=frozen["protocol_sha256"],
+        none_control_protocol_sha256=control["protocol_sha256"],
+        none_control_methods=["hungarian"],
+        none_gate_and_anchor="reuse independently audited base validation traces",
         sources_sha256=cache_key(base["sources"]),
         objective_id=frozen["objective_id"],
         case_ids=base["config"]["validation"],
@@ -65,7 +73,11 @@ def prepare(base_path, protocol_path, plan_path):
     frozen = freeze_protocol(configuration(base), protocol_path)
     if frozen["sources"] != base["sources"]:
         raise ValueError("Source changed while preparing the sensitivity protocol")
-    plan = measurement_plan(base, frozen)
+    control = freeze_protocol(
+        configuration(base, measured=False),
+        protocol_path.with_name(protocol_path.stem + "-none.json"),
+    )
+    plan = measurement_plan(base, frozen, control)
     write_json(plan_path, plan)
     return plan
 
@@ -73,11 +85,15 @@ def prepare(base_path, protocol_path, plan_path):
 def run(base_path, protocol_path, plan_path, output):
     protocol_path, output = ignored(protocol_path), ignored(output)
     base, frozen = load_protocol(base_path), load_protocol(protocol_path)
+    control_path = protocol_path.with_name(protocol_path.stem + "-none.json")
+    control = load_protocol(control_path)
     plan = json.loads(Path(plan_path).read_text(encoding="utf-8"))
     if (
         frozen["config"] != configuration(base)
         or frozen["sources"] != base["sources"]
-        or plan != measurement_plan(base, frozen)
+        or control["config"] != configuration(base, measured=False)
+        or control["sources"] != base["sources"]
+        or plan != measurement_plan(base, frozen, control)
     ):
         raise ValueError("Measurement plan, environment or frozen configuration differs")
     output.mkdir(parents=True, exist_ok=False)
@@ -92,19 +108,25 @@ def run(base_path, protocol_path, plan_path, output):
     target = output / "summary.json"
     write_json(target, summary)
     try:
-        for case in base["config"]["validation"]:
-            for method in METHODS:
-                for seed in base["config"]["seeds"]:
-                    raw = output / f"{case}--{method}--s{seed}.json"
-                    row = _trial((str(protocol_path), case, method, seed, str(raw), None))
-                    if row["status"] == "complete":
-                        trace = json.loads(raw.read_text(encoding="utf-8"))
-                        row["independent_audit"] = trace["scoring"]["audit"]
-                    summary["rows"].append(row)
-                    write_json(target, summary, overwrite=True)
-                    print(json.dumps(row, ensure_ascii=False), flush=True)
+        for mode, protocol, methods in (
+            ("measured", protocol_path, METHODS),
+            ("none", control_path, ["hungarian"]),
+        ):
+            for case in base["config"]["validation"]:
+                for method in methods:
+                    for seed in base["config"]["seeds"]:
+                        raw = output / f"{mode}--{case}--{method}--s{seed}.json"
+                        row = _trial((str(protocol), case, method, seed, str(raw), None))
+                        if row["status"] == "complete":
+                            trace = json.loads(raw.read_text(encoding="utf-8"))
+                            row["independent_audit"] = trace["scoring"]["audit"]
+                        row["latency_model"] = mode
+                        summary["rows"].append(row)
+                        write_json(target, summary, overwrite=True)
+                        print(json.dumps(row, ensure_ascii=False), flush=True)
         load_protocol(base_path)
         load_protocol(protocol_path)
+        load_protocol(control_path)
     except Exception as error:
         summary.update(status="aborted", error=f"{type(error).__name__}: {error}")
         write_json(target, summary, overwrite=True)

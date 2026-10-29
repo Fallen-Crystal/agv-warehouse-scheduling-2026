@@ -2,6 +2,11 @@
   "schema": "agv-wepa-measured-latency-plan-v1",
   "base_protocol_sha256": "4b2c1ca3c3d3bfa91c12f969777738869054ee9684a0e01f1314a4f8a22df1ab",
   "supplemental_protocol_sha256": "3a547bac0ba6c25c4116ed530c6e4deedac10c0486c6a9ac2131c744fa3b5127",
+  "none_control_protocol_sha256": "cbcb953f43e3b12d3f10d245d8e79c3cdf9a67efd8e722a4120ffb0ffebc059b",
+  "none_control_methods": [
+    "hungarian"
+  ],
+  "none_gate_and_anchor": "reuse independently audited base validation traces",
   "sources_sha256": "df8c8e41c741a07572dd12c904dc3bda614b724e46eda39b5fbc0dfe3279ae65",
   "objective_id": "linear-physical-v2-20261024:a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
   "case_ids": [
@@ -43,5 +48,5 @@
     "platform": "macOS-26.6.2-arm64-arm-64bit",
     "machine": "arm64"
   },
-  "harness_sha256": "237c07c230290e403a0e35f5ff536a581980ee1435017cdf6d16e3bd50684eff"
+  "harness_sha256": "d6e699445b4d41a970e214de4997a57e197be6808c7f312e5b3fd185265959c2"
 }
