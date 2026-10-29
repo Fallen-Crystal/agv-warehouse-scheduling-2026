@@ -67,6 +67,21 @@ class WepaExperimentTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValueError):
                 run(make("cross_out"), "gate", latency=value)
 
+    def test_failed_plan_records_diagnostics_through_public_command(self):
+        from agv.planning.sipp import SafeIntervalRouter
+        from agv.policy.wepa import owned_batch
+        from agv.world.wepa import World
+        from agv.world.wepa_snapshot import observation
+
+        model = make("cross_out")
+        world = World(model, router=SafeIntervalRouter(model["scene"]))
+        world.publish_and_complete()
+        job = world.ready()[0]
+        with patch.object(world, "trip", return_value=None):
+            self.assertEqual(owned_batch(observation(world), [job["id"]], {job["id"]: 0}), [])
+        self.assertEqual(world.routing_failures, 1)
+        self.assertNotIn(job["id"], world.assigned)
+
     def test_protocol_identity_source_and_disjoint_partitions(self):
         with (
             tempfile.TemporaryDirectory() as directory,

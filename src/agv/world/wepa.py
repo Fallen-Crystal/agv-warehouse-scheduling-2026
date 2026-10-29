@@ -35,6 +35,9 @@ class World:
     def table(self):
         return ReservationTable(self.plans, self.time)
 
+    def record_routing_failure(self):
+        self.routing_failures += 1
+
     def ordinary(self, p):
         return (
             p in self.scene.transit_only

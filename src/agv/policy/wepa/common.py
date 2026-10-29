@@ -37,7 +37,7 @@ def batch(world, rule):
         for _, _, _, k, j in choices:
             proposal = world.trip(k, j)
             if proposal is None:
-                world.routing_failures += 1
+                world.record_routing_failure()
                 continue
             world.commit(k, j, proposal)
             assignments.append((k, j["id"]))
@@ -59,7 +59,7 @@ def owned_batch(world, order, owners):
         k = owners[jid]
         proposal = world.trip(k, job)
         if proposal is None:
-            world.routing_failures += 1
+            world.record_routing_failure()
             continue
         world.commit(k, job, proposal)
         pairs.append((k, jid))

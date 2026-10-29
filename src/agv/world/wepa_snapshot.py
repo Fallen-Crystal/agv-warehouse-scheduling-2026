@@ -131,6 +131,7 @@ class WepaObservation:
         self._endpoints = world.endpoints
         self._estimate = world.estimate
         self._ordinary = world.ordinary
+        self._record_routing_failure = world.record_routing_failure
 
         def refresh():
             self.time, self.closed = world.time, world.closed
@@ -171,6 +172,9 @@ class WepaObservation:
 
     def ordinary(self, point):
         return self._ordinary(point)
+
+    def record_routing_failure(self):
+        self._record_routing_failure()
 
 
 def observation(world):
