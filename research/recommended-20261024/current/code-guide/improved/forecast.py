@@ -88,10 +88,14 @@ def rollout(base, plan=None, objective=None, incumbent=float("inf"), *, rule="et
             lower_r = sum(
                 fixed.get(j, w.time) - job["release"] for j, job in w.tasks.items()
             ) / max(1, len(w.tasks))
-            lower_d = w.past_moves + (sum(
-                w.router.distance(p[0], w.scene.homes[k], k)
-                for k, p in enumerate(w.plans)
-            ) if w.closed else 0)
+            lower_d = w.past_moves + (
+                sum(
+                    w.router.distance(p[0], w.scene.homes[k], k)
+                    for k, p in enumerate(w.plans)
+                )
+                if w.closed
+                else 0
+            )
             if rank_score((lower_t, lower_r, lower_d), objective) >= incumbent - 1e-12:
                 return result(None, "bound_pruned")
         if any(r is None for r in w.active) and w.ready():

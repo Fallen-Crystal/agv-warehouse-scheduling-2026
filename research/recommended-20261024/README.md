@@ -26,3 +26,6 @@ Python3.12标准库即可跑推荐方案。入口校验并解压完整源码包�
 
 
 历史导出范围补充：10月22日导出只保留源码、说明、协议、逐次CSV及紧凑统计；旧完整轨迹/runs、大型JSON和更早无关结果不重复公开打包，排除清单在EXPORT_SCOPE.json。10月24日各原ZIP仍包含完整逐次轨迹。
+
+
+2026-11-02更新：当前入口已启用可读版模块，见[current/READABILITY.md](current/READABILITY.md)。code-guide/improved现为实际运行源码；ZIP内原版用于冻结依赖和历史审计。

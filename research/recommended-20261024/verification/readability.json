@@ -1,0 +1,22 @@
+{
+  "AST_equivalent": [
+    "improved/compound.py",
+    "improved/coordination.py",
+    "improved/execute.py",
+    "improved/forecast.py",
+    "improved/genetic.py",
+    "improved/hungarian.py",
+    "improved/hungarian_seed.py",
+    "improved/matching.py",
+    "improved/order_ga.py",
+    "improved/policy.py",
+    "improved/profiles.py",
+    "improved/proxy.py",
+    "improved/targeted.py",
+    "improved/__init__.py"
+  ],
+  "original_commit": "cb093a91556671c038097ad241d1cb3554f4b019",
+  "tests_passed": 25,
+  "full_replay_equal": true,
+  "scoring_equal": true
+}

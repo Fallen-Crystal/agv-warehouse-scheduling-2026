@@ -16,12 +16,20 @@ def run(model, method="simple", seed=0, max_time=None, *, objective=None):
     w = World(model)
     w.route_kind, w.route_seed = router, seed
     w.router = make_router(w.scene, router, seed)
-    policy = (LinearPolicy("soft_ga", seed, objective=objective) if method == "simple" else
-              ResearchPolicy(method, seed, objective=objective) if method in PROFILES else None)
+    policy = (
+        LinearPolicy("soft_ga", seed, objective=objective)
+        if method == "simple"
+        else ResearchPolicy(method, seed, objective=objective)
+        if method in PROFILES
+        else None
+    )
     if policy is None and method not in ("eta", "fcfs"):
         raise ValueError("Unknown dispatcher")
-    coordinator = (Coordinator(objective) if method in PROFILES and
-                   PROFILES[method].get("coordination") else None)
+    coordinator = (
+        Coordinator(objective)
+        if method in PROFILES and PROFILES[method].get("coordination")
+        else None
+    )
     limit = max_time or model["close_at"] + max(3000, len(model["tasks"]) * 150)
     while w.time <= limit:
         w.publish_and_complete()
@@ -32,7 +40,7 @@ def run(model, method="simple", seed=0, max_time=None, *, objective=None):
             pairs = policy.action(w) if policy else batch(w, method)
             if pairs:
                 if coordinator:
-                    coordinator.improve(w,pairs,before,policy.plan)
+                    coordinator.improve(w, pairs, before, policy.plan)
                 w.decisions.append(
                     dict(time=w.time, pairs=pairs, visible_ids=sorted(w.visible))
                 )
