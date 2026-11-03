@@ -1,0 +1,182 @@
+{
+  "config": {
+    "seeds": 10,
+    "class_note": "static only; optional batch mode"
+  },
+  "rows": [
+    {
+      "layout": "wide",
+      "seed": 0,
+      "joint": 26.583333333333332,
+      "batch": 26.25,
+      "improvement_pct": 1.2539184952978013,
+      "batch_seconds": 0.5585841669235379
+    },
+    {
+      "layout": "wide",
+      "seed": 1,
+      "joint": 29.416666666666668,
+      "batch": 27.416666666666668,
+      "improvement_pct": 6.798866855524079,
+      "batch_seconds": 0.5808460840489715
+    },
+    {
+      "layout": "wide",
+      "seed": 2,
+      "joint": 25.416666666666668,
+      "batch": 25.416666666666668,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.5136645410675555
+    },
+    {
+      "layout": "wide",
+      "seed": 3,
+      "joint": 31.166666666666668,
+      "batch": 29.0,
+      "improvement_pct": 6.9518716577540145,
+      "batch_seconds": 0.5394598750863224
+    },
+    {
+      "layout": "wide",
+      "seed": 4,
+      "joint": 32.833333333333336,
+      "batch": 32.833333333333336,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.7178253340534866
+    },
+    {
+      "layout": "wide",
+      "seed": 5,
+      "joint": 31.916666666666668,
+      "batch": 30.75,
+      "improvement_pct": 3.655352480417758,
+      "batch_seconds": 0.6471835828851908
+    },
+    {
+      "layout": "wide",
+      "seed": 6,
+      "joint": 29.833333333333332,
+      "batch": 28.833333333333332,
+      "improvement_pct": 3.35195530726257,
+      "batch_seconds": 0.52197299990803
+    },
+    {
+      "layout": "wide",
+      "seed": 7,
+      "joint": 28.0,
+      "batch": 28.0,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.4507341659627855
+    },
+    {
+      "layout": "wide",
+      "seed": 8,
+      "joint": 27.583333333333332,
+      "batch": 27.416666666666668,
+      "improvement_pct": 0.6042296072507467,
+      "batch_seconds": 0.4625828340649605
+    },
+    {
+      "layout": "wide",
+      "seed": 9,
+      "joint": 30.333333333333332,
+      "batch": 30.333333333333332,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.4650957079138607
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 0,
+      "joint": 27.166666666666668,
+      "batch": 27.166666666666668,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.5109378749039024
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 1,
+      "joint": 29.25,
+      "batch": 29.25,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.5106544170994312
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 2,
+      "joint": 28.25,
+      "batch": 26.833333333333332,
+      "improvement_pct": 5.014749262536878,
+      "batch_seconds": 0.556580875068903
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 3,
+      "joint": 32.0,
+      "batch": 29.0,
+      "improvement_pct": 9.375,
+      "batch_seconds": 0.5436213340144604
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 4,
+      "joint": 34.333333333333336,
+      "batch": 33.666666666666664,
+      "improvement_pct": 1.9417475728155476,
+      "batch_seconds": 0.6577882920391858
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 5,
+      "joint": 32.75,
+      "batch": 31.333333333333332,
+      "improvement_pct": 4.325699745547078,
+      "batch_seconds": 0.623795541934669
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 6,
+      "joint": 32.333333333333336,
+      "batch": 30.833333333333332,
+      "improvement_pct": 4.639175257731969,
+      "batch_seconds": 0.6276780408807099
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 7,
+      "joint": 30.333333333333332,
+      "batch": 30.0,
+      "improvement_pct": 1.098901098901095,
+      "batch_seconds": 0.5710337499622256
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 8,
+      "joint": 29.166666666666668,
+      "batch": 29.166666666666668,
+      "improvement_pct": 0.0,
+      "batch_seconds": 0.5013265828602016
+    },
+    {
+      "layout": "bottleneck",
+      "seed": 9,
+      "joint": 31.166666666666668,
+      "batch": 30.833333333333332,
+      "improvement_pct": 1.0695187165775477,
+      "batch_seconds": 0.48200408299453557
+    }
+  ],
+  "summary": {
+    "wide": {
+      "joint": 29.308333333333334,
+      "batch": 28.625,
+      "improvement_pct": 2.261619440350697,
+      "batch_seconds": 0.5457949291914701
+    },
+    "bottleneck": {
+      "joint": 30.675,
+      "batch": 29.808333333333334,
+      "improvement_pct": 2.7464791654110114,
+      "batch_seconds": 0.5585420791758224
+    }
+  }
+}

@@ -7,8 +7,8 @@
   "metric_runs_compared": 240,
   "metric_mismatches": [],
   "snapshot_sha256": "479ba62d94e5fd31fafc77e6ba5863ad6c023342bcaa616bad6a4db6aaba8fd3",
-  "tests": 66,
-  "strict_tests": 66,
+  "tests": 68,
+  "strict_tests": 68,
   "runtime_seconds": {
     "dynamic_large_shared": {
       "baseline": {
@@ -118,7 +118,7 @@
     "routing.py": "5cbbb8bc9ee874e3974156c6821225899bd2b722e8a0f09ee58510543f5ce54d",
     "pickup_planning.py": "bfb68cf220d6e4bc95e32a908b80a01ee97e5b3e450d93dbdf1d24d281ab4d71",
     "baseline.py": "b16170dda4ebfed853f78350afb43cf18b2205408efe4e0514ed417e0d40b289",
-    "optimized.py": "cc615a657e4bb5d1b5b1852c27062c75e133091d559c726b1e540bc1fe53551d",
+    "optimized.py": "c31ad707e4a35a0f780f2399d92ff6587dee1dec523a5f57bb13f182532f566a",
     "joint_planning.py": "e3c6300fcde91902f028798daf1a3f8f99373c8ec6797007231217095ec340ec",
     "environment.py": "5655511a5425852b331375fd0e1bf1d8e02141aa15132b46707a4bc624204aa0",
     "metrics.py": "7dcfa637f760df3f82e60d22a66ac0bc0b5ee860fc64b6308834995f6c5a7748",

@@ -35,13 +35,18 @@ def matching_action(observation, age_weight=0.25):
     return dp[mask][1]
 
 
-def run(scenario, assignment='matching', joint=True, interval=5, attempts=8):
+def run(scenario, assignment='matching', joint=True, interval=5, attempts=8, initial_rollout=False):
     if assignment not in ('matching','greedy') or type(interval) is not int or interval<1:
         raise ValueError('Invalid optimizer options')
     env=Environment(scenario)
     planner=JointPlanner(attempts)
     action=matching_action if assignment=='matching' else greedy_action
     calls=0
+    if initial_rollout:
+        from initial_planning import choose_initial
+        initial=choose_initial(scenario, attempts=attempts, interval=interval)
+        if initial:
+            env.assign(initial)
     while not env.done and env.time<scenario.horizon:
         feedback=env.assign(action(env.observe()))
         if joint and (env.time % interval == 0 or any(f['accepted'] for f in feedback)):
@@ -52,7 +57,8 @@ def run(scenario, assignment='matching', joint=True, interval=5, attempts=8):
         env.advance()
     result=env.result()
     result['algorithm']=dict(assignment=assignment,joint=joint,interval=interval,attempts=attempts,
-                             replan_calls=calls,accepted_replans=len(result['replanning_events']))
+                             initial_rollout=initial_rollout,replan_calls=calls,
+                             accepted_replans=len(result['replanning_events']))
     return result
 
 

@@ -65,6 +65,7 @@ uv run --with 'matplotlib>=3.8,<4' python plot_results.py
 - `environment.py`：保留原执行接口，新增可见已接任务信息和原子 `apply_replan()`。
 - `benchmark_algorithms.py`：配对实验与消融；`test_optimized.py`：服务冻结、原子拒绝、在线隔离等回归测试。
 - `oracle.py` / `benchmark_oracle.py`：静态小实例受限精确搜索与最优性差距对照，见 [小规模最优性对照](agv_modeling_shelf/小规模最优性对照.md)。
+- `initial_planning.py` / `benchmark_initial_batch.py`：可选的静态首批候选回放，10 个种子上平均改善 2.26%/2.75%，见 [初始批次静态优化](agv_modeling_shelf/初始批次静态优化.md)。
 - `artifacts/`：原版运行与测试记录、原始文件 SHA256、课程要求文字摘录、最终验证证据。课程 PPT 原文件不在仓库公开分发。
 
 原文件夹里的历史建模说明和验证记录予以保留，属于队友版本记录；本次新增算法和当前成绩以本 README 及《算法实现与实验报告》为准。原始输入文件夹 `/Users/fallen/Desktop/agv_modeling_shelf/` 未修改。
