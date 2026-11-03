@@ -7,8 +7,8 @@
   "metric_runs_compared": 240,
   "metric_mismatches": [],
   "snapshot_sha256": "479ba62d94e5fd31fafc77e6ba5863ad6c023342bcaa616bad6a4db6aaba8fd3",
-  "tests": 68,
-  "strict_tests": 68,
+  "tests": 69,
+  "strict_tests": 69,
   "runtime_seconds": {
     "dynamic_large_shared": {
       "baseline": {

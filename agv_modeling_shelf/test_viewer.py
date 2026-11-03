@@ -70,6 +70,16 @@ class ViewerTests(unittest.TestCase):
         self.assertIn('p90_flow_time',data['result'])
         self.assertEqual(len(data['result']['per_vehicle']),4)
 
+
+    def test_static_batch_algorithm_option(self):
+        batch=calculate({'algorithm':'joint_batch','seed':1,'layout':'wide'})
+        joint=calculate({'algorithm':'joint_only','seed':1,'layout':'wide'})
+        self.assertTrue(batch['result']['algorithm']['initial_rollout'])
+        self.assertLessEqual(batch['result']['mean_flow_time'],joint['result']['mean_flow_time'])
+        dynamic=calculate({'algorithm':'joint_batch','mode':'dynamic','arrival':'burst',
+                           'size':'medium','vehicles':6,'task_count':30,'seed':0})
+        self.assertTrue(dynamic['result']['feasible'])
+
     def test_chosen_combination_really_runs_and_is_cached(self):
         options=dict(size='medium',vehicles=6,layout='wide',mode='dynamic',arrival='irregular',demand='switching',delivery_pattern='shared',task_count=18,seed=5)
         with self.request(options) as response: a=json.loads(response.read())
