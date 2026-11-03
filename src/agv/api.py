@@ -11,6 +11,96 @@ from agv.evaluation.validation import validate
 from agv.experiments.batch import run_batch
 from agv.io.scenes import scenario_id, unpack_scene
 
+
+def generate_scene(
+    profile="legacy",
+    *,
+    seed=0,
+    task_count=12,
+    mode="static",
+    size=None,
+    vehicles=4,
+    layout="bottleneck",
+    shelf_layers=3,
+    work_width=2,
+    obstacle_layout=None,
+    layout_variant=0,
+    delivery_pattern="distributed",
+    arrival="batch",
+    demand="balanced",
+    horizon=None,
+):
+    """Build one scene from an explicit profile, shared by CLI and HTTP callers."""
+    if profile == "legacy":
+        return example(
+            mode=mode,
+            layout=layout,
+            seed=seed,
+            task_count=task_count,
+            vehicles=vehicles,
+            size=size or "small",
+            delivery_pattern=delivery_pattern,
+            arrival=arrival,
+            demand=demand,
+            horizon=600 if horizon is None else horizon,
+        )
+    if profile == "v4":
+        from agv.warehouse.layout import generate
+
+        return generate(
+            mode=mode,
+            seed=seed,
+            task_count=task_count,
+            vehicles=vehicles,
+            size=size or "small",
+            delivery_pattern=delivery_pattern,
+            arrival=arrival,
+            demand=demand,
+            horizon=horizon,
+            work_width=work_width,
+            obstacle_layout=obstacle_layout or "none",
+            layout_variant=layout_variant,
+            shelf_layers=shelf_layers,
+        )
+    if profile == "v9":
+        from agv.warehouse.mixed import generate
+
+        return generate(
+            mode=mode,
+            seed=seed,
+            task_count=task_count,
+            vehicles=vehicles,
+            size=size or "medium",
+            delivery_pattern=delivery_pattern,
+            arrival=arrival,
+            demand=demand,
+            horizon=horizon,
+            work_width=work_width,
+            obstacle_layout=obstacle_layout or "columns_equipment",
+            layout_variant=layout_variant,
+            shelf_layers=shelf_layers,
+        )
+    if profile == "v9.1":
+        from agv.warehouse.mixed import generate_current as generate
+
+        return generate(
+            mode=mode,
+            seed=seed,
+            task_count=task_count,
+            vehicles=vehicles,
+            size=size or "medium",
+            delivery_pattern=delivery_pattern,
+            arrival=arrival,
+            demand=demand,
+            horizon=horizon,
+            work_width=work_width,
+            obstacle_layout=obstacle_layout or "columns_equipment",
+            layout_variant=layout_variant,
+            shelf_layers=shelf_layers,
+        )
+    raise ValueError("Invalid scene profile")
+
+
 DEFAULTS = dict(
     profile="legacy",
     size="small",
@@ -112,32 +202,7 @@ def calculate(options):
 
 def build_scene(options):
     """One explicit scene profile; never reinterpret the legacy wall control."""
-    if options["profile"] in ("v4", "v9", "v9.1"):
-        if options["profile"] == "v9.1":
-            from agv.warehouse.mixed import generate_current as generate
-        elif options["profile"] == "v9":
-            from agv.warehouse.mixed import generate
-        else:
-            from agv.warehouse.layout import generate
-
-        return generate(
-            **{k: v for k, v in options.items() if k not in ("profile", "algorithm", "layout")}
-        )
-    return example(
-        **{
-            k: v
-            for k, v in options.items()
-            if k
-            not in (
-                "profile",
-                "algorithm",
-                "shelf_layers",
-                "work_width",
-                "obstacle_layout",
-                "layout_variant",
-            )
-        }
-    )
+    return generate_scene(**{k: v for k, v in options.items() if k != "algorithm"})
 
 
 def calculate_loaded(data):

@@ -7,8 +7,8 @@ import sys
 import webbrowser
 from pathlib import Path
 
+from agv.api import generate_scene
 from agv.dispatch.registry import SOLVERS, run_named
-from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.io.scenes import load_scene, pack_scene
 from agv.io.storage import write_json
@@ -73,39 +73,18 @@ def main(argv=None):
         elif args.command == "run":
             if args.input:
                 scenario = load_scene(args.input)
-            elif args.profile in ("v4", "v9", "v9.1"):
-                if args.profile == "v9.1":
-                    from agv.warehouse.mixed import generate_current as generate
-                elif args.profile == "v9":
-                    from agv.warehouse.mixed import generate
-                else:
-                    from agv.warehouse.layout import generate
-
-                scenario = generate(
+            else:
+                scenario = generate_scene(
+                    profile=args.profile,
                     seed=args.seed,
                     task_count=args.tasks,
                     mode=args.mode,
-                    size=args.size or ("medium" if args.profile in ("v9", "v9.1") else "small"),
+                    size=args.size,
                     vehicles=args.vehicles,
                     shelf_layers=args.layers,
                     work_width=args.work_width,
-                    obstacle_layout=(
-                        args.obstacles
-                        if args.obstacles is not None
-                        else "columns_equipment"
-                        if args.profile in ("v9", "v9.1")
-                        else "none"
-                    ),
+                    obstacle_layout=args.obstacles,
                     horizon=args.horizon,
-                )
-            else:
-                scenario = example(
-                    seed=args.seed,
-                    task_count=args.tasks,
-                    mode=args.mode,
-                    size=args.size or ("medium" if args.profile in ("v9", "v9.1") else "small"),
-                    vehicles=args.vehicles,
-                    horizon=args.horizon if args.horizon is not None else 600,
                 )
             args.algorithm = args.algorithm or (
                 "sipp_stream_dispatch" if scenario.is_v9_1 else "sipp_budget"

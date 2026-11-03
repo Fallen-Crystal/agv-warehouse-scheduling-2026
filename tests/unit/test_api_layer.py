@@ -20,6 +20,24 @@ class ApiLayerTests(unittest.TestCase):
         scenario = api.build_scene(options)
         self.assertTrue(scenario.is_v4)
 
+    def test_scene_factory_matches_profile_generators(self):
+        from agv.domain import example
+        from agv.warehouse.layout import generate as generate_v4
+        from agv.warehouse.mixed import generate_current as generate_v91
+
+        self.assertEqual(
+            api.generate_scene(profile="legacy", task_count=2, seed=1).to_dict(),
+            example(task_count=2, seed=1).to_dict(),
+        )
+        self.assertEqual(
+            api.generate_scene(profile="v4", task_count=2, vehicles=2, seed=1).to_dict(),
+            generate_v4(task_count=2, vehicles=2, seed=1).to_dict(),
+        )
+        self.assertEqual(
+            api.generate_scene(profile="v9.1", task_count=2, vehicles=1, seed=1).to_dict(),
+            generate_v91(task_count=2, vehicles=1, seed=1).to_dict(),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
