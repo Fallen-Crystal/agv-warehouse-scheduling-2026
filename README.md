@@ -22,6 +22,7 @@ python3 show_warehouse.py
 ```bash
 cd agv_modeling_shelf
 NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost python3 -m unittest discover -v
+AGV_STRICT_REPLAN=1 python3 -m unittest discover
 python3 benchmark_algorithms.py --seeds 10 --output my_reproduction
 python3 explain_replan.py
 python3 verify_delivery.py
@@ -50,6 +51,8 @@ uv run --with 'matplotlib>=3.8,<4' python plot_results.py
 | 小型动态热点切换，4车30单 | 22.270 | 22.213 | 0.25% | 21.977 | 1.32% |
 
 前 5 类场景每种算法均成功 10/10；100 步短时限压力场景每种算法均成功 0/10，完成单数和失败记录完整保留。收益并非所有种子都成立，且重规划增加运行耗时；具体成败次数、距离变化和耗时见报告。
+
+2026-11-03 完成性能优化后，联合方案的单次耗时降低约 2.25–2.77 倍（大型场景约 5.22 秒→2.33 秒），240 次实验的全部指标逐条不变；基线也因共享几何缓存变快。增量后缀校验默认开启，`AGV_STRICT_REPLAN=1` 可在提交前额外回放完整未来做独立验证。细节与耗时表见 [性能优化记录](agv_modeling_shelf/性能优化记录.md)。
 
 ![配对实验](agv_modeling_shelf/algorithm_results/comparison.png)
 

@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-03",
+  "python": "3.12.13",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "seeds": 10,
+  "runs": 240,
+  "metric_runs_compared": 240,
+  "metric_mismatches": [],
+  "snapshot_sha256": "479ba62d94e5fd31fafc77e6ba5863ad6c023342bcaa616bad6a4db6aaba8fd3",
+  "tests": 64,
+  "strict_tests": 64,
+  "runtime_seconds": {
+    "dynamic_large_shared": {
+      "baseline": {
+        "old_mean": 0.5869,
+        "new_mean": 0.1172,
+        "speedup": 5.01
+      },
+      "joint_only": {
+        "old_mean": 5.2241,
+        "new_mean": 2.3268,
+        "speedup": 2.25
+      },
+      "matching_joint": {
+        "old_mean": 5.1971,
+        "new_mean": 2.3062,
+        "speedup": 2.25
+      }
+    },
+    "dynamic_medium_burst": {
+      "baseline": {
+        "old_mean": 0.219,
+        "new_mean": 0.0406,
+        "speedup": 5.4
+      },
+      "joint_only": {
+        "old_mean": 1.0947,
+        "new_mean": 0.4409,
+        "speedup": 2.48
+      },
+      "matching_joint": {
+        "old_mean": 1.0264,
+        "new_mean": 0.4186,
+        "speedup": 2.45
+      }
+    },
+    "dynamic_small_switching": {
+      "baseline": {
+        "old_mean": 0.1169,
+        "new_mean": 0.0163,
+        "speedup": 7.15
+      },
+      "joint_only": {
+        "old_mean": 0.5421,
+        "new_mean": 0.1954,
+        "speedup": 2.77
+      },
+      "matching_joint": {
+        "old_mean": 0.5322,
+        "new_mean": 0.1924,
+        "speedup": 2.77
+      }
+    },
+    "short_horizon_stress": {
+      "baseline": {
+        "old_mean": 0.911,
+        "new_mean": 0.0527,
+        "speedup": 17.28
+      },
+      "joint_only": {
+        "old_mean": 1.0724,
+        "new_mean": 0.2127,
+        "speedup": 5.04
+      },
+      "matching_joint": {
+        "old_mean": 1.0957,
+        "new_mean": 0.2155,
+        "speedup": 5.08
+      }
+    },
+    "static_small_bottleneck": {
+      "baseline": {
+        "old_mean": 0.0456,
+        "new_mean": 0.0069,
+        "speedup": 6.62
+      },
+      "joint_only": {
+        "old_mean": 0.1562,
+        "new_mean": 0.0585,
+        "speedup": 2.67
+      },
+      "matching_joint": {
+        "old_mean": 0.1602,
+        "new_mean": 0.0609,
+        "speedup": 2.63
+      }
+    },
+    "static_small_wide": {
+      "baseline": {
+        "old_mean": 0.0428,
+        "new_mean": 0.0068,
+        "speedup": 6.25
+      },
+      "joint_only": {
+        "old_mean": 0.1474,
+        "new_mean": 0.0556,
+        "speedup": 2.65
+      },
+      "matching_joint": {
+        "old_mean": 0.1527,
+        "new_mean": 0.0585,
+        "speedup": 2.61
+      }
+    }
+  },
+  "source_hashes": {
+    "model.py": "77ddbd68d7fffe60c7524b8b67cb38b7e3c7ff4b1c7ef976a2efb9669c9df45a",
+    "routing.py": "5cbbb8bc9ee874e3974156c6821225899bd2b722e8a0f09ee58510543f5ce54d",
+    "pickup_planning.py": "bfb68cf220d6e4bc95e32a908b80a01ee97e5b3e450d93dbdf1d24d281ab4d71",
+    "baseline.py": "b16170dda4ebfed853f78350afb43cf18b2205408efe4e0514ed417e0d40b289",
+    "optimized.py": "cc615a657e4bb5d1b5b1852c27062c75e133091d559c726b1e540bc1fe53551d",
+    "joint_planning.py": "e3c6300fcde91902f028798daf1a3f8f99373c8ec6797007231217095ec340ec",
+    "environment.py": "5655511a5425852b331375fd0e1bf1d8e02141aa15132b46707a4bc624204aa0",
+    "metrics.py": "7dcfa637f760df3f82e60d22a66ac0bc0b5ee860fc64b6308834995f6c5a7748",
+    "validation.py": "d28475183a83618876072f4787bd87c70f6f3b2988415e0ae7b2ab1fd3b54846",
+    "benchmark_algorithms.py": "00c01add486af48a0221571b978fa18e2f7c9ed1a5859d02b3fb563f8a461965"
+  }
+}
