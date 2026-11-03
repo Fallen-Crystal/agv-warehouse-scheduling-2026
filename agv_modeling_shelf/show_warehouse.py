@@ -75,9 +75,21 @@ load();
 </script></html>'''
 
 
+ALGORITHMS=('baseline','matching_only','joint_only','matching_joint','joint_batch')
 DEFAULTS = dict(size='small', vehicles=4, layout='bottleneck', mode='static',
                 arrival='batch', demand='balanced', delivery_pattern='distributed',
                 task_count=12, seed=0, horizon=600, algorithm='baseline')
+
+
+def run_algorithm(scenario, algorithm):
+    if algorithm not in ALGORITHMS:
+        raise ValueError('未知算法')
+    if algorithm == 'baseline':
+        return run(scenario)
+    return optimized_run(scenario,
+        assignment='greedy' if algorithm in ('joint_only','joint_batch') else 'matching',
+        joint=algorithm != 'matching_only',
+        initial_rollout=algorithm == 'joint_batch')
 
 
 def calculate(options):
@@ -88,10 +100,10 @@ def calculate(options):
         if type(options[name]) is not int or not minimum <= options[name] <= maximum:
             raise ValueError(f'{name} 必须是 {minimum} 到 {maximum} 的整数')
     algorithm=options['algorithm']
-    if algorithm not in ('baseline','matching_only','joint_only','matching_joint'):
+    if algorithm not in ALGORITHMS:
         raise ValueError('未知算法')
     s = example(**{k:v for k,v in options.items() if k!='algorithm'})
-    r = run(s) if algorithm=='baseline' else optimized_run(s,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
+    r = run_algorithm(s, algorithm)
     validate(s, r)
     return dict(name='自选场景', config=options, scenario=s.to_dict(), result=r,scenario_sha256=scenario_id(s))
 
@@ -103,8 +115,8 @@ def calculate_loaded(data):
     if s.width>30 or s.height>30 or len(s.homes)>8 or len(s.tasks)>60 or s.horizon>1800:
         raise ValueError('页面导入限制：地图不超过30×30、8辆车、60单、1800步')
     algorithm=data.get('config',{}).get('algorithm','baseline') if isinstance(data.get('config'),dict) else 'baseline'
-    if algorithm not in ('baseline','matching_only','joint_only','matching_joint'):raise ValueError('未知算法')
-    r=run(s) if algorithm=='baseline' else optimized_run(s,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
+    if algorithm not in ALGORITHMS:raise ValueError('未知算法')
+    r=run_algorithm(s, algorithm)
     validate(s,r)
     return dict(name='导入的固定场景',config=None,scenario=s.to_dict(),result=r,scenario_sha256=scenario_id(s))
 
@@ -120,14 +132,16 @@ def calculate_batch(data):
     algorithm=config.pop('algorithm')
     from optimized import matching_action
     if algorithm=='baseline':return run_batch(config,range(start,start+count))
-    solver=lambda scenario: optimized_run(scenario,assignment='greedy' if algorithm=='joint_only' else 'matching',joint=algorithm!='matching_only')
-    return run_batch(config,range(start,start+count),policies={algorithm:matching_action},runners={algorithm:solver})
+    from baseline import greedy_action
+    solver=lambda scenario: run_algorithm(scenario, algorithm)
+    policy=greedy_action if algorithm in ('joint_only','joint_batch') else matching_action
+    return run_batch(config,range(start,start+count),policies={algorithm:policy},runners={algorithm:solver})
 
 
 def make_html(initial=None):
     html = TEMPLATE
     controls = '''<div class="controls">
-<label>调度算法 <select id="algorithm"><option value="baseline">队友原版：距离贪心</option><option value="matching_only">仅最小代价匹配</option><option value="joint_only">仅联合重规划</option><option value="matching_joint">匹配 + 联合重规划</option></select></label>
+<label>调度算法 <select id="algorithm"><option value="baseline">队友原版：距离贪心</option><option value="matching_only">仅最小代价匹配</option><option value="joint_only">仅联合重规划</option><option value="matching_joint">匹配 + 联合重规划</option><option value="joint_batch">联合 + 静态首批批次</option></select></label>
 <label>仓库大小 <select id="size"><option value="small">小：13×11格</option><option value="medium">中：19×15格</option><option value="large">大：25×19格</option></select></label>
 <label>车辆数 <select id="vehiclesCount">'''+''.join(f'<option value="{k}"'+(' selected' if k==4 else '')+f'>{k}辆</option>' for k in range(1,9))+'''</select></label>
 <label>通道 <select id="layout"><option value="bottleneck">窄：1个通行口</option><option value="wide">宽：3个通行口</option></select></label>
