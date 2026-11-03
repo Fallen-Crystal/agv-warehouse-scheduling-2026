@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-03",
+  "saved_traces_validated": 240,
+  "runs": 240,
+  "fields_checked": 1680,
+  "mismatches": 0,
+  "fields": [
+    "feasible",
+    "completed",
+    "makespan",
+    "mean_flow_time",
+    "moves",
+    "empty_moves",
+    "loaded_moves"
+  ],
+  "note": "Current code rerun on every saved formal input; recorded metrics compared field by field."
+}

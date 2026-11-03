@@ -26,6 +26,7 @@ AGV_STRICT_REPLAN=1 python3 -m unittest discover
 python3 benchmark_algorithms.py --seeds 10 --output my_reproduction
 python3 explain_replan.py
 python3 verify_delivery.py
+python3 verify_delivery.py --rerun  # 重新跑240次并逐字段比对，约2–3分钟
 ```
 
 输出目录必须不存在，避免覆盖成绩。固定的正式实验保存在 `algorithm_results/`：6 类场景 × 10 个种子 × 4 种算法 = 240 次运行，每个算法使用完全相同的场景 JSON 和 SHA256。`summary.json`/`summary.csv` 是配对统计，`runs.csv` 是全部逐次成绩；失败不混入完整任务耗时比较。`algorithm_results_probe/` 是最初探索记录，正式报告只引用 `algorithm_results/`。
