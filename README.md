@@ -124,6 +124,7 @@ src/agv/
   evaluation/           指标、V4离线归一化评分、独立验解与失败诊断
   io/                   场景格式、原子文件写入、公开地图导入
   experiments/          配对实验、低层规划器独立实验
+  api.py                应用服务：选项校验、场景构建、单次/批量运行
   web/                  HTTP接口、HTML模板、JS和CSS
   cli.py                统一命令行入口
 

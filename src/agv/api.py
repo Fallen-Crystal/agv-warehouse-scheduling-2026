@@ -5,7 +5,7 @@ batch execution.  It deliberately has no HTTP, asset or browser dependency, so
 the same contracts can be tested or reused without starting a server.
 """
 
-from agv.dispatch.registry import SOLVERS, STREAM_SOLVERS, run_named
+from agv.dispatch.registry import SOLVERS, run_named, validate_solver
 from agv.domain import example
 from agv.evaluation.validation import validate
 from agv.experiments.batch import run_batch
@@ -173,16 +173,7 @@ def validate_options(options):
             raise ValueError(f"Invalid {name}: {options[name]!r}")
     if options["profile"] in ("v9", "v9.1") and options["obstacle_layout"] != "columns_equipment":
         raise ValueError("V9 requires its fixed columns and central equipment")
-    if "standby" in options["algorithm"] and options["profile"] != "v9":
-        raise ValueError("Bounded standby requires V9")
-    if options["profile"] == "v9.1" and options["algorithm"] not in (
-        "baseline",
-        "sipp_stream_dispatch",
-        *STREAM_SOLVERS,
-    ):
-        raise ValueError("V9.1 requires a stream-compatible algorithm")
-    if options["profile"] != "v9.1" and options["algorithm"] in STREAM_SOLVERS:
-        raise ValueError("Stream optimization requires V9.1")
+    validate_solver(options["algorithm"], options["profile"])
     return options
 
 

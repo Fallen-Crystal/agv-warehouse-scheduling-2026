@@ -68,15 +68,34 @@ SOLVERS.update(
 )
 
 
-def run_raw(name, scenario):
+def profile_name(scenario):
+    """Return the explicit profile name used by compatibility gates."""
+    if scenario.is_v9_1:
+        return "v9.1"
+    if scenario.is_v9:
+        return "v9"
+    if scenario.is_v4:
+        return "v4"
+    return "legacy"
+
+
+def validate_solver(name, profile):
+    """One compatibility gate shared by CLI, HTTP and direct callers."""
     if name not in SOLVERS:
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
-    if scenario.is_v9_1 and name not in ("baseline", "sipp_stream_dispatch", *STREAM_SOLVERS):
+    if profile == "v9.1" and name not in ("baseline", "sipp_stream_dispatch", *STREAM_SOLVERS):
         raise ValueError(
             "V9.1 requires an explicitly registered stream solver; historical algorithms retain their original profiles"
         )
-    if (name == "sipp_stream_dispatch" or name in STREAM_SOLVERS) and not scenario.is_v9_1:
+    if profile != "v9.1" and (name == "sipp_stream_dispatch" or name in STREAM_SOLVERS):
         raise ValueError("Stream dispatch requires the explicit V9.1 profile")
+    if "standby" in name and profile != "v9":
+        raise ValueError("Bounded standby requires V9")
+    return None
+
+
+def run_raw(name, scenario):
+    validate_solver(name, profile_name(scenario))
     config = SOLVERS[name]
     if name in STREAM_SOLVERS:
         params = STREAM_SOLVERS[name]
