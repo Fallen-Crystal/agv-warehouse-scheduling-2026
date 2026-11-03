@@ -6,9 +6,9 @@ not complete and does not certify globally optimal task schedules.
 """
 from itertools import islice
 import random
-from model import Scenario, Task
-from routing import Router
+from model import Task
 from pickup_planning import plan_task
+from geometry import from_observation
 
 
 def reservations(plans, start):
@@ -82,11 +82,9 @@ class JointPlanner:
         self.router = None
 
     def propose(self, observation):
-        m, now = observation['map'], observation['time']
-        s = Scenario(m['width'], m['height'], set(map(tuple, m['blocked'])),
-                     set(map(tuple, m['shelves'])), list(map(tuple, m['homes'])), [], observation['horizon'])
-        if self.router is None or self.router.s.to_dict() != s.to_dict():
-            self.router = Router(s)
+        s, router = from_observation(observation)
+        now = observation['time']
+        self.router = router
         vehicles = observation['vehicles']
         plans = [[tuple(q) for q in (v['committed_path'] if not v['available'] else v['return_path'])] for v in vehicles]
         records = [dict(v['route_record']) if v['route_record'] is not None else None for v in vehicles]

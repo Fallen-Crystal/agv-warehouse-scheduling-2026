@@ -1,9 +1,9 @@
 """Exact visible-batch assignment + periodic feasible joint suffix repair."""
-from model import Scenario, Task
-from routing import Router
+from model import Task
 from environment import Environment
 from baseline import greedy_action
 from joint_planning import JointPlanner
+from geometry import from_observation
 
 
 def matching_action(observation, age_weight=0.25):
@@ -12,10 +12,7 @@ def matching_action(observation, age_weight=0.25):
     Objective: static pickup+delivery+service - weight*visible order age.
     Exact for this matrix only, not for future routes or global schedules.
     """
-    m = observation['map']
-    s = Scenario(m['width'], m['height'], set(map(tuple, m['blocked'])),
-                 set(map(tuple, m['shelves'])), list(map(tuple, m['homes'])), [])
-    router = Router(s)
+    s, router = from_observation(observation)
     vehicles = [v for v in observation['vehicles'] if v['available']]
     dp = {0: (0.0, [])}
     for data in observation['pending']:

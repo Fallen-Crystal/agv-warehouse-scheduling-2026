@@ -1,14 +1,11 @@
 """接入示例：只读取可见状态的静态距离贪心；不是创新算法。"""
-from model import Scenario, Task
-from routing import Router
+from model import Task
 from environment import Environment
+from geometry import from_observation
 
 
 def greedy_action(observation):
-    m = observation['map']
-    geometry = Scenario(m['width'], m['height'], set(map(tuple, m['blocked'])),
-                        set(map(tuple, m['shelves'])), list(map(tuple, m['homes'])), [])
-    router = Router(geometry)
+    geometry, router = from_observation(observation)
     candidates = []
     for v in observation['vehicles']:
         if v['available']:
