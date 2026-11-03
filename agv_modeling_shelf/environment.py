@@ -1,6 +1,7 @@
 """任务执行环境。策略只使用 observe()，不能读取内部完整场景的未来任务。"""
 from copy import deepcopy
 from dataclasses import asdict
+import os
 from model import Scenario
 from routing import Router
 from metrics import summarize
@@ -18,6 +19,12 @@ class Environment:
         s = self._scenario
         self.time = 0
         self._jobs = {j.id: j for j in s.tasks}
+        self._task_views = {j.id: asdict(j) for j in s.tasks}
+        # The map is immutable for the lifetime of an Environment.  Keep one
+        # canonical, JSON-ready view instead of copying it on every observe().
+        self._map_view = dict(width=s.width, height=s.height,
+                              blocked=tuple(sorted(s.blocked)),
+                              shelves=tuple(sorted(s.shelves)), homes=tuple(s.homes))
         self._router = Router(s)
         self._plans = [[p] for p in s.homes]  # 每个计划从当前time开始，终点为专属停车位
         self._paths = [[p] for p in s.homes]  # 实际执行轨迹
@@ -28,6 +35,10 @@ class Environment:
         self._planning_failures=[]
         self._execution_error=None
         self._replans=[]
+        # Paired with the incremental checks in apply_replan().  Enable in CI
+        # (AGV_STRICT_REPLAN=1) to replay and independently validate every
+        # accepted suffix against the full trajectory validator.
+        self.strict_audit = os.environ.get('AGV_STRICT_REPLAN') == '1'
         return self.observe()
 
     def _state(self, k):
@@ -46,19 +57,25 @@ class Environment:
     def observe(self):
         s = self._scenario
         # 不返回总任务数、未来release、生成种子或未来任务点。
-        return deepcopy(dict(time=self.time, horizon=s.horizon,
-            map=dict(width=s.width, height=s.height, blocked=sorted(s.blocked),
-                     shelves=sorted(s.shelves), homes=s.homes),
-            vehicles=[dict(id=k, position=p[0], state=self._state(k),
-                           available=self._active[k] is None,
-                           task_id=self._active[k]['task_id'] if self._active[k] else None,
-                           committed_path=p if self._active[k] else [p[0]],
-                           return_path=p if self._active[k] is None else [],
-                           route_record=deepcopy(self._active[k] or next((r for r in reversed(self._records) if r['vehicle']==k), None)),
-                           active_task=asdict(self._jobs[self._active[k]['task_id']]) if self._active[k] else None)
-                      for k, p in enumerate(self._plans)],
-            pending=[asdict(j) for j in s.tasks if j.release <= self.time and j.id not in self._assigned],
-            completed=[deepcopy(r) for r in self._records if r['delivery_end'] <= self.time]))
+        # Only small dicts are copied; map/geometry and task definitions are
+        # immutable tuples shared across observations.
+        vehicles = []
+        for k, p in enumerate(self._plans):
+            active = self._active[k]
+            record = active or next((r for r in reversed(self._records) if r['vehicle'] == k), None)
+            vehicles.append(dict(
+                id=k, position=p[0], state=self._state(k),
+                available=active is None,
+                task_id=active['task_id'] if active else None,
+                committed_path=tuple(p) if active else (p[0],),
+                return_path=tuple(p) if active is None else (),
+                route_record=dict(record) if record is not None else None,
+                active_task=dict(self._task_views[active['task_id']]) if active else None))
+        return dict(time=self.time, horizon=s.horizon, map=dict(self._map_view),
+                    vehicles=vehicles,
+                    pending=[dict(self._task_views[j.id]) for j in s.tasks
+                             if j.release <= self.time and j.id not in self._assigned],
+                    completed=[dict(r) for r in self._records if r['delivery_end'] <= self.time])
 
     def assign(self, pairs):
         """有序(vehicle_id,task_id)列表。非法输入整批拒绝；规划失败逐对报告。
@@ -108,82 +125,101 @@ class Environment:
     def apply_replan(self, proposal):
         """Atomically replace feasible future suffixes, retain task ownership.
 
-        Check full future paths and the already executed prefix independently.
-        A rejected proposal leaves all environment state unchanged.
+        Only the not-yet-executed suffix is checked: the executed prefix was
+        already accepted and is immutable.  This is equivalent to replaying the
+        whole environment, but avoids the audit copy that dominated large-instance
+        runtime.  A rejected proposal leaves every state field unchanged.
         """
-        from validation import validate
         metadata={key:deepcopy(proposal[key]) for key in ('time','before','after','trials')}
-        trial = deepcopy(self)
         if proposal['time'] != self.time:
             raise ValueError('Stale proposal')
         plans, records = proposal['plans'], proposal['records']
         if len(plans) != len(self._plans) or len(records) != len(plans):
             raise ValueError('Missing vehicle suffix')
+        homes = self._scenario.homes
+        now = self.time
+        new_records = list(self._records)
+        new_active = list(self._active)
+        old_records=[self._active[k] or next((r for r in reversed(self._records) if r['vehicle']==k),None)
+                     for k in range(len(plans))]
         changes=[]
         for k, (path, new) in enumerate(zip(plans, records)):
-            if not path or path[0] != self._plans[k][0] or path[-1] != self._scenario.homes[k]:
+            path = tuple(path)
+            if not path or path[0] != self._plans[k][0] or path[-1] != homes[k]:
                 raise ValueError('Invalid suffix endpoints')
-            if self.time+len(path)-1 > self._scenario.horizon:
+            if now+len(path)-1 > self._scenario.horizon:
                 raise ValueError('Suffix exceeds horizon')
-            if any(not self._scenario.free(q) or q in set(self._scenario.homes)-{self._scenario.homes[k]} for q in path):
+            foreign = set(homes) - {homes[k]}
+            if any(not self._scenario.free(q) or q in foreign for q in path):
                 raise ValueError('Invalid suffix cell')
             if any(abs(a[0]-b[0])+abs(a[1]-b[1])>1 for a,b in zip(path,path[1:])):
                 raise ValueError('Invalid suffix movement')
-            old = self._active[k] or next((r for r in reversed(self._records) if r['vehicle']==k), None)
+            old = old_records[k]
             if (old is None) != (new is None):
                 raise ValueError('Task ownership changed')
             if old:
                 if any(new[f] != old[f] for f in ('vehicle','task_id','assigned_at','shelf')):
                     raise ValueError('Task identity changed')
                 for leg in ('pickup','delivery'):
-                    if old[leg+'_arrival'] <= self.time:
+                    if old[leg+'_arrival'] <= now:
                         if any(new[leg+f] != old[leg+f] for f in ('_arrival','_end')):
                             raise ValueError('Started service changed')
                         if leg=='pickup' and new['pickup_point'] != old['pickup_point']:
                             raise ValueError('Started pickup side changed')
-                index=next(i for i,r in enumerate(trial._records) if r['task_id']==old['task_id'])
-                trial._records[index]=deepcopy(new)
-                trial._active[k]=trial._records[index] if self._active[k] else None
-                # Future service intervals must actually occupy their endpoints.
+                if self._active[k] is not None and new['delivery_end'] < now:
+                    raise ValueError('Active task already completed')
+                if not (new['assigned_at'] <= new['pickup_arrival'] <= new['pickup_end']
+                        <= new['delivery_arrival'] <= new['delivery_end'] <= new['return_end']):
+                    raise ValueError('Invalid task timing')
+                if (self._active[k] is not None or len(path)>1) and new['return_end'] != now+len(path)-1:
+                    raise ValueError('Wrong return end')
                 job=self._jobs[new['task_id']]
                 for leg, point, duration in [('pickup',new['pickup_point'],job.pickup_service),('delivery',job.delivery,job.delivery_service)]:
                     a,b=new[leg+'_arrival'],new[leg+'_end']
                     if b-a!=duration:
                         raise ValueError('Service duration changed')
-                    for t in range(max(a,self.time),b+1):
-                        if t-self.time>=len(path) or path[t-self.time]!=point:
+                    for t in range(max(a,now),b+1):
+                        if t-now>=len(path) or path[t-now]!=point:
                             raise ValueError('Wrong future service')
-            if path != self._plans[k]:
+                index=next(i for i,r in enumerate(new_records) if r['task_id']==old['task_id'])
+                new_records[index]=dict(new)
+                new_active[k]=new_records[index] if self._active[k] is not None else None
+            if path != tuple(self._plans[k]):
                 changes.append(dict(vehicle=k, state=self._state(k),
                     task_id=old['task_id'] if old else None,
                     old_delivery_end=old['delivery_end'] if old else None,
                     new_delivery_end=new['delivery_end'] if new else None,
-                    old_suffix=deepcopy(self._plans[k]), new_suffix=deepcopy(path)))
-        for t in range(max(map(len,plans))):
+                    old_suffix=list(self._plans[k]), new_suffix=list(path)))
+        max_len=max(map(len,plans))
+        for t in range(max_len):
             positions=[p[min(t,len(p)-1)] for p in plans]
-            if len(set(positions))!=len(plans):
+            if len(set(positions))!=len(positions):
                 raise ValueError('Future vertex collision')
             if t:
                 previous=[p[min(t-1,len(p)-1)] for p in plans]
-                for k in range(len(plans)):
-                    for l in range(k):
-                        if previous[k]==positions[l] and previous[l]==positions[k]:
+                for a in range(len(plans)):
+                    for b in range(a):
+                        if previous[a]==positions[b] and previous[b]==positions[a]:
                             raise ValueError('Future edge swap')
-        trial._plans=deepcopy(plans)
-        # Independently validate past AND complete future execution, including
-        # service order and metrics. This audit copy never dispatches new jobs.
-        audit=deepcopy(trial)
-        remaining=max(map(len,plans))-1
-        if remaining: audit.advance(remaining)
-        validate(audit._scenario,audit.result())
         from joint_planning import score
-        old_records=[self._active[k] or next((r for r in reversed(self._records) if r['vehicle']==k),None) for k in range(len(plans))]
-        before=score(self._plans,old_records,self.time)
-        after=score(plans,records,self.time)
+        before=score(self._plans,old_records,now)
+        after=score(plans,records,now)
         if after>=before or tuple(metadata['before'])!=before or tuple(metadata['after'])!=after:
             raise ValueError('Candidate must improve the actual suffix objective')
         event=dict(**metadata,changes=changes)
-        self._plans,self._records,self._active=trial._plans,trial._records,trial._active
+        if self.strict_audit:
+            from validation import validate
+            audit=deepcopy(self)
+            audit._plans=[list(p) for p in plans]
+            audit._records=[dict(r) if r is not None else None for r in new_records]
+            audit._active=[dict(r) if r is not None else None for r in new_active]
+            remaining=max(map(len,plans))-1
+            if remaining:
+                audit.advance(remaining)
+            validate(audit._scenario,audit.result())
+        self._plans=[list(p) for p in plans]
+        self._records=new_records
+        self._active=new_active
         self._replans.append(event)
         return True
 

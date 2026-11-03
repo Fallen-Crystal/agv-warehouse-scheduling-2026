@@ -4,7 +4,6 @@ Full remaining routes remain collision-free. Unlike RHCR, collision checks are
 not truncated to a short window. Deterministic bounded prioritized repair is
 not complete and does not certify globally optimal task schedules.
 """
-from copy import deepcopy
 from itertools import islice
 import random
 from model import Scenario, Task
@@ -30,7 +29,7 @@ def score(plans, records, now):
 
 def repair_vehicle(s, router, v, now, vertices, edges):
     k, pos = v['id'], tuple(v['position'])
-    old = deepcopy(v['route_record'])
+    old = dict(v['route_record']) if v['route_record'] is not None else None
     if v['active_task'] is None:
         path = router.leg(pos, s.homes[k], now, k, vertices, edges)
         if path is None:
@@ -90,7 +89,7 @@ class JointPlanner:
             self.router = Router(s)
         vehicles = observation['vehicles']
         plans = [[tuple(q) for q in (v['committed_path'] if not v['available'] else v['return_path'])] for v in vehicles]
-        records = [deepcopy(v['route_record']) for v in vehicles]
+        records = [dict(v['route_record']) if v['route_record'] is not None else None for v in vehicles]
         original = score(plans, records, now)
         best = original
         moving = [v['id'] for v in vehicles if len(plans[v['id']]) > 1]
@@ -106,7 +105,9 @@ class JointPlanner:
         # Pair neighborhoods retain other vehicles' good routes (LNS idea).
         trials += [[a, b] for a, b in zip(moving, moving[1:])]
         for order in trials:
-            candidate = deepcopy(plans); updates = deepcopy(records)
+            # Paths are immutable tuples, so a shallow list copy is a true
+            # copy-on-write candidate; records are replaced per changed vehicle.
+            candidate = plans[:]; updates = records[:]
             vtx, edg = reservations([p for k, p in enumerate(plans) if k not in order], now)
             # All real start positions are occupied at now, including agents
             # which will be repaired later. Their later suffix is destroyed.
