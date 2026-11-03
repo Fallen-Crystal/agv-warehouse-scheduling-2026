@@ -51,7 +51,7 @@ FIELDS = (
 
 
 def run_web_batch(config, seeds, solver):
-    from agv.web.app import build_scene
+    from agv.api import build_scene
 
     rows, entries = [], []
     for seed in seeds:

@@ -28,8 +28,9 @@ src/agv/
   evaluation/           # metrics, offline score/lower bounds, independent execution validator
   io/                   # scene format/hash, atomic writes, public map import
   experiments/          # paired legacy/V4/V9.1 benchmarks and isolated planner benchmark
+  api.py                # application services: option validation, scene build, single/batch run
   web/
-    app.py              # local HTTP boundary, limits, run dispatch
+    app.py              # local HTTP boundary, limits, assets and request dispatch
     templates/          # one actual HTML template
     static/             # actual JavaScript and CSS, no chained source rewriting
   cli.py                # installed command entry point

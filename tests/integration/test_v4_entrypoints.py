@@ -108,7 +108,7 @@ class V4EntrypointTests(unittest.TestCase):
             ({"profile": "v4", "vehicles": 11}, "vehicles"),
             ({"profile": "v4", "shelf_layers": True}, "shelf_layers"),
         ):
-            with self.subTest(options=options), patch("agv.web.app.run_named") as run:
+            with self.subTest(options=options), patch("agv.api.run_named") as run:
                 with self.assertRaisesRegex(ValueError, message):
                     calculate(options)
                 run.assert_not_called()
@@ -126,7 +126,7 @@ class V4EntrypointTests(unittest.TestCase):
         for change in cases:
             with self.subTest(change=list(change)):
                 archive = {"format": "agv-scene-v3", "scenario": {**raw, **change}}
-                with patch("agv.web.app.unpack_scene") as parse:
+                with patch("agv.api.unpack_scene") as parse:
                     with self.assertRaisesRegex(ValueError, "页面导入限制") as error:
                         calculate_loaded(archive)
                     parse.assert_not_called()
