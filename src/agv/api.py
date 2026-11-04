@@ -5,31 +5,44 @@ batch execution.  It deliberately has no HTTP, asset or browser dependency, so
 the same contracts can be tested or reused without starting a server.
 """
 
+from collections.abc import Mapping
+from typing import Any
+
 from agv.dispatch.registry import SOLVERS, run_named, validate_solver
-from agv.domain import example
+from agv.domain import Scenario, example
 from agv.evaluation.validation import validate
 from agv.experiments.batch import run_batch
 from agv.io.scenes import scenario_id, unpack_scene
 
+__all__ = [
+    "DEFAULTS",
+    "generate_scene",
+    "build_scene",
+    "validate_options",
+    "calculate",
+    "calculate_loaded",
+    "calculate_batch",
+]
+
 
 def generate_scene(
-    profile="legacy",
+    profile: str = "legacy",
     *,
-    seed=0,
-    task_count=12,
-    mode="static",
-    size=None,
-    vehicles=4,
-    layout="bottleneck",
-    shelf_layers=3,
-    work_width=2,
-    obstacle_layout=None,
-    layout_variant=0,
-    delivery_pattern="distributed",
-    arrival="batch",
-    demand="balanced",
-    horizon=None,
-):
+    seed: int = 0,
+    task_count: int = 12,
+    mode: str = "static",
+    size: str | None = None,
+    vehicles: int = 4,
+    layout: str = "bottleneck",
+    shelf_layers: int = 3,
+    work_width: int = 2,
+    obstacle_layout: str | None = None,
+    layout_variant: int = 0,
+    delivery_pattern: str = "distributed",
+    arrival: str = "batch",
+    demand: str = "balanced",
+    horizon: int | None = None,
+) -> Scenario:
     """Build one scene from an explicit profile, shared by CLI and HTTP callers."""
     if profile == "legacy":
         return example(
@@ -101,7 +114,7 @@ def generate_scene(
     raise ValueError("Invalid scene profile")
 
 
-DEFAULTS = dict(
+DEFAULTS: dict[str, Any] = dict(
     profile="legacy",
     size="small",
     vehicles=4,
@@ -121,7 +134,7 @@ DEFAULTS = dict(
 )
 
 
-def validate_options(options):
+def validate_options(options: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(options, dict) or set(options) - set(DEFAULTS):
         raise ValueError("参数必须是包含已知字段的对象")
     v9_defaults = (
@@ -177,7 +190,7 @@ def validate_options(options):
     return options
 
 
-def calculate(options):
+def calculate(options: Mapping[str, Any]) -> dict[str, Any]:
     options = validate_options(options)
     scenario = build_scene(options)
     result = run_named(options["algorithm"], scenario)
@@ -191,12 +204,12 @@ def calculate(options):
     )
 
 
-def build_scene(options):
+def build_scene(options: Mapping[str, Any]) -> Scenario:
     """One explicit scene profile; never reinterpret the legacy wall control."""
     return generate_scene(**{k: v for k, v in options.items() if k != "algorithm"})
 
 
-def calculate_loaded(data):
+def calculate_loaded(data: Any) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("场景必须是JSON对象")
     raw = data.get("scenario", data)
@@ -246,7 +259,7 @@ def calculate_loaded(data):
     )
 
 
-def calculate_batch(data):
+def calculate_batch(data: Mapping[str, Any]) -> dict[str, Any]:
     if not isinstance(data, dict) or set(data) != {"config", "start_seed", "count"}:
         raise ValueError("批量参数不合法")
     start, count = data["start_seed"], data["count"]

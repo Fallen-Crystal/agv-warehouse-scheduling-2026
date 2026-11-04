@@ -2,9 +2,11 @@
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from agv.dispatch.greedy import run as run_baseline
 from agv.dispatch.optimized import run as run_optimized
+from agv.domain import Scenario
 from agv.learning.ranker import CandidateRanker
 
 
@@ -68,7 +70,7 @@ SOLVERS.update(
 )
 
 
-def profile_name(scenario):
+def profile_name(scenario: Scenario) -> str:
     """Return the explicit profile name used by compatibility gates."""
     if scenario.is_v9_1:
         return "v9.1"
@@ -79,7 +81,7 @@ def profile_name(scenario):
     return "legacy"
 
 
-def validate_solver(name, profile):
+def validate_solver(name: str, profile: str) -> None:
     """One compatibility gate shared by CLI, HTTP and direct callers."""
     if name not in SOLVERS:
         raise ValueError(f"Unknown algorithm {name!r}; choose from {', '.join(SOLVERS)}")
@@ -94,7 +96,7 @@ def validate_solver(name, profile):
     return None
 
 
-def run_raw(name, scenario):
+def run_raw(name: str, scenario: Scenario) -> dict[str, Any]:
     validate_solver(name, profile_name(scenario))
     config = SOLVERS[name]
     if name in STREAM_SOLVERS:
@@ -127,7 +129,7 @@ def run_raw(name, scenario):
     return result
 
 
-def run_named(name, scenario):
+def run_named(name: str, scenario: Scenario) -> dict[str, Any]:
     result = run_raw(name, scenario)
     if scenario.uses_layer_rules:
         from agv.evaluation.objective import score_result
