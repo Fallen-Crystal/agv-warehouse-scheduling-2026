@@ -1,7 +1,7 @@
 """接入示例：只读取可见状态的静态距离贪心；不是创新算法。"""
 
-from agv.domain import Scenario, Task
-from agv.planning.astar import Router
+from agv.domain import Task
+from agv.planning.geometry import from_observation
 from agv.simulation import Environment
 
 
@@ -10,8 +10,7 @@ def greedy_action(observation):
         j.get("dispatchable", True) for j in observation["pending"]
     ):
         return []
-    geometry = Scenario.from_observation_map(observation["map"], observation["horizon"])
-    router = Router(geometry)
+    geometry, router = from_observation(observation)
     candidates = []
     for v in observation["vehicles"]:
         if v["available"]:

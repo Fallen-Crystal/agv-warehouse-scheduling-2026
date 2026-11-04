@@ -6,11 +6,11 @@ not complete and does not certify globally optimal task schedules.
 """
 
 import random
-from copy import deepcopy
 from itertools import islice
 
-from agv.domain import Scenario, Task
+from agv.domain import Task
 from agv.planning import create_router
+from agv.planning.geometry import scenario_from_observation
 from agv.planning.pickup import plan_task
 from agv.planning.reservations import reservations
 
@@ -27,7 +27,7 @@ def score(plans, records, now):
 
 def repair_vehicle(s, router, v, now, vertices, edges):
     k, pos = v["id"], tuple(v["position"])
-    old = deepcopy(v["route_record"])
+    old = dict(v["route_record"]) if v["route_record"] is not None else None
     if v["active_task"] is None:
         path = router.leg(pos, s.homes[k], now, k, vertices, edges)
         if path is None:
@@ -192,8 +192,8 @@ class JointPlanner:
         return selected if self.collect is not None else selected[:budget]
 
     def propose(self, observation):
-        m, now = observation["map"], observation["time"]
-        s = Scenario.from_observation_map(m, observation["horizon"])
+        now = observation["time"]
+        s = scenario_from_observation(observation)
         if self.router is None or self.router.s.to_dict() != s.to_dict():
             self.router = create_router(self.router_kind, s)
         vehicles = observation["vehicles"]
@@ -201,7 +201,9 @@ class JointPlanner:
             [tuple(q) for q in (v["committed_path"] if not v["available"] else v["return_path"])]
             for v in vehicles
         ]
-        records = [deepcopy(v["route_record"]) for v in vehicles]
+        records = [
+            dict(v["route_record"]) if v["route_record"] is not None else None for v in vehicles
+        ]
         original = score(plans, records, now)
         best = original
         moving = [v["id"] for v in vehicles if len(plans[v["id"]]) > 1]
@@ -226,8 +228,8 @@ class JointPlanner:
             row_features = (
                 features(vehicles, plans, order, now) if self.collect is not None else None
             )
-            candidate = deepcopy(plans)
-            updates = deepcopy(records)
+            candidate = plans[:]
+            updates = records[:]
             vtx, edg = reservations([p for k, p in enumerate(plans) if k not in order], now)
             # All real start positions are occupied at now, including agents
             # which will be repaired later. Their later suffix is destroyed.

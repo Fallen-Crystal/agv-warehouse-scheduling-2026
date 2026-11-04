@@ -1,8 +1,8 @@
 """Exact visible-batch assignment + periodic feasible joint suffix repair."""
 
 from agv.dispatch.greedy import greedy_action
-from agv.domain import Scenario, Task
-from agv.planning.astar import Router
+from agv.domain import Task
+from agv.planning.geometry import from_observation
 from agv.planning.joint import JointPlanner
 from agv.simulation import Environment
 
@@ -13,8 +13,7 @@ def matching_action(observation, age_weight=0.25):
     Objective: static pickup+delivery+service - weight*visible order age.
     Exact for this matrix only, not for future routes or global schedules.
     """
-    s = Scenario.from_observation_map(observation["map"], observation["horizon"])
-    router = Router(s)
+    s, router = from_observation(observation)
     vehicles = [v for v in observation["vehicles"] if v["available"]]
     dp = {0: (0.0, [])}
     for data in observation["pending"]:

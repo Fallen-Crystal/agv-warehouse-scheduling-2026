@@ -6,8 +6,8 @@ from math import isfinite
 
 from agv.dispatch.greedy import greedy_action
 from agv.dispatch.optimized import matching_action
-from agv.domain import Scenario, Task
-from agv.planning.astar import Router
+from agv.domain import Task
+from agv.planning.geometry import from_observation
 
 
 @dataclass(frozen=True)
@@ -54,8 +54,7 @@ def legalize(pairs, observation):
 
 
 def _costs(observation):
-    geometry = Scenario.from_observation_map(observation["map"], observation["horizon"])
-    router = Router(geometry)
+    geometry, router = from_observation(observation)
     vehicles = [v for v in observation["vehicles"] if v["available"]]
     jobs, costs = {}, {}
     for data in observation["pending"]:
