@@ -35,6 +35,14 @@ agv run --input examples/scenarios/dynamic_medium_burst.json \
 
 `python -m agv` 等价于 `agv`。输出默认拒绝覆盖；需要覆盖单次结果时显式加 `--overwrite`。本地网页只绑定 `127.0.0.1`，Ctrl+C关闭服务。
 
+本地开发检查：
+
+```bash
+python -m pip install -e ".[dev]"
+make check          # ruff + 格式检查 + 完整 unittest
+make coverage       # 覆盖率检查，门槛80%
+```
+
 ### 使用 V4 仓库规则
 
 网页的“仓库模型”选择 V4 后，可设置1–10辆车、货架层数、作业通道宽度和建筑障碍。命令行通过显式 profile 生成 V4 场景；下面以距离贪心建立同规则基线：
