@@ -6,37 +6,23 @@ from agv.simulation import Environment
 
 
 def greedy_action(observation):
-    if not any(v["available"] for v in observation["vehicles"]) or not any(
-        j.get("dispatchable", True) for j in observation["pending"]
-    ):
+    available = [v for v in observation["vehicles"] if v["available"]]
+    dispatchable = [j for j in observation["pending"] if j.get("dispatchable", True)]
+    if not available or not dispatchable:
         return []
     geometry, router = from_observation(observation)
     candidates = []
-    for v in observation["vehicles"]:
-        if v["available"]:
-            for j in observation["pending"]:
-                if not j.get("dispatchable", True):
-                    continue
-                job = Task(
-                    j["id"],
-                    tuple(j["pickup"]) if j["pickup"] is not None else None,
-                    tuple(j["delivery"]),
-                    shelf=tuple(j["shelf"]) if j.get("shelf") is not None else None,
-                )
-                points = geometry.pickup_candidates(job)
-                distance = min(
-                    router.distance(v["position"], p, v["id"])
-                    + router.distance(p, job.delivery, v["id"])
-                    for p in points
-                )
-                candidates.append(
-                    (
-                        distance + j["pickup_service"] + j["delivery_service"],
-                        j["release"],
-                        j["id"],
-                        v["id"],
-                    )
-                )
+    for j in dispatchable:
+        job = Task.from_mapping(j)
+        points = geometry.pickup_candidates(job)
+        service = job.pickup_service + job.delivery_service
+        for v in available:
+            vid = v["id"]
+            pos = tuple(v["position"])
+            distance = min(
+                router.distance(pos, p, vid) + router.distance(p, job.delivery, vid) for p in points
+            )
+            candidates.append((distance + service, job.release, job.id, vid))
     used_vehicles, used_jobs, pairs = set(), set(), []
     for cost, release, j, k in sorted(candidates):
         if cost != float("inf") and k not in used_vehicles and j not in used_jobs:

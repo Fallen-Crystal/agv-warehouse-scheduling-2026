@@ -18,9 +18,10 @@ function when objective fields are present; reference execution is unscored.
 
 import hashlib
 import json
-from copy import deepcopy
 from functools import lru_cache
 from math import isclose, isfinite
+
+from agv.domain import clone_json_like
 
 OBJECTIVE_FIELD = "weighted_score"
 OBJECTIVE_NAME = "归一化综合分数（整批时间50%＋平均订单耗时30%＋里程20%）"
@@ -113,7 +114,7 @@ def reference_context(scenario):
     denominators, rather than substituting candidate-dependent constants.
     """
     raw_scene = json.dumps(scenario.to_dict(), sort_keys=True, separators=(",", ":"))
-    return deepcopy(_cached_reference(raw_scene))
+    return clone_json_like(_cached_reference(raw_scene))
 
 
 def _equal(actual, expected):
@@ -145,7 +146,7 @@ def _score_fields(scenario, result, context):
         "model_version": _model_version(scenario),
         "objective_weights": dict(WEIGHTS),
         "estimated_energy": ENERGY_PER_MOVE * result["moves"],
-        "normalization_reference": deepcopy(context),
+        "normalization_reference": clone_json_like(context),
         "score_valid": bool(
             _successful(result)
             and context["available"]
@@ -184,7 +185,7 @@ def score_result(scenario, result, reference=None):
     """
     _validate_execution(scenario, result)
     context = _trusted_reference(scenario, reference)
-    scored = deepcopy(result)
+    scored = clone_json_like(result)
     scored.update(_score_fields(scenario, result, context))
     return scored
 

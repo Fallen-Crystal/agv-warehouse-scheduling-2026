@@ -18,16 +18,21 @@ class SolverConfig:
     neighborhoods: str = "legacy"
     trial_budget: int | None = None
     learned: bool = False
+    initial_rollout: bool = False
 
 
 SOLVERS = {
     "baseline": None,
     "matching_only": SolverConfig(assignment="matching", joint=False),
     "joint_only": SolverConfig(),
+    "joint_batch": SolverConfig(initial_rollout=True),
     "matching_joint": SolverConfig(assignment="matching"),
     "sipp_joint": SolverConfig(router_kind="sipp"),
     "sipp_conflict": SolverConfig(router_kind="sipp", neighborhoods="conflict"),
     "sipp_budget": SolverConfig(router_kind="sipp", neighborhoods="conflict", trial_budget=6),
+    "sipp_batch": SolverConfig(
+        router_kind="sipp", neighborhoods="conflict", trial_budget=6, initial_rollout=True
+    ),
     "sipp_matching": SolverConfig(
         assignment="matching", router_kind="sipp", neighborhoods="conflict", trial_budget=6
     ),
@@ -125,6 +130,7 @@ def run_raw(name: str, scenario: Scenario) -> dict[str, Any]:
             )
             if config.learned
             else None,
+            initial_rollout=config.initial_rollout,
         )
     return result
 

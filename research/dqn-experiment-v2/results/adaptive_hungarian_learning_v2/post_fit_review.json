@@ -1,0 +1,134 @@
+{
+  "status": "final_evaluation_complete",
+  "selected_epoch": 1,
+  "validation_mean_improvement_percent": {
+    "ga": 0.19717515439654498,
+    "exact": 0.07763649987809762,
+    "hungarian": 0.018609663038859914
+  },
+  "diagnostics": {
+    "latest": {
+      "case": "wepa-hour-day87-bin2104",
+      "epoch": 6,
+      "train_steps": 33252,
+      "replay_size": 8444,
+      "replay_behavior_actions": {
+        "hungarian": 3887,
+        "ga": 4557
+      },
+      "replay_state_greedy_actions": {
+        "hungarian": 3555,
+        "ga": 4889
+      },
+      "ga_minus_hungarian_Q_quantiles": {
+        "0": -0.07375310412511293,
+        "0.1": -0.01833308261454955,
+        "0.5": 0.002801820967779145,
+        "0.9": 0.02210318814642237,
+        "1": 0.062495225010613886
+      },
+      "mean_abs_Q": 1.4506554306055983,
+      "mean_abs_Q_gap": 0.012746324626768925,
+      "five_step_bellman_rmse": 0.04556798806084251,
+      "last_training_episode_behavior_return_rmse": 0.08136733363876962,
+      "backlog_groups": {
+        "pending_below_6": {
+          "states": 3546,
+          "greedy_ga_fraction": 0.6206993795826283,
+          "mean_ga_minus_hungarian_Q": 0.005683543781814818
+        },
+        "pending_6_to_23": {
+          "states": 2236,
+          "greedy_ga_fraction": 0.7464221824686941,
+          "mean_ga_minus_hungarian_Q": 0.006055815616084888
+        },
+        "pending_at_least_24": {
+          "states": 2662,
+          "greedy_ga_fraction": 0.3827948910593539,
+          "mean_ga_minus_hungarian_Q": -0.004830190842811503
+        }
+      },
+      "cached_plan_groups": {
+        "absent": {
+          "states": 3913,
+          "greedy_ga_fraction": 0.5877843087145412,
+          "mean_ga_minus_hungarian_Q": 0.003011716387017095
+        },
+        "present": {
+          "states": 4531,
+          "greedy_ga_fraction": 0.5713970425954535,
+          "mean_ga_minus_hungarian_Q": 0.0019977567252083524
+        }
+      },
+      "last_training_episode_action_switches": 55,
+      "last_training_episode_action_switch_fraction": 0.49107142857142855,
+      "interpretation": "Diagnostics use historical training states only. Behavior-return error and action counts do not establish validation/test F improvement.",
+      "checkpoint_sha256": "c96a6098a7edca8516b203f6ff1cc4f5d86c46cb636a954ced899e8a36b9de3e"
+    },
+    "selected": {
+      "case": "wepa-hour-day38-bin927",
+      "epoch": 1,
+      "train_steps": 5016,
+      "replay_size": 1385,
+      "replay_behavior_actions": {
+        "hungarian": 639,
+        "ga": 746
+      },
+      "replay_state_greedy_actions": {
+        "hungarian": 538,
+        "ga": 847
+      },
+      "ga_minus_hungarian_Q_quantiles": {
+        "0": -0.23194267992520812,
+        "0.1": -0.054931701794200816,
+        "0.5": 0.015678286796089624,
+        "0.9": 0.09408264469177444,
+        "1": 0.34888459832719376
+      },
+      "mean_abs_Q": 1.5400944406252814,
+      "mean_abs_Q_gap": 0.05095955792281176,
+      "five_step_bellman_rmse": 0.15257817485288452,
+      "last_training_episode_behavior_return_rmse": 0.6036681919405071,
+      "backlog_groups": {
+        "pending_below_6": {
+          "states": 581,
+          "greedy_ga_fraction": 0.6196213425129088,
+          "mean_ga_minus_hungarian_Q": 0.025340434395483644
+        },
+        "pending_6_to_23": {
+          "states": 360,
+          "greedy_ga_fraction": 0.55,
+          "mean_ga_minus_hungarian_Q": 0.005434694461991903
+        },
+        "pending_at_least_24": {
+          "states": 444,
+          "greedy_ga_fraction": 0.6509009009009009,
+          "mean_ga_minus_hungarian_Q": 0.014088111949841045
+        }
+      },
+      "cached_plan_groups": {
+        "absent": {
+          "states": 644,
+          "greedy_ga_fraction": 0.6863354037267081,
+          "mean_ga_minus_hungarian_Q": 0.020928080323792786
+        },
+        "present": {
+          "states": 741,
+          "greedy_ga_fraction": 0.5465587044534413,
+          "mean_ga_minus_hungarian_Q": 0.012762105758839348
+        }
+      },
+      "last_training_episode_action_switches": 78,
+      "last_training_episode_action_switch_fraction": 0.3577981651376147,
+      "interpretation": "Diagnostics use historical training states only. Behavior-return error and action counts do not establish validation/test F improvement.",
+      "checkpoint_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa"
+    }
+  },
+  "test_opened_before_review": false,
+  "test_mean_improvement_percent": {
+    "ga": -0.3704921602522582,
+    "exact": 0.9565604256149541,
+    "hungarian": 1.1167573138369002
+  },
+  "model_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa"
+}

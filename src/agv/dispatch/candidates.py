@@ -60,28 +60,18 @@ def _costs(observation):
     for data in observation["pending"]:
         if not data.get("dispatchable", True) or data["release"] > observation["time"]:
             continue
-        job = Task(
-            **{
-                **{
-                    k: v
-                    for k, v in data.items()
-                    if k not in ("dispatchable", "dispatch_block_reason")
-                },
-                "pickup": tuple(data["pickup"]) if data["pickup"] is not None else None,
-                "shelf": tuple(data["shelf"]) if data["shelf"] is not None else None,
-                "delivery": tuple(data["delivery"]),
-            }
-        )
+        job = Task.from_mapping(data)
         jobs[job.id] = data
+        points = geometry.pickup_candidates(job)
+        service = job.pickup_service + job.delivery_service
         for v in vehicles:
+            pos = tuple(v["position"])
             costs[v["id"], job.id] = (
                 min(
-                    router.distance(tuple(v["position"]), p, v["id"])
-                    + router.distance(p, job.delivery, v["id"])
-                    for p in geometry.pickup_candidates(job)
+                    router.distance(pos, p, v["id"]) + router.distance(p, job.delivery, v["id"])
+                    for p in points
                 )
-                + job.pickup_service
-                + job.delivery_service
+                + service
             )
     return vehicles, jobs, costs
 

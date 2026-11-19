@@ -1,0 +1,74 @@
+[
+  {
+    "epoch": 1,
+    "mean_ratios": {
+      "ga": 0.9980282484560346,
+      "exact": 0.999223635001219,
+      "hungarian": 0.9998139033696114
+    },
+    "checkpoint_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa",
+    "train_steps": 5016,
+    "replay_size": 1385,
+    "selection_score": 0.9998139033696114
+  },
+  {
+    "epoch": 2,
+    "mean_ratios": {
+      "ga": 0.9984282433316123,
+      "exact": 0.9996232125265665,
+      "hungarian": 1.0002131831537755
+    },
+    "checkpoint_sha256": "56cfc8bfeb5583acf62b6e1aaabfe589e1640cb6ffe7739c910f8f8ab8011a4d",
+    "train_steps": 10688,
+    "replay_size": 2803,
+    "selection_score": 1.0002131831537755
+  },
+  {
+    "epoch": 3,
+    "mean_ratios": {
+      "ga": 0.9981028962344964,
+      "exact": 0.9992988276884256,
+      "hungarian": 0.9998889406166026
+    },
+    "checkpoint_sha256": "8d9ea7b572df211e596cf2625982c5a2e42aa9b3c5020b2442454e2d583124d0",
+    "train_steps": 16344,
+    "replay_size": 4217,
+    "selection_score": 0.9998889406166026
+  },
+  {
+    "epoch": 4,
+    "mean_ratios": {
+      "ga": 0.9984914256920532,
+      "exact": 0.9996866546266792,
+      "hungarian": 1.0002762017766198
+    },
+    "checkpoint_sha256": "74706c07b8736f20fa62846dd5bf6e0a010da8889a043244d30b1b0ad128b0f3",
+    "train_steps": 21872,
+    "replay_size": 5599,
+    "selection_score": 1.0002762017766198
+  },
+  {
+    "epoch": 5,
+    "mean_ratios": {
+      "ga": 0.9998523824539737,
+      "exact": 1.0010516926141486,
+      "hungarian": 1.001644505444075
+    },
+    "checkpoint_sha256": "403870b9bbe34abf151366ac30edaf8cbe9276fdecf895cfdd435477b0324fe1",
+    "train_steps": 27436,
+    "replay_size": 6990,
+    "selection_score": 1.001644505444075
+  },
+  {
+    "epoch": 6,
+    "mean_ratios": {
+      "ga": 0.9991530285815049,
+      "exact": 1.000349559245794,
+      "hungarian": 1.000940467873156
+    },
+    "checkpoint_sha256": "c96a6098a7edca8516b203f6ff1cc4f5d86c46cb636a954ced899e8a36b9de3e",
+    "train_steps": 33252,
+    "replay_size": 8444,
+    "selection_score": 1.000940467873156
+  }
+]

@@ -6,12 +6,11 @@ Scenario. Completed history is a candidate-independent constant and is omitted;
 returning vehicles still reserve their entire observed return suffix.
 """
 
-from copy import deepcopy
 from dataclasses import asdict
 from time import process_time
 
 from agv.dispatch.greedy import greedy_action
-from agv.domain import Scenario, Task
+from agv.domain import Scenario, Task, clone_json_like
 from agv.simulation import Environment
 
 
@@ -29,7 +28,7 @@ class _VisibleEnvironment(Environment):
     def observe(self):
         observation = super().observe()
         history = getattr(self, "_visible_completed", [])
-        observation["completed"] = deepcopy(history) + observation["completed"]
+        observation["completed"] = [dict(r) for r in history] + observation["completed"]
         old_routes = getattr(self, "_visible_old_routes", {})
         for record in observation["completed"]:
             old = old_routes.get(record["vehicle"])
@@ -42,7 +41,7 @@ class _VisibleEnvironment(Environment):
             )
         for vehicle in observation["vehicles"]:
             if vehicle["route_record"] is None and vehicle["id"] in old_routes:
-                vehicle["route_record"] = deepcopy(old_routes[vehicle["id"]])
+                vehicle["route_record"] = dict(old_routes[vehicle["id"]])
         return observation
 
 
@@ -79,14 +78,6 @@ class _BudgetedRouter:
         if process_time() - self._started > self._budget.get("max_cpu_seconds", float("inf")):
             raise _BudgetExceeded("cpu")
         return result
-
-
-def _task(raw):
-    fields = {key: raw[key] for key in Task.__dataclass_fields__ if key in raw}
-    for name in ("pickup", "delivery", "shelf"):
-        if fields.get(name) is not None:
-            fields[name] = tuple(fields[name])
-    return Task(**fields)
 
 
 def _safe_greedy(observation):
@@ -147,7 +138,7 @@ class ShadowState:
         if type(event_driven) is not bool:
             raise ValueError("event_driven must be a boolean")
         self._event_driven = event_driven
-        self._observation = deepcopy(observation)
+        self._observation = clone_json_like(observation)
         self._router_kind = router_kind
         self._scenario, self._active_records = self._visible_scenario()
 
@@ -168,7 +159,7 @@ class ShadowState:
             raise ValueError("Observation must contain every vehicle in ID order")
         jobs, records = {}, []
         for raw in obs["pending"]:
-            job = _task(raw)
+            job = Task.from_mapping(raw)
             if job.id in jobs or job.release > now:
                 raise ValueError("Duplicate or unreleased visible task")
             jobs[job.id] = job
@@ -181,7 +172,7 @@ class ShadowState:
             else:
                 if active is None or record is None:
                     raise ValueError("Busy vehicle requires its visible task and commitment")
-                job = _task(active)
+                job = Task.from_mapping(active)
                 if (
                     job.id in jobs
                     or job.release > now
@@ -192,7 +183,7 @@ class ShadowState:
                 ):
                     raise ValueError("Inconsistent active task commitment")
                 jobs[job.id] = job
-                records.append(deepcopy(record))
+                records.append(dict(record))
             path = vehicle["return_path"] if vehicle["available"] else vehicle["committed_path"]
             if not path or tuple(path[0]) != tuple(vehicle["position"]):
                 raise ValueError("Committed suffix must start at current position")
@@ -226,9 +217,9 @@ class ShadowState:
         )
         obs = self._observation
         env.time = obs["time"]
-        env._visible_completed = deepcopy(obs.get("completed", []))
+        env._visible_completed = [dict(r) for r in obs.get("completed", [])]
         env._visible_old_routes = {
-            vehicle["id"]: deepcopy(vehicle["route_record"])
+            vehicle["id"]: dict(vehicle["route_record"])
             for vehicle in obs["vehicles"]
             if vehicle["available"] and vehicle.get("route_record") is not None
         }
@@ -238,13 +229,13 @@ class ShadowState:
         ]
         env._paths = [[path[0]] for path in env._plans]
         env._interval_states = [[] for _ in env._plans]
-        env._records = deepcopy(self._active_records)
+        env._records = [dict(r) for r in self._active_records]
         env._assigned = {record["task_id"] for record in env._records}
         active = {record["vehicle"]: record for record in env._records}
         env._active = [active.get(k) for k in range(len(env._plans))]
         if self._scenario.is_v9_1:
             env._idle_hold_counts = list(obs.get("idle_hold_counts", env._idle_hold_counts))
-            env._idle_waits = deepcopy(obs.get("idle_waits", []))
+            env._idle_waits = [dict(w) for w in obs.get("idle_waits", [])]
             env._historical_flow_times = list(obs.get("completed_flow_times", []))
             env._released_jobs = dict(env._jobs)
             env._stream_closed = obs["order_stream_closed"]
@@ -325,7 +316,7 @@ class ShadowState:
             reason, exhausted = "budget_" + str(error), True
         except (ValueError, TypeError, KeyError) as error:
             reason = "invalid_action:" + str(error)
-        records = deepcopy(env._records)
+        records = [dict(r) for r in env._records]
         jobs = env._jobs
         flows = [record["delivery_end"] - jobs[record["task_id"]].release for record in records]
         paths = [past + plan[1:] for past, plan in zip(env._paths, env._plans)]
@@ -357,7 +348,7 @@ class ShadowState:
             visible_task_count=len(jobs),
             simulated_steps=env.time - origin,
             decision_rounds=rounds,
-            routing_stats=deepcopy(env._router.stats),
-            planning_failures=deepcopy(env._planning_failures),
+            routing_stats=dict(env._router.stats),
+            planning_failures=[dict(f) for f in env._planning_failures],
             cpu_seconds=process_time() - started,
         )

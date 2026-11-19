@@ -1,0 +1,6 @@
+﻿case,phase,day_index,start_minute_of_day,window_minutes,orders
+wepa-day12-bin1164,train,12,180.0,15.0,61
+wepa-day32-bin3113,train,32,615.0,15.0,57
+wepa-day33-bin3229,train,33,915.0,15.0,43
+wepa-day45-bin4335,train,45,225.0,15.0,40
+wepa-day40-bin3885,monitor,40,675.0,15.0,50

@@ -318,7 +318,7 @@ def validate_profile(scenario):
         _require(not traffic & s.blocked, "Facility obstructs its reserved traffic band")
 
 
-def dispatch_status(scenario, job, records, assigned, time):
+def dispatch_status(scenario, job, records, assigned, time, *, jobs=None):
     """Gate only currently released orders; assigned jobs lock a face until pickup ends.
 
     Derive each resource from the immutable task identity, never from an
@@ -326,19 +326,56 @@ def dispatch_status(scenario, job, records, assigned, time):
     """
     if not scenario.uses_layer_rules:
         return True, None
-    jobs = {j.id: j for j in scenario.tasks}
+    if jobs is None:
+        jobs = {j.id: j for j in scenario.tasks}
     for record in records:
         previous = jobs.get(record["task_id"])
         if previous is None:
             raise ValueError("Unknown task in dispatch records")
         if previous.shelf == job.shelf and record["pickup_end"] > time:
             return False, "same_face_pickup_in_progress"
-    contenders = [
-        j
-        for j in scenario.tasks
-        if j.shelf == job.shelf and j.release <= time and j.id not in assigned
-    ]
-    first = min(contenders, key=lambda j: (-j.shelf_level, j.release, j.id), default=None)
+    first = min(
+        (
+            j
+            for j in scenario.tasks
+            if j.shelf == job.shelf and j.release <= time and j.id not in assigned
+        ),
+        key=lambda j: (-j.shelf_level, j.release, j.id),
+        default=None,
+    )
     if first is not None and first.id != job.id:
         return False, "higher_layer_or_earlier_order_first"
     return True, None
+
+
+def pending_with_status(scenario, records, assigned, time, jobs=None):
+    """Return released unassigned tasks paired with (dispatchable, reason) in one pass."""
+    pending = [j for j in scenario.tasks if j.release <= time and j.id not in assigned]
+    if not scenario.uses_layer_rules:
+        return [(j, True, None) for j in pending]
+    if not pending:
+        return []
+    if jobs is None:
+        jobs = {j.id: j for j in scenario.tasks}
+    locked_shelves = set()
+    for record in records:
+        previous = jobs.get(record["task_id"])
+        if previous is None:
+            raise ValueError("Unknown task in dispatch records")
+        if record["pickup_end"] > time:
+            locked_shelves.add(previous.shelf)
+    first_by_shelf = {}
+    for j in pending:
+        key = (-j.shelf_level, j.release, j.id)
+        current = first_by_shelf.get(j.shelf)
+        if current is None or key < current[0]:
+            first_by_shelf[j.shelf] = (key, j.id)
+    result = []
+    for j in pending:
+        if j.shelf in locked_shelves:
+            result.append((j, False, "same_face_pickup_in_progress"))
+        elif first_by_shelf[j.shelf][1] != j.id:
+            result.append((j, False, "higher_layer_or_earlier_order_first"))
+        else:
+            result.append((j, True, None))
+    return result

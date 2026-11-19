@@ -4,6 +4,7 @@ Planning evaluates multiple shelf sides and legs against the same reservations.
 Index once per revision, instead of scanning the entire table for every leg.
 """
 
+from bisect import insort
 from collections import defaultdict
 
 
@@ -11,6 +12,12 @@ class VertexReservations(set):
     def __init__(self, values=()):
         super().__init__(values)
         self._timeline = None
+        self._max_time = None
+
+    def max_time(self, default=0):
+        if self._max_time is None:
+            self._max_time = max((t for t, _ in self), default=-1)
+        return max(default, self._max_time)
 
     def timeline(self):
         if self._timeline is None:
@@ -20,42 +27,60 @@ class VertexReservations(set):
             self._timeline = {p: sorted(times) for p, times in index.items()}
         return self._timeline
 
-    def add(self, value):
-        super().add(value)
+    def _invalidate(self):
         self._timeline = None
+        self._max_time = None
+
+    def add(self, value):
+        if value in self:
+            return
+        super().add(value)
+        t, p = value
+        if self._max_time is not None and t > self._max_time:
+            self._max_time = t
+        if self._timeline is not None:
+            times = self._timeline.get(p)
+            if times is None:
+                self._timeline[p] = [t]
+            else:
+                insort(times, t)
 
     def discard(self, value):
         super().discard(value)
-        self._timeline = None
+        self._invalidate()
 
     def remove(self, value):
         super().remove(value)
-        self._timeline = None
+        self._invalidate()
 
     def clear(self):
         super().clear()
-        self._timeline = None
+        self._invalidate()
 
     def pop(self):
         value = super().pop()
-        self._timeline = None
+        self._invalidate()
         return value
 
     def update(self, *values):
-        super().update(*values)
-        self._timeline = None
+        if self._timeline is None and self._max_time is None:
+            super().update(*values)
+            return
+        for group in values:
+            for item in group:
+                self.add(item)
 
     def difference_update(self, *values):
         super().difference_update(*values)
-        self._timeline = None
+        self._invalidate()
 
     def intersection_update(self, *values):
         super().intersection_update(*values)
-        self._timeline = None
+        self._invalidate()
 
     def symmetric_difference_update(self, value):
         super().symmetric_difference_update(value)
-        self._timeline = None
+        self._invalidate()
 
     def __ior__(self, value):
         self.update(value)

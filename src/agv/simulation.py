@@ -1,15 +1,28 @@
 """任务执行环境。策略只使用 observe()，不能读取内部完整场景的未来任务。"""
 
+import pickle
 from copy import deepcopy
-from dataclasses import asdict
 
-from agv.domain import Scenario
+from agv.domain import Scenario, clone_json_like
 from agv.evaluation.diagnostics import summarize_failures
 from agv.evaluation.metrics import summarize
 from agv.planning import create_router
 from agv.planning.pickup import plan_task
 from agv.planning.reservations import VertexReservations
-from agv.warehouse.rules import dispatch_status
+from agv.warehouse.rules import dispatch_status, pending_with_status
+
+
+def _task_dict(j):
+    return dict(
+        id=j.id,
+        pickup=j.pickup,
+        delivery=j.delivery,
+        release=j.release,
+        pickup_service=j.pickup_service,
+        delivery_service=j.delivery_service,
+        shelf=j.shelf,
+        shelf_level=j.shelf_level,
+    )
 
 
 class Environment:
@@ -50,6 +63,7 @@ class Environment:
             self._scenario = checked
         s = self._scenario
         self._public_map = s.observation_map()
+        self._public_map_pickle = pickle.dumps(self._public_map, protocol=pickle.HIGHEST_PROTOCOL)
         self.time = 0
         self._jobs = {j.id: j for j in s.tasks}
         self._router = create_router(self._router_kind, s)
@@ -96,74 +110,67 @@ class Environment:
     def observe(self):
         s = self._scenario
         # 不返回总任务数、未来release、生成种子或未来任务点。
-        return deepcopy(
-            dict(
-                **(
-                    dict(
-                        idle_hold_steps=self.idle_hold_steps,
-                        idle_hold_counts=list(self._idle_hold_counts),
-                        idle_waits=deepcopy(self._idle_waits),
-                    )
-                    if s.is_v9
-                    else {}
-                ),
-                **(
-                    dict(
-                        order_stream_closed=self._stream_closed,
-                        stream_closed_at=self._stream_closed_at,
-                        idle_policy="stream",
-                        completed_flow_times=[
-                            r["delivery_end"] - self._released_jobs[r["task_id"]].release
-                            for r in self._records
-                            if r["delivery_end"] <= self.time
-                        ],
-                    )
-                    if s.is_v9_1
-                    else {}
-                ),
-                time=self.time,
-                **(
-                    dict(positioning_targets=deepcopy(self._position_targets))
-                    if self.positioning
-                    else {}
-                ),
-                horizon=s.horizon,
-                map=self._public_map,
-                vehicles=[
-                    dict(
-                        id=k,
-                        position=p[0],
-                        state=self._state(k),
-                        available=self._active[k] is None,
-                        task_id=self._active[k]["task_id"] if self._active[k] else None,
-                        committed_path=p if self._active[k] else [p[0]],
-                        return_path=p if self._active[k] is None else [],
-                        route_record=deepcopy(
-                            self._active[k]
-                            or next((r for r in reversed(self._records) if r["vehicle"] == k), None)
-                        ),
-                        active_task=asdict(self._jobs[self._active[k]["task_id"]])
-                        if self._active[k]
-                        else None,
-                    )
-                    for k, p in enumerate(self._plans)
-                ],
-                pending=[
-                    dict(
-                        **asdict(j),
-                        dispatchable=dispatch_status(
-                            s, j, self._records, self._assigned, self.time
-                        )[0],
-                        dispatch_block_reason=dispatch_status(
-                            s, j, self._records, self._assigned, self.time
-                        )[1],
-                    )
-                    for j in s.tasks
-                    if j.release <= self.time and j.id not in self._assigned
-                ],
-                completed=[deepcopy(r) for r in self._records if r["delivery_end"] <= self.time],
+        last_records = {}
+        for record in self._records:
+            last_records[record["vehicle"]] = record
+        vehicles = []
+        for k, p in enumerate(self._plans):
+            active = self._active[k]
+            route_record = active or last_records.get(k)
+            vehicles.append(
+                dict(
+                    id=k,
+                    position=p[0],
+                    state=self._state(k),
+                    available=active is None,
+                    task_id=active["task_id"] if active else None,
+                    committed_path=list(p) if active else [p[0]],
+                    return_path=list(p) if active is None else [],
+                    route_record=dict(route_record) if route_record is not None else None,
+                    active_task=_task_dict(self._jobs[active["task_id"]]) if active else None,
+                )
             )
+        pending = [
+            dict(
+                **_task_dict(j),
+                dispatchable=ok,
+                dispatch_block_reason=reason,
+            )
+            for j, ok, reason in pending_with_status(
+                s, self._records, self._assigned, self.time, jobs=self._jobs
+            )
+        ]
+        completed = [dict(r) for r in self._records if r["delivery_end"] <= self.time]
+        obs = dict(
+            time=self.time,
+            horizon=s.horizon,
+            map=pickle.loads(self._public_map_pickle),
+            vehicles=vehicles,
+            pending=pending,
+            completed=completed,
         )
+        if s.is_v9:
+            obs.update(
+                idle_hold_steps=self.idle_hold_steps,
+                idle_hold_counts=list(self._idle_hold_counts),
+                idle_waits=[dict(w) for w in self._idle_waits],
+            )
+        if s.is_v9_1:
+            obs.update(
+                order_stream_closed=self._stream_closed,
+                stream_closed_at=self._stream_closed_at,
+                idle_policy="stream",
+                completed_flow_times=[
+                    r["delivery_end"] - self._released_jobs[r["task_id"]].release
+                    for r in self._records
+                    if r["delivery_end"] <= self.time
+                ],
+            )
+        if self.positioning:
+            obs["positioning_targets"] = [
+                dict(target) if target is not None else None for target in self._position_targets
+            ]
+        return obs
 
     def assign(self, pairs):
         """有序(vehicle_id,task_id)列表。非法输入整批拒绝；规划失败逐对报告。
@@ -192,7 +199,12 @@ class Environment:
             ):
                 raise ValueError("Unknown, assigned or unreleased task")
             if not dispatch_status(
-                self._scenario, self._jobs[j], self._records, self._assigned, self.time
+                self._scenario,
+                self._jobs[j],
+                self._records,
+                self._assigned,
+                self.time,
+                jobs=self._jobs,
             )[0]:
                 raise ValueError("Task blocked by same-face layer order or active pickup")
             selected = None
@@ -366,14 +378,22 @@ class Environment:
                     or any(type(x) is not int for x in q)
                 ):
                     raise ValueError("Malformed pickup point")
-        metadata = {key: deepcopy(proposal[key]) for key in ("time", "before", "after", "trials")}
-        trial = deepcopy(self)
+        metadata = {
+            key: clone_json_like(proposal[key]) for key in ("time", "before", "after", "trials")
+        }
         if proposal["time"] != self.time:
             raise ValueError("Stale proposal")
         plans, records = proposal["plans"], proposal["records"]
         if len(plans) != len(self._plans) or len(records) != len(plans):
             raise ValueError("Missing vehicle suffix")
+        trial_records = [dict(r) for r in self._records]
+        trial_active = [None] * len(self._active)
+        task_index = {r["task_id"]: i for i, r in enumerate(trial_records)}
+        last_records = {}
+        for record in self._records:
+            last_records[record["vehicle"]] = record
         changes = []
+        all_homes = set(self._scenario.homes)
         for k, (path, new) in enumerate(zip(plans, records)):
             if not path or path[0] != self._plans[k][0] or path[-1] != self._scenario.homes[k]:
                 raise ValueError("Invalid suffix endpoints")
@@ -382,17 +402,12 @@ class Environment:
                 and self.time + len(path) - 1 > self._scenario.horizon
             ):
                 raise ValueError("Suffix exceeds horizon")
-            if any(
-                not self._scenario.free(q)
-                or q in set(self._scenario.homes) - {self._scenario.homes[k]}
-                for q in path
-            ):
+            forbidden_k = all_homes - {self._scenario.homes[k]}
+            if any(not self._scenario.free(q) or q in forbidden_k for q in path):
                 raise ValueError("Invalid suffix cell")
             if any(abs(a[0] - b[0]) + abs(a[1] - b[1]) > 1 for a, b in zip(path, path[1:])):
                 raise ValueError("Invalid suffix movement")
-            old = self._active[k] or next(
-                (r for r in reversed(self._records) if r["vehicle"] == k), None
-            )
+            old = self._active[k] or last_records.get(k)
             if (old is None) != (new is None):
                 raise ValueError("Task ownership changed")
             if old:
@@ -404,11 +419,9 @@ class Environment:
                             raise ValueError("Started service changed")
                         if leg == "pickup" and new["pickup_point"] != old["pickup_point"]:
                             raise ValueError("Started pickup side changed")
-                index = next(
-                    i for i, r in enumerate(trial._records) if r["task_id"] == old["task_id"]
-                )
-                trial._records[index] = deepcopy(new)
-                trial._active[k] = trial._records[index] if self._active[k] else None
+                index = task_index[old["task_id"]]
+                trial_records[index] = dict(new)
+                trial_active[k] = trial_records[index] if self._active[k] else None
                 # Future service intervals must actually occupy their endpoints.
                 job = self._jobs[new["task_id"]]
                 for leg, point, duration in [
@@ -429,8 +442,8 @@ class Environment:
                         task_id=old["task_id"] if old else None,
                         old_delivery_end=old["delivery_end"] if old else None,
                         new_delivery_end=new["delivery_end"] if new else None,
-                        old_suffix=deepcopy(self._plans[k]),
-                        new_suffix=deepcopy(path),
+                        old_suffix=list(self._plans[k]),
+                        new_suffix=list(path),
                     )
                 )
         for t in range(max(map(len, plans))):
@@ -443,20 +456,17 @@ class Environment:
                     for peer in range(k):
                         if previous[k] == positions[peer] and previous[peer] == positions[k]:
                             raise ValueError("Future edge swap")
-        trial._plans = deepcopy(plans)
+        trial_plans = [list(path) for path in plans]
         # Independently validate past AND complete future execution, including
         # service order and metrics. This audit copy never dispatches new jobs.
-        audit = deepcopy(trial)
+        audit = self._clone_for_audit(trial_plans, trial_records, trial_active)
         remaining = max(map(len, plans)) - 1
         if remaining:
             audit.advance(remaining, observe=False)
         validate(audit._scenario, audit.result())
         from agv.planning.joint import score
 
-        old_records = [
-            self._active[k] or next((r for r in reversed(self._records) if r["vehicle"] == k), None)
-            for k in range(len(plans))
-        ]
+        old_records = [self._active[k] or last_records.get(k) for k in range(len(plans))]
         before = score(self._plans, old_records, self.time)
         after = score(plans, records, self.time)
         if (
@@ -466,10 +476,52 @@ class Environment:
         ):
             raise ValueError("Candidate must improve the actual suffix objective")
         event = dict(**metadata, changes=changes)
-        self._plans, self._records, self._active = trial._plans, trial._records, trial._active
+        self._plans, self._records, self._active = trial_plans, trial_records, trial_active
         self._reservation_index = None
         self._replans.append(event)
         return True
+
+    def _clone_for_audit(self, plans, records, active):
+        """Lightweight state clone for replan validation, sharing immutable geometry."""
+        audit = type(self).__new__(type(self))
+        audit.positioning = self.positioning
+        audit._manual_stream = self._manual_stream
+        audit.idle_hold_steps = self.idle_hold_steps
+        audit._router_kind = self._router_kind
+        audit._scenario = self._scenario
+        audit._public_map = self._public_map
+        audit._public_map_pickle = self._public_map_pickle
+        audit.time = self.time
+        audit._jobs = self._jobs
+        audit._router = type("_AuditRouter", (), {"stats": dict(self._router.stats)})()
+        audit._plans = [list(p) for p in plans]
+        audit._paths = [list(p) for p in self._paths]
+        audit._interval_states = [list(labels) for labels in self._interval_states]
+        audit._records = [dict(r) for r in records]
+        audit._active = [
+            next(rec for rec in audit._records if rec["task_id"] == r["task_id"])
+            if r is not None
+            else None
+            for r in active
+        ]
+        audit._idle_waits = [dict(w) for w in self._idle_waits]
+        audit._idle_hold_counts = list(self._idle_hold_counts)
+        audit._assigned = set(self._assigned)
+        audit._planning_failures = [dict(f) for f in self._planning_failures]
+        audit._execution_error = (
+            dict(self._execution_error) if self._execution_error is not None else None
+        )
+        audit._replans = clone_json_like(self._replans)
+        audit._reservation_index = None
+        audit._position_targets = [
+            dict(t) if t is not None else None for t in self._position_targets
+        ]
+        audit._position_events = [dict(e) for e in self._position_events]
+        audit._released_jobs = dict(self._released_jobs)
+        audit._stream_closed = self._stream_closed
+        audit._stream_closed_at = self._stream_closed_at
+        audit._auto_close_at = self._auto_close_at
+        return audit
 
     def advance(self, steps=1, *, observe=True):
         if type(steps) is not int or steps < 1:
@@ -531,7 +583,7 @@ class Environment:
         )
 
     def result(self):
-        records = [deepcopy(r) for r in self._records if r["delivery_end"] <= self.time]
+        records = [dict(r) for r in self._records if r["delivery_end"] <= self.time]
         completions = [r["delivery_end"] for r in records]
         flow = [r["delivery_end"] - self._jobs[r["task_id"]].release for r in records]
         moves = service = idle = traffic_wait = 0
@@ -560,10 +612,10 @@ class Environment:
             service_steps=service,
             idle_steps=idle,
             traffic_wait_steps=traffic_wait,
-            paths=deepcopy(self._paths),
-            interval_states=deepcopy(self._interval_states),
+            paths=[list(p) for p in self._paths],
+            interval_states=[list(labels) for labels in self._interval_states],
             events=records,
-            assignments=deepcopy(self._records),
+            assignments=[dict(r) for r in self._records],
         )
         if self._scenario.is_v9_1:
             result.update(
@@ -572,16 +624,19 @@ class Environment:
                 idle_policy="stream",
             )
             if self.positioning:
-                result["positioning_events"] = deepcopy(self._position_events)
+                result["positioning_events"] = [dict(e) for e in self._position_events]
         if self._scenario.is_v9:
-            result["idle_waits"] = deepcopy(self._idle_waits)
+            result["idle_waits"] = [dict(w) for w in self._idle_waits]
             result["idle_hold_steps"] = self.idle_hold_steps
-        result["replanning_events"] = deepcopy(self._replans)
-        result["routing_stats"] = deepcopy(self._router.stats)
+        result["replanning_events"] = clone_json_like(self._replans)
+        result["routing_stats"] = dict(self._router.stats)
         result.update(summarize(self._scenario, result))
         if self._execution_error:
             result["reason"] = self._execution_error["kind"]
         result["diagnostics"] = summarize_failures(
-            self._scenario, result, deepcopy(self._planning_failures), self._execution_error
+            self._scenario,
+            result,
+            [dict(f) for f in self._planning_failures],
+            self._execution_error,
         )
         return result

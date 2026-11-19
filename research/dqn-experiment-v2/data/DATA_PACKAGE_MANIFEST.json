@@ -1,0 +1,22 @@
+{
+  "schema": "wepa-original-data-package-v1",
+  "created_at_utc": "2026-11-10T13:39:01.224541+00:00",
+  "source": "deliverables/wepa_real_data",
+  "files": {
+    "raw/2_orders.json": "caab14a69aa34734f3ceb04f6c595f712b7dc4a1ee65adbe92268a16a7159432",
+    "raw/3_initial_fill_lvl.json": "9f2237b8dab891d51b6925242a6691f9af826c58b0a1c09a92ad0fb8fb9ec92c",
+    "raw/1_layout.csv": "13713221805ce421dec37e73779a86776d8019a3586ae7f2fb636d5e99704989",
+    "daily_statistics.csv": "54fc390c56fcf0616c8899e46c03257f9bda600ddaa00171e5c7465d2cf5943d",
+    "experiment_windows.csv": "b51a5bfee408e8d17b9b295a2ebd8dd9220e5592a1cfa7c466baffed5a7c3bf4",
+    "experiment_orders.csv": "b7f1a6bbe6c47c4af9bb39fb3dfa1bd79c05c992a1c4fa02db869b5e4fc780f5",
+    "summary.json": "adbb6d628bd08d40e9304f5dd06bc110f127a32754f5f4c69785f5d36c644856",
+    "README.md": "e989c9f5804b047694ead4f6289e36e1feeb64976c8d2c77037a44485572061a",
+    "LICENSE": "8676481283654494ea7a9f158265a477803095c8bf986a31c8bf55669c82ce89"
+  },
+  "includes": [
+    "raw source orders, initial stock, source layout, daily metadata, experiment-window metadata, license, README"
+  ],
+  "excludes": [
+    "models, trajectories, training results, later search diagnostics"
+  ]
+}

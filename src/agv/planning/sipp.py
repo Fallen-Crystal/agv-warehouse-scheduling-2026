@@ -56,7 +56,8 @@ class SafeIntervalRouter(Router):
             if p not in intervals:
                 result, left = [], time
                 times = blocked.get(p, ())
-                for t in times[bisect_left(times, time) :]:
+                for idx in range(bisect_left(times, time), len(times)):
+                    t = times[idx]
                     if t > horizon:
                         break
                     if left < t:
@@ -87,7 +88,7 @@ class SafeIntervalRouter(Router):
             if estimate + service >= best_finish:
                 break
             self.stats["expanded"] += 1
-            _, upper = safe_intervals(p)[index]
+            _, upper = intervals[p][index]
             if p == goal:
                 begin = max(arrival, not_before or arrival)
                 while begin + service <= upper:

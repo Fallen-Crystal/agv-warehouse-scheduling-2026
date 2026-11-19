@@ -1,0 +1,14 @@
+{
+  "epoch": 1,
+  "mean_ratios": {
+    "ga": 0.9980282484560346,
+    "exact": 0.999223635001219,
+    "hungarian": 0.9998139033696114
+  },
+  "checkpoint_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa",
+  "train_steps": 5016,
+  "replay_size": 1385,
+  "selection_score": 0.9998139033696114,
+  "checkpoint": "best.npz",
+  "criterion": "Minimize worst of three mean paired F ratios on validation; best and latest saved. Never select by test. Test only after checkpoint selection."
+}

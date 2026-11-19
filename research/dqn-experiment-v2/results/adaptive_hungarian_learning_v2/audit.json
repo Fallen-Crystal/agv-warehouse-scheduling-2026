@@ -1,0 +1,326 @@
+{
+  "complete": true,
+  "fit_complete": true,
+  "training_windows": 60,
+  "training_decisions": 8444,
+  "train_steps": 33252,
+  "validation_epochs": [
+    {
+      "epoch": 1,
+      "mean_ratios": {
+        "ga": 0.9980282484560346,
+        "exact": 0.999223635001219,
+        "hungarian": 0.9998139033696114
+      },
+      "selection_score": 0.9998139033696114,
+      "checkpoint_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa"
+    },
+    {
+      "epoch": 2,
+      "mean_ratios": {
+        "ga": 0.9984282433316123,
+        "exact": 0.9996232125265665,
+        "hungarian": 1.0002131831537755
+      },
+      "selection_score": 1.0002131831537755,
+      "checkpoint_sha256": "56cfc8bfeb5583acf62b6e1aaabfe589e1640cb6ffe7739c910f8f8ab8011a4d"
+    },
+    {
+      "epoch": 3,
+      "mean_ratios": {
+        "ga": 0.9981028962344964,
+        "exact": 0.9992988276884256,
+        "hungarian": 0.9998889406166026
+      },
+      "selection_score": 0.9998889406166026,
+      "checkpoint_sha256": "8d9ea7b572df211e596cf2625982c5a2e42aa9b3c5020b2442454e2d583124d0"
+    },
+    {
+      "epoch": 4,
+      "mean_ratios": {
+        "ga": 0.9984914256920532,
+        "exact": 0.9996866546266792,
+        "hungarian": 1.0002762017766198
+      },
+      "selection_score": 1.0002762017766198,
+      "checkpoint_sha256": "74706c07b8736f20fa62846dd5bf6e0a010da8889a043244d30b1b0ad128b0f3"
+    },
+    {
+      "epoch": 5,
+      "mean_ratios": {
+        "ga": 0.9998523824539737,
+        "exact": 1.0010516926141486,
+        "hungarian": 1.001644505444075
+      },
+      "selection_score": 1.001644505444075,
+      "checkpoint_sha256": "403870b9bbe34abf151366ac30edaf8cbe9276fdecf895cfdd435477b0324fe1"
+    },
+    {
+      "epoch": 6,
+      "mean_ratios": {
+        "ga": 0.9991530285815049,
+        "exact": 1.000349559245794,
+        "hungarian": 1.000940467873156
+      },
+      "selection_score": 1.000940467873156,
+      "checkpoint_sha256": "c96a6098a7edca8516b203f6ff1cc4f5d86c46cb636a954ced899e8a36b9de3e"
+    }
+  ],
+  "completed_test_dates": 5,
+  "test": [
+    {
+      "case": "wepa-1800s-day5-bin265",
+      "day": 5,
+      "minutes": 30,
+      "orders": 55,
+      "F": {
+        "ga": 1.2450653198653199,
+        "exact": 1.253610101010101,
+        "hungarian": 1.2285636363636363,
+        "dqn": 1.2285636363636363
+      },
+      "actions": {
+        "ga": 37,
+        "hungarian": 13
+      },
+      "improvement_percent": {
+        "ga": 1.3253668894631643,
+        "exact": 1.9979469395056348,
+        "hungarian": 0.0
+      },
+      "physics": {
+        "ga": {
+          "T": 1808,
+          "R": 233.4181818181818,
+          "D": 4396,
+          "traffic_wait": 43
+        },
+        "exact": {
+          "T": 1821,
+          "R": 231.16363636363636,
+          "D": 4452,
+          "traffic_wait": 31
+        },
+        "hungarian": {
+          "T": 1779,
+          "R": 232.6909090909091,
+          "D": 4392,
+          "traffic_wait": 38
+        },
+        "dqn": {
+          "T": 1779,
+          "R": 232.6909090909091,
+          "D": 4392,
+          "traffic_wait": 38
+        }
+      }
+    },
+    {
+      "case": "wepa-1800s-day19-bin932",
+      "day": 19,
+      "minutes": 30,
+      "orders": 144,
+      "F": {
+        "ga": 2.1642060185185183,
+        "exact": 2.2128564814814817,
+        "hungarian": 2.273337962962963,
+        "dqn": 2.197863425925926
+      },
+      "actions": {
+        "ga": 79,
+        "hungarian": 58
+      },
+      "improvement_percent": {
+        "ga": -1.5551850017701874,
+        "exact": 0.6775430616954403,
+        "hungarian": 3.3199875366822673
+      },
+      "physics": {
+        "ga": {
+          "T": 2753,
+          "R": 404.0625,
+          "D": 13502,
+          "traffic_wait": 51
+        },
+        "exact": {
+          "T": 2829,
+          "R": 403.7916666666667,
+          "D": 13678,
+          "traffic_wait": 35
+        },
+        "hungarian": {
+          "T": 2943,
+          "R": 401.2361111111111,
+          "D": 13624,
+          "traffic_wait": 35
+        },
+        "dqn": {
+          "T": 2812,
+          "R": 401.36805555555554,
+          "D": 13550,
+          "traffic_wait": 26
+        }
+      }
+    },
+    {
+      "case": "wepa-1800s-day53-bin2571",
+      "day": 53,
+      "minutes": 30,
+      "orders": 85,
+      "F": {
+        "ga": 2.0269847494553375,
+        "exact": 2.0480265795206973,
+        "hungarian": 2.0327503267973857,
+        "dqn": 2.027891503267974
+      },
+      "actions": {
+        "ga": 58,
+        "hungarian": 21
+      },
+      "improvement_percent": {
+        "ga": -0.04473412110672648,
+        "exact": 0.9831452606164803,
+        "hungarian": 0.2390270691564389
+      },
+      "physics": {
+        "ga": {
+          "T": 2812,
+          "R": 467.1764705882353,
+          "D": 8344,
+          "traffic_wait": 24
+        },
+        "exact": {
+          "T": 2857,
+          "R": 466.63529411764705,
+          "D": 8242,
+          "traffic_wait": 28
+        },
+        "hungarian": {
+          "T": 2820,
+          "R": 470.91764705882355,
+          "D": 8346,
+          "traffic_wait": 26
+        },
+        "dqn": {
+          "T": 2819,
+          "R": 465.3411764705882,
+          "D": 8280,
+          "traffic_wait": 21
+        }
+      }
+    },
+    {
+      "case": "wepa-3600s-day55-bin1336",
+      "day": 55,
+      "minutes": 60,
+      "orders": 89,
+      "F": {
+        "ga": 2.364919267582189,
+        "exact": 2.3728019142738246,
+        "hungarian": 2.36609696213067,
+        "dqn": 2.366360382854765
+      },
+      "actions": {
+        "ga": 114,
+        "hungarian": 14
+      },
+      "improvement_percent": {
+        "ga": -0.06093718683468641,
+        "exact": 0.27147362703603406,
+        "hungarian": -0.01113313310110442
+      },
+      "physics": {
+        "ga": {
+          "T": 3675,
+          "R": 174.20224719101122,
+          "D": 7160,
+          "traffic_wait": 14
+        },
+        "exact": {
+          "T": 3688,
+          "R": 173.51685393258427,
+          "D": 7184,
+          "traffic_wait": 21
+        },
+        "hungarian": {
+          "T": 3676,
+          "R": 175.17977528089887,
+          "D": 7168,
+          "traffic_wait": 25
+        },
+        "dqn": {
+          "T": 3676,
+          "R": 175.30337078651687,
+          "D": 7174,
+          "traffic_wait": 21
+        }
+      }
+    },
+    {
+      "case": "wepa-1800s-day76-bin3677",
+      "day": 76,
+      "minutes": 30,
+      "orders": 94,
+      "F": {
+        "ga": 1.81175768321513,
+        "exact": 1.8550594956658788,
+        "hungarian": 1.8774649330181246,
+        "dqn": 1.8392415287628052
+      },
+      "actions": {
+        "ga": 68,
+        "hungarian": 22
+      },
+      "improvement_percent": {
+        "ga": -1.516971381012855,
+        "exact": 0.8526932392211806,
+        "hungarian": 2.0359050964468994
+      },
+      "physics": {
+        "ga": {
+          "T": 2403,
+          "R": 415.6063829787234,
+          "D": 9132,
+          "traffic_wait": 40
+        },
+        "exact": {
+          "T": 2476,
+          "R": 416.7340425531915,
+          "D": 9196,
+          "traffic_wait": 48
+        },
+        "hungarian": {
+          "T": 2508,
+          "R": 420.6170212765957,
+          "D": 9286,
+          "traffic_wait": 59
+        },
+        "dqn": {
+          "T": 2449,
+          "R": 414.9468085106383,
+          "D": 9190,
+          "traffic_wait": 61
+        }
+      }
+    }
+  ],
+  "mean_paired_improvement_percent": {
+    "ga": -0.3704921602522582,
+    "exact": 0.9565604256149541,
+    "hungarian": 1.1167573138369002
+  },
+  "selection": {
+    "epoch": 1,
+    "mean_ratios": {
+      "ga": 0.9980282484560346,
+      "exact": 0.999223635001219,
+      "hungarian": 0.9998139033696114
+    },
+    "checkpoint_sha256": "b09b93be34851e24ee199ac4b147573e381985d3923d641e4f38919528788bfa",
+    "train_steps": 5016,
+    "replay_size": 1385,
+    "selection_score": 0.9998139033696114,
+    "checkpoint": "best.npz",
+    "criterion": "Minimize worst of three mean paired F ratios on validation; best and latest saved. Never select by test. Test only after checkpoint selection."
+  }
+}

@@ -36,11 +36,17 @@ class Router:
     def search_limit(self, time, distances, vertices, edges, service, service_blocked):
         if self.s.horizon is not None:
             return self.s.horizon
-        end = max(
-            [time] + [t for t, _ in vertices] + [t + 1 for t, _, _ in edges] + list(service_blocked)
+        end = (
+            vertices.max_time(time)
+            if hasattr(vertices, "max_time")
+            else max((t for t, _ in vertices), default=time)
         )
+        if edges:
+            end = max(end, max(t + 1 for t, _, _ in edges))
+        if service_blocked:
+            end = max(end, max(service_blocked))
         # After finite reservations expire, a simple static path suffices.
-        return end + len(distances) + service + 1
+        return max(time, end) + len(distances) + service + 1
 
     def leg(
         self,

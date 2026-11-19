@@ -1,0 +1,59 @@
+{
+  "case": "wepa-hour-day40-bin973",
+  "epoch": 3,
+  "train_steps": 16344,
+  "replay_size": 4217,
+  "replay_behavior_actions": {
+    "hungarian": 1931,
+    "ga": 2286
+  },
+  "replay_state_greedy_actions": {
+    "hungarian": 1647,
+    "ga": 2570
+  },
+  "ga_minus_hungarian_Q_quantiles": {
+    "0": -0.0910378783020156,
+    "0.1": -0.025064162425489957,
+    "0.5": 0.005650376397610124,
+    "0.9": 0.029559998158021596,
+    "1": 0.13484085615917918
+  },
+  "mean_abs_Q": 1.4002179942215576,
+  "mean_abs_Q_gap": 0.01765862780673808,
+  "five_step_bellman_rmse": 0.05814562811766428,
+  "last_training_episode_behavior_return_rmse": 0.24039386927713144,
+  "backlog_groups": {
+    "pending_below_6": {
+      "states": 1754,
+      "greedy_ga_fraction": 0.5444697833523375,
+      "mean_ga_minus_hungarian_Q": 0.001554081879009773
+    },
+    "pending_6_to_23": {
+      "states": 1116,
+      "greedy_ga_fraction": 0.6720430107526881,
+      "mean_ga_minus_hungarian_Q": 0.0063165381021998545
+    },
+    "pending_at_least_24": {
+      "states": 1347,
+      "greedy_ga_fraction": 0.6421677802524127,
+      "mean_ga_minus_hungarian_Q": 0.005253561582565671
+    }
+  },
+  "cached_plan_groups": {
+    "absent": {
+      "states": 1946,
+      "greedy_ga_fraction": 0.6284686536485098,
+      "mean_ga_minus_hungarian_Q": 0.004764731277183935
+    },
+    "present": {
+      "states": 2271,
+      "greedy_ga_fraction": 0.5931307793923382,
+      "mean_ga_minus_hungarian_Q": 0.0033375149820141794
+    }
+  },
+  "last_training_episode_action_switches": 64,
+  "last_training_episode_action_switch_fraction": 0.4444444444444444,
+  "interpretation": "Diagnostics use historical training states only. Behavior-return error and action counts do not establish validation/test F improvement.",
+  "checkpoint_sha256": "8d9ea7b572df211e596cf2625982c5a2e42aa9b3c5020b2442454e2d583124d0",
+  "checkpoint_row": "train_e03_09.json"
+}

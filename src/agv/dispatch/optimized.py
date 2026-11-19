@@ -13,42 +13,30 @@ def matching_action(observation, age_weight=0.25):
     Objective: static pickup+delivery+service - weight*visible order age.
     Exact for this matrix only, not for future routes or global schedules.
     """
-    s, router = from_observation(observation)
     vehicles = [v for v in observation["vehicles"] if v["available"]]
+    dispatchable = [j for j in observation["pending"] if j.get("dispatchable", True)]
+    if not vehicles or not dispatchable:
+        return []
+    s, router = from_observation(observation)
+    now = observation["time"]
     dp = {0: (0.0, [])}
-    for data in observation["pending"]:
-        if not data.get("dispatchable", True):
-            continue
-        j = Task(
-            **{
-                **{
-                    k: v
-                    for k, v in data.items()
-                    if k not in ("dispatchable", "dispatch_block_reason")
-                },
-                "pickup": tuple(data["pickup"]) if data["pickup"] else None,
-                "shelf": tuple(data["shelf"]) if data["shelf"] else None,
-                "delivery": tuple(data["delivery"]),
-            }
-        )
+    vehicle_positions = [(v["id"], tuple(v["position"])) for v in vehicles]
+    for data in dispatchable:
+        j = Task.from_mapping(data)
+        points = s.pickup_candidates(j)
+        base = j.pickup_service + j.delivery_service - age_weight * (now - j.release)
         costs = [
-            min(
-                router.distance(tuple(v["position"]), p, v["id"])
-                + router.distance(p, j.delivery, v["id"])
-                for p in s.pickup_candidates(j)
-            )
-            + j.pickup_service
-            + j.delivery_service
-            - age_weight * (observation["time"] - j.release)
-            for v in vehicles
+            min(router.distance(pos, p, vid) + router.distance(p, j.delivery, vid) for p in points)
+            + base
+            for vid, pos in vehicle_positions
         ]
         updated = dict(dp)
         for mask, (cost, pairs) in dp.items():
-            for i, v in enumerate(vehicles):
+            for i, (vid, _) in enumerate(vehicle_positions):
                 if mask & (1 << i) or costs[i] == float("inf"):
                     continue
                 newmask = mask | (1 << i)
-                item = (cost + costs[i], pairs + [(v["id"], j.id)])
+                item = (cost + costs[i], pairs + [(vid, j.id)])
                 if newmask not in updated or item < updated[newmask]:
                     updated[newmask] = item
         dp = updated
@@ -67,11 +55,25 @@ def run(
     ranker=None,
     trial_budget=None,
     collect=None,
+    initial_rollout=False,
 ):
     if assignment not in ("matching", "greedy") or type(interval) is not int or interval < 1:
         raise ValueError("Invalid optimizer options")
-    if type(joint) is not bool:
-        raise ValueError("joint must be a boolean")
+    if type(joint) is not bool or type(initial_rollout) is not bool:
+        raise ValueError("joint and initial_rollout must be booleans")
+    initial = []
+    if initial_rollout and joint:
+        from agv.dispatch.initial_batch import choose_initial
+
+        initial = choose_initial(
+            scenario,
+            attempts=attempts,
+            interval=interval,
+            router_kind=router_kind,
+            neighborhoods=neighborhoods,
+            trial_budget=trial_budget,
+            ranker=ranker,
+        )
     env = Environment(scenario, router_kind=router_kind)
     planner = JointPlanner(
         attempts,
@@ -84,7 +86,8 @@ def run(
     action = matching_action if assignment == "matching" else greedy_action
     calls = 0
     while not env.done and (scenario.horizon is None or env.time < scenario.horizon):
-        feedback = env.assign(action(env.observe()))
+        pairs = initial if (env.time == 0 and initial) else action(env.observe())
+        feedback = env.assign(pairs)
         if joint and (env.time % interval == 0 or any(f["accepted"] for f in feedback)):
             calls += 1
             proposal = planner.propose(env.observe())
@@ -109,6 +112,8 @@ def run(
         replan_calls=calls,
         accepted_replans=len(result["replanning_events"]),
     )
+    if initial_rollout:
+        result["algorithm"]["initial_rollout"] = bool(initial)
     return result
 
 

@@ -125,11 +125,11 @@ src/agv/
   domain.py             场景、任务与输入约束
   warehouse/            V4货架、通道、设施几何与业务规则
   simulation.py         唯一真实执行状态与原子路线提交
-  planning/             A*参照、SIPP、预约索引、取送路线、联合修复
-  dispatch/             派单、在线驱动、统一算法配置
+  planning/             A*参照、SIPP、增量预约索引、几何缓存、取送路线、联合修复
+  dispatch/             派单、在线驱动、静态首轮批次规划、统一算法配置
   learning/             透明线性排序器与训练流程
   models/               带schema的已训练模型
-  evaluation/           指标、V4离线归一化评分、独立验解与失败诊断
+  evaluation/           指标、V4离线归一化评分、小规模精确Oracle、独立验解与失败诊断
   io/                   场景格式、原子文件写入、公开地图导入
   experiments/          配对实验、低层规划器独立实验
   api.py                应用服务：选项校验、场景构建、单次/批量运行
@@ -140,7 +140,8 @@ tests/                  unit与integration测试
 examples/scenarios/     少量可直接复现的场景
 data/                  公开地图、哈希与独立许可声明
 docs/                  架构、论文依据、模型卡、实测与复现
-results/               精简统计、验证证据、精选轨迹
+research/              专题实验归档（WEPA GA-SIPP 推荐包与去重整理的 DQN 实验包）
+results/               精简统计、UTF-8 汇总表（summary_tables/）、验证证据、精选轨迹
 runs/                  本机生成的全量输出，不提交
 ```
 

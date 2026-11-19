@@ -4,7 +4,7 @@ from collections import Counter
 from math import exp
 
 from agv.dispatch.assignment import minimum_assignment
-from agv.domain import Scenario
+from agv.domain import Scenario, Task
 from agv.planning.astar import Router
 
 
@@ -87,9 +87,7 @@ class PositioningPolicy:
         ]:
             if job["id"] not in self.history:
                 # Both single-row sides retain the one inventory identity.
-                from agv.dispatch.shadow import _task
-
-                task = _task(job)
+                task = Task.from_mapping(job)
                 self.history[job["id"]] = (
                     task.release,
                     tuple(self.scenario.pickup_candidates(task)),

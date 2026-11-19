@@ -2,11 +2,19 @@
 
 import random
 from collections import deque
-from copy import deepcopy
 from dataclasses import asdict, dataclass
 from dataclasses import field as dataclass_field
 
 Point = tuple[int, int]
+
+
+def clone_json_like(value):
+    """Fast structural copy for JSON-like dicts/lists with immutable leaves."""
+    if isinstance(value, dict):
+        return {k: clone_json_like(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [clone_json_like(v) for v in value]
+    return value
 
 
 @dataclass(frozen=True)
@@ -19,6 +27,22 @@ class Task:
     delivery_service: int = 1
     shelf: Point | None = None
     shelf_level: int = 1
+
+    @classmethod
+    def from_mapping(cls, data):
+        """Construct a normalized Task from an observation or active-task dict."""
+        pickup = data.get("pickup")
+        shelf = data.get("shelf")
+        return cls(
+            id=data["id"],
+            pickup=tuple(pickup) if pickup is not None else None,
+            delivery=tuple(data["delivery"]),
+            release=data.get("release", 0),
+            pickup_service=data.get("pickup_service", 1),
+            delivery_service=data.get("delivery_service", 1),
+            shelf=tuple(shelf) if shelf is not None else None,
+            shelf_level=data.get("shelf_level", 1),
+        )
 
 
 @dataclass
@@ -74,11 +98,15 @@ class Scenario:
         if job.shelf is None:
             return [job.pickup]
         if self.is_v9:
-            row = next(
-                (v for v in self.map_info["rack_catalog"] if tuple(v["position"]) == job.shelf),
-                None,
-            )
-            return [tuple(p) for p in row["loading_points"]] if row else []
+            lookup = getattr(self, "_rack_lookup", None)
+            if lookup is None:
+                lookup = {
+                    tuple(v["position"]): tuple(tuple(p) for p in v["loading_points"])
+                    for v in self.map_info["rack_catalog"]
+                }
+                self._rack_lookup = lookup
+            points = lookup.get(job.shelf)
+            return list(points) if points is not None else []
         return sorted(
             p
             for p in self.neighbors(job.shelf)
@@ -87,6 +115,8 @@ class Scenario:
         )
 
     def check(self):
+        self._rack_lookup = None
+
         def require(ok, message):
             if not ok:
                 raise ValueError(message)
@@ -213,7 +243,7 @@ class Scenario:
                 pickup_zones=sorted(self.pickup_zones),
                 transit_only=sorted(self.transit_only),
                 stations=list(self.stations),
-                map_info=deepcopy(self.map_info),
+                map_info=clone_json_like(self.map_info),
             )
         if self.order_stream_end is not None:
             data["order_stream_end"] = self.order_stream_end
@@ -234,7 +264,7 @@ class Scenario:
                 pickup_zones=sorted(self.pickup_zones),
                 transit_only=sorted(self.transit_only),
                 stations=list(self.stations),
-                map_info=deepcopy(self.map_info),
+                map_info=clone_json_like(self.map_info),
             )
         return data
 
@@ -243,12 +273,13 @@ class Scenario:
         if not isinstance(data, dict) or "tasks" in data or "horizon" in data:
             raise ValueError("Observation map must contain static geometry only")
         # A detached geometry object has no real stream; zero is a local placeholder.
+        info = data.get("map_info")
         extra = (
             {"order_stream_end": 0}
-            if data.get("map_info", {}).get("model_version") == "mixed-v9.1"
+            if isinstance(info, dict) and info.get("model_version") == "mixed-v9.1"
             else {}
         )
-        return cls.from_dict({**deepcopy(data), "tasks": [], "horizon": horizon, **extra})
+        return cls.from_dict({**data, "tasks": [], "horizon": horizon, **extra})
 
     @classmethod
     def from_dict(cls, data):
@@ -337,7 +368,7 @@ class Scenario:
             pickup_zones=set(coordinates.get("pickup_zones", [])),
             transit_only=set(coordinates.get("transit_only", [])),
             stations=coordinates.get("stations", []),
-            map_info=deepcopy(info),
+            map_info=clone_json_like(info),
             order_stream_end=data.get("order_stream_end"),
         ).check()
 

@@ -1,0 +1,9 @@
+{
+  "case": "user-new-orders-example",
+  "close_at": 1800,
+  "initial": {"101": 1},
+  "tasks": [
+    {"id": 0, "kind": "delivery", "sku": 101, "release": 0, "source_dock": 1},
+    {"id": 1, "kind": "retrieval", "sku": 101, "release": 300, "source_dock": 1}
+  ]
+}

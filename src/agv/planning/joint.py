@@ -12,7 +12,7 @@ from agv.domain import Task
 from agv.planning import create_router
 from agv.planning.geometry import scenario_from_observation
 from agv.planning.pickup import plan_task
-from agv.planning.reservations import reservations
+from agv.planning.reservations import VertexReservations
 
 
 def score(plans, records, now):
@@ -35,15 +35,7 @@ def repair_vehicle(s, router, v, now, vertices, edges):
         if old is not None:
             old["return_end"] = old["return_arrival"] = now + len(path) - 1
         return path, old
-    data = v["active_task"]
-    job = Task(
-        **{
-            **data,
-            "pickup": tuple(data["pickup"]) if data["pickup"] else None,
-            "delivery": tuple(data["delivery"]),
-            "shelf": tuple(data["shelf"]) if data["shelf"] else None,
-        }
-    )
+    job = Task.from_mapping(v["active_task"])
     if now < old["pickup_arrival"]:
         path, record, failed, _ = plan_task(s, router, job, k, pos, now, vertices, edges)
         if failed:
@@ -129,14 +121,7 @@ class JointPlanner:
                 remaining = len(plans[k]) - 1
             elif now < r["pickup_arrival"]:
                 # Geometry holds no jobs; reconstruct only this visible task.
-                task = Task(
-                    **{
-                        **job,
-                        "pickup": tuple(job["pickup"]) if job["pickup"] else None,
-                        "shelf": tuple(job["shelf"]) if job["shelf"] else None,
-                        "delivery": tuple(job["delivery"]),
-                    }
-                )
+                task = Task.from_mapping(job)
                 lower = (
                     min(
                         self.router.distance(tuple(v["position"]), p, k)
@@ -194,7 +179,9 @@ class JointPlanner:
     def propose(self, observation):
         now = observation["time"]
         s = scenario_from_observation(observation)
-        if self.router is None or self.router.s.to_dict() != s.to_dict():
+        if self.router is None or (
+            self.router.s is not s and self.router.s.to_dict() != s.to_dict()
+        ):
             self.router = create_router(self.router_kind, s)
         vehicles = observation["vehicles"]
         plans = [
@@ -222,35 +209,51 @@ class JointPlanner:
         trials += [[a, b] for a, b in zip(moving, moving[1:])]
         if self.neighborhoods == "conflict":
             trials = self.conflict_orders(vehicles, plans, moving, now)
+        ranker_features = None
+        if self.collect is not None:
+            from agv.learning.ranker import features as ranker_features
+        start_positions = [(now, tuple(v["position"])) for v in vehicles]
+        veh_v = [[(now + i, p) for i, p in enumerate(path)] for path in plans]
+        veh_e = [
+            [(now + i, a, b) for i, (a, b) in enumerate(zip(path, path[1:]))] for path in plans
+        ]
+        frozen_by_v = {}
+        if self.neighborhoods == "conflict":
+            for v in vehicles:
+                k = v["id"]
+                rec = v["route_record"]
+                end = (
+                    rec["pickup_end"]
+                    if v["state"] == "loading"
+                    else rec["delivery_end"]
+                    if v["state"] == "unloading"
+                    else now
+                )
+                pos = tuple(v["position"])
+                frozen_by_v[k] = {(t, pos) for t in range(now, end + 1)}
         for order in trials:
-            from agv.learning.ranker import features
-
             row_features = (
-                features(vehicles, plans, order, now) if self.collect is not None else None
+                ranker_features(vehicles, plans, order, now)
+                if ranker_features is not None
+                else None
             )
             candidate = plans[:]
             updates = records[:]
-            vtx, edg = reservations([p for k, p in enumerate(plans) if k not in order], now)
-            # All real start positions are occupied at now, including agents
-            # which will be repaired later. Their later suffix is destroyed.
-            vtx.update((now, tuple(v["position"])) for v in vehicles)
+            order_set = set(order)
+            vtx = VertexReservations(start_positions)
+            edg = set()
+            for k in range(len(plans)):
+                if k not in order_set:
+                    vtx.update(veh_v[k])
+                    edg.update(veh_e[k])
             frozen = {}
             if self.neighborhoods == "conflict":
                 for k in order:
-                    v = vehicles[k]
-                    rec = v["route_record"]
-                    end = (
-                        rec["pickup_end"]
-                        if v["state"] == "loading"
-                        else rec["delivery_end"]
-                        if v["state"] == "unloading"
-                        else now
-                    )
-                    frozen[k] = {(t, tuple(v["position"])) for t in range(now, end + 1)}
+                    frozen[k] = frozen_by_v[k]
                     vtx.update(frozen[k])
             okay = True
             for k in order:
-                own = (now, tuple(vehicles[k]["position"]))
+                own = start_positions[k]
                 vtx.difference_update(frozen.get(k, {own}))
                 item = repair_vehicle(s, self.router, vehicles[k], now, vtx, edg)
                 vtx.add(own)
@@ -258,19 +261,21 @@ class JointPlanner:
                     okay = False
                     break
                 candidate[k], updates[k] = item
-                more_v, more_e = reservations([candidate[k]], now)
-                vtx.update(more_v)
-                edg.update(more_e)
+                path_k = candidate[k]
+                vtx.update((now + i, p) for i, p in enumerate(path_k))
+                edg.update((now + i, a, b) for i, (a, b) in enumerate(zip(path_k, path_k[1:])))
+            value = score(candidate, updates, now) if okay else None
             if self.collect is not None:
-                value = score(candidate, updates, now) if okay else None
                 gain = (best[0] - value[0]) if okay else -1
                 self.collect.append(
                     dict(features=row_features, target=gain, feasible=okay, time=now, order=order)
                 )
-            if okay:
-                value = score(candidate, updates, now)
-                if value < best:
-                    plans, records, best = candidate, updates, value
+            if okay and value < best:
+                plans, records, best = candidate, updates, value
+                for k in order:
+                    path_k = plans[k]
+                    veh_v[k] = [(now + i, p) for i, p in enumerate(path_k)]
+                    veh_e[k] = [(now + i, a, b) for i, (a, b) in enumerate(zip(path_k, path_k[1:]))]
         if best >= original:
             return None
         return dict(

@@ -4,8 +4,7 @@ from agv.dispatch.assignment import minimum_assignment
 from agv.dispatch.bcrd import fallback
 from agv.dispatch.candidates import legalize
 from agv.dispatch.positioning import PositioningPolicy
-from agv.dispatch.shadow import _task
-from agv.domain import Scenario
+from agv.domain import Scenario, Task
 from agv.planning import create_router
 from agv.planning.pickup import plan_task
 from agv.planning.reservations import reservations
@@ -47,7 +46,7 @@ class ArrivalMatching:
                 _, record, failed, _ = plan_task(
                     self.scenario,
                     self.router,
-                    _task(raw),
+                    Task.from_mapping(raw),
                     vehicle["id"],
                     position,
                     start,

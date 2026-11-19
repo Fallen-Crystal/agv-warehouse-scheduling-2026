@@ -1,0 +1,58 @@
+{
+  "source_commit": "da6280a8f8be1010eae64264c69a90258a288173",
+  "total_orders": 411830,
+  "first_second": 86466,
+  "last_second": 7657200,
+  "first_day_index": 1,
+  "last_day_index": 88,
+  "calendar_day_indices": 88,
+  "days_with_orders": 88,
+  "elapsed_first_to_last_days": 87.62423611111112,
+  "daily_active_minutes_min": 245,
+  "daily_active_minutes_max": 1376,
+  "experiment_unique_orders": 251,
+  "experiment_windows": [
+    {
+      "case": "wepa-day12-bin1164",
+      "phase": "train",
+      "day_index": 12,
+      "start_minute_of_day": 180.0,
+      "window_minutes": 15.0,
+      "orders": 61
+    },
+    {
+      "case": "wepa-day32-bin3113",
+      "phase": "train",
+      "day_index": 32,
+      "start_minute_of_day": 615.0,
+      "window_minutes": 15.0,
+      "orders": 57
+    },
+    {
+      "case": "wepa-day33-bin3229",
+      "phase": "train",
+      "day_index": 33,
+      "start_minute_of_day": 915.0,
+      "window_minutes": 15.0,
+      "orders": 43
+    },
+    {
+      "case": "wepa-day45-bin4335",
+      "phase": "train",
+      "day_index": 45,
+      "start_minute_of_day": 225.0,
+      "window_minutes": 15.0,
+      "orders": 40
+    },
+    {
+      "case": "wepa-day40-bin3885",
+      "phase": "monitor",
+      "day_index": 40,
+      "start_minute_of_day": 675.0,
+      "window_minutes": 15.0,
+      "orders": 50
+    }
+  ],
+  "original_hashes_verified": true,
+  "experiment_source_rows_verified": true
+}

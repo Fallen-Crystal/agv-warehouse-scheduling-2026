@@ -12,20 +12,22 @@ src/agv/
   planning/
     astar.py            # time-expanded reference/oracle
     sipp.py             # safe-interval search with edge and service constraints
-    reservations.py     # invalidated per-cell time index
+    reservations.py     # incrementally indexed per-cell time reservations & horizon
+    geometry.py         # thread-local cache for immutable observation geometry & A* router
     pickup.py           # shelf side and pickup/delivery/return composition
     joint.py            # candidate neighborhoods and feasible improvement acceptance
     reposition.py       # opt-in interruptible empty move with complete home fallback
   dispatch/
     greedy.py           # original visible-state policy
     optimized.py        # online driver and exact current-batch matching
+    initial_batch.py    # bounded static first-batch rollout planner (joint_batch / sipp_batch)
     registry.py         # one set of named solver configurations
     positioning.py      # safe static candidates, causal demand history, target matching
     stream.py           # V9.1 SIPP ETA matching and bounded intentional deferral
     bcrd.py             # bounded visible-order rollouts, optional predicted P90 guard
   learning/             # standard-library ridge ranking + reproducible training
   models/               # schema-validated trained artifact
-  evaluation/           # metrics, offline score/lower bounds, independent execution validator
+  evaluation/           # metrics, offline score/lower bounds, oracle, independent validator
   io/                   # scene format/hash, atomic writes, public map import
   experiments/          # paired legacy/V4/V9.1 benchmarks and isolated planner benchmark
   api.py                # application services: option validation, scene build, single/batch run
@@ -36,7 +38,7 @@ src/agv/
   cli.py                # installed command entry point
 ```
 
-`examples/` contains reusable inputs; `data/` contains one attributed public map and its provenance. `tests/unit/` checks contracts and `tests/integration/` checks installed CLI and HTTP behavior. `results/` contains compact statistics, validation evidence and selected representative traces. `runs/` is ignored and contains generated candidate training rows and full local experiment outputs. Historical v1 folders are not copied into current source; their complete evidence remains in Git history and a local backup outside the checkout.
+`examples/` contains reusable inputs; `data/` contains one attributed public map and its provenance. `tests/unit/` checks contracts and `tests/integration/` checks installed CLI and HTTP behavior. `results/` contains compact statistics, summary CSV tables (`results/summary_tables/`), validation evidence and selected representative traces. `research/` holds curated research packages (`recommended-20261024/` and deduplicated `dqn-experiment-v2/`). `runs/` is ignored and contains generated candidate training rows and full local experiment outputs. Divergent historical experiment branches (`codex/architecture-refactor`, `codex/ga-sipp-research-20261021`, `codex/wepa-optimization`, `codex/review2-dates-performance`, `codex/local-perf-oracle-batch-20261104`) remain archived on remote refs; their compatible utilities (`evaluation/oracle.py`, `dispatch/initial_batch.py`, reservation/observation optimizations) have been ported onto `main` without duplicating parallel package trees.
 
 ## Data flow
 

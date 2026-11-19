@@ -1,0 +1,40 @@
+{
+  "valid": true,
+  "baseline_files": 191,
+  "unique_orders": 2298,
+  "days": {
+    "development": [
+      12,
+      33,
+      38,
+      40,
+      48,
+      54,
+      62,
+      66,
+      83,
+      87
+    ],
+    "validation": [
+      41,
+      52,
+      59,
+      65
+    ],
+    "test": [
+      5,
+      19,
+      53,
+      55,
+      76
+    ]
+  },
+  "orders": {
+    "development": 1327,
+    "validation": 504,
+    "test": 467
+  },
+  "source_rows_and_complete_batches_verified": true,
+  "initial_stock_and_capacity_prefix_verified": true,
+  "protocol_sha256": "84da19f1cd5436cf21d34b452d5c354f0131f37953e90f01fe2cf231e84ddb2c"
+}
