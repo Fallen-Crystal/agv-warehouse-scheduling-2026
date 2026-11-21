@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="820" height="360" viewBox="0 0 820 360">
 <rect width="100%" height="100%" fill="#ffffff"/>
-<text x="75" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">V9.1 Static Dense-Backlog Evolution & BCRD max_batches (4 Vehicles, 16 Tasks, Seeds 0..4)</text>
+<text x="75" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">V9.1 Static Dense-Backlog Evolution &amp; BCRD max_batches (4 Vehicles, 16 Tasks, Seeds 0..4)</text>
 <text x="75" y="46" font-family="sans-serif" font-size="12" fill="#64748b">Normalized objective F (lower is better; baseline = 1.00)</text>
 <text x="18" y="165.0" font-family="sans-serif" font-size="12" fill="#334155" transform="rotate(-90 18 165.0)" text-anchor="middle">Normalized Weighted Score F</text>
 <line x1="75" y1="265.0" x2="795" y2="265.0" stroke="#e2e8f0" stroke-width="1"/>

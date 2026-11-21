@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
 import importlib
 import importlib.util
 import json
@@ -196,9 +197,9 @@ def _svg_bars(
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">',
         '<rect width="100%" height="100%" fill="#ffffff"/>',
-        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">{title}</text>',
-        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="12" fill="#64748b">{subtitle}</text>',
-        f'<text x="18" y="{mt + ph / 2:.1f}" font-family="sans-serif" font-size="12" fill="#334155" transform="rotate(-90 18 {mt + ph / 2:.1f})" text-anchor="middle">{y_label}</text>',
+        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">{html.escape(title)}</text>',
+        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="12" fill="#64748b">{html.escape(subtitle)}</text>',
+        f'<text x="18" y="{mt + ph / 2:.1f}" font-family="sans-serif" font-size="12" fill="#334155" transform="rotate(-90 18 {mt + ph / 2:.1f})" text-anchor="middle">{html.escape(y_label)}</text>',
     ]
     for step in range(5):
         val = lo + span * step / 4
