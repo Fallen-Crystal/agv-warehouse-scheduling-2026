@@ -39,11 +39,14 @@ def _safe_members(bundle, prefix=PREFIX):
     members = {}
     folded = set()
     for item in bundle.infolist():
-        name = item.filename
+        # ZipInfo sanitizes separators on Windows (and truncates NUL bytes).
+        # Inspect the archive's original spelling before that information is lost.
+        name = item.orig_filename
         path = PurePosixPath(name)
         key = name.rstrip("/").casefold()
         if (
             path.is_absolute()
+            or name != item.filename
             or ".." in path.parts
             or "\\" in name
             or not name.startswith(prefix)

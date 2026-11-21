@@ -99,3 +99,5 @@ git fetch origin ed2bd0a96930ea042aab31b845f1c8cc06dcc55d
 ```
 
 数据来源和 MIT 许可保留在 `research/recommended-20261024/data/raw/`；本轮运行时归档、当前源码覆盖和案例身份逐项记录于 `plan.json`。不同模型或不同窗口的旧数值作为历史背景保留，不作为本轮新运行证据。
+
+发布后的 Windows CI 修正了 ZIP 原始成员名检查及恶意路径夹具。修正后准备的全部 329 个运行时文件与正式实验使用的文件逐字节相同；实验没有重新调参或改写。原准备器指纹保留在冻结计划中，新旧指纹及等价性检查见 `runtime-preparation-followup.json`。

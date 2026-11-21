@@ -114,10 +114,22 @@ class SensitivityRuntimeTests(unittest.TestCase):
                     warnings.simplefilter("ignore", UserWarning)
                     with zipfile.ZipFile(payload, "w") as bundle:
                         for name in names:
-                            bundle.writestr(name, "pass")
+                            # Keep malicious bytes even when the Windows writer
+                            # would normalize a string filename first.
+                            item = zipfile.ZipInfo("fixture.py")
+                            item.filename = item.orig_filename = name
+                            bundle.writestr(item, "pass")
                 with zipfile.ZipFile(payload) as bundle:
                     with self.assertRaisesRegex(ValueError, "Unsafe or duplicate"):
                         runtime._safe_members(bundle)
+
+    def test_original_archive_spelling_is_checked_after_windows_normalization(self):
+        item = zipfile.ZipInfo(runtime.PREFIX + "nested/escape.py")
+        item.orig_filename = runtime.PREFIX + "nested\\escape.py"
+        with patch.object(zipfile.ZipFile, "infolist", return_value=[item]):
+            with zipfile.ZipFile(io.BytesIO(), "w") as bundle:
+                with self.assertRaisesRegex(ValueError, "Unsafe or duplicate"):
+                    runtime._safe_members(bundle)
 
 
 class HistoricalDQNRuntimeIntegrationTests(unittest.TestCase):

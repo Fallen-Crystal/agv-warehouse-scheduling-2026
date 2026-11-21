@@ -1,0 +1,14 @@
+{
+  "scope": "Post-study Windows ZIP validation compatibility fix; original study provenance remains frozen",
+  "parent_commit": "fe8d009bc5096343dc395459a2dbccf5bb315ba4",
+  "original_plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "original_preparer_sha256": "4088329f15dc16ff0cc54758d7718a95ed2853f5f0582ae37fddcb6b3816a2da",
+  "updated_preparer_sha256": "622b31aff680ef093879ff0652548cf6ea8ce814add53cb1b8f236c1ebd1aec6",
+  "prepared_runtime_files": 329,
+  "canonical_runtime_payload_byte_identical": true,
+  "reason": "Inspect ZipInfo.orig_filename before Windows separator normalization; malicious test fixture preserves raw member spelling",
+  "local_targeted_tests": 28,
+  "local_targeted_passed": true,
+  "reran_simulations": false,
+  "experiment_inputs_parameters_and_trajectories_unchanged": true
+}
