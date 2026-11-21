@@ -1,0 +1,58 @@
+{
+  "id": "wepa-day33-bin3229__hungarian__s0",
+  "case": "wepa-day33-bin3229",
+  "variant": "hungarian",
+  "seed": 0,
+  "status": "ok",
+  "row": {
+    "valid": true,
+    "T": 1493,
+    "R": 312.95348837209303,
+    "D": 4762,
+    "p90": 649,
+    "empty_distance": 2464,
+    "traffic_wait": 24,
+    "F": 1.1101326442721793,
+    "cpu": 0.747659,
+    "wall": 0.7501299170107814,
+    "tasks": 43
+  },
+  "settings": {
+    "proxy": 0,
+    "previews": 0,
+    "generations": 0,
+    "gate": false,
+    "anchor": false,
+    "repair": 0
+  },
+  "search": {
+    "searches": 0,
+    "proxy_evaluations": 0,
+    "previews": 0,
+    "gate_decisions": 0,
+    "proxy_cap_hits": 0,
+    "preview_cap_hits": 0,
+    "improvements": 0,
+    "operator_activity": []
+  },
+  "independent_audit": {
+    "valid": true,
+    "tasks": 43,
+    "vertices_checked": 9324,
+    "final_inventory_units": 401,
+    "distance": 4762
+  },
+  "case_sha256": "259c08d1948496d4d2a6a5dd6991a6f4adc631f0bd629ac5a88896ef9fdbc9b8",
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "sources": {
+    "runner": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "adaptive_operator": "0a72b90fcf687c5c7f48feab27a487e347c5e16d9885a43086dfcc0833a0bd2b",
+    "runtime_manifest": "c157d67696c07ab3f4dd006ad121241b2efa7957d785ed5efe547d5aed4676b9"
+  },
+  "trace": {
+    "path": "/Users/fallen/.codex/worktrees/agv-sensitivity-20261120/Ai基础大作业（11-30截止）/runs/sensitivity-20261120-v2-0879fc9b/trajectories/wepa-day33-bin3229__hungarian__s0.json.gz",
+    "sha256": "3bed685c5047edb428d76fb99b2462bde52c5f35c57b1a4e74b625322d4f4bca",
+    "bytes": 9102
+  }
+}

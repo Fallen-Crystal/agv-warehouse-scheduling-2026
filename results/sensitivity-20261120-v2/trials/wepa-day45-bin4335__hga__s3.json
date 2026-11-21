@@ -1,0 +1,59 @@
+{
+  "id": "wepa-day45-bin4335__hga__s3",
+  "case": "wepa-day45-bin4335",
+  "variant": "hga",
+  "seed": 3,
+  "status": "ok",
+  "row": {
+    "valid": true,
+    "T": 946,
+    "R": 53.25,
+    "D": 2702,
+    "p90": 84,
+    "empty_distance": 1436,
+    "traffic_wait": 16,
+    "F": 0.6433796296296296,
+    "cpu": 0.27441000000000004,
+    "wall": 0.2745221670047613,
+    "tasks": 40
+  },
+  "settings": {
+    "proxy": 192,
+    "previews": 6,
+    "generations": 16,
+    "gate": true,
+    "anchor": false,
+    "repair": 0,
+    "hungarian_seeds": true
+  },
+  "search": {
+    "searches": 0,
+    "proxy_evaluations": 0,
+    "previews": 0,
+    "gate_decisions": 39,
+    "proxy_cap_hits": 0,
+    "preview_cap_hits": 0,
+    "improvements": 0,
+    "operator_activity": []
+  },
+  "independent_audit": {
+    "valid": true,
+    "tasks": 40,
+    "vertices_checked": 6060,
+    "final_inventory_units": 779,
+    "distance": 2702
+  },
+  "case_sha256": "58d2b71686e5d29648ed473568742cb44a2b96f74c52e57f62bc8b3d272463c4",
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "sources": {
+    "runner": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "adaptive_operator": "0a72b90fcf687c5c7f48feab27a487e347c5e16d9885a43086dfcc0833a0bd2b",
+    "runtime_manifest": "c157d67696c07ab3f4dd006ad121241b2efa7957d785ed5efe547d5aed4676b9"
+  },
+  "trace": {
+    "path": "/Users/fallen/.codex/worktrees/agv-sensitivity-20261120/Ai基础大作业（11-30截止）/runs/sensitivity-20261120-v2-0879fc9b/trajectories/wepa-day45-bin4335__hga__s3.json.gz",
+    "sha256": "930d19d17d1335af0395fc82f2da58753384dfd37ec9d0385bfb38867968a0a0",
+    "bytes": 8178
+  }
+}

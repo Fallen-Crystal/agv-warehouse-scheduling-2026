@@ -1,0 +1,120 @@
+{
+  "status": "passed",
+  "hardware": {
+    "cpu": "Apple M5",
+    "logical_cpus": 10,
+    "memory_gib": 24,
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]"
+  },
+  "simulation": {
+    "planned": 200,
+    "valid": 200,
+    "executed_task_services": 10050,
+    "unique_source_requests": 201,
+    "independent_source_dates": 4,
+    "archived_physical_recheck": true
+  },
+  "tests": {
+    "full_suite": {
+      "command": "env no_proxy=127.0.0.1,localhost NO_PROXY=127.0.0.1,localhost .venv/bin/python -m coverage run --source=src/agv -m unittest discover -s tests -t .",
+      "tests": 296,
+      "passed": true,
+      "seconds": 122.163
+    },
+    "final_targeted": {
+      "tests": 27,
+      "passed": true,
+      "seconds": 1.955,
+      "includes_9_portable_evidence_tests_added_after_full_suite": true,
+      "csv_repository_lf_roundtrip_regression": true
+    },
+    "coverage_percent": 86,
+    "ruff_check": "passed",
+    "ruff_format_files": 127,
+    "javascript_contracts": 8,
+    "wheel_build": "passed",
+    "shallow_clone": {
+      "independent_tests_passed": 5,
+      "historical_DQN_class_skipped_due_to_missing_pinned_git_object": true
+    }
+  },
+  "environment_resolution": "Original full suite had one RemoteDisconnected error caused by macOS system proxy routing 127.0.0.1. Process-scoped no_proxy bypass corrected the environment; full suite rerun passed. No persistent proxy or service changes.",
+  "determinism_checks": {
+    "fcfs": [
+      {
+        "case": "wepa-day12-bin1164",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day32-bin3113",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day33-bin3229",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day45-bin4335",
+        "identical_complete_result": true
+      }
+    ],
+    "eta": [
+      {
+        "case": "wepa-day12-bin1164",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day32-bin3113",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day33-bin3229",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day45-bin4335",
+        "identical_complete_result": true
+      }
+    ],
+    "hungarian": [
+      {
+        "case": "wepa-day12-bin1164",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day32-bin3113",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day33-bin3229",
+        "identical_complete_result": true
+      },
+      {
+        "case": "wepa-day45-bin4335",
+        "identical_complete_result": true
+      }
+    ]
+  },
+  "source_sha256": {
+    "build_sensitivity_pdf.py": "7f8cac0227128f6e12a1f5e749c2567585c2f72ab72842ffd9cf777b125f8f31",
+    "prepare_sensitivity_runtime.py": "4088329f15dc16ff0cc54758d7718a95ed2853f5f0582ae37fddcb6b3816a2da",
+    "report_sensitivity_study.py": "516c1d237539a5c2afd77acb265085a7719c838844f74ef8c1137b17258fc7b7",
+    "run_sensitivity_study.py": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "verify_sensitivity_evidence.py": "d362d32f113d6ea1bb8583cdaade54672a87d50baec01a4fc0983335b68d876f"
+  },
+  "evidence_sha256": "8d823994e8abcfc474339a21f12c3faaa8431f45cd9422842e6d461a9a51e4f5",
+  "trajectory_archive_sha256": "9830ca5503408e9406c0cad9c4b9eb3f0d98ad3f500503dbffe380d11c20a3bc",
+  "report_sha256": "0eef03ffa3bdf9fd4c841a501068990fac7d4718654ce6e25a839000c6bc8d9c",
+  "qualification": "Local macOS/Python3.12 verification; does not claim remote Windows/Linux CI passed. Four historical development dates; no DQN retraining and no production-default adoption.",
+  "pdf": {
+    "path": "output/pdf/AGV多seed稳定性与参数敏感性研究.pdf",
+    "sha256": "4ca231de33b246dd36ab9041c668536a8b1ba2c22c7c45bc90e2f986af8fa5cf",
+    "bytes": 1004236,
+    "pages": 9,
+    "embedded_cjk_fonts": true,
+    "text_extraction": "passed",
+    "page_by_page_render_inspection": "passed",
+    "portable_verification_command": "included"
+  }
+}

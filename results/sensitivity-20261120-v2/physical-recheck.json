@@ -1,0 +1,1012 @@
+{
+  "scope": "Physical trajectory validation rerun from the portable archived gzip bytes, using the pinned independent checker",
+  "expected": 200,
+  "valid": 200,
+  "all_valid": true,
+  "wall_seconds": 3.0204045419959584,
+  "archive_sha256": "9830ca5503408e9406c0cad9c4b9eb3f0d98ad3f500503dbffe380d11c20a3bc",
+  "checker_sha256": "e4d28ff8bffe9f7491a1e4ef27662f0abea7eb99274d44e67b8cbfa200b1180b",
+  "base_commit": "ea719b598662707c67f9d93b990812d4e45e24cd",
+  "checks": [
+    {
+      "trial": "wepa-day12-bin1164__eta__s0",
+      "valid": true,
+      "F": 0.9841924711596842
+    },
+    {
+      "trial": "wepa-day12-bin1164__eta__s1",
+      "valid": true,
+      "F": 0.9841924711596842
+    },
+    {
+      "trial": "wepa-day12-bin1164__fcfs__s0",
+      "valid": true,
+      "F": 1.0385768063145113
+    },
+    {
+      "trial": "wepa-day12-bin1164__fcfs__s1",
+      "valid": true,
+      "F": 1.0385768063145113
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate__s0",
+      "valid": true,
+      "F": 0.9589119611414694
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate__s1",
+      "valid": true,
+      "F": 0.9978354584092288
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate__s2",
+      "valid": true,
+      "F": 0.9778579234972677
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate__s3",
+      "valid": true,
+      "F": 0.9644122647237401
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate__s4",
+      "valid": true,
+      "F": 0.9716921675774135
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_gen8__s0",
+      "valid": true,
+      "F": 0.9765088038858531
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_gen8__s1",
+      "valid": true,
+      "F": 0.9642774741955069
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_gen8__s2",
+      "valid": true,
+      "F": 0.9717802064359442
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_preview3__s0",
+      "valid": true,
+      "F": 0.9589119611414694
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_preview3__s1",
+      "valid": true,
+      "F": 0.9978354584092288
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_preview3__s2",
+      "valid": true,
+      "F": 0.9778579234972677
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96__s0",
+      "valid": true,
+      "F": 0.9765088038858531
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96__s1",
+      "valid": true,
+      "F": 0.9642774741955069
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96__s2",
+      "valid": true,
+      "F": 0.9717802064359442
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96_preview3__s0",
+      "valid": true,
+      "F": 0.9537067395264116
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96_preview3__s1",
+      "valid": true,
+      "F": 0.9895033394049788
+    },
+    {
+      "trial": "wepa-day12-bin1164__gate_proxy96_preview3__s2",
+      "valid": true,
+      "F": 0.9753418336369156
+    },
+    {
+      "trial": "wepa-day12-bin1164__hga__s0",
+      "valid": true,
+      "F": 0.9347219186399514
+    },
+    {
+      "trial": "wepa-day12-bin1164__hga__s1",
+      "valid": true,
+      "F": 0.9485191256830601
+    },
+    {
+      "trial": "wepa-day12-bin1164__hga__s2",
+      "valid": true,
+      "F": 0.9408312082574378
+    },
+    {
+      "trial": "wepa-day12-bin1164__hga__s3",
+      "valid": true,
+      "F": 0.9505537340619308
+    },
+    {
+      "trial": "wepa-day12-bin1164__hga__s4",
+      "valid": true,
+      "F": 0.9485191256830601
+    },
+    {
+      "trial": "wepa-day12-bin1164__hungarian__s0",
+      "valid": true,
+      "F": 0.9940333940497875
+    },
+    {
+      "trial": "wepa-day12-bin1164__hungarian__s1",
+      "valid": true,
+      "F": 0.9940333940497875
+    },
+    {
+      "trial": "wepa-day12-bin1164__simple__s0",
+      "valid": true,
+      "F": 0.9765088038858531
+    },
+    {
+      "trial": "wepa-day12-bin1164__simple__s1",
+      "valid": true,
+      "F": 0.992093503339405
+    },
+    {
+      "trial": "wepa-day12-bin1164__simple__s2",
+      "valid": true,
+      "F": 0.9753418336369156
+    },
+    {
+      "trial": "wepa-day12-bin1164__simple__s3",
+      "valid": true,
+      "F": 0.9644122647237401
+    },
+    {
+      "trial": "wepa-day12-bin1164__simple__s4",
+      "valid": true,
+      "F": 0.9767425622343655
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide__s0",
+      "valid": true,
+      "F": 0.9589119611414694
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide__s1",
+      "valid": true,
+      "F": 0.9978354584092288
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide__s2",
+      "valid": true,
+      "F": 0.9778579234972677
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide__s3",
+      "valid": true,
+      "F": 0.9644122647237401
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide__s4",
+      "valid": true,
+      "F": 0.9716921675774135
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt00__s0",
+      "valid": true,
+      "F": 0.9909326047358834
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt00__s1",
+      "valid": true,
+      "F": 0.9605367334547662
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt00__s2",
+      "valid": true,
+      "F": 0.9884116575591986
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt01__s0",
+      "valid": true,
+      "F": 0.9702762598664239
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt01__s1",
+      "valid": true,
+      "F": 0.9502301153612629
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt01__s2",
+      "valid": true,
+      "F": 0.9363691560412872
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt10__s0",
+      "valid": true,
+      "F": 0.950180935033394
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt10__s1",
+      "valid": true,
+      "F": 0.9702070431086824
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt10__s2",
+      "valid": true,
+      "F": 0.9505585913782635
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt11__s0",
+      "valid": true,
+      "F": 0.9647219186399515
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt11__s1",
+      "valid": true,
+      "F": 0.9647213114754098
+    },
+    {
+      "trial": "wepa-day12-bin1164__wide_adapt11__s2",
+      "valid": true,
+      "F": 0.9599744990892531
+    },
+    {
+      "trial": "wepa-day32-bin3113__eta__s0",
+      "valid": true,
+      "F": 1.0125536062378167
+    },
+    {
+      "trial": "wepa-day32-bin3113__eta__s1",
+      "valid": true,
+      "F": 1.0125536062378167
+    },
+    {
+      "trial": "wepa-day32-bin3113__fcfs__s0",
+      "valid": true,
+      "F": 1.05835477582846
+    },
+    {
+      "trial": "wepa-day32-bin3113__fcfs__s1",
+      "valid": true,
+      "F": 1.05835477582846
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate__s0",
+      "valid": true,
+      "F": 0.9391676413255361
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate__s1",
+      "valid": true,
+      "F": 0.9367738791423001
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate__s2",
+      "valid": true,
+      "F": 0.9592514619883041
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate__s3",
+      "valid": true,
+      "F": 0.9945419103313841
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate__s4",
+      "valid": true,
+      "F": 0.9359493177387914
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_gen8__s0",
+      "valid": true,
+      "F": 1.0004054580896686
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_gen8__s1",
+      "valid": true,
+      "F": 0.975009746588694
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_gen8__s2",
+      "valid": true,
+      "F": 0.9431228070175439
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_preview3__s0",
+      "valid": true,
+      "F": 0.9391676413255361
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_preview3__s1",
+      "valid": true,
+      "F": 0.9756276803118908
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_preview3__s2",
+      "valid": true,
+      "F": 0.9592514619883041
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96__s0",
+      "valid": true,
+      "F": 0.9691228070175439
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96__s1",
+      "valid": true,
+      "F": 0.9916939571150097
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96__s2",
+      "valid": true,
+      "F": 0.9431228070175439
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96_preview3__s0",
+      "valid": true,
+      "F": 0.9691228070175439
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96_preview3__s1",
+      "valid": true,
+      "F": 0.9743411306042885
+    },
+    {
+      "trial": "wepa-day32-bin3113__gate_proxy96_preview3__s2",
+      "valid": true,
+      "F": 0.9431228070175439
+    },
+    {
+      "trial": "wepa-day32-bin3113__hga__s0",
+      "valid": true,
+      "F": 0.9552923976608187
+    },
+    {
+      "trial": "wepa-day32-bin3113__hga__s1",
+      "valid": true,
+      "F": 0.9622261208576999
+    },
+    {
+      "trial": "wepa-day32-bin3113__hga__s2",
+      "valid": true,
+      "F": 0.9483352826510721
+    },
+    {
+      "trial": "wepa-day32-bin3113__hga__s3",
+      "valid": true,
+      "F": 0.9617173489278752
+    },
+    {
+      "trial": "wepa-day32-bin3113__hga__s4",
+      "valid": true,
+      "F": 0.9669200779727095
+    },
+    {
+      "trial": "wepa-day32-bin3113__hungarian__s0",
+      "valid": true,
+      "F": 0.9579025341130605
+    },
+    {
+      "trial": "wepa-day32-bin3113__hungarian__s1",
+      "valid": true,
+      "F": 0.9579025341130605
+    },
+    {
+      "trial": "wepa-day32-bin3113__simple__s0",
+      "valid": true,
+      "F": 0.9936315789473684
+    },
+    {
+      "trial": "wepa-day32-bin3113__simple__s1",
+      "valid": true,
+      "F": 0.9974269005847953
+    },
+    {
+      "trial": "wepa-day32-bin3113__simple__s2",
+      "valid": true,
+      "F": 0.9535536062378167
+    },
+    {
+      "trial": "wepa-day32-bin3113__simple__s3",
+      "valid": true,
+      "F": 0.9544132553606238
+    },
+    {
+      "trial": "wepa-day32-bin3113__simple__s4",
+      "valid": true,
+      "F": 0.9691676413255361
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide__s0",
+      "valid": true,
+      "F": 0.9391676413255361
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide__s1",
+      "valid": true,
+      "F": 0.9367738791423001
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide__s2",
+      "valid": true,
+      "F": 0.9592514619883041
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide__s3",
+      "valid": true,
+      "F": 0.9945419103313841
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide__s4",
+      "valid": true,
+      "F": 0.9359493177387914
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt00__s0",
+      "valid": true,
+      "F": 0.9661851851851851
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt00__s1",
+      "valid": true,
+      "F": 0.9497777777777778
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt00__s2",
+      "valid": true,
+      "F": 0.9506062378167641
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt01__s0",
+      "valid": true,
+      "F": 0.9613898635477582
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt01__s1",
+      "valid": true,
+      "F": 0.9336198830409357
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt01__s2",
+      "valid": true,
+      "F": 0.9582222222222222
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt10__s0",
+      "valid": true,
+      "F": 0.9774230019493177
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt10__s1",
+      "valid": true,
+      "F": 0.9458654970760233
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt10__s2",
+      "valid": true,
+      "F": 0.9688421052631578
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt11__s0",
+      "valid": true,
+      "F": 0.9737972709551657
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt11__s1",
+      "valid": true,
+      "F": 0.9610974658869396
+    },
+    {
+      "trial": "wepa-day32-bin3113__wide_adapt11__s2",
+      "valid": true,
+      "F": 0.938625730994152
+    },
+    {
+      "trial": "wepa-day33-bin3229__eta__s0",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__eta__s1",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__fcfs__s0",
+      "valid": true,
+      "F": 1.0960043066322136
+    },
+    {
+      "trial": "wepa-day33-bin3229__fcfs__s1",
+      "valid": true,
+      "F": 1.0960043066322136
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate__s0",
+      "valid": true,
+      "F": 1.0833178294573642
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate__s1",
+      "valid": true,
+      "F": 1.1059397071490096
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate__s2",
+      "valid": true,
+      "F": 1.1157312661498708
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate__s3",
+      "valid": true,
+      "F": 1.1202635658914728
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate__s4",
+      "valid": true,
+      "F": 1.1167527993109387
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_gen8__s0",
+      "valid": true,
+      "F": 1.128207579672696
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_gen8__s1",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_gen8__s2",
+      "valid": true,
+      "F": 1.111910422049957
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_preview3__s0",
+      "valid": true,
+      "F": 1.1283307493540051
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_preview3__s1",
+      "valid": true,
+      "F": 1.1059397071490096
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_preview3__s2",
+      "valid": true,
+      "F": 1.1157312661498708
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96__s0",
+      "valid": true,
+      "F": 1.1283307493540051
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96__s1",
+      "valid": true,
+      "F": 1.0986899224806201
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96__s2",
+      "valid": true,
+      "F": 1.124479758828596
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96_preview3__s0",
+      "valid": true,
+      "F": 1.1283307493540051
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96_preview3__s1",
+      "valid": true,
+      "F": 1.1113290267011198
+    },
+    {
+      "trial": "wepa-day33-bin3229__gate_proxy96_preview3__s2",
+      "valid": true,
+      "F": 1.1119491817398794
+    },
+    {
+      "trial": "wepa-day33-bin3229__hga__s0",
+      "valid": true,
+      "F": 1.093418604651163
+    },
+    {
+      "trial": "wepa-day33-bin3229__hga__s1",
+      "valid": true,
+      "F": 1.0935848406546083
+    },
+    {
+      "trial": "wepa-day33-bin3229__hga__s2",
+      "valid": true,
+      "F": 1.093418604651163
+    },
+    {
+      "trial": "wepa-day33-bin3229__hga__s3",
+      "valid": true,
+      "F": 1.0928087855297157
+    },
+    {
+      "trial": "wepa-day33-bin3229__hga__s4",
+      "valid": true,
+      "F": 1.093418604651163
+    },
+    {
+      "trial": "wepa-day33-bin3229__hungarian__s0",
+      "valid": true,
+      "F": 1.1101326442721793
+    },
+    {
+      "trial": "wepa-day33-bin3229__hungarian__s1",
+      "valid": true,
+      "F": 1.1101326442721793
+    },
+    {
+      "trial": "wepa-day33-bin3229__simple__s0",
+      "valid": true,
+      "F": 1.127188630490956
+    },
+    {
+      "trial": "wepa-day33-bin3229__simple__s1",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__simple__s2",
+      "valid": true,
+      "F": 1.1119491817398794
+    },
+    {
+      "trial": "wepa-day33-bin3229__simple__s3",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__simple__s4",
+      "valid": true,
+      "F": 1.1298199827734712
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide__s0",
+      "valid": true,
+      "F": 1.0833178294573642
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide__s1",
+      "valid": true,
+      "F": 1.1059397071490096
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide__s2",
+      "valid": true,
+      "F": 1.1157312661498708
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide__s3",
+      "valid": true,
+      "F": 1.1202635658914728
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide__s4",
+      "valid": true,
+      "F": 1.1167527993109387
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt00__s0",
+      "valid": true,
+      "F": 1.1154082687338502
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt00__s1",
+      "valid": true,
+      "F": 1.108293712316968
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt00__s2",
+      "valid": true,
+      "F": 1.1156942291128338
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt01__s0",
+      "valid": true,
+      "F": 1.0833178294573642
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt01__s1",
+      "valid": true,
+      "F": 1.1207166236003445
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt01__s2",
+      "valid": true,
+      "F": 1.119937984496124
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt10__s0",
+      "valid": true,
+      "F": 1.1294728682170543
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt10__s1",
+      "valid": true,
+      "F": 1.1249715762273902
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt10__s2",
+      "valid": true,
+      "F": 1.127188630490956
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt11__s0",
+      "valid": true,
+      "F": 1.1044263565891472
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt11__s1",
+      "valid": true,
+      "F": 1.1301851851851852
+    },
+    {
+      "trial": "wepa-day33-bin3229__wide_adapt11__s2",
+      "valid": true,
+      "F": 1.123683893195521
+    },
+    {
+      "trial": "wepa-day45-bin4335__eta__s0",
+      "valid": true,
+      "F": 0.6427824074074074
+    },
+    {
+      "trial": "wepa-day45-bin4335__eta__s1",
+      "valid": true,
+      "F": 0.6427824074074074
+    },
+    {
+      "trial": "wepa-day45-bin4335__fcfs__s0",
+      "valid": true,
+      "F": 0.6427824074074074
+    },
+    {
+      "trial": "wepa-day45-bin4335__fcfs__s1",
+      "valid": true,
+      "F": 0.6427824074074074
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate__s3",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate__s4",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_gen8__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_gen8__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_gen8__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_preview3__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_preview3__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_preview3__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96_preview3__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96_preview3__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__gate_proxy96_preview3__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hga__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hga__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hga__s2",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hga__s3",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hga__s4",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hungarian__s0",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__hungarian__s1",
+      "valid": true,
+      "F": 0.6433796296296296
+    },
+    {
+      "trial": "wepa-day45-bin4335__simple__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__simple__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__simple__s2",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__simple__s3",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__simple__s4",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide__s2",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide__s3",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide__s4",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt00__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt00__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt00__s2",
+      "valid": true,
+      "F": 0.6468351851851852
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt01__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt01__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt01__s2",
+      "valid": true,
+      "F": 0.6468351851851852
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt10__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt10__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt10__s2",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt11__s0",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt11__s1",
+      "valid": true,
+      "F": 0.6462657407407407
+    },
+    {
+      "trial": "wepa-day45-bin4335__wide_adapt11__s2",
+      "valid": true,
+      "F": 0.6462657407407407
+    }
+  ]
+}

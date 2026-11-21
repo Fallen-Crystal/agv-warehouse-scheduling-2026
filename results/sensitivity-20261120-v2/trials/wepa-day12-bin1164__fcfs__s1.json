@@ -1,0 +1,51 @@
+{
+  "id": "wepa-day12-bin1164__fcfs__s1",
+  "case": "wepa-day12-bin1164",
+  "variant": "fcfs",
+  "seed": 1,
+  "status": "ok",
+  "row": {
+    "valid": true,
+    "T": 1314,
+    "R": 331.5081967213115,
+    "D": 5348,
+    "p90": 563,
+    "empty_distance": 2864,
+    "traffic_wait": 31,
+    "F": 1.0385768063145113,
+    "cpu": 0.49213399999999996,
+    "wall": 0.4925536670052679,
+    "tasks": 61
+  },
+  "settings": {},
+  "search": {
+    "searches": 0,
+    "proxy_evaluations": 0,
+    "previews": 0,
+    "gate_decisions": 0,
+    "proxy_cap_hits": 0,
+    "preview_cap_hits": 0,
+    "improvements": 0,
+    "operator_activity": []
+  },
+  "independent_audit": {
+    "valid": true,
+    "tasks": 61,
+    "vertices_checked": 8172,
+    "final_inventory_units": 433,
+    "distance": 5348
+  },
+  "case_sha256": "b734a03a05f2868f1c5b9073f58d55d418671cad73ef18a5223201c67e2ba434",
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "sources": {
+    "runner": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "adaptive_operator": "0a72b90fcf687c5c7f48feab27a487e347c5e16d9885a43086dfcc0833a0bd2b",
+    "runtime_manifest": "c157d67696c07ab3f4dd006ad121241b2efa7957d785ed5efe547d5aed4676b9"
+  },
+  "trace": {
+    "path": "/Users/fallen/.codex/worktrees/agv-sensitivity-20261120/Ai基础大作业（11-30截止）/runs/sensitivity-20261120-v2-0879fc9b/trajectories/wepa-day12-bin1164__fcfs__s1.json.gz",
+    "sha256": "91a648ee34a30b68f84e915cce470418d419a0c294c3fb937a9b003d3e74fc34",
+    "bytes": 9318
+  }
+}

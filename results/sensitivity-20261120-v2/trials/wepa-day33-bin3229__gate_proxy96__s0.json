@@ -1,0 +1,99 @@
+{
+  "id": "wepa-day33-bin3229__gate_proxy96__s0",
+  "case": "wepa-day33-bin3229",
+  "variant": "gate_proxy96",
+  "seed": 0,
+  "status": "ok",
+  "row": {
+    "valid": true,
+    "T": 1524,
+    "R": 314.3255813953488,
+    "D": 4776,
+    "p90": 690,
+    "empty_distance": 2478,
+    "traffic_wait": 7,
+    "F": 1.1283307493540051,
+    "cpu": 17.939891,
+    "wall": 17.969790540999384,
+    "tasks": 43
+  },
+  "settings": {
+    "proxy": 96,
+    "previews": 6,
+    "generations": 16,
+    "gate": true,
+    "anchor": false,
+    "repair": 0
+  },
+  "search": {
+    "searches": 10,
+    "proxy_evaluations": 952,
+    "previews": 60,
+    "gate_decisions": 8,
+    "proxy_cap_hits": 9,
+    "preview_cap_hits": 10,
+    "improvements": 2,
+    "operator_activity": [
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 96,
+        "candidates": 96
+      },
+      {
+        "proxy_evaluations": 88,
+        "candidates": 88
+      }
+    ]
+  },
+  "independent_audit": {
+    "valid": true,
+    "tasks": 43,
+    "vertices_checked": 9654,
+    "final_inventory_units": 401,
+    "distance": 4776
+  },
+  "case_sha256": "259c08d1948496d4d2a6a5dd6991a6f4adc631f0bd629ac5a88896ef9fdbc9b8",
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "sources": {
+    "runner": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "adaptive_operator": "0a72b90fcf687c5c7f48feab27a487e347c5e16d9885a43086dfcc0833a0bd2b",
+    "runtime_manifest": "c157d67696c07ab3f4dd006ad121241b2efa7957d785ed5efe547d5aed4676b9"
+  },
+  "trace": {
+    "path": "/Users/fallen/.codex/worktrees/agv-sensitivity-20261120/Ai基础大作业（11-30截止）/runs/sensitivity-20261120-v2-0879fc9b/trajectories/wepa-day33-bin3229__gate_proxy96__s0.json.gz",
+    "sha256": "b7ab0ef142ac57cbb806dc8576a2fd5ede997db92b3a48db1f8c53f397f9ef2a",
+    "bytes": 9166
+  }
+}

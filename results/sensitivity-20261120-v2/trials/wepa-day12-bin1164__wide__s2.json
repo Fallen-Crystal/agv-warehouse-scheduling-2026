@@ -1,0 +1,183 @@
+{
+  "id": "wepa-day12-bin1164__wide__s2",
+  "case": "wepa-day12-bin1164",
+  "variant": "wide",
+  "seed": 2,
+  "status": "ok",
+  "row": {
+    "valid": true,
+    "T": 1247,
+    "R": 286.57377049180326,
+    "D": 5118,
+    "p90": 678,
+    "empty_distance": 2634,
+    "traffic_wait": 18,
+    "F": 0.9778579234972677,
+    "cpu": 22.563496,
+    "wall": 22.66290637498605,
+    "tasks": 61
+  },
+  "settings": {
+    "proxy": 192,
+    "previews": 6,
+    "generations": 16,
+    "gate": false,
+    "anchor": false,
+    "repair": 0
+  },
+  "search": {
+    "searches": 31,
+    "proxy_evaluations": 3069,
+    "previews": 186,
+    "gate_decisions": 0,
+    "proxy_cap_hits": 0,
+    "preview_cap_hits": 31,
+    "improvements": 10,
+    "operator_activity": [
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 6,
+        "candidates": 6
+      },
+      {
+        "proxy_evaluations": 166,
+        "candidates": 166
+      },
+      {
+        "proxy_evaluations": 162,
+        "candidates": 162
+      },
+      {
+        "proxy_evaluations": 164,
+        "candidates": 164
+      },
+      {
+        "proxy_evaluations": 164,
+        "candidates": 164
+      },
+      {
+        "proxy_evaluations": 160,
+        "candidates": 160
+      },
+      {
+        "proxy_evaluations": 164,
+        "candidates": 164
+      },
+      {
+        "proxy_evaluations": 163,
+        "candidates": 163
+      },
+      {
+        "proxy_evaluations": 164,
+        "candidates": 164
+      },
+      {
+        "proxy_evaluations": 167,
+        "candidates": 167
+      },
+      {
+        "proxy_evaluations": 169,
+        "candidates": 169
+      },
+      {
+        "proxy_evaluations": 161,
+        "candidates": 161
+      },
+      {
+        "proxy_evaluations": 165,
+        "candidates": 165
+      },
+      {
+        "proxy_evaluations": 164,
+        "candidates": 164
+      },
+      {
+        "proxy_evaluations": 167,
+        "candidates": 167
+      },
+      {
+        "proxy_evaluations": 167,
+        "candidates": 167
+      },
+      {
+        "proxy_evaluations": 171,
+        "candidates": 171
+      },
+      {
+        "proxy_evaluations": 162,
+        "candidates": 162
+      },
+      {
+        "proxy_evaluations": 163,
+        "candidates": 163
+      },
+      {
+        "proxy_evaluations": 34,
+        "candidates": 34
+      }
+    ]
+  },
+  "independent_audit": {
+    "valid": true,
+    "tasks": 61,
+    "vertices_checked": 7794,
+    "final_inventory_units": 433,
+    "distance": 5118
+  },
+  "case_sha256": "b734a03a05f2868f1c5b9073f58d55d418671cad73ef18a5223201c67e2ba434",
+  "objective_sha256": "a91743eeebc16b9e417872ad704126ac878a500da5e3099490bfd7bf1d234e48",
+  "plan_sha256": "9456af89de3e980b371e6b057383972e0646849197d43b1f65e44a7f81faef62",
+  "sources": {
+    "runner": "cabd76428ab066b78bf14e93fb79c16ea3762a8be1bdec6651a30fd2f751fb82",
+    "adaptive_operator": "0a72b90fcf687c5c7f48feab27a487e347c5e16d9885a43086dfcc0833a0bd2b",
+    "runtime_manifest": "c157d67696c07ab3f4dd006ad121241b2efa7957d785ed5efe547d5aed4676b9"
+  },
+  "trace": {
+    "path": "/Users/fallen/.codex/worktrees/agv-sensitivity-20261120/Ai基础大作业（11-30截止）/runs/sensitivity-20261120-v2-0879fc9b/trajectories/wepa-day12-bin1164__wide__s2.json.gz",
+    "sha256": "96f2cd959f4fc9c2ad74b5f94c0cf1157494063e360a39184c66d08744d5c829",
+    "bytes": 10684
+  }
+}
