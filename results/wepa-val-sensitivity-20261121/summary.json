@@ -1,5 +1,5 @@
 {
-  "study_id": "wepa-validation-sensitivity-20261121",
+  "study_id": "wepa-val-sensitivity-20261121",
   "cases": [
     "wepa-day40-bin3885",
     "wepa-day61-bin5902",
@@ -197,6 +197,8 @@
       "candidate": "wide",
       "baseline": "simple",
       "mean_F_improve_pct": 0.9561,
+      "ci95_low": 0.476,
+      "ci95_high": 1.4268,
       "wins": 4,
       "ties": 0,
       "losses": 0
@@ -205,6 +207,8 @@
       "candidate": "gate",
       "baseline": "wide",
       "mean_F_improve_pct": -0.1011,
+      "ci95_low": -0.2869,
+      "ci95_high": 0.0,
       "wins": 0,
       "ties": 2,
       "losses": 2
@@ -213,6 +217,8 @@
       "candidate": "hga",
       "baseline": "gate",
       "mean_F_improve_pct": -1.1157,
+      "ci95_low": -2.0165,
+      "ci95_high": -0.5424,
       "wins": 0,
       "ties": 0,
       "losses": 4
@@ -221,6 +227,8 @@
       "candidate": "hungarian",
       "baseline": "gate",
       "mean_F_improve_pct": -3.8704,
+      "ci95_low": -6.2576,
+      "ci95_high": -1.4832,
       "wins": 0,
       "ties": 0,
       "losses": 4
@@ -229,6 +237,8 @@
       "candidate": "gate",
       "baseline": "eta",
       "mean_F_improve_pct": 2.4255,
+      "ci95_low": 1.1206,
+      "ci95_high": 4.1595,
       "wins": 4,
       "ties": 0,
       "losses": 0
@@ -237,6 +247,8 @@
       "candidate": "gate",
       "baseline": "fcfs",
       "mean_F_improve_pct": 5.4502,
+      "ci95_low": 2.2776,
+      "ci95_high": 8.5889,
       "wins": 4,
       "ties": 0,
       "losses": 0
@@ -245,6 +257,8 @@
       "candidate": "gate_preview3",
       "baseline": "gate",
       "mean_F_improve_pct": -0.331,
+      "ci95_low": -0.662,
+      "ci95_high": 0.0,
       "wins": 0,
       "ties": 2,
       "losses": 2
@@ -253,6 +267,8 @@
       "candidate": "gate_gen8",
       "baseline": "gate",
       "mean_F_improve_pct": -0.3487,
+      "ci95_low": -0.8763,
+      "ci95_high": 0.2307,
       "wins": 1,
       "ties": 0,
       "losses": 3
@@ -261,6 +277,8 @@
       "candidate": "gate_gen24",
       "baseline": "gate",
       "mean_F_improve_pct": -1.4149,
+      "ci95_low": -2.6453,
+      "ci95_high": -0.4072,
       "wins": 0,
       "ties": 0,
       "losses": 4
@@ -269,6 +287,8 @@
       "candidate": "wide_adapt01",
       "baseline": "wide_adapt00",
       "mean_F_improve_pct": -0.5397,
+      "ci95_low": -2.3026,
+      "ci95_high": 1.2839,
       "wins": 1,
       "ties": 0,
       "losses": 3
@@ -277,6 +297,8 @@
       "candidate": "wide_adapt11",
       "baseline": "wide_adapt00",
       "mean_F_improve_pct": 0.1059,
+      "ci95_low": -0.7482,
+      "ci95_high": 1.1085,
       "wins": 2,
       "ties": 0,
       "losses": 2
@@ -285,6 +307,8 @@
       "candidate": "hga_adapt01",
       "baseline": "hga",
       "mean_F_improve_pct": 0.7917,
+      "ci95_low": -0.1578,
+      "ci95_high": 1.9684,
       "wins": 3,
       "ties": 0,
       "losses": 1
@@ -293,6 +317,8 @@
       "candidate": "hga_adapt01",
       "baseline": "gate",
       "mean_F_improve_pct": -0.2793,
+      "ci95_low": -0.9804,
+      "ci95_high": 0.2703,
       "wins": 2,
       "ties": 0,
       "losses": 2

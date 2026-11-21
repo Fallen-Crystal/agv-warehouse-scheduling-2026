@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Held-out WEPA validation-split multi-seed & hyperparameter sensitivity study.
+"""Existing WEPA validation-window retrospective multi-seed & hyperparameter re-evaluation.
 
-Complements results/sensitivity-20261120-v2 (which evaluated the 4 development
-windows only) by evaluating the 4 held-out validation windows, an upper
-generations bound (gate_gen24), and the combined hga + adaptive_crossover variant.
+Complements results/wepa-dev-sensitivity-20261120 (which evaluated the 4 development
+windows) by re-evaluating the 4 existing validation windows (used in Oct 2026 to select
+gate), an expanded generations budget (gate_gen24), and the combined hga_adapt01 variant.
 """
 
 from __future__ import annotations
@@ -15,6 +15,7 @@ import importlib
 import importlib.util
 import json
 import math
+import random
 import statistics
 import sys
 import time
@@ -26,7 +27,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 ADAPTIVE = ROOT / "research/dqn-experiment-v2/adaptive_genetic.py"
 DEFAULT_RUNTIME = ROOT / "runs/validation-runtime"
-DEFAULT_OUT = ROOT / "results/sensitivity-20261121-validation"
+DEFAULT_OUT = ROOT / "results/wepa-val-sensitivity-20261121"
 
 
 def _variants() -> list[dict]:
@@ -162,7 +163,18 @@ def _seed_sd_mean(rows: list[dict]) -> float:
     return statistics.mean(sds)
 
 
-def _paired_pct(rows: list[dict], cand: str, ref: str) -> tuple[float, int, int, int]:
+def _bootstrap_ci(values: list[float], n_boot: int = 4000) -> tuple[float, float]:
+    if not values:
+        return (0.0, 0.0)
+    rng = random.Random(20261121)
+    k = len(values)
+    means = sorted(sum(rng.choices(values, k=k)) / k for _ in range(n_boot))
+    lo = means[int(0.025 * (n_boot - 1))]
+    hi = means[int(0.975 * (n_boot - 1))]
+    return lo, hi
+
+
+def _paired_pct(rows: list[dict], cand: str, ref: str) -> tuple[float, float, float, int, int, int]:
     idx = {(r["case"], r["variant"], r["seed"]): r for r in rows}
     days: dict[int, list[float]] = {}
     for (case, variant, seed), c_row in idx.items():
@@ -173,23 +185,26 @@ def _paired_pct(rows: list[dict], cand: str, ref: str) -> tuple[float, int, int,
             continue
         pct = 100.0 * (1.0 - c_row["F"] / r_row["F"])
         days.setdefault(c_row["source_day"], []).append(pct)
-    day_means = [statistics.mean(v) for v in days.values()]
+    day_means = [statistics.mean(days[d]) for d in sorted(days)]
     wins = sum(x > 1e-9 for x in day_means)
     ties = sum(abs(x) <= 1e-9 for x in day_means)
     losses = sum(x < -1e-9 for x in day_means)
-    return statistics.mean(day_means), wins, ties, losses
+    ci_lo, ci_hi = _bootstrap_ci(day_means)
+    return statistics.mean(day_means), ci_lo, ci_hi, wins, ties, losses
 
 
 def _svg_bars(
     title: str, subtitle: str, items: list[tuple[str, float, float, str]], y_label: str
 ) -> str:
-    w, h = 840, 360
-    ml, mr, mt, mb = 78, 25, 65, 95
+    w, h = 840, 370
+    ml, mr, mt, mb = 78, 25, 68, 95
     pw, ph = w - ml - mr, h - mt - mb
     vals = [v for _, v, _, _ in items]
     lo = min(vals) * 0.96
-    hi = max(v + sd for _, v, sd, _ in items) * 1.03
-    span = hi - lo if hi > lo else 0.05
+    max_top = max(v + sd for _, v, sd, _ in items)
+    span_raw = max_top - lo if max_top > lo else 0.05
+    hi = max_top + span_raw * 0.22
+    span = hi - lo
 
     def y_px(val: float) -> float:
         return mt + ph - ((val - lo) / span) * ph
@@ -197,8 +212,8 @@ def _svg_bars(
     out = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">',
         '<rect width="100%" height="100%" fill="#ffffff"/>',
-        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">{html.escape(title)}</text>',
-        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="12" fill="#64748b">{html.escape(subtitle)}</text>',
+        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="15.5" font-weight="bold" fill="#1e293b">{html.escape(title)}</text>',
+        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="11.5" fill="#64748b">{html.escape(subtitle)}</text>',
         f'<text x="18" y="{mt + ph / 2:.1f}" font-family="sans-serif" font-size="12" fill="#334155" transform="rotate(-90 18 {mt + ph / 2:.1f})" text-anchor="middle">{html.escape(y_label)}</text>',
     ]
     for step in range(5):
@@ -218,25 +233,33 @@ def _svg_bars(
     )
 
     slot = pw / max(1, len(items))
-    bar_w = min(46.0, slot * 0.58)
+    bar_w = min(46.0, slot * 0.56)
     for i, (label, val, sd, color) in enumerate(items):
         cx = ml + slot * (i + 0.5)
         x0 = cx - bar_w / 2
         y0 = y_px(val)
-        bh = max(1.0, (mt + ph) - y0)
+        bh = max(2.0, (mt + ph) - y0)
         out.append(
             f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{bar_w:.1f}" height="{bh:.1f}" rx="4" fill="{color}"/>'
         )
+        top_y = y0
         if sd > 0 and not math.isnan(sd):
             yt, ybot = y_px(min(hi, val + sd)), y_px(max(lo, val - sd))
+            top_y = min(y0, yt)
             out.append(
                 f'<line x1="{cx:.1f}" y1="{yt:.1f}" x2="{cx:.1f}" y2="{ybot:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
             )
+            out.append(
+                f'<line x1="{cx - 4:.1f}" y1="{yt:.1f}" x2="{cx + 4:.1f}" y2="{yt:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
+            )
+            out.append(
+                f'<line x1="{cx - 4:.1f}" y1="{ybot:.1f}" x2="{cx + 4:.1f}" y2="{ybot:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
+            )
         out.append(
-            f'<text x="{cx:.1f}" y="{y0 - 6:.1f}" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a" text-anchor="middle">{val:.4f}</text>'
+            f'<text x="{cx:.1f}" y="{top_y - 6:.1f}" font-family="sans-serif" font-size="10.2" font-weight="bold" fill="#0f172a" stroke="#ffffff" stroke-width="3" paint-order="stroke" text-anchor="middle">{val:.4f}</text>'
         )
         out.append(
-            f'<text x="{cx:.1f}" y="{mt + ph + 16}" font-family="sans-serif" font-size="10.5" fill="#334155" text-anchor="end" transform="rotate(-24 {cx:.1f} {mt + ph + 16})">{label}</text>'
+            f'<text x="{cx:.1f}" y="{mt + ph + 16}" font-family="sans-serif" font-size="10.5" fill="#334155" text-anchor="end" transform="rotate(-24 {cx:.1f} {mt + ph + 16})">{html.escape(label)}</text>'
         )
     out.append("</svg>")
     return "\n".join(out) + "\n"
@@ -294,12 +317,14 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     ]
     paired_rows = []
     for cand, ref in pairs_to_check:
-        pct, wins, ties, losses = _paired_pct(rows, cand, ref)
+        pct, ci_lo, ci_hi, wins, ties, losses = _paired_pct(rows, cand, ref)
         paired_rows.append(
             dict(
                 candidate=cand,
                 baseline=ref,
                 mean_F_improve_pct=round(pct, 4),
+                ci95_low=round(ci_lo, 4),
+                ci95_high=round(ci_hi, 4),
                 wins=wins,
                 ties=ties,
                 losses=losses,
@@ -314,8 +339,8 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     evo_palette = ["#64748b", "#0284c7", "#0d9488", "#9333ea", "#2563eb", "#1d4ed8", "#15803d"]
     (fig_dir / "validation_evolution.svg").write_text(
         _svg_bars(
-            "WEPA Held-Out Validation Split: 7-Method Evolution",
-            "4 unseen validation windows (day40, day61, day83, day87), equal-weighted by date",
+            "WEPA Existing Validation Windows: 7-Method Evolution",
+            "Retrospective re-evaluation on day40, day61, day83, day87 (equal-weighted by date)",
             [
                 (r["variant"], r["F"], r["seed_sd"], evo_palette[i % len(evo_palette)])
                 for i, r in enumerate(summary)
@@ -327,8 +352,8 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     )
     (fig_dir / "validation_budget_and_adaptive.svg").write_text(
         _svg_bars(
-            "WEPA Validation Split: Budget Bounds, Adaptive GA & HGA+Adaptive01",
-            "Seeds 0..2 across 4 unseen validation windows (day40, day61, day83, day87)",
+            "WEPA Validation Windows: Budget Variants, Adaptive GA & HGA+Adaptive01",
+            "Seeds 0..2 across 4 existing validation windows (day40, day61, day83, day87)",
             [
                 (
                     r["variant"],
@@ -362,7 +387,7 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     )
 
     payload = dict(
-        study_id="wepa-validation-sensitivity-20261121",
+        study_id="wepa-val-sensitivity-20261121",
         cases=cases,
         total_runs=len(rows),
         valid_runs=sum(r["valid"] for r in rows),
@@ -374,14 +399,33 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     )
 
     md = [
-        "# WEPA 未见验证集（Validation Split）多 Seed 与组合补充实验",
+        "# WEPA 既有验证窗口复评与组合实验（wepa-val-sensitivity-20261121）",
         "",
-        f"- 验证窗口：`{cases}`（共 199 条真实请求，覆盖 day40 / day61 / day83 / day87）。",
-        f"- 有效完成：**{sum(r['valid'] for r in rows)} / {len(rows)}**（全部通过 `checked_score` 独立验解）。",
+        "> 这 4 个窗口在 2026-10 已用于选定 `gate`，本轮为回顾性复评，不是未见测试。",
+        "",
+        "## 结论",
+        "",
+        "1. GA 类方案在 4 个既有验证窗口上全部优于规则基线：`gate` 相对 `fcfs` 改善 +5.45%、`eta` +2.43%、`hungarian` +3.87%，4 个日期全部改善（4/0/0）。",
+        "2. `gate` 与 `wide` 无可分辨差异（−0.10%，0/2/2），`wide` 均值略低（0.8983 vs 0.8992）。",
+        "3. 开发集最优的 `hga` 在既有验证窗口全部变差（−1.12%，0/0/4）；`hga_adapt01` 比 `hga` 改善 +0.79%（3/0/1）且 seed 标准差最低（0.00521），但仍比 `gate` 差 −0.28%（2/0/2）。",
+        "4. 预算对照：扩大至 24 代（`gate_gen24`）比默认差 −1.41%（0/0/4），说明默认代数不是瓶颈；减半至 8 代（`gate_gen8`）差 −0.35%（1/0/3）；`preview` 降到 3 次（`gate_preview3`）CPU 降低约 44%（21.66→12.09 秒），F 变差 −0.33%（0/2/2）。",
+        "5. 自适应算子：开发集有效的“只开交叉自适应”（`wide_adapt01`）在此相对 `wide_adapt00` 变差 −0.54%（1/0/3），结论未复现。",
+        "6. 与 2026-10 记录的差异：本轮 `gate` F=0.8992 为 seed 0–2 平均，10 月报告中的 0.8964 为单 seed 0，两者口径不同、不矛盾。",
+        "",
+        "## 方法",
+        "",
+        f"- 窗口：`{cases}`（day40 / day61 / day83 / day87 各 1 个，共 199 条真实请求）；**{sum(r['valid'] for r in rows)} / {len(rows)}** 次运行全部通过 `checked_score` 独立物理验解。",
+        "- seed 集合：确定性方案（`fcfs` / `eta` / `hungarian`）运行 seed 0–1（每方案 8 次），其余随机搜索方案运行 seed 0–2（每方案 12 次）；配对比较严格使用两方共同 seed（同窗口、同 seed 配对）。",
+        "- 改善率与持平定义：改善率 = 100% × (1 − 候选 F / 基线 F)，正数表示候选 F 更低（更好）；单日期平均改善率满足 `|Δ| ≤ 1e-9` 判定为“持平”。",
+        "- 指标口径：`T` 为最后一单完成时刻（不含最终返库），`R` 为平均发布到完成耗时，`D` 为含最终返库总行驶里程（格数）；独立线性目标 $F = 0.5\\,T/900 + 0.3\\,R/900 + 0.2\\,D/5400$。区间为固定随机种子（4000 次抽样）的日期 bootstrap 95% 区间，仅作描述。",
+        "",
+        "## 局限",
+        "",
+        "只有 4 个来源日期且已在 2026-10 用于选型，本轮结论为回顾性描述，不做统计显著性声明；重复 seed 评估搜索稳定性，不增加独立业务样本数。",
         "",
         "## 各方案汇总（按来源日期等权）",
         "",
-        "| 组别 | 方案 | 次数 | F | seed SD | T (s) | R (s) | D (cells) | P90 (s) | CPU (s) |",
+        "| 组别 | 方案 | 次数 | F | seed SD | T 完工时间 (s) | R 平均响应 (s) | D 总里程 (格) | P90 (s) | CPU (s) |",
         "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for r in summary:
@@ -392,20 +436,21 @@ def save_outputs(rows: list[dict], out_dir: Path, cases: list[str]) -> dict:
     md.extend(
         [
             "",
-            "## 同窗口/同 Seed 配对改善率",
+            "## 同窗口 / 同 Seed 配对改善率",
             "",
-            "| 候选 | 基线 | 日期等权平均 F 改善 | 胜/平/负日期 |",
-            "|---|---|---:|---:|",
+            "| 候选 | 基线 | 日期等权平均 F 改善 | 日期 bootstrap 95% | 胜/平/负日期 |",
+            "|---|---|---:|---|---:|",
         ]
     )
     for p in paired_rows:
         md.append(
-            f"| `{p['candidate']}` | `{p['baseline']}` | {p['mean_F_improve_pct']:+.4f}% | {p['wins']}/{p['ties']}/{p['losses']} |"
+            f"| `{p['candidate']}` | `{p['baseline']}` | {p['mean_F_improve_pct']:+.4f}% | "
+            f"[{p['ci95_low']:+.3f}%, {p['ci95_high']:+.3f}%] | {p['wins']}/{p['ties']}/{p['losses']} |"
         )
     md.extend(
         [
             "",
-            "## 验证集对比图",
+            "## 对比图表",
             "",
             "![Validation Evolution](figures/validation_evolution.svg)",
             "![Validation Budget & Adaptive](figures/validation_budget_and_adaptive.svg)",

@@ -711,8 +711,8 @@ def _markdown(plan, result):
         "报告目录必须尚不存在，已有报告不会被覆盖。",
         "",
         "```bash",
-        ".venv/bin/python scripts/run_sensitivity_study.py verify results/sensitivity-20261120-v2 --traces",
-        ".venv/bin/python scripts/report_sensitivity_study.py results/sensitivity-20261120-v2 --output output/sensitivity-report-new",
+        "uv run python scripts/run_sensitivity_study.py verify results/wepa-dev-sensitivity-20261120 --traces",
+        "uv run python scripts/report_sensitivity_study.py results/wepa-dev-sensitivity-20261120 --output runs/sensitivity-report-new",
         "```",
         "",
     ]
@@ -836,10 +836,24 @@ def plot_figures(plan, result, directory):
             numeric = [
                 [value if value is not None else float("nan") for value in row] for row in matrix
             ]
-            ax.imshow(numeric, cmap="Blues", aspect="auto")
+            valid_nums = [v for row in matrix for v in row if v is not None]
+            vmin = min(valid_nums) if valid_nums else 0.0
+            vmax = max(valid_nums) if valid_nums else 1.0
+            span = (vmax - vmin) or 1.0
+            ax.imshow(numeric, cmap="Blues", aspect="auto", vmin=vmin, vmax=vmax)
             for iy, row in enumerate(matrix):
                 for ix, value in enumerate(row):
-                    ax.text(ix, iy, _fmt(value), ha="center", va="center", color="black")
+                    norm = ((value - vmin) / span) if value is not None else 0.0
+                    txt_color = "white" if norm > 0.55 else "#0f172a"
+                    ax.text(
+                        ix,
+                        iy,
+                        _fmt(value),
+                        ha="center",
+                        va="center",
+                        color=txt_color,
+                        fontweight="bold",
+                    )
             ax.set_xticks(range(2), xs)
             ax.set_yticks(range(2), ys)
             if factorial["name"] == "budget_2x2":
@@ -851,22 +865,77 @@ def plot_figures(plan, result, directory):
                 )
             ax.set_title(f"{metric} | common seeds {factorial['paired_seeds']}")
         save(fig, factorial["name"])
-    fig, ax = plt.subplots(figsize=(9, 5))
-    for row in summaries:
-        if row["complete"]:
-            ax.scatter(
-                row["ranking_means"]["cpu"],
-                row["ranking_means"]["F"],
-                color="#297b58" if row["pareto_efficient"] else "#7994a1",
-                s=42,
-            )
-            ax.annotate(
-                row["variant"],
-                (row["ranking_means"]["cpu"], row["ranking_means"]["F"]),
-                xytext=(4, 4),
-                textcoords="offset points",
-                fontsize=8,
-            )
+    fig, ax = plt.subplots(figsize=(9.5, 5.2))
+    complete_rows = [row for row in summaries if row["complete"]]
+    pareto_pts = sorted(
+        (
+            (row["ranking_means"]["cpu"], row["ranking_means"]["F"])
+            for row in complete_rows
+            if row["pareto_efficient"]
+        ),
+        key=lambda pt: pt[0],
+    )
+    if len(pareto_pts) >= 2:
+        ax.plot(
+            [p[0] for p in pareto_pts],
+            [p[1] for p in pareto_pts],
+            linestyle="--",
+            color="#297b58",
+            alpha=0.45,
+            linewidth=1.1,
+            zorder=1,
+        )
+    # Explicit collision-free label placements for dense CPU 13-15s cluster
+    label_offsets = {
+        "fcfs": ((8, 2), "left"),
+        "eta": ((8, 2), "left"),
+        "hungarian": ((8, 2), "left"),
+        "simple": ((8, 3), "left"),
+        "gate_proxy96_preview3": ((8, 6), "left"),
+        "gate_preview3": ((8, -16), "left"),
+        "gate_gen8": ((-10, 6), "right"),
+        "gate_proxy96": ((-10, 8), "right"),
+        "wide_adapt11": ((12, 16), "left"),
+        "wide_adapt00": ((-14, -15), "right"),
+        "wide_adapt10": ((12, -2), "left"),
+        "wide": ((12, 9), "left"),
+        "wide_adapt01": ((12, -13), "left"),
+        "gate": ((-12, 2), "right"),
+        "hga": ((-10, -10), "right"),
+    }
+    for row in complete_rows:
+        cx, cy = row["ranking_means"]["cpu"], row["ranking_means"]["F"]
+        ax.scatter(
+            cx,
+            cy,
+            color="#297b58" if row["pareto_efficient"] else "#7994a1",
+            s=46,
+            zorder=3,
+        )
+        offset, ha = label_offsets.get(row["variant"], ((6, 4), "left"))
+        use_arrow = abs(offset[0]) >= 10 or abs(offset[1]) >= 10
+        ax.annotate(
+            row["variant"],
+            (cx, cy),
+            xytext=offset,
+            textcoords="offset points",
+            fontsize=8.2,
+            ha=ha,
+            va="center",
+            color="#0f172a",
+            arrowprops=(
+                dict(arrowstyle="-", color="#94a3b8", lw=0.75, shrinkA=0, shrinkB=3)
+                if use_arrow
+                else None
+            ),
+        )
+    if complete_rows:
+        xs = [r["ranking_means"]["cpu"] for r in complete_rows]
+        ys = [r["ranking_means"]["F"] for r in complete_rows]
+        ax.set_xlim(min(0.0, min(xs)) - 0.4, max(xs) + 3.2)
+        yspan = (max(ys) - min(ys)) or 0.01
+        ax.set_ylim(min(ys) - yspan * 0.14, max(ys) + yspan * 0.10)
+    ax.grid(alpha=0.18)
     ax.set(
         xlabel="Mean cumulative CPU (s / window)",
         ylabel="Mean F (lower is better)",

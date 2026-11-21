@@ -1,0 +1,26 @@
+group,candidate,baseline,metric,mean_improve_pct,min_pct,max_pct,wins,ties,losses
+legacy_static_evolution,joint_only,baseline,R 平均流程时间,1.8356,0.7149,2.8203,5,0,0
+legacy_static_evolution,joint_batch,baseline,R 平均流程时间,2.6446,1.0326,3.7037,5,0,0
+legacy_static_evolution,sipp_joint,baseline,R 平均流程时间,1.982,1.0326,2.8203,5,0,0
+legacy_static_evolution,sipp_conflict,baseline,R 平均流程时间,1.7107,0.9531,2.8203,5,0,0
+legacy_static_evolution,sipp_budget,baseline,R 平均流程时间,1.962,0.9531,2.9895,5,0,0
+legacy_static_evolution,sipp_batch,baseline,R 平均流程时间,2.6277,1.2708,3.3238,5,0,0
+legacy_static_evolution,sipp_learned,baseline,R 平均流程时间,1.5021,0.8737,2.0951,5,0,0
+legacy_dynamic_evolution,joint_only,baseline,R 平均流程时间,3.3817,1.2302,7.3548,5,0,0
+legacy_dynamic_evolution,sipp_joint,baseline,R 平均流程时间,2.9851,0.3515,7.3548,5,0,0
+legacy_dynamic_evolution,sipp_conflict,baseline,R 平均流程时间,3.4412,0.8787,6.0645,5,0,0
+legacy_dynamic_evolution,sipp_budget,baseline,R 平均流程时间,3.3868,0.8787,6.0645,5,0,0
+legacy_dynamic_evolution,sipp_learned,baseline,R 平均流程时间,3.3328,0.8787,6.0645,5,0,0
+v4_dynamic_evolution,sipp_budget,baseline,F 归一化目标,0.5191,0.0,1.5133,3,2,0
+v4_dynamic_evolution,sipp_matching,baseline,F 归一化目标,0.0113,-2.8965,2.7601,3,0,2
+v4_dynamic_evolution,bcrd_budget,baseline,F 归一化目标,3.0147,0.0,5.0012,4,1,0
+v91_dynamic_evolution,sipp_stream_dispatch,baseline,F 归一化目标,0.0195,0.0,0.065,2,3,0
+v91_dynamic_evolution,sipp_stream_matching,baseline,F 归一化目标,0.6501,-3.7153,5.6289,3,0,2
+v91_dynamic_evolution,sipp_position_dispatch,baseline,F 归一化目标,0.0195,0.0,0.065,2,3,0
+v91_dynamic_evolution,sipp_stream_bcrd,baseline,F 归一化目标,0.0195,0.0,0.065,2,3,0
+v91_dynamic_evolution,sipp_stream_bcrd_tail,baseline,F 归一化目标,0.0195,0.0,0.065,2,3,0
+v91_static_evolution,sipp_stream_dispatch,baseline,F 归一化目标,0.0461,0.0,0.0977,4,1,0
+v91_static_evolution,sipp_stream_matching,baseline,F 归一化目标,1.5496,0.0836,3.7404,5,0,0
+v91_static_evolution,sipp_position_dispatch,baseline,F 归一化目标,0.0461,0.0,0.0977,4,1,0
+v91_static_evolution,sipp_stream_bcrd,baseline,F 归一化目标,1.5329,0.0,3.7404,4,1,0
+v91_static_evolution,sipp_stream_bcrd_tail,baseline,F 归一化目标,1.5329,0.0,3.7404,4,1,0

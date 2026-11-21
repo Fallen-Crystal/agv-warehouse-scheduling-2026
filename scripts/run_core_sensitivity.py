@@ -259,13 +259,17 @@ def _stats(rows: list[dict], key: str) -> tuple[float | None, float | None]:
 def _svg_bar_chart(
     title: str, subtitle: str, items: list[tuple[str, float, float, str]], y_label: str
 ) -> str:
-    w, h = 820, 360
-    ml, mr, mt, mb = 75, 25, 65, 95
+    w, h = 820, 370
+    ml, mr, mt, mb = 75, 25, 68, 95
     pw, ph = w - ml - mr, h - mt - mb
     max_val = max((v + sd for _, v, sd, _ in items), default=1.0)
     min_val = min((v - sd for _, v, sd, _ in items), default=0.0)
-    lo = 0.0 if min_val >= 0 else min_val * 1.1
-    hi = max_val * 1.12 if max_val > lo else lo + 1.0
+    if min_val > 0.85 and max_val <= 1.15:
+        lo = max(0.0, min_val - 0.03)
+        hi = max_val + 0.035
+    else:
+        lo = 0.0 if min_val >= 0 else min_val * 1.1
+        hi = max_val * 1.18 if max_val > lo else lo + 1.0
     span = hi - lo
 
     def y_px(val: float) -> float:
@@ -274,8 +278,8 @@ def _svg_bar_chart(
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}">',
         '<rect width="100%" height="100%" fill="#ffffff"/>',
-        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="16" font-weight="bold" fill="#1e293b">{html.escape(title)}</text>',
-        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="12" fill="#64748b">{html.escape(subtitle)}</text>',
+        f'<text x="{ml}" y="26" font-family="sans-serif" font-size="15.5" font-weight="bold" fill="#1e293b">{html.escape(title)}</text>',
+        f'<text x="{ml}" y="46" font-family="sans-serif" font-size="11.5" fill="#64748b">{html.escape(subtitle)}</text>',
         f'<text x="18" y="{mt + ph / 2:.1f}" font-family="sans-serif" font-size="12" fill="#334155" transform="rotate(-90 18 {mt + ph / 2:.1f})" text-anchor="middle">{html.escape(y_label)}</text>',
     ]
     for step in range(5):
@@ -284,8 +288,9 @@ def _svg_bar_chart(
         lines.append(
             f'<line x1="{ml}" y1="{yp:.1f}" x2="{w - mr}" y2="{yp:.1f}" stroke="#e2e8f0" stroke-width="1"/>'
         )
+        fmt_tick = f"{val:.3f}" if (hi - lo) < 0.25 else f"{val:.2f}"
         lines.append(
-            f'<text x="{ml - 8}" y="{yp + 4:.1f}" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="end">{val:.2f}</text>'
+            f'<text x="{ml - 8}" y="{yp + 4:.1f}" font-family="sans-serif" font-size="11" fill="#475569" text-anchor="end">{fmt_tick}</text>'
         )
     lines.append(
         f'<line x1="{ml}" y1="{mt}" x2="{ml}" y2="{mt + ph}" stroke="#334155" stroke-width="1.2"/>'
@@ -295,32 +300,35 @@ def _svg_bar_chart(
     )
 
     slot = pw / max(1, len(items))
-    bar_w = min(46.0, slot * 0.58)
+    bar_w = min(46.0, slot * 0.56)
     for i, (label, val, sd, color) in enumerate(items):
         cx = ml + slot * (i + 0.5)
         x0 = cx - bar_w / 2
         y0 = y_px(val)
         yb = y_px(lo)
-        bh = max(1.0, yb - y0)
+        bh = max(2.0, yb - y0)
         lines.append(
             f'<rect x="{x0:.1f}" y="{y0:.1f}" width="{bar_w:.1f}" height="{bh:.1f}" rx="4" fill="{color}"/>'
         )
+        top_y = y0
         if sd > 0 and not math.isnan(sd):
-            yt, ybot = y_px(val + sd), y_px(max(lo, val - sd))
+            yt, ybot = y_px(min(hi, val + sd)), y_px(max(lo, val - sd))
+            top_y = min(y0, yt)
             lines.append(
                 f'<line x1="{cx:.1f}" y1="{yt:.1f}" x2="{cx:.1f}" y2="{ybot:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
             )
             lines.append(
-                f'<line x1="{cx - 5:.1f}" y1="{yt:.1f}" x2="{cx + 5:.1f}" y2="{yt:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
+                f'<line x1="{cx - 4:.1f}" y1="{yt:.1f}" x2="{cx + 4:.1f}" y2="{yt:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
             )
             lines.append(
-                f'<line x1="{cx - 5:.1f}" y1="{ybot:.1f}" x2="{cx + 5:.1f}" y2="{ybot:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
+                f'<line x1="{cx - 4:.1f}" y1="{ybot:.1f}" x2="{cx + 4:.1f}" y2="{ybot:.1f}" stroke="#0f172a" stroke-width="1.3"/>'
             )
+        fmt_val = f"{val:.4f}" if (hi - lo) < 0.25 else f"{val:.2f}"
         lines.append(
-            f'<text x="{cx:.1f}" y="{y0 - 6:.1f}" font-family="sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a" text-anchor="middle">{val:.2f}</text>'
+            f'<text x="{cx:.1f}" y="{top_y - 6:.1f}" font-family="sans-serif" font-size="10.2" font-weight="bold" fill="#0f172a" stroke="#ffffff" stroke-width="3" paint-order="stroke" text-anchor="middle">{fmt_val}</text>'
         )
         lines.append(
-            f'<text x="{cx:.1f}" y="{mt + ph + 16}" font-family="sans-serif" font-size="10.5" fill="#334155" text-anchor="end" transform="rotate(-24 {cx:.1f} {mt + ph + 16})">{label}</text>'
+            f'<text x="{cx:.1f}" y="{mt + ph + 16}" font-family="sans-serif" font-size="10.5" fill="#334155" text-anchor="end" transform="rotate(-24 {cx:.1f} {mt + ph + 16})">{html.escape(label)}</text>'
         )
     lines.append("</svg>")
     return "\n".join(lines) + "\n"
@@ -416,8 +424,8 @@ def summarize_and_save(rows: list[dict], out_dir: Path, seeds: list[int]) -> dic
             "Mean Flow Time (steps, lower is better)",
         ),
         "v91_evolution_and_bcrd_batches.svg": _svg_bar_chart(
-            "V9.1 Static Dense-Backlog Evolution & BCRD max_batches (4 Vehicles, 16 Tasks, Seeds 0..4)",
-            "Normalized objective F (lower is better; baseline = 1.00)",
+            "V9.1 Static Evolution & BCRD max_batches (4 Vehicles, 16 Tasks, Seeds 0..4)",
+            "Normalized objective F (lower is better; baseline = 1.0000)",
             [
                 (r["variant"], r["weighted_score"], r["weighted_score_sd"], "#0284c7")
                 for r in lookup("v91_static_evolution")
@@ -432,28 +440,107 @@ def summarize_and_save(rows: list[dict], out_dir: Path, seeds: list[int]) -> dic
     for name, content in charts.items():
         (fig_dir / name).write_text(content, encoding="utf-8")
 
+    # Compute same-seed paired improvements against each group's baseline
+    by_key = {(r["group"], r["variant"], int(r["seed"])): r for r in rows}
+    paired_specs = [
+        ("legacy_static_evolution", "baseline", "mean_flow_time", "R 平均流程时间"),
+        ("legacy_dynamic_evolution", "baseline", "mean_flow_time", "R 平均流程时间"),
+        ("v4_dynamic_evolution", "baseline", "weighted_score", "F 归一化目标"),
+        ("v91_dynamic_evolution", "baseline", "weighted_score", "F 归一化目标"),
+        ("v91_static_evolution", "baseline", "weighted_score", "F 归一化目标"),
+    ]
+    paired_rows = []
+    for grp, ref_var, metric, metric_label in paired_specs:
+        variants_in_group = [r["variant"] for r in lookup(grp) if r["variant"] != ref_var]
+        for cand in variants_in_group:
+            gains = []
+            for s in seeds:
+                c_r = by_key.get((grp, cand, s))
+                b_r = by_key.get((grp, ref_var, s))
+                if c_r is None or b_r is None:
+                    continue
+                cv, bv = c_r.get(metric), b_r.get(metric)
+                if cv is None or bv is None or bv == 0:
+                    continue
+                gains.append(100.0 * (1.0 - float(cv) / float(bv)))
+            if not gains:
+                continue
+            wins = sum(g > 1e-9 for g in gains)
+            ties = sum(abs(g) <= 1e-9 for g in gains)
+            losses = sum(g < -1e-9 for g in gains)
+            paired_rows.append(
+                dict(
+                    group=grp,
+                    candidate=cand,
+                    baseline=ref_var,
+                    metric=metric_label,
+                    mean_improve_pct=round(statistics.mean(gains), 4),
+                    min_pct=round(min(gains), 4),
+                    max_pct=round(max(gains), 4),
+                    wins=wins,
+                    ties=ties,
+                    losses=losses,
+                )
+            )
+
+    with (out_dir / "paired.csv").open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=list(paired_rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(paired_rows)
+
     payload = dict(
-        study_id="core-multiseed-sensitivity-20261121",
+        study_id="core-sensitivity-20261121",
         seeds=seeds,
         total_runs=len(rows),
         feasible_runs=sum(r["feasible"] for r in rows),
         summary=summary_rows,
+        paired=paired_rows,
     )
     (out_dir / "summary.json").write_text(
         json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
     md = [
-        "# 核心引擎（src/agv）多 Seed 演进与超参数敏感性实验",
+        "# 核心引擎（src/agv）多 Seed 演进与超参数敏感性实验（core-sensitivity-20261121）",
         "",
-        f"- 总运行次数：**{len(rows)} / {len(rows)}** 全部通过 `validate()` 独立物理验解，全部可行（`feasible = {sum(r['feasible'] for r in rows)}/{len(rows)}`）。",
-        f"- 随机种子：`{seeds}`（每个配置 5 个独立随机种子）。",
+        "## 结论",
         "",
-        "## 各组汇总指标",
+        "1. **V4 动态**：`bcrd_budget` 的 F 改善 +3.01%（0.9699±0.0191），完工时间 139.6→132.8，CPU 0.17 秒，为该场景推荐方案；`sipp_budget`、`sipp_matching` 与 `baseline` 差异在标准差内。",
+        "2. **Legacy 静态**：`sipp_batch` 平均流程时间改善 +2.62%（50.82→49.49），总移动步数减少 4.24%，CPU 0.08→10.27 秒；`joint_batch` 流程时间相同但 CPU 更高（14.15 秒）。",
+        "3. **Legacy 动态**：各改进方案平均流程时间约 27.8，相对 `baseline`（28.84）改善约 +3.5%，但跨 seed 标准差约 ±3；各 SIPP 变体之间差异小于 0.15，无可分辨差别。",
+        "4. **参数敏感性**：`trial_budget` 在 2–10 范围内结果几乎相同，`b2` 耗时最低（0.28 秒）；重规划间隔 2/5/10 无明显差异，间隔 10 的 CPU 最低（0.40 秒）。",
+        "5. **V9.1 动态**：除 `sipp_stream_matching` 外，所有方案与 `baseline` 的流程时间与完工时间完全相同（134.16 / 330.20），改进在该场景下未生效（队列未达 BCRD 触发阈值）。",
+        "6. **V9.1 静态**：`sipp_stream_matching` 与 BCRD 系 F 改善约 +1.53%；`max_batches` 从 1 增至 2 有收益，2/4/6 结果完全相同，取 2 即可。",
         "",
-        "| 实验组 | 方案/参数 | 次数 | 可行 | 平均 Flow Time (±SD) | Makespan (±SD) | 总移动步数 | 归一化 F (±SD) | CPU (s) |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        "## 方法",
+        "",
+        f"- 每个配置 5 个随机种子（`{seeds}`），共 **{len(rows)} / {len(rows)}** 次运行全部通过 `validate()` 独立物理验解且全部可行。",
+        "- 指标定义：`T` = 完工时间（Makespan），`R` = 平均流程时间（Flow Time），`D` = 总移动步数；V4 / V9.1 的归一化目标 $F = 0.5\\,T/T_{\\text{ref}} + 0.3\\,R/R_{\\text{ref}} + 0.2\\,D/D_{\\text{ref}}$ 以同场景 `baseline` 为 1.0；Legacy 无固定参照基线，不计算 F（表中以 `-` 标示）。",
+        "- 配对改善率约定：同一 seed 下计算 `100% × (1 − 候选/基线)`，正数表示候选更优，再对 5 个 seed 取均值并记录胜/平/负次数。",
+        "",
+        "## 局限",
+        "",
+        "每个配置仅有 5 个合成随机种子，多数方案间的跨场景均值差小于 seed 标准差；结论以同 seed 配对改善表为主要参照，不做统计显著性声明。",
+        "",
+        "## 同 Seed 配对改善（相对同组 baseline）",
+        "",
+        "| 实验组 | 候选方案 | 评价指标 | 5-seed 平均改善 | 范围 [min, max] | 胜/平/负 (seed) |",
+        "|---|---|---|---:|---|---:|",
     ]
+    for p in paired_rows:
+        md.append(
+            f"| {p['group']} | `{p['candidate']}` | {p['metric']} | {p['mean_improve_pct']:+.2f}% | "
+            f"[{p['min_pct']:+.2f}%, {p['max_pct']:+.2f}%] | {p['wins']}/{p['ties']}/{p['losses']} |"
+        )
+    md.extend(
+        [
+            "",
+            "## 各组汇总指标",
+            "",
+            "| 实验组 | 方案/参数 | 次数 | 可行 | R 平均流程时间 (±SD) | T 完工时间 (±SD) | D 总移动步数 | 归一化 F (±SD) | CPU (s) |",
+            "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
     for r in summary_rows:
         f_str = (
             f"{r['weighted_score']:.4f} (±{r['weighted_score_sd']:.4f})"
@@ -467,6 +554,8 @@ def summarize_and_save(rows: list[dict], out_dir: Path, seeds: list[int]) -> dic
         )
     md.extend(
         [
+            "",
+            "> 注：Legacy 场景无固定归一化参照基线，表中 `归一化 F` 记为 `-`。",
             "",
             "## 对比图表",
             "",
