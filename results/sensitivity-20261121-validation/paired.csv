@@ -1,0 +1,14 @@
+candidate,baseline,mean_F_improve_pct,wins,ties,losses
+wide,simple,0.9561,4,0,0
+gate,wide,-0.1011,0,2,2
+hga,gate,-1.1157,0,0,4
+hungarian,gate,-3.8704,0,0,4
+gate,eta,2.4255,4,0,0
+gate,fcfs,5.4502,4,0,0
+gate_preview3,gate,-0.331,0,2,2
+gate_gen8,gate,-0.3487,1,0,3
+gate_gen24,gate,-1.4149,0,0,4
+wide_adapt01,wide_adapt00,-0.5397,1,0,3
+wide_adapt11,wide_adapt00,0.1059,2,0,2
+hga_adapt01,hga,0.7917,3,0,1
+hga_adapt01,gate,-0.2793,2,0,2

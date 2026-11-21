@@ -1,189 +1,150 @@
-# Warehouse AGV Scheduling
+# Warehouse AGV Scheduling（仓库穿梭无人车智能调度）
 
-## 最新真实订单研究交付（2026-10-24）
-
-当前真实入/出库研究推荐 **联合GA＋SIPP（gate）**。完整可运行代码、原始WEPAStacks请求、数学模型、规则与接口、实验对比、负例和参考文献已汇总到 [推荐方案材料](research/recommended-20261024/README.md)。
-
-```bash
-python research/recommended-20261024/current/run.py --case wepa-day45-bin4335 --seed 0 --output my-result.json
-```
-
-本入口采用独立线性目标 `F=0.5T/900+0.3R/900+0.2D/5400`（主场景6车、5层、大型地图），不使用其他算法作分母。最新四窗口验证平均F=0.896406；是已比较方案中的推荐启发式，尚无六车动态全局最优证明。[模型](research/recommended-20261024/docs/数学模型与规则.md) · [数据](research/recommended-20261024/data/README.md) · [工作和实验总览](research/recommended-20261024/docs/工作与实验总览.md) · [参考文献](research/recommended-20261024/docs/参考文献与借鉴边界.md)。
-
-下方保留原通用程序与历史实验。其CLI/网页默认尚未切换为本研究入口，历史相对F也不能与当前线性F混比；复现最新真实订单结果请使用上方命令。
+面向多取货任务并发场景的仓库穿梭无人车（AGV）智能调度、离散时空仿真与独立验解平台。核心运行零第三方依赖（Python 3.10+ 标准库），支持 CLI、本地 Web 交互回放以及可复现的多 Seed / 超参数对照实验。
 
 ---
 
-仓库多车在线取送货调度实验：可安装的 Python 包、独立仿真与验解、SIPP 安全区间规划、拥堵关联路线修复，以及公开数据训练的可解释候选排序器。运行核心只依赖 Python 标准库，支持 Python 3.10+。
+## 1. 整体研究脉络：两条演进主线
 
+仓库从最初的离散栅格基线出发，沿两条互补主线持续迭代，并在本轮完成了代码去重、热点加速与全链路多 Seed 超参数验证：
 
-## 安装与运行
+```text
+主线 A：自研通用调度引擎 (src/agv/) —— 合成/分层/混合货架多工况
+  baseline (距离贪心)
+    ├──► joint_only / joint_batch (A* + LNS联合重规划 / 静态首轮批次滚动)
+    ├──► sipp_joint ─► sipp_conflict ─► sipp_budget / sipp_batch (SIPP + 拥堵关联修复 + 预算)
+    │                                         └──► sipp_learned (8特征线性候选排序)
+    └──► 业务规则演进：v4 (2L分层货架) ─► bcrd_budget (影子试派)
+                         └─► v9 (混合背靠背货架+待命) ─► v9.1 (流式关闭+选点定位+BCRD尾保护)
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e .
-agv serve
+主线 B：WEPAStacks 真实订单流研究 (research/) —— 62×47大型地图 / 6车 / 5层 / 900s窗口
+  fcfs ─► eta ─► simple (早期GA) ─► wide (扩预算GA) ─► gate (推荐默认：门控+联合GA+SIPP)
+    ├──► hungarian (纯局部代理匹配) ─► hga (匈牙利初始化GA)
+    └──► dqn-experiment-v2 (双概率自适应GA算子 + Double DQN双动作选择)
 ```
 
-浏览器中可选择原版、原联合重规划、SIPP、拥堵关联修复、小预算规则排序或训练后的排序。命令行可直接运行保存场景：
+- **关于目标函数口径**：
+  - **主线 A（V4/V9/V9.1 合成规则）**：采用同场景固定基线归一化综合目标 $F = 0.5\frac{T}{T_{\text{ref}}} + 0.3\frac{R}{R_{\text{ref}}} + 0.2\frac{D}{D_{\text{ref}}}$（越低越好）。
+  - **主线 B（WEPA 真实订单流）**：采用独立固定尺度线性目标 $F = 0.5\frac{T}{900} + 0.3\frac{R}{900} + 0.2\frac{D}{5400}$（$T$ 不含最终返库，$D$ 含最终返库；越低越好）。不同协议与窗口长度的绝对 $F$ 不直接跨口径混排。
+
+---
+
+## 2. 多 Seed 稳定性与超参数敏感性实验汇总
+
+为在固定参数主实验之外系统评估**跨版本演进效果、随机种子波动与超参数敏感性**，仓库内已完成三套相互补充、全部经过独立物理验解的实验（合计 **561 次**有效运行）：
+
+| 实验集 | 覆盖对象 | 有效次数 | 核心发现 | 报告与图表 |
+|---|---|---:|---|---|
+| **WEPA 开发集矩阵**<br>(`wepa-multiseed-sensitivity-20261120-v2`) | `fcfs`/`eta`/`hungarian`/`simple`/`wide`/`gate`/`hga` + 预算 `2×2` + 自适应 `2×2`（4 开发窗） | **200 / 200** | 开发集上 `hga` 最低（F=0.9101, SD=0.00355）；`preview=3` 省 45.28% CPU；只开交叉自适应（`wide_adapt01`）优于双开（变异率 86%+ 饱和触顶） | [中文报告](results/sensitivity-20261120-v2/report/中文实验报告.md) · [9页PDF](output/pdf/AGV多seed稳定性与参数敏感性研究.pdf) |
+| **WEPA 未见验证集补充**<br>(`wepa-validation-sensitivity-20261121`) | 4 个未见验证窗（`day40/61/83/87`），含上界 `gate_gen24` 与组合 `hga_adapt01` | **156 / 156** | **关键泛化结论**：`wide`(0.8983) / `gate`(0.8992) 在未见窗稳健最优；`hga`(-1.12%) 与 `gate_gen24`(-1.41%) 在验证窗过拟合回退；`hga_adapt01` 显著拉回 `hga`(+0.79%) 并获最低 seed SD(0.00521)；`gate_preview3` 稳健降耗 44.2% CPU | [验证集报告](results/sensitivity-20261121-validation/REPORT.md) · [演化图](results/sensitivity-20261121-validation/figures/validation_evolution.svg) · [参数对比图](results/sensitivity-20261121-validation/figures/validation_budget_and_adaptive.svg) |
+| **主引擎演进与参数扫描**<br>(`core-sensitivity-20261121`) | `src/agv/` Legacy(静/动) + V4 + V9.1，5 seeds，`trial_budget`/`interval`/`max_batches` | **205 / 205** | Legacy 静态 `sipp_batch` 降低 Flow 2.62% 且总步数少 4.24%；V4 `bcrd_budget` 降 F 3.01%；V9.1 高负载下 `max_batches>=2` 解锁 -1.5% F，`trial_budget=6` 与 `max_batches=2~4` 性价比最佳 | [核心引擎报告](results/core-sensitivity-20261121/REPORT.md) · [静态图](results/core-sensitivity-20261121/figures/legacy_static_flow.svg) · [动态超参图](results/core-sensitivity-20261121/figures/legacy_hyperparam_sensitivity.svg) · [V9.1图](results/core-sensitivity-20261121/figures/v91_evolution_and_bcrd_batches.svg) |
+
+> **实证结论**：当前仍保留 **`gate`** 作为 WEPA 推荐默认方案（未见窗稳健且显著优于 `fcfs` +5.45% / `eta` +2.43% / `hungarian` +3.87%）；若预算受限，推荐 **`gate_preview3`**（CPU 减半、质量接近）。在自研主引擎侧，`sipp_budget`（动态）、`sipp_batch`（静态）与 `bcrd_budget`/`sipp_stream_bcrd`（高负载分层仓库）构成了清晰的性能阶梯。
+
+---
+
+## 3. 快速开始与常用命令
+
+### 3.1 安装环境（推荐 `uv` 或 `venv`）
 
 ```bash
-agv run --input examples/scenarios/dynamic_medium_burst.json \
-  --algorithm sipp_budget --output runs/demo.json
+uv sync --extra dev          # 或 python3 -m venv .venv && source .venv/bin/activate && pip install -e ".[dev]"
 ```
 
-`python -m agv` 等价于 `agv`。输出默认拒绝覆盖；需要覆盖单次结果时显式加 `--overwrite`。本地网页只绑定 `127.0.0.1`，Ctrl+C关闭服务。
-
-本地开发检查：
+### 3.2 启动本地可视化交互界面
 
 ```bash
-python -m pip install -e ".[dev]"
-make check          # ruff + 格式检查 + 完整 unittest
-make coverage       # 覆盖率检查，门槛80%
+.venv/bin/agv serve          # 仅绑定 127.0.0.1，浏览器内可切换 Legacy/V4/V9/V9.1 及全部内置调度算法
 ```
 
-### 使用 V4 仓库规则
+### 3.3 运行主线 A（自研通用引擎 CLI）
 
-网页的“仓库模型”选择 V4 后，可设置1–10辆车、货架层数、作业通道宽度和建筑障碍。命令行通过显式 profile 生成 V4 场景；下面以距离贪心建立同规则基线：
+`python -m agv` 等价于 `agv`，默认拒绝覆盖已有输出文件（如需覆盖请显式加 `--overwrite`）：
 
 ```bash
-agv run --profile v4 --mode dynamic --vehicles 10 --layers 3 \
-  --obstacles columns_equipment --tasks 24 --algorithm baseline \
-  --output runs/v4-baseline.json
-agv benchmark-v4 --seeds 6 --output runs/v4-reproduction
+# 1. Legacy 场景（SIPP + 拥堵关联修复 + 6 候选预算）
+agv run --input examples/scenarios/dynamic_medium_burst.json --algorithm sipp_budget --output runs/demo.json
+
+# 2. 静态首轮批次滚动优化（static only）
+agv run --profile legacy --mode static --tasks 12 --vehicles 4 --algorithm sipp_batch --output runs/static-batch.json
+
+# 3. V4 分层货架 + BCRD 有序批次派单
+agv run --profile v4 --mode dynamic --vehicles 6 --layers 3 --tasks 18 --algorithm bcrd_budget --output runs/v4-bcrd.json
+
+# 4. V9.1 流式订单 + 批次间安全待命 / BCRD 尾部保护
+agv run --profile v9.1 --mode dynamic --tasks 12 --vehicles 4 --algorithm sipp_stream_dispatch --output runs/v91-stream.json
+agv run --profile v9.1 --mode static --tasks 12 --vehicles 4 --algorithm sipp_stream_bcrd_tail --output runs/v91-bcrd.json
 ```
 
-也可直接使用 [V4 动态示例](examples/scenarios/v4_small_dynamic.json)：`agv run --input examples/scenarios/v4_small_dynamic.json --algorithm baseline --output runs/v4-example.json`。
-
-CLI 默认仍为 `--profile legacy --algorithm sipp_budget`。V4 在不传 `--horizon` 时运行到完成或检测到停滞；网页使用有限步数上限，导入 `horizon: null` 的文件请用 CLI。`--input` 会完整使用文件内场景，生成参数不改写该输入。算法可显式换成 `sipp_budget` 或 `sipp_matching` 比较。
-
-V4 的有效变化、三处修复、54次配对运行和后续方向见 [V4 集成审核](docs/v4-review.md)。这批实验中 SIPP 联合修复的综合分数有升有降，尚不足以替代 V4 距离贪心基线；业务规则更完整与调度算法更优需要分别验证。
-
-## BCRD 有序批次派单
-
-新增 `bcrd_budget`：只用可见订单生成有序批次，复用真实 SIPP 做影子试派和保底 rollout，在明显积压时搜索；不改变路径和仓库规则。命令示例：
+### 3.4 运行主线 B（WEPA 真实订单推荐方案）
 
 ```bash
-agv run --profile v4 --tasks 18 --vehicles 4 --algorithm bcrd_budget --output runs/bcrd.json
+python research/recommended-20261024/current/run.py --case wepa-day45-bin4335 --seed 0 --output runs/wepa-demo.json
 ```
 
-算法边界、配对实验和成本见 [BCRD 执行报告](docs/bcrd-results.md)，诊断与安全合同分别保存在关联文档。新策略保持为可选入口；CLI和网页默认值保持原样。
+详细数学模型、规则边界、对照与参考文献见 [推荐方案材料](research/recommended-20261024/README.md)。
 
-90个留出场景的综合F平均改善0.406%，其中静态积压场景改善1.166%；动态设备场景区间跨零，共享站场景没有收益。事件推进与逐步影子逐字段等价，将同轮CPU/G0从3.16降到1.77。另有20个尺寸/负载泛化场景。完整运行共1400次，含开发、消融与重复种子的实现等价复测，不能当作1400个独立质量样本。响应尾部仍有退化，详见报告中的负面结果和停止条件。
-
-可直接打开[同种子双栏离线回放](results/bcrd/replay.html)观察真实轨迹；精选案例同时展示完工改善与平均响应、里程的代价。正式 `benchmark-bcrd` 需Git检出并可编辑安装，以保存来源提交和源码哈希。
-
-## 当前业务规则：V9.1
-
-当前采用 **批次之间待命，所有批次完成后最终返库**。新增 `v9.1` profile，保留四档审定地图、1—10辆车、3—8层、单排双侧/背靠背独立排及50/30/20归一化目标。订单流由外部发布器明确关闭，算法不能提前看结束时间或未来订单数量；无固定等待额度。最终返库按实际轨迹验解，距离及0.05D能耗估算完整计账。
+### 3.5 开发检查、对比实验复现与证据核验
 
 ```bash
-agv run --profile v9.1 --mode dynamic --tasks 12 --vehicles 4 --output runs/current.json
+make check                                                              # ruff lint + 格式检查 + 279 项 unittest/集成测试
+make coverage                                                           # 覆盖率检查（当前 86%，门槛 80%）
+node --check src/agv/web/static/app.js && node scripts/check_viewer_contracts.mjs
+python research/recommended-20261024/verification/verify.py             # 校验 WEPA 材料包 114 个指纹与 ZIP CRC
+python scripts/verify_sensitivity_evidence.py verify results/sensitivity-20261120-v2
+
+# 复现本轮补充的多 Seed 与超参数敏感性实验：
+.venv/bin/python scripts/run_core_sensitivity.py --output runs/core-sensitivity-check --workers 6
+.venv/bin/python scripts/run_wepa_validation_sensitivity.py --output runs/wepa-val-check --workers 6
 ```
 
-此入口默认使用 `sipp_stream_dispatch`；网页默认选择V9.1，不要求填写仿真步数上限，支持无截止场景导入与同步订单流状态。也可运行 `--algorithm baseline`。
+---
 
-数学模型、规则和接口见 [V9.1算法交接](docs/modeling-v9.1.md)，初次业务接入验证见 [V9.1验证](docs/v9.1-validation.md)。0.6.0新增可选的安全选点定位、SIPP完成时间匹配、有限延迟派单，以及适配真实订单流的BCRD与可见订单P90保护；机制、同场景消融、留出实验和限制见 [本轮优化报告](docs/v91-optimization.md)。默认策略保持原样，旧规则的联合重规划入口仍不能直接与当前profile组合。
-
-```bash
-agv run --profile v9.1 --mode dynamic --tasks 12 --vehicles 4 \
-  --algorithm sipp_position_delay_dispatch --output runs/current-positioning.json
-agv run --profile v9.1 --mode static --tasks 12 --vehicles 4 \
-  --algorithm sipp_stream_bcrd_tail --output runs/current-bcrd.json
-agv benchmark-v91 --protocol examples/experiments/v91-development.json \
-  --output runs/v91-reproduction --workers 4
-```
-
-新机制均通过显式算法名启用。定位与BCRD分别验证，当前没有提供二者的未经验证组合。全程重定位、等待和最终返库均参与验解与计账；P90保护作用于已发布订单的预测，不能保证未知订单到来后的实际P90。实验使用合成场景，没有重新训练旧模型或使用私密数据。下文V9有限待命及BCRD数字继续属于历史实验。
-
-## 待命与可中途接单返库的独立比较
-
-新增四种地图×三类工况×三个种子的36组配对、72次执行，使用相同贪心与SIPP，均计最终返库。近卸货口安全待命在稀疏工况平均空驶减少17.61%、F改善2.71%；共享出口批量工况F变差0.32%。每设置仅三个种子，属于探索性结果，没有普遍最优或真实电池节能的宣称。
-
-论文、实验定义及限制见[对照研究](docs/idle-policy-comparison.md)；分散/动态定位的设计见[待命位置建模建议](docs/idle-positioning-options.md)。第三策略的0.6.0实现与新规则实测另见 [本轮优化报告](docs/v91-optimization.md)；此处保留原比较结论与业务合同。
-
-紧凑统计、原始逐次CSV和正/负精选轨迹见[结果与复现](results/idle-policy-20261016/README.md)。研究F使用同场景SIPP返库方案为固定参照，不与生产A*分母或历史报告F直接混比。
-
-## 历史 V9 混合货架与有限待命
-
-队友V6/V9的有效建模内容已通过独立 `v9` profile 接入：横竖混合背靠背货架、首排单层双侧候选、3–8层独立排、对齐净空与中央设施。原V4和历史结果保留；地图、任务和新参考分母不同，不直接横比两版F。
-
-```bash
-agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_greedy_dispatch --output runs/v9-return.json
-agv run --profile v9 --tasks 12 --vehicles 4 --algorithm sipp_standby8_dispatch --output runs/v9-wait8.json
-```
-
-V9默认中型和固定柱/设备，`--layers 8`控制双排层数，单排始终1层。卸货后返程本就可以被新单打断；新增有限待命仅在普通通行区安全延迟返程，到达固定额度便继续返H。原包依据隐藏订单数量停止待命的逻辑已替换，等待与最终返库均完整计账。新策略为实验选项；BCRD目前只支持返库模式，不自动组合待命。审核、反例、效果与复现见 [V6/V9评估](docs/v9-review.md)。
-
-30个新留出场景中，8步待命平均空驶下降1.302%，F改善0.121%，但区间跨零且7例F退化，因此不替代默认返库。BCRD返库在新静态积压组平均F改善2.283%，留出合计改善0.761%；两种机制分别测试，尾部响应仍有取舍。
-
-## 结构
+## 4. 项目结构
 
 ```text
 src/agv/
-  domain.py             场景、任务与输入约束
-  warehouse/            V4货架、通道、设施几何与业务规则
-  simulation.py         唯一真实执行状态与原子路线提交
-  planning/             A*参照、SIPP、增量预约索引、几何缓存、取送路线、联合修复
-  dispatch/             派单、在线驱动、静态首轮批次规划、统一算法配置
-  learning/             透明线性排序器与训练流程
-  models/               带schema的已训练模型
-  evaluation/           指标、V4离线归一化评分、小规模精确Oracle、独立验解与失败诊断
-  io/                   场景格式、原子文件写入、公开地图导入
-  experiments/          配对实验、低层规划器独立实验
-  api.py                应用服务：选项校验、场景构建、单次/批量运行
-  web/                  HTTP接口、HTML模板、JS和CSS
+  domain.py             Task / Scenario 数据模型、坐标校验、结构深拷贝与生成示例
+  warehouse/            V4/V9 分层货架、通道、设施几何与同面先后层序约束
+  simulation.py         唯一真实执行状态机、预约更新与重规划全未来审计
+  planning/             时空 A* 参照、SIPP 安全区间规划、增量预约索引、几何缓存、LNS 联合修复
+  dispatch/             贪心/批量匹配/定位/流式派单/BCRD 影子滚动/静态首轮批次规划/统一注册表
+  learning/             标准库 8 特征岭回归候选排序器与训练流程
+  models/               带 schema 校验的候选排序模型权重
+  evaluation/           指标汇总、V4/V9.1 归一化评分、小规模精确 Oracle、独立验解与失败诊断
+  io/                   场景序列化与 SHA256 校验、原子写入、MovingAI 公开地图导入
+  experiments/          Legacy / V4 / V9.1 / BCRD 批量基准入口
+  api.py                应用服务层（选项校验、场景构建、单次/批量执行）
+  web/                  本地 HTTP 服务与前端 HTML/JS/CSS
   cli.py                统一命令行入口
 
-tests/                  unit与integration测试
-examples/scenarios/     少量可直接复现的场景
-data/                  公开地图、哈希与独立许可声明
-docs/                  架构、论文依据、模型卡、实测与复现
-research/              专题实验归档（WEPA GA-SIPP 推荐包与去重整理的 DQN 实验包）
-results/               精简统计、UTF-8 汇总表（summary_tables/）、验证证据、精选轨迹
-runs/                  本机生成的全量输出，不提交
+tests/                  单元测试与 CLI/HTTP 集成测试（279 tests，覆盖率 86%）
+scripts/                基准审计、敏感性实验、报告/图表/PDF 生成与契约检查脚本
+examples/               可复用静态/动态场景与冻结实验协议
+data/                   归属公开 MovingAI 仓库地图及独立声明
+docs/                   系统架构、V4/V9/V9.1/BCRD 设计与评审报告、敏感性研究文档
+research/
+  recommended-20261024/ WEPA 推荐 GA-SIPP 完整交付包（含原始数据与历史归档校验）
+  dqn-experiment-v2/    去重整理后的自适应 GA + 匈牙利 + DQN 研究源码、文档与最佳权重
+results/
+  summary_tables/       UTF-8 编码的 22 份全量正式/历史实验汇总 CSV
+  sensitivity-20261120-v2/         WEPA 开发集 200 次多 Seed 与超参数敏感性冻结证据
+  sensitivity-20261121-validation/ WEPA 未见验证集 156 次补充对照与组合实验
+  core-sensitivity-20261121/       主引擎 205 次跨版本演进与超参数敏感性实验
+  v1/ v2/ v4/ v9/ v91/ bcrd/ ...   各阶段独立验解留出证据与代表轨迹
+output/pdf/             可交付的多 Seed 敏感性研究 9 页 PDF 报告
+runs/                   本机生成的临时运行目录（已 gitignore）
 ```
 
-详见 [架构与接口边界](docs/architecture.md)。工程参考实际检查了 [w9-pathfinding](https://github.com/andreyd41/w9-pathfinding)、[作者MAPF-LNS](https://github.com/Jiaoyang-Li/MAPF-LNS)、[作者RHCR](https://github.com/Jiaoyang-Li/RHCR) 和 [libMultiRobotPlanning](https://github.com/whoenig/libMultiRobotPlanning)，固定源码版本与具体借鉴见 [研究记录](docs/research/engineering-and-sipp.md)。
+---
 
-## 算法改进
+## 5. 核心算法、数据声明与边界说明
 
-- **SIPP状态压缩**：以“位置＋安全时间区间”代替“位置＋每一时刻”，隐式跳过连续安全等待。仍显式检查逆向边冲突、连续装卸和时限，输出逐步轨迹。原时空A*保留作差分参照。
-- **复用预约索引**：同一预约版本下评估多个停靠侧和路线段时，不重复扫描整张预约表；任何集合修改都会使索引失效。
-- **拥堵关联修复**：按剩余耗时与无预约下界的差、共享路段选择车辆对，而不是按相邻车辆编号；保留全车队修复候选，预留正在装卸的不可中断片段。
-- **可控候选预算**：`sipp_budget`最多尝试6个候选，用较少全车队重排换取计算效率。所有候选仍需完整验解和严格改善接受。
-- **可选学习排序**：`sipp_learned`在相同6候选预算下，用小型线性模型对车辆对候选排序。它只分配搜索预算，不能绕过安全规则。
-
-[原始SIPP论文](https://publications.ri.cmu.edu/sipp-safe-interval-path-planning-for-dynamic-environments) 的思想被适配到离散单位步长和本项目服务约束；不是完整RHCR/LNS复现，也不保证全车队全局最优。A*或SIPP单段最早完成不等于全程任务调度最优。
-
-## 公开数据与训练
-
-包含一张 [MovingAI仓库基准地图](https://movingai.com/benchmarks/mapf.html)，原始尺寸161×63。数据采用 [ODC-By v1.0](https://opendatacommons.org/licenses/by/1-0/)，来源、哈希与改造规则见 [数据声明](data/NOTICE.md)。本项目使用不重叠区域生成在线取送货任务，属于公开几何派生的MAPD模拟数据，不能当作官方MAPF榜单成绩。
-
-已训练8特征线性候选排序器：8个训练场景产生3,828条候选样本，3个验证场景产生1,542条样本；6个新种子和独立地图区域用于留出测试。验证MSE约比常量模型低2.52%，完整调度是否改善须看同预算留出对照，不能仅从MSE推导。没有使用私密数据集。详细作用范围、标签和局限见 [模型卡](docs/model-card.md)。
-
-这个已有模型来自旧规则数据，没有在 V4/V9 分层与专用交付点规则上重新训练或证明其收益；两版正式对照均不使用 `sipp_learned`。
-
-```bash
-agv train --map data/maps/warehouse-10-20-10-2-1.map --output runs/my-training
-agv benchmark --seeds 10 --map data/maps/warehouse-10-20-10-2-1.map --output runs/my-evaluation
-```
-
-## 实验与验证
-
-V4 对照见 [集成审核与实测](docs/v4-review.md)，逐次成绩、源码哈希和精选轨迹在 `results/v4/`。旧规则完整对照和负面结果见 [v2实测报告](docs/v2-results.md) 与 `results/v2/`；v1统计在 `results/v1/`。不同布局、服务与评分规则的成绩分开解释，不直接横向合并。只保留精选轨迹，其他结果可用固定输入、种子及命令重新生成。
-
-```bash
-python -m pip install -e '.[dev]'
-python -m unittest discover -s tests -t . -v
-ruff check src tests
-ruff format --check src tests
-python -m build --wheel
-```
-
-已配置 Linux/macOS/Windows、Python3.10/3.12 测试，以及wheel安装后从源码目录外运行的检查。具体状态以GitHub Actions结果为准。更多复现及输出口径见 [复现指南](docs/reproduction.md)；开发约束见 [CONTRIBUTING](CONTRIBUTING.md)。
-
-核心规则、初始贪心、时空A*、原验解器以及 V4 分层几何模型来自队友项目；新增工程结构、规划改进、V4 规则集成与修复、训练和实验证据属于本次适配。来源与许可边界见 [NOTICE](NOTICE.md)。组员真实姓名、学号和实际贡献比例需据实填入正式课程报告。
-
-算法接入前请先阅读[建模框架系统审查与接口合同](docs/framework-audit-20261017.md)。本轮覆盖生命周期、状态验解、异常导入、历史代表轨迹和参数边界；实际运行证据及未覆盖范围见[审查证据目录](results/framework-audit-20261017/README.md)。它不构成任意场景无缺陷或全局最优证明。
+1. **核心算法机制**：
+   - **SIPP 安全区间压缩**：将 `(位置, 时刻)` 状态空间压缩为 `(位置, 最大安全时间区间)`，显式校验逆向边交换冲突与连续服务时长；`VertexReservations` 增量维护最大时域与有序时间线。
+   - **拥堵关联 LNS 修复**：优先重排存在空间重叠与延迟的车辆对，保留全车队兜底候选；采用不可变地图缓存与轻量审计状态克隆（`apply_replan` 全未来验证）。
+   - **BCRD 影子试派与静态首轮滚动**：高积压工况下在独立可见影子环境中对候选批次序列做保底滚动；静态全可见场景可通过 `joint_batch` / `sipp_batch` 筛选更优初始分配。
+   - **小规模精确参照 Oracle**：`agv.evaluation.oracle.exact_static` 在无刻意空等假设下枚举小实例（`<=5` 任务 / `<=2` 车）全分配与全排列，用于评估启发式最优性差距。
+2. **公开数据与参考边界**：
+   - 包含 MovingAI 公开地图（[ODC-By v1.0](https://opendatacommons.org/licenses/by/1-0/)，见 [data/NOTICE.md](data/NOTICE.md)）与 SLAPStack/WEPAStacks 真实订单流（见 [research/recommended-20261024/data/README.md](research/recommended-20261024/data/README.md)）。
+   - 货位映射、层数与单元运动速率均为课程仿真假设，不宣称未覆盖场景的全局最优或真实工厂物理复现。工程参考与许可边界见 [NOTICE](NOTICE.md)、[架构文档](docs/architecture.md) 与 [研究记录](docs/research/engineering-and-sipp.md)。

@@ -1,0 +1,301 @@
+{
+  "study_id": "wepa-validation-sensitivity-20261121",
+  "cases": [
+    "wepa-day40-bin3885",
+    "wepa-day61-bin5902",
+    "wepa-day83-bin7983",
+    "wepa-day87-bin8393"
+  ],
+  "total_runs": 156,
+  "valid_runs": 156,
+  "summary": [
+    {
+      "variant": "fcfs",
+      "group": "evolution",
+      "runs": 8,
+      "valid_runs": 8,
+      "F": 0.946448,
+      "seed_sd": 0.0,
+      "T": 1188.0,
+      "R": 331.011,
+      "D": 4755.0,
+      "p90": 585.75,
+      "cpu": 0.649
+    },
+    {
+      "variant": "eta",
+      "group": "evolution",
+      "runs": 8,
+      "valid_runs": 8,
+      "F": 0.918629,
+      "seed_sd": 0.0,
+      "T": 1173.0,
+      "R": 288.222,
+      "D": 4614.0,
+      "p90": 615.75,
+      "cpu": 0.57
+    },
+    {
+      "variant": "hungarian",
+      "group": "evolution",
+      "runs": 8,
+      "valid_runs": 8,
+      "F": 0.929314,
+      "seed_sd": 0.0,
+      "T": 1190.0,
+      "R": 289.331,
+      "D": 4637.5,
+      "p90": 615.0,
+      "cpu": 0.616
+    },
+    {
+      "variant": "simple",
+      "group": "evolution",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.90684,
+      "seed_sd": 0.011278,
+      "T": 1151.5,
+      "R": 290.947,
+      "D": 4593.667,
+      "p90": 601.5,
+      "cpu": 10.417
+    },
+    {
+      "variant": "wide",
+      "group": "evolution",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.898339,
+      "seed_sd": 0.013514,
+      "T": 1134.333,
+      "R": 292.702,
+      "D": 4605.833,
+      "p90": 609.5,
+      "cpu": 20.52
+    },
+    {
+      "variant": "gate",
+      "group": "evolution",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.899159,
+      "seed_sd": 0.012059,
+      "T": 1136.417,
+      "R": 292.172,
+      "D": 4601.5,
+      "p90": 611.25,
+      "cpu": 21.664
+    },
+    {
+      "variant": "hga",
+      "group": "evolution",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.908607,
+      "seed_sd": 0.010563,
+      "T": 1151.75,
+      "R": 292.941,
+      "D": 4619.667,
+      "p90": 600.0,
+      "cpu": 21.598
+    },
+    {
+      "variant": "gate_preview3",
+      "group": "budget",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.901945,
+      "seed_sd": 0.012315,
+      "T": 1141.667,
+      "R": 291.798,
+      "D": 4601.333,
+      "p90": 608.333,
+      "cpu": 12.091
+    },
+    {
+      "variant": "gate_gen8",
+      "group": "budget",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.902054,
+      "seed_sd": 0.006451,
+      "T": 1140.917,
+      "R": 291.911,
+      "D": 4614.5,
+      "p90": 602.667,
+      "cpu": 23.802
+    },
+    {
+      "variant": "gate_gen24",
+      "group": "budget",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.91153,
+      "seed_sd": 0.015316,
+      "T": 1156.5,
+      "R": 293.98,
+      "D": 4618.0,
+      "p90": 606.25,
+      "cpu": 23.036
+    },
+    {
+      "variant": "wide_adapt00",
+      "group": "adaptive",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.90407,
+      "seed_sd": 0.011852,
+      "T": 1144.333,
+      "R": 291.23,
+      "D": 4623.833,
+      "p90": 605.417,
+      "cpu": 24.047
+    },
+    {
+      "variant": "wide_adapt01",
+      "group": "adaptive",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.908715,
+      "seed_sd": 0.014414,
+      "T": 1152.583,
+      "R": 291.951,
+      "D": 4619.0,
+      "p90": 613.667,
+      "cpu": 23.024
+    },
+    {
+      "variant": "wide_adapt11",
+      "group": "adaptive",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.902963,
+      "seed_sd": 0.009046,
+      "T": 1141.667,
+      "R": 292.832,
+      "D": 4619.5,
+      "p90": 596.667,
+      "cpu": 22.243
+    },
+    {
+      "variant": "hga_adapt01",
+      "group": "combined",
+      "runs": 12,
+      "valid_runs": 12,
+      "F": 0.901263,
+      "seed_sd": 0.005214,
+      "T": 1140.833,
+      "R": 291.975,
+      "D": 4593.833,
+      "p90": 606.75,
+      "cpu": 22.396
+    }
+  ],
+  "paired": [
+    {
+      "candidate": "wide",
+      "baseline": "simple",
+      "mean_F_improve_pct": 0.9561,
+      "wins": 4,
+      "ties": 0,
+      "losses": 0
+    },
+    {
+      "candidate": "gate",
+      "baseline": "wide",
+      "mean_F_improve_pct": -0.1011,
+      "wins": 0,
+      "ties": 2,
+      "losses": 2
+    },
+    {
+      "candidate": "hga",
+      "baseline": "gate",
+      "mean_F_improve_pct": -1.1157,
+      "wins": 0,
+      "ties": 0,
+      "losses": 4
+    },
+    {
+      "candidate": "hungarian",
+      "baseline": "gate",
+      "mean_F_improve_pct": -3.8704,
+      "wins": 0,
+      "ties": 0,
+      "losses": 4
+    },
+    {
+      "candidate": "gate",
+      "baseline": "eta",
+      "mean_F_improve_pct": 2.4255,
+      "wins": 4,
+      "ties": 0,
+      "losses": 0
+    },
+    {
+      "candidate": "gate",
+      "baseline": "fcfs",
+      "mean_F_improve_pct": 5.4502,
+      "wins": 4,
+      "ties": 0,
+      "losses": 0
+    },
+    {
+      "candidate": "gate_preview3",
+      "baseline": "gate",
+      "mean_F_improve_pct": -0.331,
+      "wins": 0,
+      "ties": 2,
+      "losses": 2
+    },
+    {
+      "candidate": "gate_gen8",
+      "baseline": "gate",
+      "mean_F_improve_pct": -0.3487,
+      "wins": 1,
+      "ties": 0,
+      "losses": 3
+    },
+    {
+      "candidate": "gate_gen24",
+      "baseline": "gate",
+      "mean_F_improve_pct": -1.4149,
+      "wins": 0,
+      "ties": 0,
+      "losses": 4
+    },
+    {
+      "candidate": "wide_adapt01",
+      "baseline": "wide_adapt00",
+      "mean_F_improve_pct": -0.5397,
+      "wins": 1,
+      "ties": 0,
+      "losses": 3
+    },
+    {
+      "candidate": "wide_adapt11",
+      "baseline": "wide_adapt00",
+      "mean_F_improve_pct": 0.1059,
+      "wins": 2,
+      "ties": 0,
+      "losses": 2
+    },
+    {
+      "candidate": "hga_adapt01",
+      "baseline": "hga",
+      "mean_F_improve_pct": 0.7917,
+      "wins": 3,
+      "ties": 0,
+      "losses": 1
+    },
+    {
+      "candidate": "hga_adapt01",
+      "baseline": "gate",
+      "mean_F_improve_pct": -0.2793,
+      "wins": 2,
+      "ties": 0,
+      "losses": 2
+    }
+  ]
+}
