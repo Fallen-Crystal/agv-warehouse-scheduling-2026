@@ -65,7 +65,6 @@ def main():
     axes[1].set_title("Single-run per seed timing; lower is faster")
     axes[1].axhline(1, color="#888", linewidth=0.8)
     fig.savefig(root / "comparison.png", dpi=160)
-    fig.savefig(root / "comparison.pdf")
 
 
 if __name__ == "__main__":

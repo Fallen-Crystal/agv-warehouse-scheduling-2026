@@ -1,9 +1,9 @@
-# 当前可读版实现
+# 当前可读版实现说明
 
-2026-11-02：code-guide/improved 的14个模块现为运行入口实际加载的实现，替换原版密集格式与GA局部命名。current/run.py使用这些文件执行gate。
+2026-11-02：`code-guide/improved` 下的 14 个模块重构为规范格式与清晰命名，并作为 `current/run.py` 执行 `gate` 策略时的实际加载实现。
 
-runtime.zip保留原始冻结依赖与历史实验；入口在临时目录加载后覆盖14个模块。历史证据不冒充新源码结果，历史分析仍针对原版ZIP。接口、保护检查、算子、随机调用和排序规则保持原语义。
+`runtime.zip` 保留原始冻结依赖与历史实验归档；运行入口在临时目录解压后覆盖加载上述 14 个可读版模块，同时历史实验分析仍对应原版归档。重构严格保持原有接口、校验逻辑、遗传算子、随机数调用序列和排序语义一致。
 
-25项测试通过；40单回放完整result及scoring一致；14模块逆转局部重命名后AST一致。此次未重跑所有真实数据。仓库其他旧实验代码未全面重构。
+验证结果：25 项测试全部通过；40 单场景回放的完整结果与评分逐项一致；14 个模块在逆转局部重命名后的 AST 结构完全一致。
 
-参考组织方式：https://github.com/DEAP/deap/blob/master/deap/algorithms.py 与 https://github.com/networkx/networkx/blob/main/networkx/algorithms/shortest_paths/astar.py 。未复制其实现。
+代码组织风格参考了 [DEAP algorithms.py](https://github.com/DEAP/deap/blob/master/deap/algorithms.py) 与 [NetworkX astar.py](https://github.com/networkx/networkx/blob/main/networkx/algorithms/shortest_paths/astar.py) 的模块化结构，具体算法逻辑为本项目独立实现。

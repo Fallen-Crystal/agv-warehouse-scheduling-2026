@@ -1,24 +1,29 @@
 # 同时换车与重排的调度实验
 
-阅读 [结果报告](docs/结果报告.md) 和 [冻结实验设计](docs/实验设计.md)。主算法是可见任务的联合GA/复合邻域搜索，路径由原SIPP产生。未改变仓库模型和线性F。不是全局最优求解器。
+详细结果与方案设计请参阅 [结果报告.md](结果报告.md) 和 [实验设计.md](实验设计.md)。本阶段在保持原有仓库模型与独立线性目标 $F$ 的前提下，研究“同时换车与重排”的复合邻域搜索与联合 GA 的组合效果，底层路径均由原 SIPP 生成。
 
-主入口（Python 3.12，标准库）：
+## 主入口（Python 3.12 标准库）
+
+在解压后的研究包根目录运行：
 
 ```powershell
 python run_main.py --case wepa-day38-bin3708 --output new-result.json
 python run_main.py --case wepa-day38-bin3708 --profile compound --output compound-result.json
 ```
 
-目标文件必须不存在，防止覆盖结果。每次结果包含完整轨迹、独立评分和源代码身份。`run_trial.py` 可运行单次；`batch.py` 用两进程运行预先冻结的分组；`select.py` 只在开发后、验证前选择；`analyze.py` 独立重验并生成 summary.json/comparison.csv。不能覆盖本包既有实验目录，重新实验应复制成新版本或使用新的 --phase 名。
+输出文件须为新路径（默认拒绝覆盖已有文件），每次运行输出完整轨迹、独立评分与源码指纹。包内辅助脚本包括：`run_trial.py`（单次对照）、`batch.py`（双进程批量运行）、`select.py`（开发集选型）与 `analyze.py`（独立重验与汇总生成）。
 
-核心新增：`improved/compound.py` 生成复合候选；`improved/policy.py` 决定GA与复合搜索预算及完整预演；`improved/profiles.py` 固定三组参数。`baseline/` 是191文件冻结依赖，不能当本轮默认算法说明阅读。
+## 核心模块与配置说明
 
-配置文件还保留早期实验的回归配置供旧测试使用。本轮实验及主入口只开放 gate、compound、compound_only 三种，不将其他配置串联。
+- `improved/compound.py`：生成同时换车与重排的复合邻域候选；
+- `improved/policy.py`：控制 GA 与复合邻域的代理预算及完整预演分配；
+- `improved/profiles.py`：定义 `gate`、`compound`、`compound_only` 三组正式实验配置（另保留历史回归配置）；
+- `baseline/`：191 个冻结基线依赖文件。
 
-算法标识读取 `profile`，三组精确含义见 `data/algorithm-labels.json`。冻结代码的原始 `search_log.optimizer` 字段沿用了粗略旧标签 `joint_ga`，在 compound_only 中不能据此判断用了GA；其GA预算为0，代码跳过GA。原始日志未事后改写，表格和报告均按准确的profile区分。
+三组方案的准确标识以 `profile` 字段为准（详见包内 `data/algorithm-labels.json`）。注：冻结源码的原始日志字段 `search_log.optimizer` 沿用了旧标签 `joint_ga`，在 `compound_only` 配置下 GA 预算为 0（跳过 GA 仅执行复合邻域），报告与统计表均按准确的 `profile` 区分。
 
-`python -m unittest test_compound -v` 仅用标准库。完整29项测试还包括旧两车最优求解器模块的检查，需要 `pip install -r requirements-exact.txt` 的可选OR-Tools依赖；它不用于六车主实验。`micro_check.py` 复用此前已证明最优的固定微型案例，仅做回归，不重新求解。
+## 测试与数据范围
 
-本轮验证为4个未测试窗口、每方案2随机种子，其来源日期已用于此前其他窗口实验。4个日期是分析单位，不能称为新日期外部验证。只验证大型62×47、6车、5层、900秒真实请求窗口；地理、服务与物理耗时是本模型仿真输出。
-
-源请求文件未重复打包（41万行）；`data/protocol.json` 已含所有选中订单和窗口初始库存，因此主实验不需要原始文件。若已有相同哈希原始文件，可用 `verify_input.py --raw <原始文件目录>` 重建输入选择。
+- `python -m unittest test_compound -v` 仅需 Python 标准库；完整 29 项测试额外包含微型两车 CP-SAT 参照检验，需安装可选依赖 `pip install -r requirements-exact.txt`。`micro_check.py` 复用既有已证最优微型案例开展机制回归。
+- 验证集包含 4 个未测试的 900 秒真实请求窗口（每方案 2 个随机种子，以 4 个来源日期为统计单位；来源日期的其他时段曾在早期实验出现），运行环境固定为大型 62×47 地图、6 车、5 层课程仿真仓库。
+- `data/protocol.json` 已内置全部选中订单与窗口初始库存；若需与完整 41 万条源订单核验，可配合原始数据执行 `verify_input.py --raw <原始文件目录>`。

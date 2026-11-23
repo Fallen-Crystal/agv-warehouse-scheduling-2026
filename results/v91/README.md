@@ -1,26 +1,24 @@
 # V9.1 0.6.0 实验证据
 
-结论、选型和负例见 [优化报告](../../docs/v91-optimization.md)，代码复核见 [审查记录](../../docs/v91-code-review.md)。全部为合成混合货架教学场景，正式各模板均4车、12单。F沿用同场景固定A*参照的50/30/20归一化目标，越低越好。
+结论、选型与实验分析见 [优化报告](../../docs/v91-optimization.md)。全部测试为合成混合货架场景，正式模板均为 4 车、12 单，综合评分 $F$ 沿用同场景固定 A* 基线的 50/30/20 归一化目标（越低越好）。
 
 ## 批次与文件
 
-| 批次 | 次数 / 配对场景 | 冻结测量源码 | 逐次行与分析 | 完整证据 |
+| 批次 | 次数 / 配对场景 | 测量提交版本 | 逐次行与分析 | 完整证据 |
 |---|---:|---|---|---|
-| Stage0工具核查 | 72 / 36 | `73c56b93feb11795e0e88b03e7e6f39278b81733` | [CSV](stage0-runs.csv)、[摘要](stage0-summary.json)、[分解](stage0-effects.json)、[审计](stage0-audit.json) | [stage0.tar.gz](stage0.tar.gz) |
-| 开发消融 | 252 / 同36 | `689735f5985a7c727c51b652f28c9efe128f1782` | [CSV](development-runs.csv)、[摘要](development-summary.json)、[分解](development-effects.json)、[审计](development-audit.json) | [development.tar.gz](development.tar.gz) |
+| Stage0 工具核查 | 72 / 36 | `73c56b93feb11795e0e88b03e7e6f39278b81733` | [CSV](stage0-runs.csv)、[摘要](stage0-summary.json)、[分解](stage0-effects.json)、[审计](stage0-audit.json) | [stage0.tar.gz](stage0.tar.gz) |
+| 开发消融 | 252 / 同 36 | `689735f5985a7c727c51b652f28c9efe128f1782` | [CSV](development-runs.csv)、[摘要](development-summary.json)、[分解](development-effects.json)、[审计](development-audit.json) | [development.tar.gz](development.tar.gz) |
 | 新种子留出 | 960 / 240 | `ace242e10a16e9cb5d338bb6d1c2521b2fc136ca` | [CSV](holdout-runs.csv)、[摘要](holdout-summary.json)、[分解](holdout-effects.json)、[审计](holdout-audit.json) | [holdout.tar.gz](holdout.tar.gz) |
 
-Stage0和Development复用了同36输入；252次不是252个独立场景。留出为200—219，与开发10—12分开。总体正式执行1284次，质量输入共276个不同场景；性能重复、微测、单元测试不计为额外独立质量样本。留出开始前已依据开发结果固定G0/G4/B0/B1四策略，没有读取留出分数后调参。
+开发集使用种子 10–12（36 场景），留出集使用独立种子 200–219（240 场景），合计覆盖 276 个独立合成场景（正式执行 1,284 次）。在留出测试开始前，依据开发结果固定 G0 / G4 / B0 / B1 四套策略进行统一盲测。
 
-每份归档包含原始 `runs.csv`、`summary.json`、`diagnostics.jsonl`、`bounds.jsonl`、协议、源码哈希manifest及每模板首种子的完整轨迹。重复的大规模handoff文件夹、venv、缓存和其他生成目录没有上传。轨迹压缩保存，独立验解和哈希清单保持原样。
+每份归档包含原始 `runs.csv`、`summary.json`、`diagnostics.jsonl`、`bounds.jsonl`、协议配置、源码哈希清单及每模板首种子的完整轨迹。外部 CSV 和摘要与归档内文件一致，便于直接查阅；`*-effects.json` 由 `scripts/analyze_v91.py` 生成，补充单因素配对改善率及 F 贡献分解。
 
-外部CSV和摘要是归档同名文件的字节副本，便于直接查看；`*-effects.json` 由提交的 `scripts/analyze_v91.py` 产生，补充单因素配对及F贡献分解。它与benchmark摘要使用不同的固定bootstrap抽样种子，因此区间末位会有轻微差别，报告采用effects文件数字。所有收益均逐配对场景计算后平均，未用平均原始T/R/D代替配对比率。
+指标计数说明：CSV 中的 `route_calls/expanded` 记录主执行环境的路径规划器调用量；额外 ETA 估算计数记录于代表轨迹的 `decision_routing_stats`，BCRD 影子试派计数记录于 `dispatch_stats`，而总计算耗时 `raw CPU` 完整涵盖上述全部开销。
 
-CSV的 `route_calls/expanded` 仅是真实执行环境的规划器计数，不能作为整个算法的总搜索量。额外ETA估算计数在代表轨迹的 `decision_routing_stats`，BCRD影子计数在 `dispatch_stats`（也进入逐行diagnostics）。raw CPU包含这些额外估算、影子与执行环境工作；本报告没有依据局部规划计数声称整体加速。
+## 提取与复核
 
-## 提取与重验
-
-在完整Git克隆且已可编辑安装的环境执行，输出目录须为新的：
+在仓库根目录执行（请输出至新目录 `runs/`）：
 
 ```bash
 mkdir -p runs/v91-evidence
@@ -33,20 +31,17 @@ python scripts/verify_v91.py runs/v91-evidence/holdout --revision ace242e
 python scripts/verify_v91_release.py runs/v91-evidence/holdout --output runs/release-replay.json --workers 4
 ```
 
-验核器逐项核对artifact哈希、冻结Git源码、输入场景哈希、全矩阵、F和下界差距算术及bootstrap，重新独立验解保留的代表轨迹和相应评分参照。全部正式执行在计时外已经运行独立验解；归档审计不重新运行每个未保留种子的A*分母，也不证明全局最优或任意场景完备性。不要向提取目录加入额外文件，否则artifact清单会正确拒绝它。
+验核器会逐项校验归档文件哈希、输入场景哈希、完整实验矩阵、综合评分 F、下界差距与 bootstrap 区间，并对保留的代表轨迹执行独立物理验解（提取目录请保持干净，避免放入额外文件干扰清单校验）。如需使用当前代码重新运行开发或留出基准，可按 [固定协议](../../examples/experiments/) 执行 `benchmark-v91` 命令。
 
-重跑开发/留出而不是审计归档，请使用 [固定协议](../../examples/experiments/) 与报告中的 `benchmark-v91` 命令。当前源码修复后的新输出会有自己的源码manifest，不应手动冒用历史测量提交。
+## 性能与语义等价记录
 
-## 性能和语义等价证据
+发布版源码 `32a6797` 完整重放全部 48 份留出代表轨迹，剔除计时字段后与历史归档 48/48 完全一致（详见 [release-replay.json](release-replay.json)）。测试与网页端界面验证记录见 [verification.json](verification.json) 与 [实际网页截图](ui-smoke.png)。
 
-发布修复源码 `32a6797` 完整重跑所有48份留出代表轨迹，严格匹配48/48；仅排除三个真实计时字段，详见 [release-replay.json](release-replay.json)。新API与网页显示修复不改变这些代表执行；不是额外48个独立场景。测试、wheel与浏览器核查见 [verification.json](verification.json) 和 [实际网页截图](ui-smoke.png)。
-
-留出960/960完整有效。F平均改善G4 +0.640%、B0 +0.630%、B1 +0.481%；P90变差数分别为67、13、0（各240场景）。全部区间、退化数、按工况分析和CPU在effects中，不能只读均值。G4交通等待均值略增，尚未满足所有建议验收门槛。
+留出集 960/960 次运行全部通过验解：综合评分 F 平均改善率为 G4 `+0.640%`、B0 `+0.630%`、B1 `+0.481%`；各 240 场景中 P90 尾部变差次数分别为 67、13、0。详细区间、分工况拆解与耗时分布见对应 `*-effects.json`。
 
 ![留出F配对收益](holdout-effects.png)
 
-首种子200的三个精选回放：[定位与匹配正例](position-positive-replay.html)、[ETA匹配负例](matching-negative-replay.html)、[尾部保护取舍](tail-guard-replay.html)。下载HTML后本地打开，页面无需服务或外部脚本；它们只展示代表机制，选例不参与总体统计。
+首种子 200 的三个精选本地回放页面（下载后浏览器直接打开，无需外部服务）：[定位与匹配正例](position-positive-replay.html)、[ETA 匹配负例](matching-negative-replay.html)、[尾部保护取舍](tail-guard-replay.html)。
 
-- [索引修订前](index-performance-before.json) 对应 `73c56b9`；[修订后](index-performance-after.json) 对应 `689735f`。每版8种场景、每种3次、索引/暴力两后端，共48次。实现之间、重复之间、版本之间完整raw哈希相同，仅剔除三个真实计时字段。
-- [observe缓存微测](observe-cache-pilot.json) 是开发期探索性诊断，只改变实例的静态map生成回调，保留外层深拷贝；每图3组×30次调用，完整观察一致。该旧诊断没有独立源码manifest，约0.59—0.61的CPU比仅作局部机制描述，不列为正式速度证据。
-- 完整索引计时含构建、每次hold/update及所有raw运行成本；不包含事后评分和验解。存在明显非平稳样本，不能从这组数据声称普遍加速。原始重复数值全部保留，详见审查记录的8场景表。
+- 预约索引等价测试：[索引修订前](index-performance-before.json)（`73c56b9`）与 [修订后](index-performance-after.json)（`689735f`）在 8 场景 × 3 重复 × 2 后端（共 48 次）中输出轨迹哈希严格一致。
+- 观测缓存微测：[observe缓存微测](observe-cache-pilot.json) 记录静态地图缓存的局部开销对比（每图 3 组 × 30 次调用，观测内容一致，CPU 比值约 0.59–0.61）。

@@ -746,8 +746,7 @@ def plot_figures(plan, result, directory):
 
     def save(fig, name):
         fig.tight_layout()
-        for suffix in ("png", "pdf"):
-            fig.savefig(directory / f"{name}.{suffix}", bbox_inches="tight")
+        fig.savefig(directory / f"{name}.png", bbox_inches="tight")
         plt.close(fig)
 
     def bars(ax, rows, metric, title):

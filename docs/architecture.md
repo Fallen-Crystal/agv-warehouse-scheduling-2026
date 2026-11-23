@@ -1,141 +1,92 @@
-# Architecture and contracts
+# 系统架构与模块说明（`src/agv/` v0.6.0）
 
-## Directory and ownership
+本文档介绍自研通用调度引擎 `src/agv/` 的模块划分、在线执行数据流以及从 Legacy 到 V4 / V9 / V9.1 的核心建模与规划设计。核心引擎仅使用 Python 3.10+ 标准库，支持 CLI 与本地 Web 交互可视化。
+
+---
+
+## 1. 目录职责划分
 
 ```text
 src/agv/
-  domain.py             # immutable Task, validated Scenario, scenario generator
+  domain.py             # Task / Scenario 不可变数据模型、坐标与参数校验、算例生成器
   warehouse/
-    layout.py           # explicit V4 paired-rack/aisle/facility geometry
-    rules.py            # V4 profile validation and visible-state layer gates
-  simulation.py         # release/assign/advance, task ownership, atomic route commit
+    layout.py           # V4 分层货架、通道与出入口布局定义
+    rules.py            # V4/V9 规则校验与同面层序解锁逻辑
+    mixed.py            # V9/V9.1 混合背靠背货架布局与取货点目录
+  simulation.py         # 唯一真实执行状态机：订单发布、任务指派、步进推进与原子轨迹提交
   planning/
-    astar.py            # time-expanded reference/oracle
-    sipp.py             # safe-interval search with edge and service constraints
-    reservations.py     # incrementally indexed per-cell time reservations & horizon
-    geometry.py         # thread-local cache for immutable observation geometry & A* router
-    pickup.py           # shelf side and pickup/delivery/return composition
-    joint.py            # candidate neighborhoods and feasible improvement acceptance
-    reposition.py       # opt-in interruptible empty move with complete home fallback
+    astar.py            # 时空扩展 A* 参照规划器
+    sipp.py             # SIPP 安全区间路径规划（支持顶点/换边冲突与连续服务时长）
+    reservations.py     # 增量索引式时空预约表与最大时域维护
+    geometry.py         # 不可变地图几何与静态距离线程局部缓存
+    pickup.py           # 货架取货侧选择与 取货→送货→返库 组合路径拼接
+    joint.py            # 拥堵关联车队邻域选择与 LNS 联合后缀重排
+    reposition.py       # 可选空闲定位移动与安全返库兜底
   dispatch/
-    greedy.py           # original visible-state policy
-    optimized.py        # online driver and exact current-batch matching
-    initial_batch.py    # bounded static first-batch rollout planner (joint_batch / sipp_batch)
-    registry.py         # one set of named solver configurations
-    positioning.py      # safe static candidates, causal demand history, target matching
-    stream.py           # V9.1 SIPP ETA matching and bounded intentional deferral
-    bcrd.py             # bounded visible-order rollouts, optional predicted P90 guard
-  learning/             # standard-library ridge ranking + reproducible training
-  models/               # schema-validated trained artifact
-  evaluation/           # metrics, offline score/lower bounds, oracle, independent validator
-  io/                   # scene format/hash, atomic writes, public map import
-  experiments/          # paired legacy/V4/V9.1 benchmarks and isolated planner benchmark
-  api.py                # application services: option validation, scene build, single/batch run
-  web/
-    app.py              # local HTTP boundary, limits, assets and request dispatch
-    templates/          # one actual HTML template
-    static/             # actual JavaScript and CSS, no chained source rewriting
-  cli.py                # installed command entry point
+    greedy.py           # 距离贪心基线派单
+    optimized.py        # 在线驱动、当前批次最小代价匹配与联合修复调度
+    initial_batch.py    # 静态场景首轮多车批次滚动规划（joint_batch / sipp_batch）
+    registry.py         # 统一命名算法配置注册表
+    positioning.py      # 静态安全待命点筛选与历史需求驱动定位
+    stream.py           # V9.1 流式订单 SIPP-ETA 匹配与有限主动延迟
+    bcrd.py             # 高积压可见订单影子试派与批次序列筛选（bcrd_budget / sipp_stream_bcrd）
+  learning/             # 标准库 8 特征岭回归候选排序器与离线训练流程
+  models/               # 带 schema 校验的候选排序模型权重
+  evaluation/           # 综合指标汇总、V4/V9.1 归一化评分、小规模精确 Oracle 与独立物理验解
+  io/                   # 场景 JSON 序列化/哈希校验、原子写盘、MovingAI 公开地图导入
+  experiments/          # Legacy / V4 / V9.1 / BCRD 批量对照基准入口
+  api.py                # 应用服务层：参数校验、算例构建与单次/批量执行
+  web/                  # 本地 HTTP 服务、HTML 模板与前端回放 JS/CSS
+  cli.py                # 统一命令行入口（agv / python -m agv）
 ```
 
-`examples/` contains reusable inputs; `data/` contains one attributed public map and its provenance. `tests/unit/` checks contracts and `tests/integration/` checks installed CLI and HTTP behavior. `results/` contains compact statistics, summary CSV tables (`results/summary_tables/`), validation evidence and selected representative traces. `research/` holds curated research packages (`recommended-20261024/` and deduplicated `dqn-experiment-v2/`). `runs/` is ignored and contains generated candidate training rows and full local experiment outputs. Divergent historical experiment branches (`codex/architecture-refactor`, `codex/ga-sipp-research-20261021`, `codex/wepa-optimization`, `codex/review2-dates-performance`, `codex/local-perf-oracle-batch-20261104`) remain archived on remote refs; their compatible utilities (`evaluation/oracle.py`, `dispatch/initial_batch.py`, reservation/observation optimizations) have been ported onto `main` without duplicating parallel package trees.
+配套目录职责：`examples/` 存放标准算例；`data/` 存放 MovingAI 公开地图及归属声明；`tests/` 分为单元测试（`unit/`）与 CLI/HTTP 集成测试（`integration/`）；`research/` 存放主线 B 最终采用的 WEPA 推荐方案（`recommended-20261024/`）与历史归档（`dqn-experiment-v2/`）；`results/` 存放现行敏感性实验报告与历史阶段证据；`runs/` 为本地临时输出目录（已 gitignore）。
 
-## Data flow
+---
+
+## 2. 在线调度数据流
 
 ```mermaid
 flowchart LR
-  input[Scene JSON or generator] --> domain[Scenario validation]
-  domain --> env[Simulation]
-  env --> obs[Visible observation]
-  obs --> dispatch[Greedy or batch matching]
-  dispatch --> assign[Collision-aware assignment]
-  assign --> repair[Joint suffix candidate repair]
-  model[Optional trained candidate ranker] --> repair
-  repair --> checks[Full future collision and service audit]
-  checks --> commit[Atomic plan commit]
-  commit --> advance[Execute one step]
+  input["算例 JSON 或生成器"] --> domain["Scenario 校验"]
+  domain --> env["Simulation 仿真环境"]
+  env --> obs["当前可见观测 Observation"]
+  obs --> dispatch["派单策略 (贪心 / 匹配 / BCRD)"]
+  dispatch --> assign["无碰撞单车/批指派"]
+  assign --> repair["拥堵关联 LNS 联合修复"]
+  model["可选候选排序器"] --> repair
+  repair --> checks["全未来路径碰撞与服务审计"]
+  checks --> commit["原子提交计划"]
+  commit --> advance["仿真推进 1 步"]
   advance --> env
-  env --> result[Independent final validation and metrics]
-  result --> score[Optional offline V4 normalization]
-  reference[Same-scene fixed baseline] --> score
+  env --> result["独立物理验解与指标统计"]
+  result --> score["离线归一化评分 F"]
+  reference["同场景固定 baseline"] --> score
 ```
 
-The online driver may use only the observation. Full future order lists are allowed in the offline experiment builder and evaluator; they are never passed to dispatch, neighborhood selection or the learned feature function. The ranker changes search order only. It cannot change movement rules, task ownership, service durations, safety acceptance or the fallback plan.
+在线调度器仅读取当前已发布订单、在途任务与时空预约表，严格遵守因果信息边界；所有候选重规划在提交前均通过全未来路径冲突、逆向换边与服务连续性审计，确保每条轨迹 100% 物理可行。
 
-## Persistence and boundaries
+---
 
-- `Scenario.from_dict()` checks shape, unknown fields and strict integer coordinates before building objects. Existing v1/v2 scene formats remain readable. Explicit V4 scenes serialize as `agv-scene-v4`; the teammate's v3 envelope is accepted only if its enclosed scene passes the current explicit profile checks.
-- `write_json()` writes and flushes a temporary file on the destination filesystem. Default exclusive link creation refuses to overwrite an existing output; explicit overwrite uses atomic replacement. A failed serialization never damages an existing result.
-- The HTTP server serves fixed assets only, validates Host/Origin/body type/length and rejects simultaneous simulations with 429. Input dimensions/task counts are checked before reachability search. Request sockets have timeouts; unexpected failures are logged locally and return a bounded error.
-- Batch parameter validation does not run an unnecessary extra simulation. There is no unbounded result cache or queue of expensive background runs.
-- A replan is committed only after complete-route independent audit. Existing task IDs, assignment times, started services and executed path prefixes are preserved.
-- Formal experiments flush rows incrementally, save `status=running` until complete, and reject a run if any measured source changes during execution. Reusing an output directory is rejected.
+## 3. 核心工程保障
 
-## V4 profiles and execution rules
+- **输入与序列化安全**：`Scenario.from_dict()` 严格校验字段类型、整数坐标与地图边界；`write_json()` 通过同目录临时文件 + `fsync` 原子写入，默认拒绝覆盖已有文件（需显式 `--overwrite`）。
+- **本地 Web 安全边界**：`agv serve` 仅绑定 `127.0.0.1`，提供固定静态资源，对请求体大小与地图维度做前置限流，并发重仿真时返回 429 保护本机资源。
+- **独立物理验解**：`evaluation/validation.py` 独立检查最终输出轨迹的顶点碰撞、边交换冲突、装卸时长、同面货架层序解锁与返库约束，与调度器本身解耦。
 
-The legacy profile retains its default serialized form and scene hashes. A V4 scene explicitly declares `map_info.model_version = "math-v4-integrated"`; its auxiliary geometry is not inferred from a file name or silently discarded. Unknown or mixed profiles are rejected. `warehouse/rules.py` validates a static metadata whitelist, paired face identifiers, registered obstacles and zone classifications. Generator seeds, future orders and offline normalization references are not carried into observations through metadata.
+---
 
-`Task.shelf_level` is immutable task input. V4 loading takes `2 * shelf_level` steps and unloading takes one step. Each back-to-back rack face has one legal outer pickup side. For the same face and bay, only the highest released pending layer is dispatchable, and a previous assignment reserves the face until its pickup ends. Opposite faces are independent. A higher layer released later does not invalidate or preempt an existing lower-layer assignment. These gates apply both to the online candidates and to the atomic assignment boundary; the independent validator derives the shelf resource from the task ID rather than trusting optional output metadata.
+## 4. 从 Legacy 到 V4 / V9 / V9.1 的建模演进
 
-Delivery stations are terminal service resources. A route may enter its own delivery station for unloading, then must leave; other trips cannot use it as transit, and early waiting or parking after unloading is forbidden. Both A* and SIPP receive the same terminal-role and minimum-arrival constraints. The route composer currently tries up to eight delayed delivery arrivals when the earliest unload has no feasible immediate exit. This bounded fallback fixes a demonstrated case; it does not make the composition globally complete or optimal.
-
-V4 allows `horizon=None`. The online driver then stops when all work is finished or no progress is possible after accounting for future releases and active routes; each low-level query still has a finite search bound. A stalled or unfinished run remains reportable but has no valid V4 score. The browser applies finite execution and import resource limits, so no-cutoff inputs use the CLI.
-
-## V4 scoring and search objectives
-
-`evaluation/objective.py` evaluates completed traces offline with `F = 0.5*T/Tref + 0.3*R/Rref + 0.2*D/Dref`, lower being better. `T` is the last unloading completion time, `R` is mean release-to-unload flow time and `D` counts all moves including returns. Final simulation time may include later returns and is a different field. The displayed `0.05*D` energy value is a distance proxy, not an additional objective term or a measured battery model.
-
-The reference is the reviewed layer-aware distance-greedy policy with reservation-based time-space A* and no joint replanning, executed on the exact same serialized scene. Its score metadata uses `math-v4-reviewed-v1`. The reference is independently validated, cached for at most 32 scenes, and its denominators and scene digest are audited again when accepting scored output. Its retained policy identifier does not imply unmodified teammate code: the reference also uses the reviewed station-exit fallback. Reference data is never passed to online dispatch. V4 paired benchmarks prepare it before solver timing, avoiding an asymmetric cold-reference penalty.
-
-The existing joint repair accepts strict lexicographic improvements in remaining delivery-time sum, return-path end time and moves. That local objective differs from the final weighted `F`; a valid accepted repair can worsen the final score or its tail response. `sipp_matching` adds current-batch minimum-cost matching to the same six-candidate SIPP repair configuration. The [V4 review](v4-review.md) records both gains and regressions and treats objective alignment as further work.
-
-## Explicit V9 mixed-rack profile
-
-`mixed-v9` / `agv-scene-v9` selects the latest reviewed mixed-rack family in `warehouse/mixed.py`. `Scenario.is_v4` keeps its original meaning; `uses_layer_rules` shares only the layer gates, strict terminal-D rule and immutable shelf identity. Catalog permissions supply two loading points for a one-layer single row, or one outer point for each independent horizontal/vertical paired row. The complete task-free canonical geometry validates all static fields and nested metadata; arbitrary layouts cannot claim this profile merely by setting its version string. Legacy/V4 serialization is unchanged.
-
-The optional standby controller in `dispatch/idle.py` delays a discharged vehicle's fallback only on static ordinary transit floor. It audits the full delayed suffix against every other reservation before an atomic update, records waits separately, and spends an explicit finite per-assignment allowance. It never inspects future task count or release locations to decide whether to stay. The default allowance is zero. Final actual returns are independently checked against the last effective return event; old returns interrupted by a new assignment remain historical fallback metadata.
-
-Explicit `(vehicle, task, pickup_point)` actions narrow the real planner's legal candidates after complete input validation; existing pairs keep automatic side choice. Standby plus BCRD is rejected until its observation/shadow recovery contract includes the consumed allowance and wait history. Unbounded structured waits and the teammate's unverified generic replanning adapter were not copied. The shared experiment runner can select the V9 generator explicitly and record standby/empty-distance metrics while retaining the same SIPP/no-joint controls and failure accounting.
-
-## V9.1 stream optimizations
-
-The current stream contract supersedes the finite V9 standby allowance. Only the
-publisher knows the stream end in advance; dispatch observes the closure event
-after it happens. An open stream with no current pending orders remains open.
-The mandatory final-return phase starts after closure and completion of all
-published deliveries. An opt-in positioning policy can also choose its own Home
-earlier as a safe idle alternative; completion still waits for closure and all
-published work.
-
-`dispatch/stream.py` shares the observation boundary with the existing greedy
-driver. ETA matching estimates each pair with SIPP and then passes a legal batch
-to the real atomic assignment boundary. Optional intentional deferral compares
-already committed soon-free vehicles; its age cap is not a service deadline.
-`dispatch/positioning.py` selects safe ordinary-floor candidates using static
-connectivity, past observed demand, zone capacity and assignment costs. It can
-activate idle Home vehicles after observed demand exists. New orders interrupt
-empty positioning, but cannot cancel task commitments. Positioning is opt-in at
-the environment boundary and is independently audited from action events and
-actual paths, including final Home returns and all empty mileage.
-
-`PlanReservations` stores spatial membership and absolute route origins, with a
-stationary override for inserted waits. Hold maintenance in this index is O(1);
-the full hold action still constructs and checks its future suffix. Public static
-geometry is cached at reset and still deep-copied into each observation.
-
-The V9.1 `ShadowState` reconstructs only released work. Open-flow forecasts stop
-at the end of currently known deliveries without inventing closure or charging
-unexecuted final returns. Closed-flow forecasts honor final returns. The optional
-P90 guard compares visible forecasts, including completed historical flow times;
-it does not bound actual response under unseen future demand. Positioning plus
-BCRD and historical TTL combinations are rejected until separately validated.
-
-`evaluation/bounds.py` computes optimistic offline relaxations only; it neither
-changes the score reference nor enters an observation. `benchmark-v91` times raw
-execution apart from these bounds, the A* reference, and independent validation.
-Source hashes remain frozen while a protocol runs. See the
-[optimization report](v91-optimization.md) for measured effects and limitations.
-
-## Deliberate scope
-
-This is an installable educational simulator, not a production fleet control service. There is no database, distributed queue, training framework or network service dependency. A single source of truth for solver definitions and small focused contracts are sufficient for the present scale. A linear learner is preferable here to an opaque large network because candidate labels and independent scenes are limited.
+1. **Legacy 栅格模型**：基础多车取货与送货调度，引入 SIPP 安全区间压缩将 `(位置, 时刻)` 合并为 `(位置, 最大安全时间区间)`，并配合拥堵对 LNS 修复与静态首轮批滚动（`sipp_batch`）。
+2. **V4 分层单面货架（`math-v4-integrated`）**：
+   - 每个任务携带固定层高 `shelf_level`，装货时长为 `2 * shelf_level` 步，卸货 1 步；
+   - 同一货架面与货位仅允许派发当前最高已发布层，前序取货完成前锁定该货架面；
+   - 交付站作为终端服务资源，卸货后须立即驶离，路线拼接器支持最多 8 步延迟到达以绕开出口短暂拥堵；
+   - 离线综合目标为 $F = 0.5\frac{T}{T_{\text{ref}}} + 0.3\frac{R}{R_{\text{ref}}} + 0.2\frac{D}{D_{\text{ref}}}$（以同场景时空 A* 贪心为参照 `1.0`）。
+3. **V9 混合背靠背货架（`mixed-v9`）**：
+   - 在 `warehouse/mixed.py` 中支持单排单层（两侧可取货）与水平/垂直背靠背多层货架混合布局，并支持显式 `(vehicle, task, pickup_point)` 取货侧选择与有限安全待命控制。
+4. **V9.1 流式关闭与 BCRD 优化**：
+   - 订单流在发布端显式发出关闭事件（`close`）后进入最终返库阶段，开放流期间空闲车辆可在安全普通通道待命或按历史需求分布执行可中断定位移动；
+   - `dispatch/bcrd.py` 在高积压时基于当前可见世界构建轻量影子状态，对多个有序批次方案做保底滚动试派并择优提交；
+   - `evaluation/bounds.py` 提供离线松弛下界参考，辅助评估优化空间。详见 [V9.1 建模说明](modeling-v9.1.md) 与 [V9.1 优化实验报告](v91-optimization.md)。
