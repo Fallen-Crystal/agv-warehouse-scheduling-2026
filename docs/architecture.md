@@ -83,7 +83,7 @@ flowchart LR
    - 每个任务携带固定层高 `shelf_level`，装货时长为 `2 * shelf_level` 步，卸货 1 步；
    - 同一货架面与货位仅允许派发当前最高已发布层，前序取货完成前锁定该货架面；
    - 交付站作为终端服务资源，卸货后须立即驶离，路线拼接器支持最多 8 步延迟到达以绕开出口短暂拥堵；
-   - 离线综合目标为 $F = 0.5\frac{T}{T_{\text{ref}}} + 0.3\frac{R}{R_{\text{ref}}} + 0.2\frac{D}{D_{\text{ref}}}$（以同场景时空 A* 贪心为参照 `1.0`）。
+   - 离线综合目标为 $`F = 0.5\frac{T}{T_{\mathrm{ref}}} + 0.3\frac{R}{R_{\mathrm{ref}}} + 0.2\frac{D}{D_{\mathrm{ref}}}`$ （以同场景时空 A* 贪心为参照 `1.0`）。
 3. **V9 混合背靠背货架（`mixed-v9`）**：
    - 在 `warehouse/mixed.py` 中支持单排单层（两侧可取货）与水平/垂直背靠背多层货架混合布局，并支持显式 `(vehicle, task, pickup_point)` 取货侧选择与有限安全待命控制。
 4. **V9.1 流式关闭与 BCRD 优化**：

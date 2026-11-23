@@ -2,7 +2,7 @@
 
 ## 结论与入口
 
-当前推荐 **事件驱动滚动派单＋软分区联合 GA＋预约表 SIPP（`gate`）**。在 4 个验证窗口（`day40/61/83/87`）上，2026-10 单 seed 0 平均 $F = 0.896406$；2026-11-21 扩展至 seed 0–2 的回顾性复评均值为 $F = 0.899159$（详见 [wepa-val-sensitivity-20261121](../../results/wepa-val-sensitivity-20261121/REPORT.md)），两者仅 seed 集合不同、结论一致。
+当前推荐 **事件驱动滚动派单＋软分区联合 GA＋预约表 SIPP（`gate`）**。在 4 个验证窗口（`day40/61/83/87`）上，2026-10 单 seed 0 平均 `F = 0.896406`；2026-11-21 扩展至 seed 0–2 的回顾性复评均值为 `F = 0.899159`（详见 [wepa-val-sensitivity-20261121](../../results/wepa-val-sensitivity-20261121/REPORT.md)），两者仅 seed 集合不同、结论一致。
 
 ```bash
 uv run python research/recommended-20261024/current/run.py \
@@ -27,7 +27,7 @@ uv run python research/recommended-20261024/current/run.py \
 
 主运行脚本已内置选中窗口，无需联网或解压完整 40MB 数据；如需还原原始字节，请先运行 `uv run python research/recommended-20261024/data/unpack.py`（见 [data/README.md](data/README.md)）。业务规则为入库与出库自然部分重叠、一单一单位运输、批次之间安全待命，全部流关闭且任务完成后最终返库。
 
-独立线性目标为 $F = 0.5\,T/900 + 0.3\,R/900 + 0.2\,D/5400$（越低越好）：**T** 为最后一单完成时刻（不含最终返库），**R** 为平均发布到完成耗时，**D** 为含最终返库的实际总里程（格数）；辅助保留空驶、P90、等待与 CPU。
+独立线性目标为 $`F = 0.5\,T/900 + 0.3\,R/900 + 0.2\,D/5400`$ （越低越好）：**T** 为最后一单完成时刻（不含最终返库），**R** 为平均发布到完成耗时，**D** 为含最终返库的实际总里程（格数）；辅助保留空驶、P90、等待与 CPU。
 
 ## 实验范围与许可说明
 

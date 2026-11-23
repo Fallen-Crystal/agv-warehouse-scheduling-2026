@@ -515,7 +515,7 @@ def summarize_and_save(rows: list[dict], out_dir: Path, seeds: list[int]) -> dic
         "## 方法",
         "",
         f"- 每个配置 5 个随机种子（`{seeds}`），共 **{len(rows)} / {len(rows)}** 次运行全部通过 `validate()` 独立物理验解且全部可行。",
-        "- 指标定义：`T` = 完工时间（Makespan），`R` = 平均流程时间（Flow Time），`D` = 总移动步数；V4 / V9.1 的归一化目标 $F = 0.5\\,T/T_{\\text{ref}} + 0.3\\,R/R_{\\text{ref}} + 0.2\\,D/D_{\\text{ref}}$ 以同场景 `baseline` 为 1.0；Legacy 无固定参照基线，不计算 F（表中以 `-` 标示）。",
+        "- 指标定义：`T` = 完工时间（Makespan），`R` = 平均流程时间（Flow Time），`D` = 总移动步数；V4 / V9.1 的归一化目标 $`F = 0.5\\,T/T_{\\mathrm{ref}} + 0.3\\,R/R_{\\mathrm{ref}} + 0.2\\,D/D_{\\mathrm{ref}}`$ 以同场景 `baseline` 为 1.0；Legacy 无固定参照基线，不计算 F（表中以 `-` 标示）。",
         "- 配对改善率约定：同一 seed 下计算 `100% × (1 − 候选/基线)`，正数表示候选更优，再对 5 个 seed 取均值并记录胜/平/负次数。",
         "",
         "## 实验边界说明",
