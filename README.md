@@ -1,6 +1,6 @@
 # 仓库穿梭无人车（AGV）智能调度系统
 
-本项目面向多取货任务并发的自动化立体仓库场景，构建了一套完整的 **AGV 调度算法、离散时空无碰撞仿真、独立物理验解与本地 Web 可视化平台**。核心运行环境仅依赖 **Python 3.10+ 标准库**（零第三方依赖），方便直接拉取代码并手动复现全部实验结果。
+本项目面向多取货任务并发的自动化立体仓库场景，构建了一套完整的 **AGV 调度算法、离散时空无碰撞仿真、独立物理验解与本地 Web 可视化平台**。通用引擎和 Web 回放使用 Python 3.10+ 标准库。课程报告主方案单独使用 OR-Tools CP-SAT。
 
 ---
 
@@ -10,17 +10,18 @@
 
 | 应用场景 | 最终采用版本与算法 | 核心机制 | 对应代码目录与启动入口 |
 |---|---|---|---|
-| **真实工业订单流（大作业核心实验方案）** | **WEPA 推荐版 `gate`**（2026-10-24 推荐架构） | 事件门控滚动派单 + 软分区联合遗传算法（GA）+ 预约表 SIPP 避碰；算力受限时可选轻量档 `gate_preview3` | 源码：`research/recommended-20261024/current/code-guide/improved/`<br>入口：`research/recommended-20261024/current/run.py` |
+| **课程报告主方案** | **货位—车辆联合优化与截单后反事实推演** | CP-SAT 联合选择车辆、订单组与合法货位，整批 SIPP 试排，截单后比较剩余轨迹并保留更优参考 | [课程方案与运行入口](research/course-report/README.md) · [正式实验数据](results/course-report/README.md) |
+| **2026-10 WEPA 推荐版** | `gate` | 事件门控滚动派单 + 软分区 GA + 预约表 SIPP；轻量对照为 `gate_preview3` | [原运行入口](research/recommended-20261024/current/run.py) |
 | **通用多工况调度与可视化平台（工程主包）** | **`src/agv/` v0.6.0（V9.1 + SIPP/BCRD 引擎）** | V4 分层动态推荐 `bcrd_budget`；Legacy 静态推荐 `sipp_batch`；V9.1 静态推荐 `sipp_stream_bcrd`（`max_batches=2`）；内置本地交互回放界面 | 源码：`src/agv/`<br>入口：`agv`（等价于 `python -m agv`）及 `agv serve` |
 
 ---
 
-## 2. 环境配置与手动复现指南（零第三方依赖）
+## 2. 环境配置与手动复现指南
 
 ### 2.1 环境要求
 
 - **Python 3.10 及以上**（推荐 Python 3.12，macOS / Linux / Windows 均可直接运行）
-- 核心仿真、调度算法、独立验解与本地 Web 界面**均仅使用 Python 标准库**，无需安装 PyTorch、NumPy 或其他重型依赖。
+- 通用引擎和 2026-10 的 `gate` 使用标准库。课程报告主方案用 `requirements.txt` 中指定的 OR-Tools 版本。
 
 ### 2.2 安装与启动环境（任选一种方式）
 
@@ -45,7 +46,16 @@ uv sync --extra dev
 
 ### 2.3 一键复现最终采用版本（建议按以下 4 步验证）
 
-**步骤 1：运行最终采用方案（主线 B · WEPA 真实订单流 `gate` 算法）**
+**步骤 1：运行课程报告最终方案**
+
+```bash
+python -m pip install -r research/course-report/requirements.txt
+python research/course-report/run.py --case day19 --seed 0 --output runs/course-day19.json
+```
+
+默认运行货位—车辆联合优化与截单后推演，输出验解结果。固定货位和仅联合优化的对照分别使用 `--mode fixed` 和 `--mode joint`。
+
+**2026-10 WEPA `gate` 复现命令**
 
 ```bash
 python research/recommended-20261024/current/run.py \
@@ -54,7 +64,7 @@ python research/recommended-20261024/current/run.py \
   --output runs/wepa-gate-demo.json
 ```
 
-预期结果：脚本在 1 秒内完成 900 秒窗口仿真与独立物理验解，终端输出 JSON 摘要（`"profile": "gate"`、`"valid": true`、`"tasks": 40`、`"F": 0.64338`），完整轨迹保存至 `runs/wepa-gate-demo.json`。
+预期结果：脚本完成 900 秒窗口仿真与独立物理验解，终端输出 JSON 摘要（`"profile": "gate"`、`"valid": true`、`"tasks": 40`、`"F": 0.64338`），完整轨迹保存至 `runs/wepa-gate-demo.json`。
 
 **步骤 2：运行自研通用引擎最终版（主线 A · `src/agv/` V4 / V9.1 调度）**
 
@@ -82,6 +92,7 @@ agv serve                      # 自动分配 127.0.0.1 空闲端口并打开浏
 
 ```bash
 python -m unittest discover -s tests -t .
+python research/course-report/verify_results.py
 python research/recommended-20261024/verification/verify.py
 python scripts/verify_sensitivity_evidence.py verify results/wepa-dev-sensitivity-20261120
 ```
@@ -99,7 +110,7 @@ python scripts/verify_sensitivity_evidence.py verify results/wepa-dev-sensitivit
 | 主线 | 仿真场景 | 对应代码 | 目标函数（越低越好） |
 |---|---|---|---|
 | **主线 A：自研通用调度引擎** | Legacy 规则栅格、V4 分层单面货架、V9/V9.1 混合背靠背货架 | `src/agv/` | V4 / V9.1 采用同场景 `baseline` 归一化评分： $`F = 0.5\frac{T}{T_{\mathrm{ref}}} + 0.3\frac{R}{R_{\mathrm{ref}}} + 0.2\frac{D}{D_{\mathrm{ref}}}`$ ；Legacy 场景直接比较平均流程时间 `R`、完工时间 `T` 与总步数 `D` |
-| **主线 B：WEPA 真实订单流** | 62×47 大型地图、6 辆 AGV、5 层货架、900 秒真实订单窗口 | `research/recommended-20261024/` | 固定尺度线性评分： $`F = 0.5\frac{T}{900} + 0.3\frac{R}{900} + 0.2\frac{D}{5400}`$ |
+| **主线 B：WEPA 真实订单流** | 62×47 大型地图、6 辆 AGV、5 层货架；课程报告用 30/60 分钟窗口与同步合成批次，`gate` 用 900 秒窗口 | [课程方案](research/course-report/) · [2026-10 WEPA](research/recommended-20261024/) | 固定尺度线性评分： $`F = 0.5\frac{T}{900} + 0.3\frac{R}{900} + 0.2\frac{D}{5400}`$ |
 
 - **指标统一定义**：**T** 为最后一单完成时刻（主线 B 不含最终返库阶段），**R** 为订单从发布到完成的平均耗时，**D** 为全部车辆总移动步数/里程（含最终返库）。
 - **改善率约定**：全仓库报告中的改善率均定义为 `100% × (1 − 候选指标 / 基线指标)`，**正数表示指标降低（方案更优）**。两条主线采用各自独立的场景和归一化尺度，分别在各自协议内做横向对比。
@@ -117,7 +128,9 @@ python scripts/verify_sensitivity_evidence.py verify results/wepa-dev-sensitivit
 | `fcfs` / `eta` | B | 先到先服务 / 最早到达优先 | 规则基线 |
 | `hungarian` | B | 基于当前局部代价矩阵的匈牙利指派 | 局部一次性匹配对照 |
 | `simple` → `wide` | B | 联合遗传算法（GA）派单；`wide` 扩大种群与代数预算 | GA 演进过程 |
-| **`gate`** | **B** | **`wide` + 事件门控（低负载免触发 GA）+ SIPP 物理预演** | **最终推荐默认方案** |
+| `gate` | B | `wide` + 事件门控（低负载免触发 GA）+ SIPP 物理预演 | 2026-10 WEPA 协议推荐 |
+| `joint` | B | CP-SAT 联合选择车辆、订单和货位，整批 SIPP 试排 | 课程报告货位消融方案 |
+| **`counterfactual`** | B | 流式阶段联合优化，截单后推演并保留更优参考轨迹 | **课程报告默认方案** |
 | `hga` | B | 以匈牙利解替换部分随机初始个体的遗传算法 | 初始化消融对照 |
 | `gate_preview3` / `gate_gen8` / `gate_gen24` | B | 预演次数降为 3 / 代数降为 8 / 代数扩大至 24 | 计算预算敏感性对照 |
 | `wide_adaptXY` | B | `X`=变异率自适应开关、`Y`=交叉率自适应开关 | 自适应算子对照 |
@@ -127,13 +140,23 @@ python scripts/verify_sensitivity_evidence.py verify results/wepa-dev-sensitivit
 
 ## 4. 核心实验结果汇总
 
-为全面检验算法质量、随机种子稳定性与超参数敏感性，项目完成了三套独立验解的对照实验（共 561 次运行，100% 通过独立物理校验）：
+### 课程报告正式实验（294 次）
+
+| 数据组 | 案例数 | 正式运行 | 联合优化相对自适应 GA 的 F 改善 | 完整方案相对自适应 GA 的 F 改善 | 推演相对仅联合优化的 F 改善 |
+|---|---:|---:|---:|---:|---:|
+| 主要真实窗口 | 5 | 105 | 20.82% | 20.84% | 0.0332% |
+| 补充真实窗口 | 3 | 63 | 5.00% | 5.00% | 0.00% |
+| 同步合成批次 | 6 | 126 | 41.32% | 43.23% | 3.53% |
+
+改善率按同案例、同种子配对后取均值。正式实验的七方案汇总、逐次结果和推演计数可核对，报告的 360 次灵敏度实验另列来源及可核验范围。[课程报告实验索引](results/course-report/README.md)
+
+以下是既有三套对照实验，共 561 次运行，全部通过对应的独立验解。
 
 ### 主线 B（WEPA 真实订单流：200 次开发窗 + 156 次既有验证窗复评）
 
-1. **GA 方案全面优于规则基线**：在 4 个既有验证窗口（`day40/61/83/87`）上，最终采用的 `gate` 相对 `fcfs` 改善 **+5.45%**、相对 `eta` 改善 **+2.43%**、相对 `hungarian` 改善 **+3.87%**，4 个日期全部获得正改善（4/0/0）。
-2. **最终保留 `gate` 作为默认方案**：`gate` 与 `wide` 的综合评分极为接近（验证窗 −0.10%，0/2/2；开发窗 +0.11%，1/3/0），而 `gate` 通过事件门控将开发窗的 GA 触发次数减少 **63%**（205 次 vs 560 次），计算触发更克制，且延续 2026-10 推荐主线口径（10 月单 seed 0 均值 0.896406，本轮 seed 0–2 均值 0.899159）。
-3. **跨窗口泛化检验**：开发窗表现最好的 `hga`（相对 `gate` +0.95%）与仅开交叉自适应 `wide_adapt01`（相对 `wide_adapt00` +0.94%）在 4 个既有验证窗口上均出现回退（`hga` −1.12%，0/0/4；`wide_adapt01` −0.54%，1/0/3），因此保持 `gate` 为默认方案。
+1. **GA 方案全面优于规则基线**：在 4 个既有验证窗口（`day40/61/83/87`）上，`gate` 相对 `fcfs` 改善 **+5.45%**、相对 `eta` 改善 **+2.43%**、相对 `hungarian` 改善 **+3.87%**，4 个日期全部获得正改善（4/0/0）。
+2. **该阶段推荐 `gate`**：`gate` 与 `wide` 的综合评分极为接近（验证窗 −0.10%，0/2/2；开发窗 +0.11%，1/3/0），而 `gate` 通过事件门控将开发窗的 GA 触发次数减少 **63%**（205 次 vs 560 次），计算触发更克制，且延续 2026-10 推荐主线口径（10 月单 seed 0 均值 0.896406，本轮 seed 0–2 均值 0.899159）。
+3. **跨窗口泛化检验**：开发窗表现最好的 `hga`（相对 `gate` +0.95%）与仅开交叉自适应 `wide_adapt01`（相对 `wide_adapt00` +0.94%）在 4 个既有验证窗口上均出现回退（`hga` −1.12%，0/0/4；`wide_adapt01` −0.54%，1/0/3），因此该协议继续推荐 `gate`。
 4. **预算与算力权衡**：将代数扩大至 24 代（`gate_gen24`）反而使验证窗表现下降 −1.41%（0/0/4），说明默认 16 代预算充足；将完整预演降至 3 次（`gate_preview3`）可减少约 **44%** CPU 耗时（21.66s → 12.09s），F 仅变化 −0.33%，适合算力受限环境。
 
 ### 主线 A（自研通用引擎：205 次 5-seed 演进与超参扫描）
@@ -168,7 +191,8 @@ agv-warehouse-scheduling-2026/
 │   ├── io/ & experiments/          #   场景序列化、MovingAI 地图导入与批量基准入口
 │   └── api.py / cli.py / web/      #   统一应用接口、agv 命令行入口与本地 Web 可视化前端
 ├── research/
-│   ├── recommended-20261024/       # 主线 B（最终采用方案）：WEPA gate 可运行源码、数据与演进报告
+│   ├── course-report/             # 课程报告主方案、运行方式与输入来源
+│   ├── recommended-20261024/       # 2026-10 WEPA gate 源码、数据与演进报告
 │   └── dqn-experiment-v2/          # 历史探索归档：自适应 GA + Double DQN 源码、权重与评估结果
 ├── docs/                           # 系统架构、命令手册、历次版本演进与算法调研文档
 ├── results/                        # 现行三套敏感性实验数据/图表及历史阶段结果（见 results/README.md）

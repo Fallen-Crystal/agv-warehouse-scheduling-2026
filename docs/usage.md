@@ -1,6 +1,6 @@
 # 命令行用法与实验复现手册
 
-本文档提供 `agv` 命令行、本地 Web 界面、最终采用方案（WEPA `gate`）、自动化测试以及敏感性实验的完整复现命令。所有命令默认在仓库根目录执行，支持标准 Python 虚拟环境（`python` / `agv`）或 `uv`（在命令前加 `uv run` 即可）。输出路径若已存在，程序默认拒绝覆盖；如需覆盖请显式加 `--overwrite`。
+本文档提供 `agv` 命令行、本地 Web 界面、课程报告最终方案、2026-10 WEPA `gate`、自动化测试以及敏感性实验的完整复现命令。所有命令默认在仓库根目录执行，支持标准 Python 虚拟环境（`python` / `agv`）或 `uv`（在命令前加 `uv run` 即可）。输出路径若已存在，程序默认拒绝覆盖；如需覆盖请显式加 `--overwrite`。
 
 ---
 
@@ -23,9 +23,19 @@ agv serve
 
 ---
 
-## 2. 主线 B：最终采用方案（WEPA 真实订单流 `gate`）
+## 2. 课程报告最终方案与 WEPA 历史协议
 
-主线 B 源码位于 `research/recommended-20261024/current/code-guide/improved/`，仅依赖 Python 3.12 标准库，无需联网或预先解压 40MB 全量订单库：
+```bash
+python -m pip install -r research/course-report/requirements.txt
+python research/course-report/run.py --case day19 --seed 0 --output runs/course-day19.json
+python research/course-report/verify_results.py
+```
+
+课程方案默认在截单前用 CP-SAT 联合指派，再在截单后推演剩余轨迹。用 `--mode joint` 运行仅联合优化的消融，用 `--mode fixed` 运行固定货位的整数指派。[输入与运行说明](../research/course-report/README.md) · [正式结果与灵敏度资料](../results/course-report/README.md)
+
+### 2026-10 的 WEPA `gate` 协议
+
+这一阶段的源码位于 `research/recommended-20261024/current/code-guide/improved/`，仅依赖 Python 3.12 标准库，无需联网或预先解压 40MB 全量订单库：
 
 ```bash
 # 运行单个代表窗口（day45，默认 gate 算法）
